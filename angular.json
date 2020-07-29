@@ -27,7 +27,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/fake-data",
-              ".htaccess"
+              "src/.htaccess"
             ],
             "styles": [
               "src/styles.scss"

@@ -7,7 +7,7 @@ steps:
   commands:
   - npm install -g @angular/cli
   - npm audit fix
-  - ng build --prod --build-optimizer
+  - ng build --prod --build-optimizer --base-href=/dev/
 - name: deploy
   image: cschlosser/drone-ftps
   environment:
@@ -18,7 +18,7 @@ steps:
     PLUGIN_HOSTNAME:
       from_secret: ftphostname
     PLUGIN_DEST_DIR: /dev/
-    PLUGIN_SRC_DIR: /dist/ng-next
+    PLUGIN_SRC_DIR: /dist/ng-next/
     PLUGIN_SECURE: true
     PLUGIN_VERIFY: false
 # - name: e2e
@@ -30,3 +30,5 @@ steps:
 trigger:
   branch:
   - master
+  event:
+  - pull_request
