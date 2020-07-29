@@ -27,3 +27,6 @@ steps:
 #   - npm install
 #   - ng e2e
 
+trigger:
+  branch:
+  - master
