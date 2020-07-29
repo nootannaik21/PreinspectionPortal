@@ -13,25 +13,40 @@
     font-family: HelveticaNeueLTStd !important;
 }
 span.input-group-text {
-    background-color: #B3B4B4;
-    border: #B3B4B4;
+    background-color: #034EA2;
+    border: #034EA2;
+    color: #fff;
+}
+.btn-blue {
+    background-color: #034EA2;
+    color: #fff;
+}
+.btn-box {
+    text-align: center;
+}
+.btn-box button {
+    margin: 0 5px;    
+}
+.img-70 {
+    max-width: 70%
+}
+.btn-blue:hover {
+    background-color: #FAB218;
+    color: #000000;
 }
 .btn-yellow {
     background-color: #FAB218;
+    color: #000000;
 }
-.text-yellow {
-    color: #FAB218;
+.btn-yellow:hover {
+    background-color: #034EA2;
+    color: #fff;
 }
-.auth-wrapper {
+.btn-grey {
     background-color: #B3B4B4;
+    color: #000000;
 }
-.text-black {
-    color: #000;;
-}
-.login-bg {
-    background: url('../../../assets/images/login-bg.jpg');
-    background-size: cover;
-}
-.btn-box button {
-    margin: 0 5px;
+.btn-grey:hover {
+    background-color: #034EA2;
+    color: #fff;
 }
