@@ -1,19 +1,13 @@
 kind: pipeline
 name: pre-inspection-portal-ui
 
-trigger:
-  branch:
-  - master
-  event:
-  - pull_request
-
 steps:
 - name: build
   image: node
   commands:
   - npm install -g @angular/cli
   - npm audit fix
-  - ng build --prod --build-optimizer
+  - ng build --prod --build-optimizer --base-href=/dev/
 - name: deploy
   image: cschlosser/drone-ftps
   environment:
@@ -32,3 +26,9 @@ steps:
 #   commands:
 #   - npm install
 #   - ng e2e
+
+trigger:
+  branch:
+  - master
+  event:
+  - pull_request
