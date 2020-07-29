@@ -1,1 +1,62 @@
-<p>user-list works!</p>
+<div class="row">
+    <div class="col-sm-12">
+        <app-card [customHeader]='true' cardTitle="userList">
+            <div class="row">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-info btn-sm btn_Class" data-toggle="modal"
+                        className="tooltipstext" title="Add User" style="cursor: pointer;" (click)="addUser()"><b>Add
+                            User</b></button>
+                </div>
+                <div class="table">
+                    <table datatable class="table-striped table-bordered nowrap table-hover dataTable">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Name</th>
+                                <th class="text-center">Email</th>
+                                <th class="text-center">Company</th>
+                                <th class="text-center">Address</th>
+                                <th class="text-center">Branch Nmae</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let branch of item">
+                                <td class="text-center">
+                                    {{branch.branchCode}}
+                                </td>
+                                <td class="text-center">
+                                    <div>
+                                        {{branch.branchName}}
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div>
+                                        {{branch.zone}}
+                                    </div>
+                                </td>
+
+                                <td class="text-center">
+                                    {{branch.branchCode}}
+                                </td>
+                                <td class="text-center">
+                                    {{branch.branchCode}}
+                                </td>
+                                <td>
+                                    <div>
+                                        <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
+                                            style="cursor: pointer;" (click)="showEditBranchModal(branch.id)"></i>
+
+                                        <i class="feather icon-trash-2" className="tooltipstext" title="Delete"
+                                            style="cursor: pointer;"
+                                            *ngIf="item.isEdit==undefined || item.isEdit==false"></i>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </app-card>
+    </div>
+</div>
