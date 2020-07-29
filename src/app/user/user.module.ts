@@ -5,6 +5,7 @@ import { UserRoutingModule } from './user-routing.module';
 import { UserListComponent } from './user-list/user-list.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { SharedModule } from '../theme/shared/shared.module';
+import { DataTablesModule } from 'angular-datatables';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { SharedModule } from '../theme/shared/shared.module';
   imports: [
     CommonModule,
     UserRoutingModule,
-    SharedModule
+    SharedModule,
+    DataTablesModule
   ]
 })
 export class UserModule { }

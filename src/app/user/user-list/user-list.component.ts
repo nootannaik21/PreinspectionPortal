@@ -19,7 +19,7 @@ export class UserListComponent implements OnInit, OnDestroy,AfterViewInit {
     this.item = [];
     this.rerender();
    }
-  item: any = {};
+  item: any = [];
   branch: any = {};
   formError: boolean;
   dtOptions: DataTables.Settings = {};
