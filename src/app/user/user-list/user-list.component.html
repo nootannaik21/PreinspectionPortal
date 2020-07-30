@@ -2,7 +2,7 @@
     <div class="col-sm-12">
         <app-card [customHeader]='true' cardTitle="userList">
             <div class="row">
-                <div class="table-responsive">
+                <div class="w-100">
                     <div class="col-sm-12">
                         <button type="button" class="btn btn-info btn-sm btn_Class float-right" data-toggle="modal"
                             className="tooltipstext" title="Add User" style="cursor: pointer;"
@@ -10,7 +10,7 @@
                                 User</b></button>
                     </div>
                     <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
-                        class="table-striped table-bordered nowrap table-hover dataTable">
+                        class="scroll table-striped table-bordered nowrap table-hover dataTable">
                         <thead>
                             <tr>
                                 <th class="text-center">Name</th>
