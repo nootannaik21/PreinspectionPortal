@@ -65,3 +65,8 @@ span.input-group-text {
     text-decoration: underline;
 }
 
+.checkbox.checkbox-primary input[type=checkbox]:checked + .cr:before {
+    background: #034ea2 !important;
+    border-color: #034ea2 !important;
+    color: #ffffff;
+}
