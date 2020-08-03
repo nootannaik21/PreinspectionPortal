@@ -49,7 +49,17 @@ const routes: Routes = [
         loadChildren: () => import('./demo/pages/sample-page/sample-page.module').then(module => module.SamplePageModule)
       }
     ]
-  }
+  },
+  {
+    path: 'login',
+    component: AuthComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./authentication/authentication.module').then(module => module.AuthenticationModule)
+      },
+    ]
+  },
 ]
 
 @NgModule({
