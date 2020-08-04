@@ -2,3 +2,71 @@
 
 /* SCSS */
 @import "scss/style";
+
+
+@font-face {
+    font-family: HelveticaNeueLTStd;
+    src: url("assets/fonts/HelveticaNeueLTStd\ Lt.otf");
+}
+
+.theme-blue {
+    background-color: #034EA2;
+    border: 5px solid #fab218;
+    border-style: double;
+    box-shadow: 7px 8px 6px 0px #0000002e;
+}
+.auth-wrapper {
+    font-family: HelveticaNeueLTStd !important;
+}
+span.input-group-text {
+    background-color: #034EA2;
+    border: #034EA2;
+    color: #fff;
+}
+.btn-blue {
+    background-color: #034EA2;
+    color: #fff;
+}
+.btn-box {
+    text-align: center;
+}
+.btn-box button {
+    margin: 0 5px;    
+}
+.img-70 {
+    max-width: 70%
+}
+.btn-blue:hover {
+    background-color: #FAB218;
+    color: #000000;
+}
+.btn-yellow {
+    background-color: #FAB218;
+    color: #000000;
+}
+.btn-yellow:hover {
+    background-color: #034EA2;
+    color: #fff;
+}
+.btn-grey {
+    background-color: #B3B4B4;
+    color: #000000;
+}
+.btn-grey:hover {
+    background-color: #034EA2;
+    color: #fff;
+}
+
+.anchor-text {
+    color: #000;
+}
+.anchor-text:hover {
+    color: #FAB218;
+    text-decoration: underline;
+}
+
+.checkbox.checkbox-primary input[type=checkbox]:checked + .cr:before {
+    background: #034ea2 !important;
+    border-color: #034ea2 !important;
+    color: #ffffff;
+}
