@@ -18,7 +18,7 @@ export class ApiService {
   lastAction: any;
   env = environment;
   constructor(private http: HttpClient, private router: Router, private UserService: userService) {
-    this.baseApiUrl = this.env.baseApiUrl
+    this.baseApiUrl = "http://localhost:61069/api/"// this.env.baseApiUrl
     this.SignInData = {};
 
   }
@@ -67,6 +67,7 @@ export class ApiService {
   }
 
   singIn(relativeUrl: string, resource: any) {
+    debugger;
     return this.http.post(this.baseApiUrl + relativeUrl, resource)
   }
   post(relativeUrl: string, resource: any) {
@@ -104,7 +105,7 @@ export class ApiService {
       this.router.navigateByUrl("/login");
     }
     else {
-      const authToken = this.Userdetails.token;
+      const authToken = this.Userdetails.accessToken;
       const headers = new HttpHeaders().set('Authorization', "bearer "+authToken);
       return headers;
     }
