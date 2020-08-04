@@ -18,7 +18,7 @@ export class ApiService {
   lastAction: any;
   env = environment;
   constructor(private http: HttpClient, private router: Router, private UserService: userService) {
-    this.baseApiUrl = "http://localhost:61069/api/"// this.env.baseApiUrl
+    this.baseApiUrl = this.env.baseApiUrl
     this.SignInData = {};
 
   }
