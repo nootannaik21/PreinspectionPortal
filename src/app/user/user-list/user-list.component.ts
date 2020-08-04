@@ -4,6 +4,7 @@ import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { dataService } from 'src/app/service/data.service';
 // import { dataService } from 'src/app/service/data.service';
 
 @Component({
@@ -11,15 +12,15 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss']
 })
-export class UserListComponent implements OnInit, OnDestroy,AfterViewInit {
+export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
   isAdd: boolean;
   title: string;
   // branch: Object;
   ngAfterViewInit(): void {
-    this.item = [];
+    this.userList = [];
     this.rerender();
-   }
-  item: any = [];
+  }
+  userList: any = [];
   branch: any = {};
   formError: boolean;
   dtOptions: DataTables.Settings = {};
@@ -30,7 +31,7 @@ export class UserListComponent implements OnInit, OnDestroy,AfterViewInit {
   @ViewChild('editBranchModal', { static: false })
   public editBranchmodal: ModalDirective;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private dataService:dataService) {
     this.dtOptions = {
       pagingType: 'full_numbers',
       lengthMenu: [
@@ -45,7 +46,15 @@ export class UserListComponent implements OnInit, OnDestroy,AfterViewInit {
     };
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    debugger
+    // this.dataService.getUserList().subscribe(
+    //   data =>{
+    //     debugger
+    //     this.userList=data;
+    //   },
+    //   err =>{}
+    // )
   }
   addUser() {
     this.router.navigateByUrl('user/addUser');
@@ -88,24 +97,24 @@ export class UserListComponent implements OnInit, OnDestroy,AfterViewInit {
         // }, err => {
         // });
       } else {
-          // this.dataService.updateBranch(branchId, data).subscribe(data => {
-          //   this.editBranchmodal.hide();
-          //   // this.getAllUser();
-          //   this.dataService.getBranchList().subscribe((data) => {
-          //     this.item = data;
-          //   });
-          //   this.formError = false;
-          // }, err => {
-          // });
-        }
-
-      } else {
-        this.formError = true;
+        // this.dataService.updateBranch(branchId, data).subscribe(data => {
+        //   this.editBranchmodal.hide();
+        //   // this.getAllUser();
+        //   this.dataService.getBranchList().subscribe((data) => {
+        //     this.item = data;
+        //   });
+        //   this.formError = false;
+        // }, err => {
+        // });
       }
-    }
 
-    rerender(): void {
-      if(this.isDtInitialized) {
+    } else {
+      this.formError = true;
+    }
+  }
+
+  rerender(): void {
+    if (this.isDtInitialized) {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
         dtInstance.destroy();
         this.dtTrigger.next();

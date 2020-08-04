@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseApiUrl:"http://localhost:61069/api/",
+  baseApiUrl:"https://dev-api.preinspection-portal.forthedemo.com/api/",
   name:"Development"
 };
 

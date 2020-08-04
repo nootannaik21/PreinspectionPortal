@@ -14,34 +14,40 @@
                         <thead>
                             <tr>
                                 <th class="text-center">Name</th>
+                                <th class="text-center">Salt</th>
                                 <th class="text-center">Email</th>
+                                <th class="text-center">Active</th>
+                                <th class="text-center">First Nmae</th>
+                                <th class="text-center">Last Nmae</th>
                                 <th class="text-center">Company</th>
-                                <th class="text-center">Address</th>
-                                <th class="text-center">Branch Nmae</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center">Phone</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let branch of item">
+                            <tr *ngFor="let item of userList">
                                 <td class="text-center">
-                                    {{branch.branchCode}}
+                                    {{item.username}}
                                 </td>
                                 <td class="text-center">
-                                    <div>
-                                        {{branch.branchName}}
-                                    </div>
+                                    {{item.salt}}
                                 </td>
                                 <td class="text-center">
-                                    <div>
-                                        {{branch.zone}}
-                                    </div>
-                                </td>
-
-                                <td class="text-center">
-                                    {{branch.branchCode}}
+                                    {{item.email}}
                                 </td>
                                 <td class="text-center">
-                                    {{branch.branchCode}}
+                                    {{item.active}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.firstName}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.lastName}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.company}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.phone}}
                                 </td>
                                 <td>
                                     <div>
