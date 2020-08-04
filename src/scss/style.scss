@@ -98,3 +98,22 @@ File: style.css
 
 // custom
 @import "themes/custom";
+.btn_Class{
+  background: #034EA2;
+  color: white;
+margin-right: 10px;
+margin-bottom: 10px;
+
+}
+.btn_Cancel{
+  background: #B3B4B4;
+  color: white;
+margin-right: 10px;
+margin-bottom: 10px;
+}
+
+@font-face {
+  font-family: HelveticaNeueLTStd;
+  src: url("assets/fonts/HelveticaNeueLTStd\ Lt.otf");
+}
+

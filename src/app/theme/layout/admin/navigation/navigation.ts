@@ -34,7 +34,6 @@ const NavigationItems = [
     classes: 'nav-item',
     icon: 'feather icon-users',
   },
- 
   {
     id: 'inspection',
     title: 'Inspection',

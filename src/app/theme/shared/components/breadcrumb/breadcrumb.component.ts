@@ -1,7 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {NavigationItem} from '../../../layout/admin/navigation/navigation';
-import {Router} from '@angular/router';
-import {Title} from '@angular/platform-browser';
+import { Component, Input, OnInit } from '@angular/core';
+import { NavigationItem } from '../../../layout/admin/navigation/navigation';
+import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -43,7 +43,17 @@ export class BreadcrumbComponent implements OnInit {
 
   filterNavigation(activeLink) {
     let result = [];
+    let addURl = {};
     let title = 'Welcome';
+    // addURl = {
+    //   classes: "nav-item",
+    //   icon: "feather icon-users",
+    //   id: "addUser",
+    //   title: "addUser",
+    //   type: "item",
+    //   url: "/user/addUser"
+    // };
+    // this.navigation.push(addURl);
     this.navigation.forEach((a) => {
       if (a.type === 'item' && 'url' in a && a.url === activeLink) {
         result = [
