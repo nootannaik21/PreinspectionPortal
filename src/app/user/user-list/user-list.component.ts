@@ -48,13 +48,13 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     debugger
-    // this.dataService.getUserList().subscribe(
-    //   data =>{
-    //     debugger
-    //     this.userList=data;
-    //   },
-    //   err =>{}
-    // )
+    this.dataService.getUserList().subscribe(
+      data =>{
+        debugger
+        this.userList=data;
+      },
+      err =>{}
+    )
   }
   addUser() {
     this.router.navigateByUrl('user/addUser');

@@ -7,6 +7,6 @@ import { ApiService } from './api.service';
 export class AuthService {
   constructor( private apiService: ApiService) { }
   login(userData) {
-    return this.apiService.singIn("user/authenticate", userData);
+    return this.apiService.singIn("user/login", userData);
   }
 }

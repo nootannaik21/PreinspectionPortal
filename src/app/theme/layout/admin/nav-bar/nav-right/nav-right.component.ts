@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { PreinspectionService } from 'src/app/services/preinspection.service';
+import { PreinspectionService } from 'src/app/service/preinspection.service';
 
 @Component({
   selector: 'app-nav-right',
