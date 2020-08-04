@@ -134,6 +134,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "ng-next"
+    }
+  },
+  "defaultProject": "ng-next",
+  "cli": {
+    "analytics": "dcdb5c1c-5abd-429f-935f-fa4a5308ca1a"
+  }
 }
