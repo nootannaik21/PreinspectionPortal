@@ -131,7 +131,7 @@ button {
     color: #fff;
 }
 .anchor-text {
-    color: #000;
+    color: #B3B4B4 !important;
 }
 .anchor-text:hover {
     color: #FAB218;
@@ -227,4 +227,7 @@ form.loginform .checkbox label {
     color: #000000cc !important;
     border-color: #034ea2 !important;
     box-shadow: none !important;
+}
+.text-grey {
+    color: #B3B4B4;
 }
