@@ -12,12 +12,10 @@
                         class="scroll table-striped table-bordered nowrap table-hover dataTable">
                         <thead>
                             <tr>
-                                <th class="text-center">Name</th>
-                                <th class="text-center">Salt</th>
+                                <th class="text-center">User Name</th>
+                                <th class="text-center">First Name</th>
+                                <th class="text-center">Last Name</th>
                                 <th class="text-center">Email</th>
-                                <!-- <th class="text-center">Active</th> -->
-                                <th class="text-center">First Nmae</th>
-                                <th class="text-center">Last Nmae</th>
                                 <th class="text-center">Company</th>
                                 <th class="text-center">Phone</th>
                                 <th class="text-center">Action</th>
@@ -29,25 +27,21 @@
                                     {{item.username}}
                                 </td>
                                 <td class="text-left">
-                                    {{item.salt}}
+                                    {{item.firstName}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.lastName}}
                                 </td>
                                 <td class="text-left">
                                     {{item.email}}
                                 </td>
-                                <!-- <td class="text-center">
-                                    {{item.active}}
-                                </td> -->
-                                <td class="text-center">
-                                <td>
-                                    {{item.username}}
+                                <td class="text-left">
+                                    {{item.company}}
                                 </td>
-                                <td>
-                                    {{item.salt}}
+                                <td class="text-left">
+                                    {{item.phone}}
                                 </td>
-                                <td>
-                                    {{item.email}}
-                                </td>
-                                <td>
+                                <td class="text-left">
                                     <div>
                                         <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
                                             style="cursor: pointer;" (click)="editUserRow(item)"></i>

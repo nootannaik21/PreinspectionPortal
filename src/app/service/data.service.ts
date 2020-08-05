@@ -7,7 +7,7 @@ import { ApiService } from './api.service';
 
 export class dataService {
   deleteUser(userId) {
-    return this.apiService.delete("user/deleteUser?id="+userId);   
+    return this.apiService.delete("user/deleteUser/"+userId);   
   }
   addUser(userdata: any) {
     return this.apiService.post("user/addUser", userdata);   
