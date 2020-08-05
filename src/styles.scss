@@ -104,6 +104,7 @@ button {
 .btn-blue {
     background-color: #034EA2;
     color: #fff;
+    opacity: 1 !important;
 }
 .btn-blue:hover {
     background-color: #FAB218;
@@ -193,4 +194,19 @@ perfect-scrollbar {
 label, input {
     font-family: "HelveticaNeueLTStd";
     font-size: 12pt !important;
+}
+.pt-12 {
+    font-size:12pt !important;
+}
+.pt-20 {
+    font-size:20pt !important;
+}
+.pt-30 {
+    font-size:30pt !important;
+}
+form.loginform input {
+    font-size: 12pt;
+}
+form.loginform .checkbox label {
+    font-size: 12pt;
 }
