@@ -1,1 +1,189 @@
-<p>vendor works!</p>
+<div class="row">
+    <div class="col-sm-12">
+        <app-card [customHeader]='true' cardTitle="VendorList">
+            <div class="row">
+                <div class="w-100 col-sm-12 mb28mm">
+                    <div class="col-sm-12 pr-0">
+                        <!-- <button type="button" class="btn btn-info btn-sm btn_Class float-right" data-toggle="modal"
+                            className="tooltipstext" title="Add User" style="cursor: pointer; margin-right: 5px;"
+                            (click)="addUser()"><b>Add
+                                User</b></button> -->
+                    </div>
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                        class="scroll table-striped table-bordered nowrap table-hover dataTable">
+                        <thead>
+                            <tr>
+                                <th class="text-center">S.No</th>
+                                <th class="text-center">Vendor Name</th>
+                                <th class="text-center">Vendor Email Id</th>
+                                <th class="text-center">View / Edit</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Enable / Disable</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr> <!-- *ngFor="let item of vendorList" -->
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    Sourav Ganguly
+                                </td>
+                                <td>
+                                    test@mail.com
+                                </td>
+                                <td>
+                                    <button class="btn btn-blue">View / Edit</button>
+                                </td>
+                                <td>
+                                    De-Active
+                                </td>
+                                <td>
+                                    <button class="btn btn-blue">Enable</button>
+                                </td>                                
+                                <!-- <td>
+                                    <div>
+                                        <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
+                                            style="cursor: pointer;" (click)="showEditBranchModal(branch.id)"></i>
+
+                                        <i class="feather icon-trash-2" className="tooltipstext" title="Delete"
+                                            style="cursor: pointer;"
+                                            *ngIf="item.isEdit==undefined || item.isEdit==false"></i>
+
+                                    </div>
+                                </td> -->
+                            </tr>
+                            <tr> <!-- *ngFor="let item of vendorList" -->
+                                <td>
+                                    2
+                                </td>
+                                <td>
+                                    Sachin Tendulkar 
+                                </td>
+                                <td>
+                                    sach@mail.com
+                                </td>
+                                <td>
+                                    <button class="btn btn-blue">View / Edit</button>
+                                </td>
+                                <td>
+                                    Active
+                                </td>
+                                <td>
+                                    <button class="btn btn-grey">Disable</button>
+                                </td>                                
+                                <!-- <td>
+                                    <div>
+                                        <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
+                                            style="cursor: pointer;" (click)="showEditBranchModal(branch.id)"></i>
+
+                                        <i class="feather icon-trash-2" className="tooltipstext" title="Delete"
+                                            style="cursor: pointer;"
+                                            *ngIf="item.isEdit==undefined || item.isEdit==false"></i>
+
+                                    </div>
+                                </td> -->
+                            </tr>
+                            <tr> <!-- *ngFor="let item of vendorList" -->
+                                <td>
+                                    3
+                                </td>
+                                <td>
+                                    Virat Kohli
+                                </td>
+                                <td>
+                                    kohli@mail.com
+                                </td>
+                                <td>
+                                    <button class="btn btn-blue">View / Edit</button>
+                                </td>
+                                <td>
+                                    De-Active
+                                </td>
+                                <td>
+                                    <button class="btn btn-grey">Disable</button>
+                                </td>                                
+                                <!-- <td>
+                                    <div>
+                                        <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
+                                            style="cursor: pointer;" (click)="showEditBranchModal(branch.id)"></i>
+
+                                        <i class="feather icon-trash-2" className="tooltipstext" title="Delete"
+                                            style="cursor: pointer;"
+                                            *ngIf="item.isEdit==undefined || item.isEdit==false"></i>
+
+                                    </div>
+                                </td> -->
+                            </tr>
+                            <tr> <!-- *ngFor="let item of vendorList" -->
+                                <td>
+                                    4
+                                </td>
+                                <td>
+                                    Virender Sehwag
+                                </td>
+                                <td>
+                                    sehwag@mail.com
+                                </td>
+                                <td>
+                                    <button class="btn btn-blue">View / Edit</button>
+                                </td>
+                                <td>
+                                    De-Active
+                                </td>
+                                <td>
+                                    <button class="btn btn-grey">Disable</button>
+                                </td>                                
+                                <!-- <td>
+                                    <div>
+                                        <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
+                                            style="cursor: pointer;" (click)="showEditBranchModal(branch.id)"></i>
+
+                                        <i class="feather icon-trash-2" className="tooltipstext" title="Delete"
+                                            style="cursor: pointer;"
+                                            *ngIf="item.isEdit==undefined || item.isEdit==false"></i>
+
+                                    </div>
+                                </td> -->
+                            </tr>
+                            <tr> <!-- *ngFor="let item of vendorList" -->
+                                <td>
+                                    5
+                                </td>
+                                <td>
+                                    Umesh Yadav
+                                </td>
+                                <td>
+                                    umesh@mail.com
+                                </td>
+                                <td>
+                                    <button class="btn btn-blue">View / Edit</button>
+                                </td>
+                                <td>
+                                    De-Active
+                                </td>
+                                <td>
+                                    <button class="btn btn-grey">Disable</button>
+                                </td>                                
+                                <!-- <td>
+                                    <div>
+                                        <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
+                                            style="cursor: pointer;" (click)="showEditBranchModal(branch.id)"></i>
+
+                                        <i class="feather icon-trash-2" className="tooltipstext" title="Delete"
+                                            style="cursor: pointer;"
+                                            *ngIf="item.isEdit==undefined || item.isEdit==false"></i>
+
+                                    </div>
+                                </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="col-md-12 text-center mt-3">
+                        <button class="btn btn-blue">Create Vendor Details</button>
+                    </div>
+                </div>
+            </div>
+        </app-card>
+    </div>
+</div>
