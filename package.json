@@ -35,6 +35,7 @@
     "angular-highcharts-chart": "^1.0.2",
     "angular-pell": "^0.1.0",
     "angular2-chartjs": "^0.5.1",
+    "angular2-jwt": "^0.2.3",
     "angular2-text-mask": "^9.0.0",
     "angular2-tinymce": "^3.3.0",
     "apexcharts": "^3.18.1",

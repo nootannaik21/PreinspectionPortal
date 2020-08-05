@@ -7,7 +7,7 @@ import { ApiService } from './api.service';
 
 export class dataService {
   getUserList() {
-    return this.apiService.get("user");   
+    return this.apiService.get("user/getAllUser");   
   }
   constructor(private apiService: ApiService) { }
   getBranchList() {

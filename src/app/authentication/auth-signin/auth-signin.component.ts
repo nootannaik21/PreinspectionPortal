@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
-import { PreinspectionService } from 'src/app/services/preinspection.service';
-import { ApiService } from 'src/app/services/api.service';
+import { PreinspectionService } from 'src/app/service/preinspection.service';
+import { AuthService } from 'src/app/service/auth.service';
+import { ApiService } from 'src/app/service/api.service';
 
 @Component({
   selector: 'app-auth-signin',
