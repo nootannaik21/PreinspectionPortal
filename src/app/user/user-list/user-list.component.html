@@ -15,27 +15,28 @@
                                 <th class="text-center">Name</th>
                                 <th class="text-center">Salt</th>
                                 <th class="text-center">Email</th>
-                                <th class="text-center">Active</th>
+                                <!-- <th class="text-center">Active</th> -->
                                 <th class="text-center">First Nmae</th>
                                 <th class="text-center">Last Nmae</th>
                                 <th class="text-center">Company</th>
                                 <th class="text-center">Phone</th>
+                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of userList">
-                                <td class="text-center">
+                                <td class="text-left">
                                     {{item.username}}
                                 </td>
-                                <td class="text-center">
+                                <td class="text-left">
                                     {{item.salt}}
                                 </td>
-                                <td class="text-center">
+                                <td class="text-left">
                                     {{item.email}}
                                 </td>
-                                <td class="text-center">
+                                <!-- <td class="text-center">
                                     {{item.active}}
-                                </td>
+                                </td> -->
                                 <td class="text-center">
                                     {{item.firstName}}
                                 </td>
@@ -51,11 +52,10 @@
                                 <td>
                                     <div>
                                         <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
-                                            style="cursor: pointer;" (click)="showEditBranchModal(branch.id)"></i>
+                                            style="cursor: pointer;" (click)="editUserRow(item)"></i>
 
                                         <i class="feather icon-trash-2" className="tooltipstext" title="Delete"
-                                            style="cursor: pointer;"
-                                            *ngIf="item.isEdit==undefined || item.isEdit==false"></i>
+                                            style="cursor: pointer;" (click)="deleteUser(item)"></i>
 
                                     </div>
                                 </td>

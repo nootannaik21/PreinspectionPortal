@@ -6,6 +6,18 @@ import { ApiService } from './api.service';
 })
 
 export class dataService {
+  deleteUser(userId) {
+    return this.apiService.delete("user/deleteUser?id="+userId);   
+  }
+  addUser(userdata: any) {
+    return this.apiService.post("user/addUser", userdata);   
+  }
+  updateUser(userid,data) {
+    return this.apiService.put("user/editUser/"+userid,data);   
+  }
+  getUserById(userid) {
+    return this.apiService.get("user/getUserById?userId="+userid);   
+  }
   getUserList() {
     return this.apiService.get("user/getAllUser");   
   }

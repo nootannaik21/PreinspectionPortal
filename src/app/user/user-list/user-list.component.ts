@@ -31,7 +31,10 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('editBranchModal', { static: false })
   public editBranchmodal: ModalDirective;
 
-  constructor(private router: Router, private dataService:dataService) {
+  constructor(private router: Router, private dataService:dataService) {  
+  }
+
+  ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
       lengthMenu: [
@@ -39,24 +42,39 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
         [10, 25, 50, 'All'],
       ],
       pageLength: 10,
-      // 'columnDefs': [{
-      //   'targets': [3], // column index (start from 0)
-      //   'orderable': false, // set orderable false for selected columns
-      // }]
+      'columnDefs': [{
+        'targets': [7], // column index (start from 0)
+        'orderable': false, // set orderable false for selected columns
+      }]
     };
+    this.getUSerList();  
   }
-
-  ngOnInit() {
-    debugger
+  getUSerList() {
     this.dataService.getUserList().subscribe(
       data =>{
-        debugger
         this.userList=data;
+        this.rerender();
       },
-      err =>{}
+      err=>{
+
+      }
+    )
+  }
+  editUserRow(item){
+    debugger
+    localStorage.setItem('userid', item.id);
+    this.router.navigateByUrl('user/addUser');
+  }
+  deleteUser(item){
+    this.dataService.deleteUser(item.id).subscribe(
+      data =>{
+        this.getUSerList();
+      },
+      err=>{}
     )
   }
   addUser() {
+    localStorage.removeItem('userid')
     this.router.navigateByUrl('user/addUser');
   }
   showAddModal() {
