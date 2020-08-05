@@ -21,8 +21,7 @@
               placeholder="Email" required
               [ngClass]="{'is-invalid': !email.valid && (email.dirty || email.touched )}" #email="ngModel">
             <label *ngIf="!email.valid && (email.dirty || email.touched)" id="validation-email-error"
-              class="error jquery-validation-error small form-text invalid-feedback pt-12">Please enter a valid
-              Email.</label>
+              class="error jquery-validation-error small form-text invalid-feedback pt-12">Please enter  valid Email.</label>
           </div>
           <div class="input-group mb-4">
             <div class="input-group-prepend">
@@ -32,8 +31,7 @@
               [(ngModel)]="user.password" placeholder="Password" required
               [ngClass]="{'is-invalid': !password.valid && (password.dirty || password.touched )}" #password="ngModel">
             <label *ngIf="!password.valid && (password.dirty || password.touched)" id="validation-password-error"
-              class="error jquery-validation-error small form-text invalid-feedback pt-12">Please enter a valid
-              password.</label>
+              class="error jquery-validation-error small form-text invalid-feedback pt-12">Please enter  valid password.</label>
           </div>
           <!-- <div class="alert alert-danger" *ngIf="isError">
             <strong>Invalid Credentials.!</strong>
@@ -41,7 +39,7 @@
           <div class="form-group text-left mt-2">
             <div class="checkbox checkbox-primary d-inline">
               <input type="checkbox" name="checkbox-p-1" id="checkbox-p-1" checked="">
-              <label for="checkbox-p-1" class="cr pt-12">Save credentials</label>
+              <label for="checkbox-p-1" class="cr pt-12 text-grey">Save credentials</label>
             </div>
           </div>
           <div class="btn-box">
