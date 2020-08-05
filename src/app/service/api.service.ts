@@ -27,7 +27,11 @@ export class ApiService {
     this.isLoading = true;
     let url = this.baseApiUrl + relativeUrl;
     return this.http.get(url, { headers: this.getHeaderOptions() });
-
+  }
+  put(relativeUrl: string, resource) {
+    this.isLoading = true;
+    let url = this.baseApiUrl + relativeUrl;
+    return this.http.put(url, resource, { headers: this.getHeaderOptions()})
   }
 
   getString(relativeUrl: string) {
@@ -93,11 +97,7 @@ export class ApiService {
     return this.http.post(this.baseApiUrl + relativeUrl, data, { headers: this.getHeaderOptions() });
   }
 
-  put(relativeUrl: string, resource) {
-    this.isLoading = true;
-    let url = this.baseApiUrl + relativeUrl;
-    return this.http.put(url, resource, { headers: this.getHeaderOptions()})
-  }
+  
 
   getHeaderOptions() {
     this.Userdetails = this.UserService.getCurrentLoggedUser()
