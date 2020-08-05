@@ -22,7 +22,7 @@ body {
     height: 5px;
 }
 .scroll::-webkit-scrollbar-thumb {
-    background: #034EA2 !important;
+    background: #EC1968 !important;
 }
 @media screen and (max-width: 767px) {
     .scroll{
@@ -32,23 +32,44 @@ body {
 .mb-18 {
     margin-bottom: 18mm !important;
 }
+
 table thead {
-    background: #034EA2;
-    color: #fff;
+    background: #ffffff;
+    color: #000;
     font-family: "HelveticaNeueLTStd";
     letter-spacing: 1px;
 }
 table tr td {
     font-family: "HelveticaNeueLTStd";
-    font-size: 11pt;
+    font-size: 12pt;
 }
-table.dataTable thead th, table.dataTable thead td {
+table.dataTable thead th, table.dataTable thead tr td {
     padding: 10px 18px;
-    border-bottom: 1px solid #034EA2;
+    border-bottom: 0.5pt solid #EC1968;
+    border-right: 0.5pt solid #EC1968;
     font-family: "HelveticaNeueLTStd";
     letter-spacing: 1px;
     font-size: 12pt;
     font-weight: normal;
+    color: #000000cc !important;
+}
+table thead tr th:last-child {
+    border-right: none !important;
+}
+.mb28mm {
+    margin-bottom:28mm;
+}
+tr.odd td {
+    border-bottom: 0px !important;
+}
+
+table.dataTable tbody tr td {
+    border-bottom: 0.5pt solid #EC1968;
+    border-right: 0.5pt solid #EC1968;
+    color: #000000b3 !important;
+}
+table.dataTable tbody tr td:last-child {
+    border-right: 0pt;
 }
 
 .theme-blue {
@@ -63,6 +84,10 @@ span.input-group-text {
     color: #fff;
 }
 
+table {
+    border-radius: 3pt;
+    border: 0.5pt solid #EC1968 !important;
+}
 
 button {
     font-family: HelveticaNeueLTStd;
@@ -163,4 +188,9 @@ ul.navbar-nav.ml-auto li i.icon.feather.icon-user {
 }
 perfect-scrollbar {    
     background-color: #034ea2 !important;
+}
+
+label, input {
+    font-family: "HelveticaNeueLTStd";
+    font-size: 12pt !important;
 }

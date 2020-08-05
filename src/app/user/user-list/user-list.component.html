@@ -2,7 +2,7 @@
     <div class="col-sm-12">
         <app-card [customHeader]='true' cardTitle="userList">
             <div class="row">
-                <div class="w-100">
+                <div class="w-100 col-sm-12 mb28mm">
                     <div class="col-sm-12 pr-0">
                         <button type="button" class="btn btn-blue float-right mb-2" data-toggle="modal"
                             className="tooltipstext" title="Add User" style="cursor: pointer;"
@@ -20,32 +20,33 @@
                                 <th class="text-center">Last Nmae</th>
                                 <th class="text-center">Company</th>
                                 <th class="text-center">Phone</th>
+                                <th class="text-center"></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of userList">
-                                <td class="text-center">
+                                <td>
                                     {{item.username}}
                                 </td>
-                                <td class="text-center">
+                                <td>
                                     {{item.salt}}
                                 </td>
-                                <td class="text-center">
+                                <td>
                                     {{item.email}}
                                 </td>
-                                <td class="text-center">
+                                <td>
                                     {{item.active}}
                                 </td>
-                                <td class="text-center">
+                                <td>
                                     {{item.firstName}}
                                 </td>
-                                <td class="text-center">
+                                <td>
                                     {{item.lastName}}
                                 </td>
-                                <td class="text-center">
+                                <td>
                                     {{item.company}}
                                 </td>
-                                <td class="text-center">
+                                <td class="text-right">
                                     {{item.phone}}
                                 </td>
                                 <td>
