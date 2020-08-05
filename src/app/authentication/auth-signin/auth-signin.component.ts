@@ -21,9 +21,7 @@ export class AuthSigninComponent implements OnInit {
   ngOnInit() {
   }
   onSubmitLoader() {
-    debugger
     this.authservice.login(this.user).subscribe((data) => {
-      debugger
       var res: any = data;
       this.submitLoader = false;
       if (res.result == "success") {

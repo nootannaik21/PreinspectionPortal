@@ -61,7 +61,6 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
     )
   }
   editUserRow(item){
-    debugger
     localStorage.setItem('userid', item.id);
     this.router.navigateByUrl('user/addUser');
   }
