@@ -141,10 +141,10 @@
                     </div>
                 </div>
                 <div class="col-sm-12 text-center">
-                    <button type="reset" class="btn btn_Cancel">Cancel</button>
-                    <button type="submit" *ngIf="userdata.id==undefined" class="btn btn_Class"
+                    <button type="reset" class="btn btn-grey mr-2">Cancel</button>
+                    <button type="submit" *ngIf="userdata.id==undefined" class="btn btn-blue ml-2"
                         (click)="addUser(userdata)">Add User</button>
-                    <button type="button" *ngIf="userdata.id!=undefined" class="btn btn_Class"
+                    <button type="button" *ngIf="userdata.id!=undefined" class="btn btn-blue ml-2"
                         (click)="updateUser(userdata)">Update User</button>
                 </div>
             </div>
