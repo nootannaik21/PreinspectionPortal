@@ -10,7 +10,7 @@ const routes: Routes = [
     component:InspectionDetailComponent
   },
   {
-    path:'/createInspection',
+    path:'createInspection',
     component:CreateInspectionComponent
   }
 ];
