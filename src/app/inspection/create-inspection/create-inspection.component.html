@@ -1,189 +1,185 @@
 <div class="row">
     <div class="col-sm-12">
         <app-card [customHeader]='true' cardTitle="Create Inspection">
-            <div class="row">
-                <div class="w-100 col-md-12 mb28mm">
-                    <div class="row mt-2 mb-5">
-                        <div class="col-md-6">            
-                            <div class="form-group row">
-                                <label for="inputEmail3" class="col-sm-3">Branch Name</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="inputEmail3">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputPassword3" class="col-sm-3">IMD/SM Code</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="inputPassword3">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputPassword3" class="col-sm-3">Customer Name</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="inputPassword3">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputPassword3" class="col-sm-3">Customer Email ID</label>
-                                <div class="col-sm-9">
-                                    <input type="email" class="form-control" id="inputPassword3">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputPassword3" class="col-sm-3">Alternate Phone no</label>
-                                <div class="col-sm-9">
-                                    <input type="tel" class="form-control" id="inputPassword3">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3">Product Type</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control">
-                                        <option value="">--Select--</option>
-                                        <option value="">ABC</option>
-                                        <option value="">DEF</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputPassword3" class="col-sm-3">Location of Inspection</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="inputPassword3">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputPassword3" class="col-sm-3">Duplicate Inspection</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="inputPassword3">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputPassword3" class="col-sm-3">Make of Vehicle</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="inputPassword3">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3">Status</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control">
-                                        <option value="">--Request Raised--</option>
-                                        <option value="">ABS</option>
-                                        <option value="">ABC</option>
-                                        <option value="">DEF</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3">Conveyance</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control">
-                                        <option value="">No</option>
-                                        <option value="">Yes</option>
-                                    </select>
-                                </div>
-                            </div> 
-                            <div class="form-group row">
-                                <label for="inputPassword3" class="col-sm-3">Alternate Customer Name</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="inputPassword3">
-                                </div>
-                            </div>           
-                        </div>          
-                        <div class="col-sm-6">
-                            <div class="form-group row">
-                                <label for="lastName" class="col-sm-3">Branch Code</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="lastName">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="email" class="col-sm-3">Phone no of IMD/SM</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="email">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="conPassword" class="col-sm-3">Customer Mobile Number</label>
-                                <div class="col-sm-9">
-                                    <input type="tel" class="form-control" id="conPassword">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="email" class="col-sm-3">Email of IMD/SM</label>
-                                <div class="col-sm-9">
-                                    <input type="email" class="form-control" id="email">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3">Reason For Inspection</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control">
-                                        <option value="">--Select--</option>
-                                        <option value="">123</option>
-                                        <option value="">456</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3">Risk Type</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control">
-                                        <option value="">A1</option>
-                                        <option value="">A2</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="email" class="col-sm-3">Vehicle Reg No</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="email">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3">Payment Mode</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control">
-                                        <option value="">--Select--</option>
-                                        <option value="">AAA</option>
-                                        <option value="">BBB</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="email" class="col-sm-3">Model</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="email">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="email" class="col-sm-3">Vendor Email ID</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control">
-                                        <option value="">--Select--</option>
-                                        <option value="">AAA</option>
-                                        <option value="">BBB</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="email" class="col-sm-3">Conveyance in KM</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="email" readonly placeholder="0">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="email" class="col-sm-3">Remarks</label>
-                                <div class="col-sm-9">
-                                    <textarea class="form-control" maxlength="100" placeholder="Maximum characters 100"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                            <div class="col-sm-12 text-center">
-                            <button type="reset" class="btn btn-blue">Cancel</button>
-                            <button type="submit" class="btn btn-blue" >Create Inspection</button>
+            <div class="row mt-2 mb-5 col-md-12 mb28mm mt-5">
+                <div class="col-md-6">            
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-5">Branch Name</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="inputEmail3">
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-5">IMD/SM Code</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="inputPassword3">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-5">Customer Name</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="inputPassword3">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-5">Customer Email ID</label>
+                        <div class="col-sm-7">
+                            <input type="email" class="form-control" id="inputPassword3">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-5">Alternate Phone no</label>
+                        <div class="col-sm-7">
+                            <input type="tel" class="form-control" id="inputPassword3">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-5">Product Type</label>
+                        <div class="col-sm-7">
+                            <select class="form-control">
+                                <option value="">--Select--</option>
+                                <option value="">ABC</option>
+                                <option value="">DEF</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-5">Location of Inspection</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="inputPassword3">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-5">Duplicate Inspection</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="inputPassword3">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-5">Make of Vehicle</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="inputPassword3">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-5">Status</label>
+                        <div class="col-sm-7">
+                            <select class="form-control">
+                                <option value="">--Request Raised--</option>
+                                <option value="">ABS</option>
+                                <option value="">ABC</option>
+                                <option value="">DEF</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-5">Conveyance</label>
+                        <div class="col-sm-7">
+                            <select class="form-control">
+                                <option value="">No</option>
+                                <option value="">Yes</option>
+                            </select>
+                        </div>
+                    </div> 
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-5">Alternate Customer Name</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="inputPassword3">
+                        </div>
+                    </div>           
+                </div>          
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label for="lastName" class="col-sm-5">Branch Code</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="lastName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-5">Phone no of IMD/SM</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="conPassword" class="col-sm-5">Customer Mobile Number</label>
+                        <div class="col-sm-7">
+                            <input type="tel" class="form-control" id="conPassword">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-5">Email of IMD/SM</label>
+                        <div class="col-sm-7">
+                            <input type="email" class="form-control" id="email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-5">Reason For Inspection</label>
+                        <div class="col-sm-7">
+                            <select class="form-control">
+                                <option value="">--Select--</option>
+                                <option value="">123</option>
+                                <option value="">456</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-5">Risk Type</label>
+                        <div class="col-sm-7">
+                            <select class="form-control">
+                                <option value="">A1</option>
+                                <option value="">A2</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-5">Vehicle Reg No</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-5">Payment Mode</label>
+                        <div class="col-sm-7">
+                            <select class="form-control">
+                                <option value="">--Select--</option>
+                                <option value="">AAA</option>
+                                <option value="">BBB</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-5">Model</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-5">Vendor Email ID</label>
+                        <div class="col-sm-7">
+                            <select class="form-control">
+                                <option value="">--Select--</option>
+                                <option value="">AAA</option>
+                                <option value="">BBB</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-5">Conveyance in KM</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="email" readonly placeholder="0">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-5">Remarks</label>
+                        <div class="col-sm-7">
+                            <textarea class="form-control" maxlength="100" placeholder="Maximum characters 100"></textarea>
+                        </div>
+                    </div>
+                </div>
+                    <div class="col-sm-12 text-center">
+                    <button type="reset" class="btn btn-grey m-2">Cancel</button>
+                    <button type="submit" class="btn btn-blue m-2">Create Inspection</button>
                 </div>
             </div>
         </app-card>
