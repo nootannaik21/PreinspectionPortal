@@ -131,7 +131,7 @@ button {
     color: #fff;
 }
 .anchor-text {
-    color: #000;
+    color: #B3B4B4 !important;
 }
 .anchor-text:hover {
     color: #FAB218;
@@ -217,4 +217,21 @@ form.loginform .checkbox label {
 
 .pcoded-header.header-blue .dropdown .profile-notification .pro-head {
     background: #034ea2 !important;
+}
+
+.form-control {    
+    border: 1px solid #B3B4B4 !important;
+    color: #000000cc !important;
+}
+.form-control:focus {
+    color: #000000cc !important;
+    border-color: #034ea2 !important;
+    box-shadow: none !important;
+}
+.invalid-feedback {    
+    color: #EC1968 !important;
+}
+
+.text-grey {
+    color: #B3B4B4;
 }
