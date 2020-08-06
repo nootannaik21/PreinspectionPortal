@@ -1,1 +1,252 @@
-<p>inspection-detail works!</p>
+<div class="row">
+    <div class="col-sm-12">
+        <app-card [customHeader]='true' cardTitle="Inspection Management">
+            <div class="row">
+                <div class="w-100 col-md-12 mb28mm">
+                    <div class="col-sm-12 pr-0">
+                        <button type="button" class="btn btn-blue float-right mb-2">Export</button>
+                    </div>
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                        class="scroll table-striped table-bordered nowrap table-hover dataTable table-responsive">
+                        <thead>
+                            <tr>
+                                <th class="text-center">S.No</th>
+                                <th class="text-center">Reference No.</th>
+                                <th class="text-center">Create Date</th>
+                                <th class="text-center">IMD / SM Code</th>
+                                <th class="text-center">Customer Name</th>
+                                <th class="text-center">Vendor Email ID</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Inspection Location</th>
+                                <th class="text-center">Vehicle Reg. No</th>
+                                <th class="text-center">View / Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr> <!-- *ngFor="let item of vendorList" -->
+                                <td>
+                                    1
+                                </td>
+                                <td class="text-right">
+                                    XXXXXX123
+                                </td>
+                                <td class="text-right">
+                                    07/07/2020
+                                </td>
+                                <td class="text-right">
+                                    E4000
+                                </td>
+                                <td>
+                                    Sachin
+                                </td>
+                                <td>
+                                    sachin@mail.com
+                                </td> 
+                                <td>
+                                    Recommended
+                                </td>   
+                                <td>
+                                    Bangalore
+                                </td>  
+                                <td class="text-right">
+                                    KA08XXXX
+                                </td>  
+                                <td>
+                                    <button class="btn btn-blue">Download</button>
+                                </td>                            
+                                <!-- <td>
+                                    <div>
+                                        <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
+                                            style="cursor: pointer;" (click)="showEditBranchModal(branch.id)"></i>
+
+                                        <i class="feather icon-trash-2" className="tooltipstext" title="Delete"
+                                            style="cursor: pointer;"
+                                            *ngIf="item.isEdit==undefined || item.isEdit==false"></i>
+
+                                    </div>
+                                </td> -->
+                            </tr>
+                            <tr> <!-- *ngFor="let item of vendorList" -->
+                                <td>
+                                    2
+                                </td>
+                                <td class="text-right">
+                                    XXXXXX124
+                                </td>
+                                <td class="text-right">
+                                    05/05/2020
+                                </td>
+                                <td class="text-right">
+                                    E4000
+                                </td>
+                                <td>
+                                    Sourav
+                                </td>
+                                <td>
+                                    sourav@mail.com
+                                </td> 
+                                <td>
+                                    Recommended
+                                </td>   
+                                <td>
+                                    Bangalore
+                                </td>  
+                                <td class="text-right">
+                                    KA07XXXX
+                                </td>  
+                                <td>
+                                    <button class="btn btn-blue">Download</button>
+                                </td>                            
+                                <!-- <td>
+                                    <div>
+                                        <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
+                                            style="cursor: pointer;" (click)="showEditBranchModal(branch.id)"></i>
+
+                                        <i class="feather icon-trash-2" className="tooltipstext" title="Delete"
+                                            style="cursor: pointer;"
+                                            *ngIf="item.isEdit==undefined || item.isEdit==false"></i>
+
+                                    </div>
+                                </td> -->
+                            </tr>
+                            <tr> <!-- *ngFor="let item of vendorList" -->
+                                <td>
+                                    3
+                                </td>
+                                <td class="text-right">
+                                    XXXXXX125
+                                </td>
+                                <td class="text-right">
+                                    03/08/2020
+                                </td>
+                                <td class="text-right">
+                                    E4000
+                                </td>
+                                <td>
+                                    Virat
+                                </td>
+                                <td>
+                                    virat@mail.com
+                                </td> 
+                                <td>
+                                    Recommended
+                                </td>   
+                                <td>
+                                    Bangalore
+                                </td>  
+                                <td class="text-right">
+                                    KA06XXXX
+                                </td>  
+                                <td>
+                                    <button class="btn btn-blue">Download</button>
+                                </td>                            
+                                <!-- <td>
+                                    <div>
+                                        <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
+                                            style="cursor: pointer;" (click)="showEditBranchModal(branch.id)"></i>
+
+                                        <i class="feather icon-trash-2" className="tooltipstext" title="Delete"
+                                            style="cursor: pointer;"
+                                            *ngIf="item.isEdit==undefined || item.isEdit==false"></i>
+
+                                    </div>
+                                </td> -->
+                            </tr>
+                            <tr> <!-- *ngFor="let item of vendorList" -->
+                                <td>
+                                    4
+                                </td>
+                                <td class="text-right">
+                                    XXXXXX126
+                                </td>
+                                <td class="text-right">
+                                    02/04/2020
+                                </td>
+                                <td class="text-right">
+                                    E4000
+                                </td>
+                                <td>
+                                    Arjuna
+                                </td>
+                                <td>
+                                    arjun@mail.com
+                                </td> 
+                                <td>
+                                    Recommended
+                                </td>   
+                                <td>
+                                    Bangalore
+                                </td>  
+                                <td class="text-right">
+                                    KA09XXXX
+                                </td>  
+                                <td>
+                                    <button class="btn btn-blue">Download</button>
+                                </td>                            
+                                <!-- <td>
+                                    <div>
+                                        <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
+                                            style="cursor: pointer;" (click)="showEditBranchModal(branch.id)"></i>
+
+                                        <i class="feather icon-trash-2" className="tooltipstext" title="Delete"
+                                            style="cursor: pointer;"
+                                            *ngIf="item.isEdit==undefined || item.isEdit==false"></i>
+
+                                    </div>
+                                </td> -->
+                            </tr>
+                            <tr> <!-- *ngFor="let item of vendorList" -->
+                                <td>
+                                    5
+                                </td>
+                                <td class="text-right">
+                                    XXXXXX127
+                                </td>
+                                <td class="text-right">
+                                    03/06/2020
+                                </td>
+                                <td class="text-right">
+                                    E5000
+                                </td>
+                                <td>
+                                    Rahul
+                                </td>
+                                <td>
+                                    rahul@mail.com
+                                </td> 
+                                <td>
+                                    Recommended
+                                </td>   
+                                <td>
+                                    Bangalore
+                                </td>  
+                                <td class="text-right">
+                                    KA19XXXX
+                                </td>  
+                                <td>
+                                    <button class="btn btn-blue">Download</button>
+                                </td>                            
+                                <!-- <td>
+                                    <div>
+                                        <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
+                                            style="cursor: pointer;" (click)="showEditBranchModal(branch.id)"></i>
+
+                                        <i class="feather icon-trash-2" className="tooltipstext" title="Delete"
+                                            style="cursor: pointer;"
+                                            *ngIf="item.isEdit==undefined || item.isEdit==false"></i>
+
+                                    </div>
+                                </td> -->
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+
+                    <div class="text-center">
+                        <button class="btn btn-blue" (click)="addInspection('createInspection')">Add Inspection</button>
+                    </div>                    
+                </div>
+            </div>
+        </app-card>
+    </div>
+</div>
