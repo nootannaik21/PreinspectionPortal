@@ -52,8 +52,8 @@ export class InspectionDetailComponent implements OnInit,OnDestroy,AfterViewInit
     this.dtTrigger.unsubscribe();
   }
 
-  addInspection(pageName:string):void{
-    this.router.navigate([`${pageName}`]);
+  addInspection(pageName){
+    this.router.navigateByUrl('inspection/createInspection');
   }
 
 }
