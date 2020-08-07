@@ -17,6 +17,21 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "lodash-es",
+              "rxjs-compat",
+              "crossvent",
+              "dragula",
+              "highcharts",
+              "angular2-chartjs",
+              "angular2-text-mask",
+              "nouislider",
+              "rxjs",
+              "apexcharts",
+              "ngx-lightbox",
+              "contra/emitter"
+            ],
             "outputPath": "dist/ng-next",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -40,7 +55,10 @@
               "node_modules/datatables.net-buttons/js/buttons.colVis.js",
               "node_modules/datatables.net-buttons/js/buttons.flash.js",
               "node_modules/datatables.net-buttons/js/buttons.html5.js",
-              "node_modules/datatables.net-buttons/js/buttons.print.js"
+              "node_modules/datatables.net-buttons/js/buttons.print.js",
+              "node_modules/datatables.net-colreorder/js/dataTables.colReorder.js",
+              "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
+              "node_modules/datatables.net-select/js/dataTables.select.js"
             ]
           },
           "configurations": {
@@ -62,8 +80,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "5mb",
-                  "maximumError": "8mb"
+                  "maximumWarning": "3mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -134,10 +152,6 @@
           }
         }
       }
-    }
-  },
-  "defaultProject": "ng-next",
-  "cli": {
-    "analytics": false
-  }
+    }},
+  "defaultProject": "ng-next"
 }

@@ -1,49 +1,99 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './theme/layout/admin/admin.component';
-import { AddUserComponent } from './user/add-user/add-user.component';
-import { AuthComponent } from './theme/layout/auth/auth.component';
+import {CoreChartModule} from './demo/pages/core-chart/core-chart.module';
+import {AuthComponent} from './theme/layout/auth/auth.component';
 
 const routes: Routes = [
   {
-    path:'',
-    children:[
-      {
-    path: '',
-    component: AuthComponent,
-    loadChildren: () => import('./authentication/authentication.module').then(module => module.AuthenticationModule)
-}
-]
-  },
-  {
     path: '',
     component: AdminComponent,
-    // canActivate:AuthGuard
     children: [
       {
         path: '',
-        redirectTo: 'user',
+        redirectTo: 'users',
         pathMatch: 'full'
       },
       {
-        path: 'user',
-        loadChildren: () => import('./user/user.module').then(module => module.UserModule)
+        path: 'users',
+        loadChildren: () => import('./users/users.module').then(module => module.UsersModule)
       },
       {
-        path: 'inspection',
-        loadChildren: () => import('./inspection/inspection.module').then(module => module.InspectionModule)
+        path: 'layout',
+        loadChildren: () => import('./demo/pages/layout/layout.module').then(module => module.LayoutModule)
       },
       {
-        path: 'enquiry',
-        loadChildren: () => import('./enquiry/enquiry.module').then(module => module.EnquiryModule)
+        path: 'widget',
+        loadChildren: () => import('./demo/widget/widget.module').then(module => module.WidgetModule)
       },
       {
-        path: 'vendor',
-        loadChildren: () => import('./vendor/vendor.module').then(module => module.VendorModule)
+        path: 'users',
+        loadChildren: () => import('./demo/users/users.module').then(module => module.UsersModule)
       },
       {
-        path: 'branch',
-        loadChildren: () => import('./branch/branch.module').then(module => module.BranchModule)
+        path: 'basic',
+        loadChildren: () => import('./demo/ui-elements/ui-basic/ui-basic.module').then(module => module.UiBasicModule)
+      },
+      {
+        path: 'advance',
+        loadChildren: () => import('./demo/ui-elements/ui-adv/ui-adv.module').then(module => module.UiAdvModule)
+      },
+      {
+        path: 'forms',
+        loadChildren: () => import('./demo/pages/form-elements/form-elements.module').then(module => module.FormElementsModule)
+      },
+      {
+        path: 'tbl-bootstrap',
+        loadChildren: () => import('./demo/pages/tables/tbl-bootstrap/tbl-bootstrap.module').then(module => module.TblBootstrapModule)
+      },
+      {
+        path: 'tbl-datatable',
+        loadChildren: () => import('./demo/pages/tables/tbl-datatable/tbl-datatable.module').then(module => module.TblDatatableModule)
+      },
+      {
+        path: 'charts',
+        loadChildren: () => import('./demo/pages/core-chart/core-chart.module').then(module => module.CoreChartModule)
+      },
+      {
+        path: 'maps',
+        loadChildren: () => import('./demo/pages/core-maps/core-maps.module').then(module => module.CoreMapsModule)
+      },
+      {
+        path: 'email',
+        loadChildren: () => import('./demo/application/email/email.module').then(module => module.EmailModule)
+      },
+      {
+        path: 'task',
+        loadChildren: () => import('./demo/application/task/task.module').then(module => module.TaskModule)
+      },
+      {
+        path: 'todo',
+        loadChildren: () => import('./demo/application/todo/todo.module').then(module => module.TodoModule)
+      },
+      {
+        path: 'gallery',
+        loadChildren: () => import('./demo/application/gallery/gallery.module').then(module => module.GalleryModule)
+      },
+      {
+        path: 'helpdesk',
+        loadChildren: () => import('./demo/application/helpdesk/helpdesk.module').then(module => module.HelpdeskModule)
+      },
+      {
+        path: 'editor',
+        loadChildren: () => import('./demo/extension/editor/editor.module').then(module => module.EditorModule)
+      },
+      {
+        path: 'invoice',
+        loadChildren: () => import('./demo/extension/invoice/invoice.module').then(module => module.InvoiceModule)
+      },
+      {
+        path: 'full-calendar',
+        loadChildren: () => import('./demo/extension/full-event-calendar/full-event-calendar.module')
+          .then(module => module.FullEventCalendarModule)
+      },
+      {
+        path: 'file-upload',
+        loadChildren: () => import('./demo/extension/files-upload/files-upload.module').then(module => module.FilesUploadModule)
       },
       {
         path: 'sample-page',
@@ -52,16 +102,20 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'login',
+    path: '',
     component: AuthComponent,
     children: [
       {
-        path: '',
-        loadChildren: () => import('./authentication/authentication.module').then(module => module.AuthenticationModule)
+        path: 'auth',
+        loadChildren: () => import('./demo/pages/authentication/authentication.module').then(module => module.AuthenticationModule)
       },
+      {
+        path: 'maintenance',
+        loadChildren: () => import('./demo/pages/maintenance/maintenance.module').then(module => module.MaintenanceModule)
+      }
     ]
-  },
-]
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

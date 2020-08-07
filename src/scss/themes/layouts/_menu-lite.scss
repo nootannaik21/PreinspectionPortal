@@ -609,7 +609,7 @@
     position: absolute;
     box-shadow: 0 1px 3px 0 rgba(54, 80, 138, 0.30);
     transition: all 0.3s ease-in-out;
-    width: $Menu-width;
+    width: 170px;
     height: calc(100% - #{$header-height});
     margin-top: $header-height;
     top: 0;
