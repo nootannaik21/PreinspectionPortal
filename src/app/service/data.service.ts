@@ -19,10 +19,10 @@ export class dataService {
     return this.apiService.put("user/editUser/"+userid,data);   
   }
   getUserById(userid) {
-    return this.apiService.get("user/getUserById?userId="+userid);   
+    return this.apiService.get("user/getActiveUserById?userId="+userid);   
   }
   getUserList() {
-    return this.apiService.get("user/getAllUser");   
+    return this.apiService.get("user/getAllActiveUsers");   
   }
   constructor(private apiService: ApiService) { }
   getBranchList() {
