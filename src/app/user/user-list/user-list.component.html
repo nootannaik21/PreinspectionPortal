@@ -9,7 +9,7 @@
                             (click)="addUser()">Add User</button>
                     </div>
                     <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
-                        class="scroll table-striped table-bordered nowrap table-hover dataTable">
+                        class="table-striped table-bordered nowrap table-hover dataTable">
                         <thead>
                             <tr>
                                 <th class="text-center">User Name</th>
@@ -38,7 +38,7 @@
                                 <td class="text-left">
                                     {{item.company}}
                                 </td>
-                                <td class="text-left">
+                                <td class="text-right">
                                     {{item.phone}}
                                 </td>
                                 <td class="text-center">
@@ -46,7 +46,7 @@
                                         <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
                                             style="cursor: pointer;" (click)="editUserRow(item)"></i>
 
-                                        <i class="feather icon-trash-2" className="tooltipstext" title="Delete"
+                                        <i class="feather icon-trash-2 pr-3" className="tooltipstext" title="Delete"
                                             style="cursor: pointer;" (click)="deleteUser(item)"></i>
 
                                     </div>
