@@ -38,6 +38,10 @@ body {
 .mb-18 {
     margin-bottom: 18mm !important;
 }
+.mb-12 {
+    margin-bottom: 12mm !important;
+}
+
 
 table thead {
     background: #ffffff;
@@ -64,6 +68,9 @@ table thead tr th:last-child {
 }
 .mb28mm {
     margin-bottom:28mm;
+}
+.mt30mm {
+    margin-top:30mm;
 }
 tr.odd td {
     border-bottom: 0px !important;
@@ -255,4 +262,10 @@ form.loginform .checkbox label {
 }
 ul.nav.pcoded-inner-navbar li a {
     font-size: 12pt;
+}
+.text-blue{
+    color: #034EA2;
+}
+.border-grey {
+    border: 1px solid #B3B4B4;
 }
