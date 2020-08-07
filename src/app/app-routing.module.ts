@@ -30,6 +30,10 @@ const routes: Routes = [
         loadChildren: () => import('./user/user.module').then(module => module.UserModule)
       },
       {
+        path: 'authentication',
+        loadChildren: () => import('./authentication/authentication.module').then(module => module.AuthenticationModule)
+      },
+      {
         path: 'inspection',
         loadChildren: () => import('./inspection/inspection.module').then(module => module.InspectionModule)
       },
