@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 
@@ -8,7 +8,7 @@ import { DataTableDirective } from 'angular-datatables';
   templateUrl: './branch-detail.component.html',
   styleUrls: ['./branch-detail.component.scss']
 })
-export class BranchDetailComponent implements OnInit,OnDestroy {
+export class BranchDetailComponent implements OnInit,OnDestroy,AfterViewInit {
 
   branchList: any=[];
   ngAfterViewInit(): void {
