@@ -1,7 +1,20 @@
 <div class="row">
+  <div class="col text-left">
+      <h3>List of Users</h3>
+  </div>
+  <div class="col text-right">
+      <button type="button" class="btn btn-dark" ngbTooltip="btn-primary"> Add User </button>
+  </div>
+</div>
+<div class="row">
+&nbsp;
+</div>
+<div class="row">
   <div class="col-sm-12">
-    <app-card cardTitle="Hello Card">
-      <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+    <app-card cardClass="card-datatable" [hidHeader]="true" [options]="false">
+      <div class="table-responsive">
+        <table datatable [dtOptions]="dtRouterLinkOptions" class="table table-striped table-bordered table-hover"></table>
+      </div>
     </app-card>
   </div>
 </div>

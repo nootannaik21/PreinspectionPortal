@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UsersComponent } from './users.component';
+import { TblSearchingComponent } from './tbl-searching.component';
 
-describe('UsersDatatableComponent', () => {
-  let component: UsersComponent;
-  let fixture: ComponentFixture<UsersComponent>;
+describe('TblSearchingComponent', () => {
+  let component: TblSearchingComponent;
+  let fixture: ComponentFixture<TblSearchingComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UsersComponent ]
+      declarations: [ TblSearchingComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UsersComponent);
+    fixture = TestBed.createComponent(TblSearchingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
