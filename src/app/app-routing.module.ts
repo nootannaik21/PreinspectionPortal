@@ -107,7 +107,7 @@ const routes: Routes = [
     children: [
       {
         path: 'auth',
-        loadChildren: () => import('./demo/pages/authentication/authentication.module').then(module => module.AuthenticationModule)
+        loadChildren: () => import('./authentication/authentication.module').then(module => module.AuthenticationModule)
       },
       {
         path: 'maintenance',
