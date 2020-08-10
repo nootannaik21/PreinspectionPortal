@@ -6,6 +6,16 @@ import {AuthComponent} from './theme/layout/auth/auth.component';
 
 const routes: Routes = [
   {
+    path:'',
+    children:[
+      {
+    path: '',
+    component: AuthComponent,
+    loadChildren: () => import('./authentication/authentication.module').then(module => module.AuthenticationModule)
+}
+]
+  },
+  {
     path: '',
     component: AdminComponent,
     children: [
@@ -33,7 +43,17 @@ const routes: Routes = [
         loadChildren: () => import('./authentication/authentication.module').then(module => module.AuthenticationModule)
       }
     ]
-  }
+  },
+  {
+    path: 'login',
+    component: AuthComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./authentication/authentication.module').then(module => module.AuthenticationModule)
+      },
+    ]
+  },
 ];
 
 @NgModule({

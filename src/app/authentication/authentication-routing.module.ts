@@ -6,7 +6,7 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: 'signin',
+        path: '',
         loadChildren: () => import('./auth-signin/auth-signin.module').then(module => module.AuthSigninModule)
       },
       {

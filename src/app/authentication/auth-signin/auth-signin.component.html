@@ -15,15 +15,18 @@
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="feather icon-mail"></i></span>
           </div>
-          <input type="email" class="form-control" placeholder="Email address">
+          <input type="email" class="form-control" placeholder="Email address" name="email" [(ngModel)]="user.email">
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="feather icon-lock"></i></span>
           </div>
-          <input type="password" class="form-control" placeholder="Password">
+          <input type="password" class="form-control" placeholder="Password" name="password" [(ngModel)]="user.password">
         </div>
-        <button class="btn btn-block btn-primary mb-0">Signin</button>
+        <div class="alert alert-danger" *ngIf="isError">
+          <strong>Invalid Credentials.!</strong>
+        </div>
+        <button class="btn btn-block btn-primary mb-0"(click)="onSubmit()">Signin</button>
         <div class="text-center">
           <p class="mb-2">Forgot password? <a [routerLink]="['/auth/reset-password']">Reset</a></p>
         </div>
