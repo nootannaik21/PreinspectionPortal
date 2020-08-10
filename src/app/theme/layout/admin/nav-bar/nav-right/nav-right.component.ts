@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
+import { PreinspectionService } from 'src/app/service/preinspection.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-right',
@@ -9,7 +11,14 @@ import {NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
 })
 export class NavRightComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router:Router, private preInspectionService:PreinspectionService) { }
 
   ngOnInit() { }
+  logOutUser() {
+    this.preInspectionService.removeCurrentUser();
+    this.router.navigateByUrl("/login");
+  }
+  changePassword(){
+    this.router.navigateByUrl("/change-password");
+  }
 }
