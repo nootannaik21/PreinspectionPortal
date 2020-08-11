@@ -36,6 +36,10 @@ const routes: Routes = [
       {
         path: 'branch',
         loadChildren: () => import('./branch/branch.module').then(module => module.BranchModule)
+        },
+        {
+        path: 'vendor',
+        loadChildren: () => import('./vendor/vendor.module').then(module => module.VendorModule)
       },
     ]
   },
