@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 export interface NavigationItem {
   id: string;
@@ -19,6 +19,7 @@ export interface NavigationItem {
     type?: string;
   };
   children?: Navigation[];
+  accessrole?: string
 }
 
 export interface Navigation extends NavigationItem {
@@ -32,7 +33,8 @@ const NavigationItems = [
     type: 'item',
     url: '/users',
     classes: 'nav-item',
-    icon: 'feather icon-users'
+    icon: 'feather icon-users',
+    accessrole:'Admin'
   },
   {
     id: 'inspection',
@@ -40,7 +42,8 @@ const NavigationItems = [
     type: 'item',
     url: '/inspection',
     classes: 'nav-item',
-    icon: 'feather icon-eye'
+    icon: 'feather icon-eye',
+    accessrole:'Admin|ABS|IMD|Branch'
   },
   {
     id: 'enquiry',
@@ -48,7 +51,8 @@ const NavigationItems = [
     type: 'item',
     url: '/enquiry',
     classes: 'nav-item',
-    icon: 'feather icon-repeat'
+    icon: 'feather icon-repeat',
+    accessrole:'Admin|ABS|Branch|IMD|Claims'
   },
   {
     id: 'vendor',
@@ -56,7 +60,8 @@ const NavigationItems = [
     type: 'item',
     url: '/vendor',
     classes: 'nav-item',
-    icon: 'feather icon-sidebar'
+    icon: 'feather icon-sidebar',
+    accessrole:'Admin|Vendor'
   },
   {
     id: 'branch',
@@ -64,7 +69,8 @@ const NavigationItems = [
     type: 'item',
     url: '/branch',
     classes: 'nav-item',
-    icon: 'feather icon-menu'
+    icon: 'feather icon-menu',
+    accessrole:'Admin|Branch'
   },
   {
     id: 'report',
@@ -72,7 +78,8 @@ const NavigationItems = [
     type: 'item',
     url: '/report',
     classes: 'nav-item',
-    icon: 'feather icon-book'
+    icon: 'feather icon-book',
+    accessrole:'Admin|Claims|Vendor|Claims'
   }
 ];
 
