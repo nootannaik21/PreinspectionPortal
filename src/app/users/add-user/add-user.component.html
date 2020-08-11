@@ -7,102 +7,39 @@
         <div class="col-md-6">
           <form action="javascript:">
             <div class="form-group">
-              <label for="exampleInputEmail1">First Name</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                placeholder="First Name" name="firstName" [(ngModel)]="userdata.firstName"  [ngModelOptions]="{standalone: true}">
-              <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="form-group">
-              <label>Company Name</label>
-              <input type="text" class="form-control" placeholder="Company Name" name="company" [(ngModel)]="userdata.company"  [ngModelOptions]="{standalone: true}">
-              <!-- <small id="emailHelp" class="form-text text-muted">&nbsp;</small> -->
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
             </div>
           </form>
         </div>
         <div class="col-md-6">
           <form action="javascript:">
             <div class="form-group">
-              <label for="exampleInputPassword1">Last Name</label>
-              <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Last Name"  [ngModelOptions]="{standalone: true}"
-                name="lastName" [(ngModel)]="userdata.lastName">
-            </div>
-           
-            <div class="form-group">
-              <label>Email</label>
-              <input type="email" class="form-control" placeholder="Email" name="email" [(ngModel)]="userdata.email"  [ngModelOptions]="{standalone: true}">
-              <!-- <small id="emailHelp" class="form-text text-muted">&nbsp;</small> -->
-            </div>
-          </form>
-        </div>
-        <div class="col-md-6">
-          <form action="javascript:">
-            <div class="form-group">
-              <label>User Name</label>
-              <input type="text" class="form-control" placeholder="User Name" name="username"  [ngModelOptions]="{standalone: true}"
-                [(ngModel)]="userdata.username">
-              <!-- <small id="emailHelp" class="form-text text-muted">&nbsp;</small> -->
+              <label>Text</label>
+              <input type="text" class="form-control" placeholder="Text">
+              <small id="emailHelp" class="form-text text-muted">&nbsp;</small>
             </div>
             <div class="form-group">
-              <label>Password</label>
-              <input type="password" class="form-control" placeholder="Password" name="password"  [ngModelOptions]="{standalone: true}"
-                [(ngModel)]="userdata.password">
-              <!-- <small id="emailHelp" class="form-text text-muted">&nbsp;</small> -->
-            </div>
-          </form>
-        </div>
-        <div class="col-md-6">
-          <form action="javascript:">
-            <div class="form-group">
-              <label>Vendor ID</label>
-              <input type="text" class="form-control" placeholder="Vendor ID" name="vendorid"  [ngModelOptions]="{standalone: true}"
-                [(ngModel)]="userdata.vendorid">
-              <!-- <small id="emailHelp" class="form-text text-muted">&nbsp;</small> -->
-            </div>
-            <div class="form-group">
-              <label>Confirm Password</label>
-              <input type="password" class="form-control" name="confPassword" [(ngModel)]="userdata.confPassword"  [ngModelOptions]="{standalone: true}">
-              <!-- <small id="emailHelp" class="form-text text-muted">&nbsp;</small> -->
-            </div>
-          </form>
-        </div>
-        <div class="col-md-6">
-          <form action="javascript:">
-            <div class="form-group">
-              <label>Phone</label>
-              <input type="text" class="form-control" placeholder="Phone Number" name="phone"  [ngModelOptions]="{standalone: true}"
-                [(ngModel)]="userdata.phone">
-              <!-- <small id="emailHelp" class="form-text text-muted">&nbsp;</small> -->
-            </div>
-            <div class="form-group">
-              <label>Address</label>
-              <input type="text" class="form-control" placeholder="Address" name="address"  [ngModelOptions]="{standalone: true}"
-                [(ngModel)]="userdata.address">
-            </div>
-          </form>
-        </div>
-        <div class="col-md-6">
-          <form action="javascript:">
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">User Type</label>
-              <select class="form-control" name="type" [(ngModel)]="userdata.type"  [ngModelOptions]="{standalone: true}">
-                <option value="ABS">ABS</option>
-                <option value="ABC">ABC</option>
-                <option value="DEF">DEF</option>
+              <label for="exampleFormControlSelect1">Example select</label>
+              <select class="form-control" id="exampleFormControlSelect1">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
               </select>
-            </div>
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Branch Code</label>
-              <ng-multiselect-dropdown  [placeholder]="'Select Branches'" [settings]="dropdownSettings" [data]="branches"
-                [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"  [ngModelOptions]="{standalone: true}">
-              </ng-multiselect-dropdown>
             </div>
           </form>
         </div>
       </div>
       <div class="row text-right">
         <div class="col-12">
-          <button type="submit" class="btn btn-primary" *ngIf="userdata.id==undefined" (click)="addUser(userdata)">Submit</button>
-          <button type="submit" class="btn btn-primary" *ngIf="userdata.id!=undefined" (click)="updateUser(userdata)">Update</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </div>
     </app-card>
