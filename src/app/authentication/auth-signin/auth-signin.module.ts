@@ -5,13 +5,12 @@ import { AuthSigninRoutingModule } from './auth-signin-routing.module';
 import { AuthSigninComponent } from './auth-signin.component';
 import { FormsModule } from '@angular/forms';
 
-
 @NgModule({
+  declarations: [AuthSigninComponent],
   imports: [
     FormsModule,
     CommonModule,
     AuthSigninRoutingModule
-  ],
-  declarations: [AuthSigninComponent]
+  ]
 })
 export class AuthSigninModule { }

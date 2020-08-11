@@ -2,12 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BranchRoutingModule } from './branch-routing.module';
-import { BranchDetailComponent } from './branch-detail/branch-detail.component';
+import { BranchlistComponent } from './branchlist/branchlist.component';
+import { DataTablesModule } from 'angular-datatables';
+import { FormsModule } from '@angular/forms';
+import { SharedModule } from '../theme/shared/shared.module';
 
 
 @NgModule({
-  declarations: [BranchDetailComponent],
+  declarations: [BranchlistComponent],
   imports: [
+    DataTablesModule,
+    FormsModule,
+    SharedModule,
     CommonModule,
     BranchRoutingModule
   ]

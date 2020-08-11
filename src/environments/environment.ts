@@ -3,8 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: true,
-  baseApiUrl:"https://dev-api.preinspection-portal.forthedemo.com/api/"
+  production: false,
+  baseApiUrl:"https://dev-api.preinspection-portal.forthedemo.com/api/",
+  name:"Development"
 };
 
 /*

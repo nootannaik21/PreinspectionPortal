@@ -6,6 +6,22 @@ import { ApiService } from './api.service';
 })
 
 export class dataService {
+  changePassword(changePwd) {
+    return this.apiService.put("user/changePassword?userId="+changePwd.userId+"&oldPassword="+changePwd.oldPassword+"&newPassword="+changePwd.newPassword,null);   
+  }
+  resetPassword(resetPwd: any) {
+    return this.apiService.post("user/reset-password?userId="+resetPwd.userId+"&newPassword="+resetPwd.newPassword,null);   
+  }
+  addUser(userdata: any) {
+    return this.apiService.post("user/addUser", userdata);   
+  }
+  updateUser(userid) {
+    return this.apiService.put("user/editUser?id="+userid,null);   
+  }
+  getUserById(userid) {
+    return this.apiService.get("user/getUserById?userId="+userid);   
+  }
+ 
   getUserList() {
     return this.apiService.get("user/getAllUser");   
   }

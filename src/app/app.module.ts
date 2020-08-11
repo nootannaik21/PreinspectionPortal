@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './theme/shared/shared.module';
+
 import { AppComponent } from './app.component';
 import { AdminComponent } from './theme/layout/admin/admin.component';
 import { AuthComponent } from './theme/layout/auth/auth.component';
@@ -14,13 +15,15 @@ import { NavCollapseComponent } from './theme/layout/admin/navigation/nav-conten
 import { NavItemComponent } from './theme/layout/admin/navigation/nav-content/nav-item/nav-item.component';
 import { NavBarComponent } from './theme/layout/admin/nav-bar/nav-bar.component';
 import { NavLeftComponent } from './theme/layout/admin/nav-bar/nav-left/nav-left.component';
-import { NavSearchComponent } from './theme/layout/admin/nav-bar/nav-left/nav-search/nav-search.component';
+import { NavTitleComponent } from './theme/layout/admin/nav-bar/nav-left/nav-title/nav-title.component';
 import { NavRightComponent } from './theme/layout/admin/nav-bar/nav-right/nav-right.component';
 import { ConfigurationComponent } from './theme/layout/admin/configuration/configuration.component';
+
 /* Menu Items */
 import { NavigationItem } from './theme/layout/admin/navigation/navigation';
 import { NgbButtonsModule, NgbDropdownModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
+import { AddbranchComponent } from './branch/addbranch/addbranch.component';
 
 @NgModule({
   declarations: [
@@ -33,13 +36,13 @@ import { HttpClientModule } from '@angular/common/http';
     NavCollapseComponent,
     NavItemComponent,
     NavBarComponent,
+    NavTitleComponent,
     NavLeftComponent,
-    NavSearchComponent,
     NavRightComponent,
-    ConfigurationComponent
+    ConfigurationComponent,
+    AddbranchComponent,
   ],
   imports: [
-    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -47,7 +50,8 @@ import { HttpClientModule } from '@angular/common/http';
     NgbDropdownModule,
     NgbTooltipModule,
     NgbButtonsModule,
-    NgbTabsetModule
+    NgbTabsetModule,
+    HttpClientModule
   ],
   providers: [NavigationItem],
   bootstrap: [AppComponent]

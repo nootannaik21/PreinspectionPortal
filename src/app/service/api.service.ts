@@ -67,7 +67,6 @@ export class ApiService {
   }
 
   singIn(relativeUrl: string, resource: any) {
-    debugger;
     return this.http.post(this.baseApiUrl + relativeUrl, resource)
   }
   post(relativeUrl: string, resource: any) {

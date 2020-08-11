@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './theme/layout/admin/admin.component';
-import { AddUserComponent } from './user/add-user/add-user.component';
-import { AuthComponent } from './theme/layout/auth/auth.component';
+import {CoreChartModule} from './demo/pages/core-chart/core-chart.module';
+import {AuthComponent} from './theme/layout/auth/auth.component';
+import { BranchlistComponent } from './branch/branchlist/branchlist.component';
 
 const routes: Routes = [
   {
@@ -18,36 +19,33 @@ const routes: Routes = [
   {
     path: '',
     component: AdminComponent,
-    // canActivate:AuthGuard
     children: [
       {
         path: '',
-        redirectTo: 'user',
+        redirectTo: 'users',
         pathMatch: 'full'
       },
       {
-        path: 'user',
-        loadChildren: () => import('./user/user.module').then(module => module.UserModule)
+        path: 'users',
+        loadChildren: () => import('./users/users.module').then(module => module.UsersModule)
       },
       {
-        path: 'inspection',
-        loadChildren: () => import('./inspection/inspection.module').then(module => module.InspectionModule)
-      },
-      {
-        path: 'enquiry',
-        loadChildren: () => import('./enquiry/enquiry.module').then(module => module.EnquiryModule)
-      },
-      {
-        path: 'vendor',
-        loadChildren: () => import('./vendor/vendor.module').then(module => module.VendorModule)
+        path: 'users/add-user',
+        loadChildren: () => import('./users/add-user/add-user.module').then(module => module.AddUserModule)
       },
       {
         path: 'branch',
         loadChildren: () => import('./branch/branch.module').then(module => module.BranchModule)
       },
+    ]
+  },
+  {
+    path: '',
+    component: AuthComponent,
+    children: [
       {
-        path: 'sample-page',
-        loadChildren: () => import('./demo/pages/sample-page/sample-page.module').then(module => module.SamplePageModule)
+        path: 'auth',
+        loadChildren: () => import('./authentication/authentication.module').then(module => module.AuthenticationModule)
       }
     ]
   },
@@ -61,7 +59,7 @@ const routes: Routes = [
       },
     ]
   },
-]
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

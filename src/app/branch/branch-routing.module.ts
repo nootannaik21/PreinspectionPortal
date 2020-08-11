@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BranchDetailComponent } from './branch-detail/branch-detail.component';
-
+import { BranchlistComponent } from './branchlist/branchlist.component';
+import { AddUserComponent } from '../users/add-user/add-user.component';
+import { AddbranchComponent } from './addbranch/addbranch.component';
 
 const routes: Routes = [
   {
-    path:'',
-    component:BranchDetailComponent
+    path: '',
+    component: BranchlistComponent
+  },
+  {
+    path: 'addBranch',
+    component: AddbranchComponent
   }
 ];
 

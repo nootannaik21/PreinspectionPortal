@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PreinspectionService } from 'src/app/service/preinspection.service';
 import { AuthService } from 'src/app/service/auth.service';
+import { PreinspectionService } from 'src/app/service/preinspection.service';
 import { ApiService } from 'src/app/service/api.service';
 
 @Component({
@@ -10,23 +10,19 @@ import { ApiService } from 'src/app/service/api.service';
   styleUrls: ['./auth-signin.component.scss']
 })
 export class AuthSigninComponent implements OnInit {
-  user: any = {};
-  param: any = {};
+  user : any= {};
   isError: boolean;
-  submitLoader: boolean;
 
-
-  constructor(private router: Router, private authservice: AuthService,private preInspection:PreinspectionService, private apiService:ApiService) { }
+  constructor(private router:Router, private authservice: AuthService, private preInspection: PreinspectionService) { }
 
   ngOnInit() {
   }
-  onSubmitLoader() {
+  onSubmit() {
     this.authservice.login(this.user).subscribe((data) => {
       var res: any = data;
-      this.submitLoader = false;
       if (res.result == "success") {
         this.preInspection.setInspnectioUser(res);        
-          this.router.navigateByUrl('user');
+          this.router.navigateByUrl('users');
       }
       else {
         // this.router.navigateByUrl('errorpage');
@@ -35,7 +31,6 @@ export class AuthSigninComponent implements OnInit {
       // this.router.navigateByUrl('errorpage');
       this.isError=true;
       this.user = {};
-      this.submitLoader = false;
     })
   }
 }

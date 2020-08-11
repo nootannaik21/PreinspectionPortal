@@ -30,9 +30,9 @@ const NavigationItems = [
     id: 'users',
     title: 'Users',
     type: 'item',
-    url: '/user',
+    url: '/users',
     classes: 'nav-item',
-    icon: 'feather icon-users',
+    icon: 'feather icon-users'
   },
   {
     id: 'inspection',
@@ -40,40 +40,40 @@ const NavigationItems = [
     type: 'item',
     url: '/inspection',
     classes: 'nav-item',
-    icon: 'feather icon-eye',
+    icon: 'feather icon-eye'
   },
-      {
-        id: 'enquiry',
-        title: 'Enquiry',
-        type: 'item',
-        url: '/enquiry',
-        classes: 'nav-item',
-        icon: 'feather icon-repeat'
-      },
-      
-      {
-        id: 'vendorManagement',
-        title: 'Vendor',
-        type: 'item',
-        url: '/vendor',
-        classes: 'nav-item',
-        icon: 'feather icon-sidebar'
-      },
-      {
-        id: 'branch',
-        title: 'Branch',
-        type: 'item',
-        icon: 'feather icon-menu',
-        url: '/branch',
-      },
-      {
-        id: 'report',
-        title: 'Report',
-        type: 'item',
-        url: '/sample-page',
-        classes: 'nav-item',
-        icon: 'feather icon-book'
-      },
+  {
+    id: 'enquiry',
+    title: 'Enquiry',
+    type: 'item',
+    url: '/enquiry',
+    classes: 'nav-item',
+    icon: 'feather icon-repeat'
+  },
+  {
+    id: 'vendor',
+    title: 'Vendor',
+    type: 'item',
+    url: '/vendor',
+    classes: 'nav-item',
+    icon: 'feather icon-sidebar'
+  },
+  {
+    id: 'branch',
+    title: 'Branch',
+    type: 'item',
+    url: '/branch',
+    classes: 'nav-item',
+    icon: 'feather icon-menu'
+  },
+  {
+    id: 'report',
+    title: 'Report',
+    type: 'item',
+    url: '/report',
+    classes: 'nav-item',
+    icon: 'feather icon-book'
+  }
 ];
 
 @Injectable()
