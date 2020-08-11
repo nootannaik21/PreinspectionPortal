@@ -23,6 +23,7 @@ import { ConfigurationComponent } from './theme/layout/admin/configuration/confi
 import { NavigationItem } from './theme/layout/admin/navigation/navigation';
 import { NgbButtonsModule, NgbDropdownModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
+import { AddbranchComponent } from './branch/addbranch/addbranch.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { HttpClientModule } from '@angular/common/http';
     NavTitleComponent,
     NavLeftComponent,
     NavRightComponent,
-    ConfigurationComponent
+    ConfigurationComponent,
+    AddbranchComponent,
   ],
   imports: [
     BrowserModule,

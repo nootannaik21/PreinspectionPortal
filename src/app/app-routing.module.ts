@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './theme/layout/admin/admin.component';
 import {CoreChartModule} from './demo/pages/core-chart/core-chart.module';
 import {AuthComponent} from './theme/layout/auth/auth.component';
+import { BranchlistComponent } from './branch/branchlist/branchlist.component';
 
 const routes: Routes = [
   {
@@ -33,9 +34,9 @@ const routes: Routes = [
         loadChildren: () => import('./users/add-user/add-user.module').then(module => module.AddUserModule)
       },
       {
-        path: 'vendor',
-        loadChildren: () => import('./vendor/vendor.module').then(module => module.VendorModule)
-      }
+        path: 'branch',
+        loadChildren: () => import('./branch/branch.module').then(module => module.BranchModule)
+      },
     ]
   },
   {
