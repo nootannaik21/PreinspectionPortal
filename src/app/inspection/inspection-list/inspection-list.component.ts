@@ -33,6 +33,7 @@ export class InspectionListComponent implements OnInit, OnDestroy, AfterViewInit
       data =>{
         var res:any=data;
         this.inspectionList=res.data;
+        this.rerender();
       },
       err =>{
 
