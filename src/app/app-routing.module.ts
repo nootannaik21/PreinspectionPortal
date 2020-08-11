@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './theme/layout/admin/admin.component';
-import {CoreChartModule} from './demo/pages/core-chart/core-chart.module';
-import {AuthComponent} from './theme/layout/auth/auth.component';
+import { CoreChartModule } from './demo/pages/core-chart/core-chart.module';
+import { AuthComponent } from './theme/layout/auth/auth.component';
 import { BranchlistComponent } from './branch/branchlist/branchlist.component';
 
 const routes: Routes = [
   {
-    path:'',
-    children:[
-      {
     path: '',
-    component: AuthComponent,
-    loadChildren: () => import('./authentication/authentication.module').then(module => module.AuthenticationModule)
-}
-]
+    children: [
+      {
+        path: '',
+        component: AuthComponent,
+        loadChildren: () => import('./authentication/authentication.module').then(module => module.AuthenticationModule)
+      }
+    ]
   },
   {
     path: '',
@@ -36,8 +36,8 @@ const routes: Routes = [
       {
         path: 'branch',
         loadChildren: () => import('./branch/branch.module').then(module => module.BranchModule)
-        },
-        {
+      },
+      {
         path: 'vendor',
         loadChildren: () => import('./vendor/vendor.module').then(module => module.VendorModule)
       },
