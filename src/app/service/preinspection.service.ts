@@ -8,9 +8,9 @@ export class PreinspectionService {
 	redirectUrl: any;
   constructor() { }
   setInspnectioUser(data) {
-    localStorage.setItem('currentJcmsUser', JSON.stringify(data));
+    localStorage.setItem('currentUser', JSON.stringify(data));
   }
   removeCurrentUser() {
-    localStorage.removeItem('currentJcmsUser');
+    localStorage.removeItem('currentUser');
   }
 }
