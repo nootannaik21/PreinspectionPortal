@@ -13,7 +13,7 @@ export class userService {
 
 
   // jwtHelper: JwtHelper = new JwtHelper();
-  jcmsUserPermissions: any;
+  // jcmsUserPermissions: any;
   constructor() { }
   setCurrentLoggedUser(data) {
     localStorage.setItem('currentUser', JSON.stringify(data));
