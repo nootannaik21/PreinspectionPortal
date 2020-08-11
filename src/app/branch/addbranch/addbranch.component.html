@@ -1,1 +1,46 @@
-<p>addbranch works!</p>
+<div class="row">
+    <div class="col-sm-12">
+      <app-card [hidHeader]="true" [options]="false">
+        <h4>Add Branch</h4>
+        <hr>
+        <div class="row">
+          <div class="col-md-6">
+            <form action="javascript:">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Branch Code</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                  placeholder="Branch Code" name="branchCode" [(ngModel)]="branchdata.branchCode"  [ngModelOptions]="{standalone: true}">
+                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+              </div>
+              <div class="form-group">
+                <label>Branch Name</label>
+                <input type="text" class="form-control" placeholder="Branch Name" name="branchName" [(ngModel)]="branchdata.branchName"  [ngModelOptions]="{standalone: true}">
+                <!-- <small id="emailHelp" class="form-text text-muted">&nbsp;</small> -->
+              </div>
+            </form>
+          </div>
+          <div class="col-md-6">
+            <form action="javascript:">
+              <!-- <div class="form-group">
+                <label for="exampleInputPassword1">Last Name</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Last Name"  [ngModelOptions]="{standalone: true}"
+                  name="lastName" [(ngModel)]="branchdata.lastName">
+              </div> -->
+             
+              <div class="form-group">
+                <label>Zone</label>
+                <input type="email" class="form-control" placeholder="Zone" name="zone" [(ngModel)]="branchdata.zone"  [ngModelOptions]="{standalone: true}">
+                <!-- <small id="emailHelp" class="form-text text-muted">&nbsp;</small> -->
+              </div>
+            </form>
+          </div>        
+        </div>
+        <div class="row text-right">
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary" *ngIf="branchdata.id==undefined" (click)="addBranch(branchdata)">Submit</button>
+            <button type="submit" class="btn btn-primary" *ngIf="branchdata.id!=undefined" (click)="updateBranch(branchdata)">Update</button>
+          </div>
+        </div>
+      </app-card>
+    </div>
+  </div>
