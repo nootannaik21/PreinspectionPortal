@@ -1,50 +1,88 @@
-import {Component, OnInit} from '@angular/core';
-
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserapiserviceService } from '../service/userapiservice.service'
+import { Subject } from 'rxjs';
+import { DataTableDirective } from 'angular-datatables';
+import { AlertService } from '../service/alert.service';
 @Component({
   selector: 'app-tbl-datatable',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
-  dtRouterLinkOptions: any = {};
+export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
+  userList: any = [];
+  ngAfterViewInit(): void {
+    this.userList = [];
+    this.rerender();
+  }
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: any = new Subject();
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement: DataTableDirective;
+  isDtInitialized: boolean = false;
 
-  constructor() { }
+  constructor(private router: Router, private userapiService: UserapiserviceService, private alertService:AlertService) { }
 
   ngOnInit() {
-    this.dtRouterLinkOptions = {
-      ajax: 'fake-data/datatable-data.json',
-      columns: [{
-        title: 'Username',
-        data: 'name'
-      }, {
-        title: 'First Name',
-        data: 'position'
-      }, {
-        title: 'Last Name',
-        data: 'office'
-      }, {
-        title: 'Email ID',
-        data: 'age'
-      }, {
-        title: 'Company',
-        data: 'date'
-      }, {
-        title: 'Phone Number',
-        data: 'salary'
-      }, {
-        title: 'Action',
-        render: function (data: any, type: any, full: any) {
-          return '<i _ngcontent-fuw-c94="" classname="tooltipstext" title="Edit User" class="feather icon-edit pr-3" style="cursor: pointer;"></i> &nbsp; <i _ngcontent-fuw-c94="" classname="tooltipstext" title="Delete User" class="feather icon-trash-2 pr-3" style="cursor: pointer;"></i>';
-        }
-      }],
-      dom: 'Bfrtip',
-      buttons: [
-        'print',
-        'excel',
-        'csv'
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'All'],
       ],
-      responsive: true,
+      pageLength: 10,
     };
-  }
+    this.getUSerList();
 
+  }
+  getUSerList() {
+    debugger
+    this.userapiService.getUserList().subscribe(
+      data => {
+        debugger
+        this.userList = data;
+        this.rerender();
+      },
+      err => {
+
+      }
+    )
+  }
+  editUserRow(item) {
+    debugger;
+    localStorage.setItem('userid', item.id);
+    this.router.navigateByUrl('users/addUser');
+  }
+  deleteUser(item) {
+    debugger;
+    this.userapiService.deleteUser(item.id).subscribe(
+      data => {
+        debugger
+        var res :any =data;
+        this.alertService.successAlert("Success",res.message);
+        this.getUSerList();
+      },
+      err => {
+        this.alertService.errorAlert("Oops!","User Not Deleted");
+       }
+    )
+  }
+  rerender(): void {
+    if (this.isDtInitialized) {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    } else {
+      this.isDtInitialized = true;
+      this.dtTrigger.next();
+    }
+  }
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
+  }
+  gotoAddUserScreen(){
+      localStorage.removeItem('userid')
+      this.router.navigateByUrl('users/addUser');
+    }
 }
