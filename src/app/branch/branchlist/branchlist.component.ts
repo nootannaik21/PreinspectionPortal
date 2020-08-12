@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { BranchServiceService } from '../../service/branch-service.service'
 import { AlertService } from 'src/app/service/alert.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class BranchlistComponent implements OnInit, OnDestroy, AfterViewInit {
   dtElement: DataTableDirective;
   isDtInitialized: boolean = false;
 
-  constructor(private branchService:BranchServiceService,private alertService:AlertService) { }
+  constructor(private router:Router, private branchService:BranchServiceService,private alertService:AlertService) { }
 
   ngOnInit() {
     this.dtOptions = {
@@ -49,7 +50,9 @@ export class BranchlistComponent implements OnInit, OnDestroy, AfterViewInit {
     
   }
   editBranchRow(item){
-
+    debugger;
+    localStorage.setItem('branchid', item.id);
+    this.router.navigateByUrl('branch/addBranch');
   }
   deleteBranch(item){
     this.branchService.deleteBranch(item.id).subscribe(
@@ -65,7 +68,7 @@ export class BranchlistComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   gotoAddBranchScreen(){
-
+    this.router.navigateByUrl('branch/addBranch');
   }
   rerender(): void {
     if (this.isDtInitialized) {

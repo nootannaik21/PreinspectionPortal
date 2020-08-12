@@ -28,14 +28,27 @@ export class userService {
     else
       return JSON.parse(data);
   }
-
-  getUserPermissions() {
-    let currentUser = localStorage.getItem('');
+  getUserType() {
+    debugger;
+    let currentUser = localStorage.getItem('currentUser');
     if (currentUser) {
       var token = JSON.parse(currentUser);
       const helper = new JwtHelperService();
 
-      return helper.decodeToken(token.data);
+      let data = helper.decodeToken(token.accessToken);
+      return data.type ? data.type : null;
+    }
+    else {
+      return null;
+    }
+  }
+  getUserPermissions() {
+    let currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+      var token = JSON.parse(currentUser);
+      const helper = new JwtHelperService();
+
+      return helper.decodeToken(token.accessToken);
       // const expirationDate = helper.getTokenExpirationDate(myRawToken);
       // const isExpired = helper.isTokenExpired(myRawToken);
 
