@@ -12,7 +12,7 @@ export class UserapiserviceService {
   updateUser(userid,data) {
     return this.apiService.put("user/editUser/"+userid,data);   
   }
-  addUser(userdata: any) {
+  addUser(userdata) {
     return this.apiService.post("user/addUser", userdata);   
   }
   getUserById(userid) {

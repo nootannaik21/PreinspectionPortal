@@ -36,10 +36,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   getUSerList() {
-    debugger
     this.userapiService.getUserList().subscribe(
       data => {
-        debugger
         this.userList = data;
         this.rerender();
       },
@@ -49,15 +47,12 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     )
   }
   editUserRow(item) {
-    debugger;
     localStorage.setItem('userid', item.id);
     this.router.navigateByUrl('users/addUser');
   }
   deleteUser(item) {
-    debugger;
     this.userapiService.deleteUser(item.id).subscribe(
       data => {
-        debugger
         var res :any =data;
         this.alertService.successAlert("Success",res.message);
         this.getUSerList();
