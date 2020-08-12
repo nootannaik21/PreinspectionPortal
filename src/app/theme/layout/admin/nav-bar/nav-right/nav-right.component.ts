@@ -17,6 +17,7 @@ export class NavRightComponent implements OnInit {
   logOutUser() {
     this.preInspectionService.removeCurrentUser();
     this.router.navigateByUrl("/login");
+    localStorage.clear();
   }
   changePassword(){
     this.router.navigateByUrl("/change-password");

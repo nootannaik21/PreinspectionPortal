@@ -23,10 +23,51 @@ export class AddUserComponent implements OnInit {
   constructor(private router: Router, private alertService: AlertService, private userapiService: UserapiserviceService) { }
 
   ngOnInit() {
-    debugger;
+    if (localStorage.getItem('userid')) {
+      var temp: any = {};
+      this.userapiService.getUserById(localStorage.getItem('userid')).subscribe(
+        data => {
+          var user: any = data;
+          this.userdata = Object.assign(data);
+          this.userdata.confPassword=this.userdata.password;
+          let tmp = [];
+          this.userapiService.getBranches().subscribe(
+            branches => {
+              var res: any = branches;
+              this.branches = res.data;
+              for (let i = 0; i < user.branchlist.split(',').length; i++) {
+                var branch = this.branches.filter(x => x.id == user.branchlist.split(',')[i])
+                var branchid: number = +branch[0].id;
+                tmp.push({ id: branchid, branchCode: branch[0].branchCode });
+                this.selectedItems = tmp;
+              }
+              this.dropdownSettings = {
+                singleSelection: false,
+                idField: 'id',
+                textField: 'branchCode',
+                selectAllText: 'Select All',
+                unSelectAllText: 'UnSelect All',
+                itemsShowLimit: 3,
+              };
+            },
+            err => {
+            }
+          )
+        },
+        err => { }
+      )
+    }
+    else {
+      this.getAllBranches();
+    }
+    // else {
+    //   this.userdata = {};
+    // }
+
+  }
+  getAllBranches() {
     this.userapiService.getBranches().subscribe(
       data => {
-        debugger
         var res: any = data;
         this.branches = res.data;
         this.dropdownSettings = {
@@ -36,109 +77,73 @@ export class AddUserComponent implements OnInit {
           selectAllText: 'Select All',
           unSelectAllText: 'UnSelect All',
           itemsShowLimit: 3,
-          // allowSearchFilter: true
         };
       },
       err => {
       }
     )
-
-
-    if (localStorage.getItem('userid')) {
-      debugger
-      this.userapiService.getUserById(localStorage.getItem('userid')).subscribe(
-        data => {
-          var res: any = data;
-          let tmp = [];
-          this.userdata = Object.assign(data);
-          for (let i = 0; i < res.branchlist.split(',').length; i++) {
-            this.userapiService.getbranchlistbyid(res.branchlist.split(',')[i]).subscribe(
-              data => {
-                tmp.push({ id: res.branchlist.split(',')[i], branchCode: data[i].branchCode });
-                debugger
-                // this.branches = tmp;
-                  this.selectedItems = [
-                    { id: res.branchlist.split(',')[i], branchCode: data[i].branchCode },
-                  ];
-                  console.log(this.selectedItems);
-              },
-              err => { }
-            )
-          }
-          debugger;
-          this.dropdownSettings = {
-            singleSelection: false,
-            idField: 'id',
-            textField: 'branchCode',
-            selectAllText: 'Select All',
-            unSelectAllText: 'UnSelect All',
-            itemsShowLimit: 3,
-            // allowSearchFilter: true
-          };
-        },
-        err => { }
-      )
-    }
-    else {
-      this.userdata = {};
-    }
-    console.log(this.branches);
-
   }
 
   onItemSelect(item: any) {
-    debugger;
-    console.log(item);
     this.branchCodes.push(item.id);
     // this.branchCodes.push(item.id);
     this.userdata.branchlist = this.branchCodes.map(String);
+    // this.userdata.branchlist.push(this.selectedItems.id) 
   }
   onSelectAll(items: any) {
-    debugger
-    console.log(items);
     items.forEach(element => {
       var temp: any = {};
       temp.branchlist = element.id
       this.branchCodes.push(temp);
     });
-    debugger
     this.userdata.branchlist = this.branchCodes.map(String);
   }
-  addUser(data) {
-    debugger
+  reset() {
     this.userdata = {};
+    this.selectedItems = [];
+  }
+  addUser(form) {
     if (this.userdata.password != this.userdata.confPassword) {
-      this.alertService.infoAlert("!", "Password and Confirm Password are not matching");
+      this.alertService.infoAlert("", "Password and Confirm Password are not matching");
       return;
     }
     else {
-      this.userapiService.addUser(data).subscribe(
+      this.userapiService.addUser(form).subscribe(
         data => {
-          debugger
           var res: any = data;
           if (res.result == "success") {
             this.alertService.successAlert("Success", "User Added Successfully");
             this.router.navigateByUrl('users');
             this.userdata = {};
+            this.selectedItems = [];
           }
-          else {
-            this.alertService.errorAlert("Error", "User Not added");
-            this.branches = [];
-            return;
-          }
+          // else {
+          //   this.alertService.errorAlert("Error", "User Not added");
+          //   return;
+          // }
         },
         err => {
           this.alertService.errorAlert("Error", "User Not added");
+          this.selectedItems = [];
+          this.userdata = {};
           return;
         }
       )
     }
   }
   updateUser(data) {
-    debugger;
+    if (this.userdata.password != this.userdata.confPassword) {
+      this.alertService.infoAlert("", "Password and Confirm Password are not matching");
+      return;
+    }
+    else {
+    data.branchlist = [];
+    this.selectedItems.forEach(element => {
+      data.branchlist.push(element.id);
+    });
+    data.branchlist = data.branchlist.map(String);
     this.userapiService.updateUser(data.id, data).subscribe(
       data => {
-        debugger;
         var res: any = data;
         if (res.result.result == "success") {
           this.alertService.successAlert("Success", "User Updated Successfully");
@@ -153,10 +158,6 @@ export class AddUserComponent implements OnInit {
         this.alertService.errorAlert("Error", "User Update Failed");
         return;
       }
-    )
+    )}
   }
-  cancelUser() {
-    this.userdata = {};
-  }
-
 }
