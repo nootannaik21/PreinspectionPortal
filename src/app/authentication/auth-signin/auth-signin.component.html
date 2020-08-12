@@ -4,7 +4,8 @@
       <div class="col-sm-10 auth-content w-auto">
         <img src="assets/images/logo.png" alt="" class="img-fluid">
         <h3 class="text-white font-weight-normal my-4">Signin to your Preinspection Portal.</h3>
-        <h4 class="text-white font-weight-normal">The system is available only for the authorized personnel and in case of an unauthorized access the session needs to be disconnected.</h4>
+        <h4 class="text-white font-weight-normal">The system is available only for the authorized personnel and in case
+          of an unauthorized access the session needs to be disconnected.</h4>
       </div>
     </div>
     <div class="auth-side-form">
@@ -15,18 +16,28 @@
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="feather icon-mail"></i></span>
           </div>
-          <input type="email" class="form-control" placeholder="Email address" name="email" [(ngModel)]="user.email">
+          <input type="email" class="form-control" placeholder="Email address" name="email" [(ngModel)]="user.email"
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required
+          [ngClass]="{'is-invalid': !emailref.valid && (emailref.dirty || emailref.touched )}" #emailref="ngModel">
+          <label *ngIf="!emailref.valid && (emailref.dirty || emailref.touched)" id="validation-emailref-error"
+            class="error jquery-validation-error small form-text invalid-feedback">Please enter a valid
+            Email.</label>
+
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="feather icon-lock"></i></span>
           </div>
-          <input type="password" class="form-control" placeholder="Password" name="password" [(ngModel)]="user.password">
+          <input type="password" class="form-control" placeholder="Password" name="password" required
+            [(ngModel)]="user.password"   [(ngModel)]="user.password" [ngClass]="{'is-invalid': !password.valid && (password.dirty || password.touched )}" #password="ngModel">
+            <label *ngIf="!password.valid && (password.dirty || password.touched)" id="validation-password-error"
+              class="error jquery-validation-error small form-text invalid-feedback">Please enter a valid
+              password.</label>
         </div>
-        <div class="alert alert-danger" *ngIf="isError">
+        <div id="hideDiv" class=" alert alert-danger" *ngIf="isError">
           <strong>Invalid Credentials.!</strong>
         </div>
-        <button class="btn btn-block btn-primary mb-0"(click)="onSubmit()">Signin</button>
+        <button class="btn btn-block btn-primary mb-0" [disabled]="disableSignIn" (click)="onSubmit()" #signin>Signin</button>
         <div class="text-center">
           <p class="mb-2">Forgot password? <a [routerLink]="['/auth/reset-password']">Reset</a></p>
         </div>

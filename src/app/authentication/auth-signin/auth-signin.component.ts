@@ -12,17 +12,24 @@ import { ApiService } from 'src/app/service/api.service';
 export class AuthSigninComponent implements OnInit {
   user : any= {};
   isError: boolean;
+  disableSignIn: boolean;
 
-  constructor(private router:Router, private authservice: AuthService, private preInspection: PreinspectionService) { }
+  constructor(private router:Router, private authservice: AuthService, private preInspection: PreinspectionService) { 
+   
+  }
+ 
+
 
   ngOnInit() {
   }
+  
   onSubmit() {
     this.authservice.login(this.user).subscribe((data) => {
       var res: any = data;
       if (res.result == "success") {
         this.preInspection.setInspnectioUser(res);        
           this.router.navigateByUrl('users');
+          this.disableSignIn=true;
       }
       else {
         // this.router.navigateByUrl('errorpage');
@@ -30,6 +37,12 @@ export class AuthSigninComponent implements OnInit {
     }, err => {
       // this.router.navigateByUrl('errorpage');
       this.isError=true;
+      setTimeout(() => {
+        if(this.isError==true){ 
+        ("#hideDiv");
+        this.isError=false;
+      }}, 5000);
+      this.disableSignIn=false;
       this.user = {};
     })
   }
