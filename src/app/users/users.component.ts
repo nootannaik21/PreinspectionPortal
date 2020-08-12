@@ -42,7 +42,6 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
         this.rerender();
       },
       err => {
-
       }
     )
   }
