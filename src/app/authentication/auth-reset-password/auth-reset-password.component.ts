@@ -18,7 +18,7 @@ export class AuthResetPasswordComponent implements OnInit {
       data => {
         var res :any =data;
         if(res.result=="success"){
-        this.alertService.successAlert("Success","Password Reset Successfully");
+        this.alertService.successAlert("Success","New Password has sent to your Email");
         this.router.navigateByUrl("/login");
       }
       else{
