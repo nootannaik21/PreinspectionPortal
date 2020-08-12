@@ -69,9 +69,12 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">User Type</label>
               <select class="form-control" name="type" [(ngModel)]="userdata.type" required tabindex="10">
+                <option value="Admin">Admin</option>
                 <option value="ABS">ABS</option>
-                <option value="ABC">ABC</option>
-                <option value="DEF">DEF</option>
+                <option value="IMD">IMD</option>
+                <option value="Branch">Branch</option>
+                <option value="Vendor">Vendor</option>
+                <option value="Claims">Claims</option>
               </select>
             </div>
             <div class="form-group">
