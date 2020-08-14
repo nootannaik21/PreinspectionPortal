@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { VendorServiceService } from '../../service/vendor-service.service'
 import { AlertService } from 'src/app/service/alert.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vendorlist',
@@ -22,7 +23,7 @@ export class VendorlistComponent implements OnInit, OnDestroy, AfterViewInit {
   dtElement: DataTableDirective;
   isDtInitialized: boolean = false;
 
-  constructor(private vendorService: VendorServiceService, private alertService:AlertService) { }
+  constructor(private router:Router ,private vendorService: VendorServiceService, private alertService:AlertService) { }
 
   ngOnInit() {
     this.getAllVendors();
@@ -54,6 +55,8 @@ export class VendorlistComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dtTrigger.unsubscribe();
   }
   gotoAddVendorScreen() {
+    localStorage.removeItem('VendorIdid')
+    this.router.navigateByUrl('vendor/addVendor');
 
   }
   deleteVendor(item) {
