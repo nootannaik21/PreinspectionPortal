@@ -12,7 +12,7 @@
       <div class=" auth-content">
         <img src="assets/images/auth/auth-logo-dark.png" alt="" class="img-fluid mb-4 d-block d-xl-none d-lg-none">
         <h3 class="mb-4 f-w-400">Signin</h3>
-        <div class="input-group mb-3">
+        <!-- <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="feather icon-mail"></i></span>
           </div>
@@ -37,7 +37,42 @@
         <div id="hideDiv" class=" alert alert-danger" *ngIf="isError">
           <strong>Invalid Credentials.!</strong>
         </div>
-        <button class="btn btn-block btn-primary mb-0" [disabled]="disableSignIn" (click)="onSubmit()" #signin>Signin</button>
+        <button class="btn btn-block btn-primary mb-0" [disabled]="disableSignIn" (click)="onSubmit()" #signin>Signin</button> -->
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="feather icon-mail"></i></span>
+              </div>
+              <input type="text" class="form-control" placeholder="Email address" formControlName="email"
+                [(ngModel)]="user.email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">Email is required</div>
+                <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group mb-4">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="feather icon-lock"></i></span>
+              </div>
+              <input type="password" class="form-control" placeholder="Password" formControlName="password" required
+                [(ngModel)]="user.password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Password is required</div>
+                <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+              </div>
+
+            </div>
+          </div>
+          <div id="hideDiv" class=" alert alert-danger" *ngIf="isError">
+            <strong>Invalid Credentials.!</strong>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-block btn-primary mb-0" [disabled]="disableSignIn">Signin</button>
+          </div>
+        </form>
         <div class="text-center">
           <p class="mb-2">Forgot password? <a [routerLink]="['/auth/reset-password']">Reset</a></p>
         </div>
