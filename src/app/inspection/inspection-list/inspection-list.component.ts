@@ -25,7 +25,6 @@ export class InspectionListComponent implements OnInit, OnDestroy, AfterViewInit
   constructor(private router: Router, private inspectionService: InspectionSeriveService, private alertService: AlertService) { }
 
   ngOnInit() {
-    debugger;
     this.getInspectionList();
   }
   getInspectionList() {
