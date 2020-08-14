@@ -10,7 +10,7 @@ export class dataService {
     return this.apiService.put("user/changePassword?userId="+changePwd.userId+"&oldPassword="+changePwd.oldPassword+"&newPassword="+changePwd.newPassword,null);   
   }
   resetPassword(resetPwd: any) {
-    return this.apiService.post("user/reset-password?userId="+resetPwd.userId+"&newPassword="+resetPwd.newPassword,null);   
+    return this.apiService.post("user/reset-password?email="+resetPwd.email,null);   
   }
   addUser(userdata: any) {
     return this.apiService.post("user/addUser", userdata);   

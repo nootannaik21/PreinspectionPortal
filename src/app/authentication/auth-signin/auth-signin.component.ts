@@ -22,37 +22,39 @@ export class AuthSigninComponent implements OnInit {
   }
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
   onSubmit() {
+    debugger;
     this.submitted = true;
-    if (this.loginForm.invalid) {
-      this.authservice.login(this.user).subscribe((data) => {
-        var res: any = data;
-        if (res.result == "success") {
-          this.preInspection.setInspnectioUser(res);
-          this.router.navigateByUrl('users');
-          this.disableSignIn = true;
+    // if (this.loginForm.invalid) {
+    this.authservice.login(this.user).subscribe((data) => {
+      debugger
+      var res: any = data;
+      if (res.result == "success") {
+        this.preInspection.setInspnectioUser(res);
+        this.router.navigateByUrl('users');
+        this.disableSignIn = true;
+      }
+      else {
+      }
+    }, err => {
+      this.isError = true;
+      setTimeout(() => {
+        if (this.isError == true) {
+          ("#hideDiv");
+          this.isError = false;
+          this.submitted = false;
+
         }
-        else {
-        }
-      }, err => {
-        this.isError = true;
-        setTimeout(() => {
-          if (this.isError == true) {
-            ("#hideDiv");
-            this.isError = false;
-          }
-        }, 5000);
-        this.disableSignIn = false;
-        this.user = {};
-      })
-    }
+      }, 5000);
+      this.disableSignIn = false;
+      this.user = {};
+    })
+    // }
   }
   get f() { return this.loginForm.controls; }
 }
