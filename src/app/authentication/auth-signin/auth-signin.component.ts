@@ -28,16 +28,13 @@ export class AuthSigninComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger;
     this.submitted = true;
     if (this.loginForm.invalid) {
       this.user={};
       return;
     }
     else{
-      debugger
       this.authservice.login(this.user).subscribe((data) => {
-        debugger
         var res: any = data;
         if (res.result == "success") {
           this.preInspection.setInspnectioUser(res);
@@ -45,10 +42,8 @@ export class AuthSigninComponent implements OnInit {
           this.disableSignIn = true;
         }
         else {
-          debugger
         }
       }, err => {
-        debugger
         this.isError = true;
         setTimeout(() => {
           if (this.isError == true) {

@@ -50,7 +50,6 @@ export class BranchlistComponent implements OnInit, OnDestroy, AfterViewInit {
     
   }
   editBranchRow(item){
-    debugger;
     localStorage.setItem('branchid', item.id);
     this.router.navigateByUrl('branch/addBranch');
   }

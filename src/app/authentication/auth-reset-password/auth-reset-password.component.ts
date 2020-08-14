@@ -20,7 +20,6 @@ export class AuthResetPasswordComponent implements OnInit {
     });
   }
   onSubmit() {
-    debugger
     this.submitted = true;
     if (this.resetForm.invalid) {
       this.resetPwd = {};
@@ -29,7 +28,6 @@ export class AuthResetPasswordComponent implements OnInit {
     else {
       this.dataService.resetPassword(this.resetPwd).subscribe(
         data => {
-          debugger
           this.alertService.successAlert("Success", "Password Reset Done");
 
           //   var res :any =data;
@@ -41,7 +39,6 @@ export class AuthResetPasswordComponent implements OnInit {
           // }
         },
         err => {
-          debugger
           this.submitted = false;
           this.alertService.infoAlert("", "Entered Email does not exists");
           this.router.navigateByUrl("/auth/reset-password");
