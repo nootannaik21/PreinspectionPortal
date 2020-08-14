@@ -24,6 +24,8 @@ import { NavigationItem } from './theme/layout/admin/navigation/navigation';
 import { NgbButtonsModule, NgbDropdownModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { AddbranchComponent } from './branch/addbranch/addbranch.component';
+import { FormsModule } from '@angular/forms';
+import { PermissionDirective } from './helper/permission.directive';
 
 @NgModule({
   declarations: [
@@ -41,8 +43,10 @@ import { AddbranchComponent } from './branch/addbranch/addbranch.component';
     NavRightComponent,
     ConfigurationComponent,
     AddbranchComponent,
+    PermissionDirective,
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

@@ -1,4 +1,4 @@
-<ng-container *ngIf="!item.hidden">
+<ng-container *ngIf="!item.hidden" Permission [permission]="item.accessrole">
   <li class="nav-item pcoded-menu-caption"><label>{{item.title}}</label></li>
   <ng-container *ngFor="let item of item.children">
     <app-nav-group *ngIf="item.type=='group'" [item]="item"></app-nav-group>
