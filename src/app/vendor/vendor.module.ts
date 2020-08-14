@@ -7,11 +7,13 @@ import { AddvendorComponent } from './addvendor/addvendor.component';
 import { SharedModule } from '../theme/shared/shared.module';
 import { DataTablesModule } from 'angular-datatables';
 import { FormsModule } from '@angular/forms';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
 @NgModule({
   declarations: [VendorlistComponent, AddvendorComponent],
   imports: [
+    NgMultiSelectDropDownModule,
     CommonModule,
     SharedModule,
     DataTablesModule,
