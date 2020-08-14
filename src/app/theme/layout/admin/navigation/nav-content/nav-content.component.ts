@@ -37,7 +37,6 @@ export class NavContentComponent implements OnInit, AfterViewInit {
   }
 
   getNavigationForUser() {
-    debugger;
     let data = this.nav.get();
     let Userdetails = this.UserService.getUserPermissions();
     
