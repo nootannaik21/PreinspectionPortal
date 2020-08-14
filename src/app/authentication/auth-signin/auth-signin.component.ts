@@ -37,6 +37,7 @@ export class AuthSigninComponent implements OnInit {
       this.authservice.login(this.user).subscribe((data) => {
         var res: any = data;
         if (res.result == "success") {
+          localStorage.setItem("UserName",this.user.email);
           this.preInspection.setInspnectioUser(res);
           this.router.navigateByUrl('users');
           this.disableSignIn = true;
@@ -57,6 +58,20 @@ export class AuthSigninComponent implements OnInit {
         this.user = {};
       })
     }
+    this.authservice.login(this.user).subscribe((data) => {
+      var res: any = data;
+      if (res.result == "success") {
+        this.preInspection.setInspnectioUser(res);
+        this.router.navigateByUrl('users');
+      }
+      else {
+        // this.router.navigateByUrl('errorpage');
+      }
+    }, err => {
+      // this.router.navigateByUrl('errorpage');
+      this.isError = true;
+      this.user = {};
+    })
   }
   get f() { return this.loginForm.controls; }
 }
