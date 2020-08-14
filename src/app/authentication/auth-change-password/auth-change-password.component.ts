@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DebugElement } from '@angular/core';
 import { ReturnStatement } from '@angular/compiler';
 import { dataService } from 'src/app/service/data.service';
 import { AlertService } from 'src/app/service/alert.service';
@@ -20,7 +20,7 @@ export class AuthChangePasswordComponent implements OnInit {
       return;
     }
     else {
-      this.dataService.changePassword(this.changePwd).subscribe(
+      this.dataService.changePassword( localStorage.getItem("UserName"),this.changePwd).subscribe(
         data => {
           var res : any=data;
           this.alertService.successAlert("Success",res.message);
