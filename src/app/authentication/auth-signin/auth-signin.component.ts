@@ -30,31 +30,38 @@ export class AuthSigninComponent implements OnInit {
   onSubmit() {
     debugger;
     this.submitted = true;
-    // if (this.loginForm.invalid) {
-    this.authservice.login(this.user).subscribe((data) => {
+    if (this.loginForm.invalid) {
+      this.user={};
+      return;
+    }
+    else{
       debugger
-      var res: any = data;
-      if (res.result == "success") {
-        this.preInspection.setInspnectioUser(res);
-        this.router.navigateByUrl('users');
-        this.disableSignIn = true;
-      }
-      else {
-      }
-    }, err => {
-      this.isError = true;
-      setTimeout(() => {
-        if (this.isError == true) {
-          ("#hideDiv");
-          this.isError = false;
-          this.submitted = false;
-
+      this.authservice.login(this.user).subscribe((data) => {
+        debugger
+        var res: any = data;
+        if (res.result == "success") {
+          this.preInspection.setInspnectioUser(res);
+          this.router.navigateByUrl('users');
+          this.disableSignIn = true;
         }
-      }, 5000);
-      this.disableSignIn = false;
-      this.user = {};
-    })
-    // }
+        else {
+          debugger
+        }
+      }, err => {
+        debugger
+        this.isError = true;
+        setTimeout(() => {
+          if (this.isError == true) {
+            ("#hideDiv");
+            this.isError = false;
+            this.submitted = false;
+  
+          }
+        }, 5000);
+        this.disableSignIn = false;
+        this.user = {};
+      })
+    }
   }
   get f() { return this.loginForm.controls; }
 }
