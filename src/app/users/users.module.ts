@@ -8,13 +8,14 @@ import { DataTablesModule } from 'angular-datatables';
 import { FormsModule } from '@angular/forms';
 import { TblSearchingComponent } from './tbl-searching/tbl-searching.component';
 
+
 @NgModule({
   imports: [
     CommonModule,
     UsersRoutingModule,
     SharedModule,
     FormsModule,
-    DataTablesModule
+    DataTablesModule,
   ],
   declarations: [UsersComponent, TblSearchingComponent]
 })
