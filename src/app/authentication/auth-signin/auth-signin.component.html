@@ -38,7 +38,7 @@
           <strong>Invalid Credentials.!</strong>
         </div>
         <button class="btn btn-block btn-primary mb-0" [disabled]="disableSignIn" (click)="onSubmit()" #signin>Signin</button> -->
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (keydown)="keyDownFunction($event)">
           <div class="form-group">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
