@@ -26,8 +26,15 @@ export class AuthSigninComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
-
+  keyDownFunction(event) {
+    if (event.keyCode === 13) {
+      this.getLogin();
+    }
+  }
   onSubmit() {
+   this.getLogin();   
+  }
+  getLogin() {
     this.submitted = true;
     if (this.loginForm.invalid) {
       this.user={};
@@ -58,20 +65,6 @@ export class AuthSigninComponent implements OnInit {
         this.user = {};
       })
     }
-    this.authservice.login(this.user).subscribe((data) => {
-      var res: any = data;
-      if (res.result == "success") {
-        this.preInspection.setInspnectioUser(res);
-        this.router.navigateByUrl('users');
-      }
-      else {
-        // this.router.navigateByUrl('errorpage');
-      }
-    }, err => {
-      // this.router.navigateByUrl('errorpage');
-      this.isError = true;
-      this.user = {};
-    })
   }
   get f() { return this.loginForm.controls; }
 }
