@@ -24,10 +24,18 @@ export class AuthSigninComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]]
+
     });
   }
-
+  keyDownFunction(event) {
+    if (event.keyCode === 13) {
+      this.getLogin();
+    }
+  }
   onSubmit() {
+   this.getLogin();   
+  }
+  getLogin() {
     this.submitted = true;
     if (this.loginForm.invalid) {
       this.user={};
@@ -37,6 +45,7 @@ export class AuthSigninComponent implements OnInit {
       this.authservice.login(this.user).subscribe((data) => {
         var res: any = data;
         if (res.result == "success") {
+          localStorage.setItem("UserName",this.user.email);
           this.preInspection.setInspnectioUser(res);
           this.router.navigateByUrl('users');
           this.disableSignIn = true;

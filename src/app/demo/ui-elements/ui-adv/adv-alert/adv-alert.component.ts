@@ -38,7 +38,7 @@ export class AdvAlertComponent implements OnInit {
     Swal.fire({
       title: 'Are you sure?',
       text: 'Once deleted, you will not be able to recover this imaginary file!',
-      type: 'warning',
+      // type: 'warning',
       showCloseButton: true,
       showCancelButton: true
     }).then((willDelete) => {

@@ -6,8 +6,8 @@ import { ApiService } from './api.service';
 })
 
 export class dataService {
-  changePassword(changePwd) {
-    return this.apiService.put("user/changePassword?userId="+changePwd.userId+"&oldPassword="+changePwd.oldPassword+"&newPassword="+changePwd.newPassword,null);   
+  changePassword(emailId,changePwd) {
+    return this.apiService.put("user/changePassword?email="+emailId+"&oldPassword="+changePwd.oldPassword+"&newPassword="+changePwd.newPassword,null);   
   }
   resetPassword(resetPwd: any) {
     return this.apiService.post("user/reset-password?email="+resetPwd.email,null);   

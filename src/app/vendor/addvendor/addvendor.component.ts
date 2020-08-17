@@ -3,6 +3,8 @@ import { VendorServiceService } from 'src/app/service/vendor-service.service';
 import { Router } from '@angular/router';
 import { userService } from 'src/app/service/user.service';
 import { UserapiserviceService } from 'src/app/service/userapiservice.service';
+import { AlertService } from 'src/app/service/alert.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-addvendor',
@@ -10,34 +12,93 @@ import { UserapiserviceService } from 'src/app/service/userapiservice.service';
   styleUrls: ['./addvendor.component.scss']
 })
 export class AddvendorComponent implements OnInit {
-  vendordata:any={};
-  branches: any = [];
+  addVendorForm: FormGroup;
+  vendordata: any = {};
 
   dropdownList: any = [];
   branch: any = [];
   selectedItems = [];
   dropdownSettings: any = [];
   branchCodes: any = [];
-  constructor(private userapiService: UserapiserviceService ,private vendorService: VendorServiceService,) { }
-
+  title: string;
+  vendorStatus: any = [];
+  submitted = false;
+  constructor(private alertService: AlertService,private formBuilder: FormBuilder, private router: Router, private userapiService: UserapiserviceService, private vendorService: VendorServiceService,) {
+    this.vendorStatus = [
+      {
+        id: 1,
+        status: "Active"
+      },
+      {
+        id: 2,
+        status: "De Active"
+      }
+    ]
+  }
+  branchCode: any = [];
   ngOnInit() {
-    this.userapiService.getBranches().subscribe(
+    this.addVendorForm = this.formBuilder.group({
+      vendorname: ['', [Validators.required]],
+      branchcode: ['', [Validators.required]],
+      status: ['', [Validators.required]],
+      inspectionemail: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+    });
+    if (localStorage.getItem('vendorid')) {
+      this.title = "Update Vendor";
+      this.getBranches();
+      this.vendorService.getVendorById(localStorage.getItem('vendorid')).subscribe(
+        data => {
+          this.vendordata = Object.assign({}, data);
+        },
+        err => {
+
+        }
+      )
+
+    }
+    else {
+      // this.vendordata.status = undefined;
+      // this.vendordata.branchcode = undefined;
+      this.title = "Add Vendor";
+      this.getBranches();
+    }
+  }
+  get f() { return this.addVendorForm.controls; }
+  getBranches() {
+    this.vendorService.getBranches().subscribe(
       data => {
         var res: any = data;
-        this.branches = res.data;
-        this.dropdownSettings = {
-          singleSelection: false,
-          idField: 'id',
-          textField: 'branchCode',
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
-          itemsShowLimit: 3,
-          // allowSearchFilter: true
-        };
+        this.branchCode = res.data;
       },
-      err => {
-      }
+      err => { }
     )
+  }
+  addVendorDetails() {
+    this.submitted = true;
+    if (this.addVendorForm.invalid) {
+      return;
+    } else {
+      this.vendorService.addVendorDetails(this.vendordata).subscribe(
+        data => {
+          var res: any = data;
+          if (res.message.result == "success") {
+            this.alertService.successAlert("Success","Vendor Added Successfully");
+            this.vendordata = {};
+            this.router.navigateByUrl('vendor');
+          }
+          else {
+
+          }
+        },
+        err => { }
+      )
+    }
+
+  }
+  Cancel() {
+    this.vendordata = {};
+    localStorage.removeItem('vendorid');
+    this.router.navigateByUrl('vendor');
   }
   onItemSelect(item: any) {
     console.log(item);
@@ -53,5 +114,22 @@ export class AddvendorComponent implements OnInit {
       this.branchCodes.push(temp);
     });
     // this.userdata.branchlist = this.branchCodes.map(String);
+  }
+  UpdateVendorDetails() {
+    this.submitted = true;
+    if (this.addVendorForm.invalid) {
+      return;
+    } else {
+      this.vendorService.updateVendorDetails(this.vendordata.id, this.vendordata).subscribe(
+        data => {
+          this.alertService.successAlert("Success","Vendor Updated Successfully");
+          this.vendordata = {};
+          this.router.navigateByUrl('vendor');
+        },
+        err => {
+
+        }
+      )
+    }
   }
 }

@@ -1,35 +1,78 @@
 <div class="row">
-    <div class="col-sm-12">
-      <app-card [hidHeader]="true" [options]="false">
-        <h4>Add Vendor</h4>
-        <hr>
+  <div class="col-sm-12">
+    <app-card [hidHeader]="true" [options]="false">
+      <h4>{{title}}</h4>
+      <hr>
+      <form [formGroup]="addVendorForm" (ngSubmit)="addVendorDetails()">
         <div class="row">
           <div class="col-md-6">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Vendor Name</label>
-                <input type="text" class="form-control" aria-describedby="emailHelp"
-                  placeholder="Vendor Name" name="vendorname" [(ngModel)]="vendordata.vendorname">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Vendor Name</label>
+              <input type="text" class="form-control" aria-describedby="emailHelp" tabindex="1"
+                placeholder="Vendor Name" formControlName="vendorname" [(ngModel)]="vendordata.vendorname"
+                [ngClass]="{ 'is-invalid': submitted && f.vendorname.errors }" />
+              <div *ngIf="submitted && f.vendorname.errors" class="invalid-feedback" required>
+                <div *ngIf="f.vendorname.errors.required">Vendor Name is required</div>
               </div>
-              <div class="form-group">
-                <label>Inspection Email</label>
-                <input type="email" class="form-control" placeholder="Inspection Email" name="inspectionemail"   [(ngModel)]="vendordata.inspectionemail">
-              </div>
-          </div>      
+            </div>
+            <div class="form-group">
+              <label>Inspection Email</label>
+              <input type="email" class="form-control" placeholder="Inspection Email" formControlName="inspectionemail"
+                [(ngModel)]="vendordata.inspectionemail" tabindex="3"
+                [ngClass]="{ 'is-invalid': submitted && f.inspectionemail.errors }" required />
+                <div *ngIf="submitted && f.inspectionemail.errors" class="invalid-feedback">
+                  <div *ngIf="f.inspectionemail.errors.required">Email is required</div>
+                  <div *ngIf="f.inspectionemail.errors.email">Email must be a valid email address</div>
+                </div>
+            </div>
+          </div>
           <div class="col-md-6">
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Branch Code</label>
-                <ng-multiselect-dropdown  [placeholder]="'Select Branches'" [settings]="dropdownSettings" [data]="branches"
-                  [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"  [ngModelOptions]="{standalone: true}">
-                </ng-multiselect-dropdown>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Branch Code</label>
+              <select class="form-control" formControlName="branchcode" [(ngModel)]="vendordata.branchcode" tabindex="2"
+                [ngClass]="{ 'is-invalid': submitted && f.branchcode.errors }" required>
+                <!-- <option value="undefined">Select</option> -->
+                <option class="form-control" *ngFor="let item of branchCode" [value]="item.branchCode">
+                  <table>
+                    <tr>
+                      <td> {{item.branchCode}}</td>
+                    </tr>
+                  </table>
+                </option>
+              </select>
+              <div *ngIf="submitted && f.branchcode.errors" class="invalid-feedback" required>
+                <div *ngIf="f.branchcode.errors.required">Please Select Branch Code</div>
               </div>
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select class="form-control" formControlName="status" [(ngModel)]="vendordata.status" tabindex="4"
+                [ngClass]="{ 'is-invalid': submitted && f.status.errors }" required>
+                <!-- <option value="undefined">Select</option> -->
+                <option class="form-control" *ngFor="let item of vendorStatus" [value]="item.status">
+                  <table>
+                    <tr>
+                      <td> {{item.status}}</td>
+                    </tr>
+                  </table>
+                </option>
+              </select>
+              <div *ngIf="submitted && f.status.errors" class="invalid-feedback" required>
+                <div *ngIf="f.status.errors.required">Please Select Status</div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="row text-right">
           <div class="col-12">
-            <button type="submit" class="btn btn-primary mr-1">Cancel</button>
-            <button type="submit" class="btn btn-primary">Add Vendor Details</button>
+            <button type="button" class="btn btn-primary mr-1" (click)="Cancel()">Cancel</button>
+            <button type="submit" class="btn btn-primary" *ngIf="vendordata.id==undefined">Add Vendor Details</button>
+            <button type="button" class="btn btn-primary" *ngIf="vendordata.id!=undefined"
+              (click)="UpdateVendorDetails()">Update Vendor Details</button>
+
           </div>
         </div>
-      </app-card>
-    </div>
+      </form>
+    </app-card>
   </div>
+</div>

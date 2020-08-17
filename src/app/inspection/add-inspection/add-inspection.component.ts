@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./add-inspection.component.scss']
 })
 export class AddInspectionComponent implements OnInit {
-
+  inspectionData:any={};
+  branches:any=[];
+  branchCode:any=[];
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
 }
