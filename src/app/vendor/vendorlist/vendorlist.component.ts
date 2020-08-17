@@ -23,10 +23,15 @@ export class VendorlistComponent implements OnInit, OnDestroy, AfterViewInit {
   dtElement: DataTableDirective;
   isDtInitialized: boolean = false;
 
-  constructor(private router:Router ,private vendorService: VendorServiceService, private alertService:AlertService) { }
+  constructor(private router: Router, private vendorService: VendorServiceService, private alertService: AlertService) { }
 
   ngOnInit() {
     this.getAllVendors();
+    localStorage.removeItem('vendorid');
+  }
+  editVendor(item) {
+    localStorage.setItem('vendorid', item.id);
+    this.router.navigateByUrl('vendor/addVendor');
   }
   getAllVendors() {
     this.vendorService.getVendors().subscribe(
@@ -60,17 +65,18 @@ export class VendorlistComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   deleteVendor(item) {
+    this.alertService.confirmAlert(() => {
     this.vendorService.deleteVendor(item.id).subscribe(
       data => {
         var res: any = data;
         if (res.message.result == "success") {
-          this.alertService.successAlert("Success","Vendor Deleted Successfully");
-            this.getAllVendors();
+          this.alertService.successAlert("Success", "Vendor Deleted Successfully");
+          this.getAllVendors();
         }
       },
       err => {
       }
-    )
+    )})
 
   }
 }
