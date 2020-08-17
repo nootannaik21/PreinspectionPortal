@@ -54,6 +54,7 @@ export class BranchlistComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigateByUrl('branch/addBranch');
   }
   deleteBranch(item){
+    this.alertService.confirmAlert(() => {
     this.branchService.deleteBranch(item.id).subscribe(
       data =>{
         this.alertService.successAlert("Success","Branch Deleted Successfully");
@@ -63,10 +64,11 @@ export class BranchlistComponent implements OnInit, OnDestroy, AfterViewInit {
       err =>{
 
       }
-    )
+    )})
 
   }
   gotoAddBranchScreen(){
+    localStorage.removeItem('branchid');
     this.router.navigateByUrl('branch/addBranch');
   }
   rerender(): void {
