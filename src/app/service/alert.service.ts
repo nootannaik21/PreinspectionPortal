@@ -23,22 +23,22 @@ export class AlertService {
     Swal.fire(title, message, 'info');
   }
 
-  // confirmAlert(successCallBack, cancelCallBack?) {
-  //   Swal.fire({
-  //     title: 'Are you sure?',
-  //     text: 'Once deleted, you will not be able to revert!',
-  //     type: 'warning',
-  //     showCloseButton: true,
-  //     showCancelButton: true
-  //   }).then((result) => {
-  //     if (result.value) {
-  //       successCallBack && successCallBack();
-  //     }
-  //     else if (result.dismiss === Swal.DismissReason.cancel) {
-  //       cancelCallBack && cancelCallBack();
-  //     }
-  //   });
-  // }
+  confirmAlert(successCallBack, cancelCallBack?) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to revert!',
+      // type: 'warning',
+      showCloseButton: true,
+      showCancelButton: true
+    }).then((result) => {
+      if (result.value) {
+        successCallBack && successCallBack();
+      }
+      else if (result.dismiss === Swal.DismissReason.cancel) {
+        cancelCallBack && cancelCallBack();
+      }
+    });
+  }
 
   // confirmAction(title,successCallBack, cancelCallBack?) {
   //   Swal.fire({
