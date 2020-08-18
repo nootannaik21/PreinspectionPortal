@@ -66,3 +66,5 @@ trigger:
     include:
     - master
     - qa
+  event:
+    - pull_request
