@@ -49,7 +49,6 @@ import { ToastrModule } from 'ngx-toastr';
     OnlystringDirective,
   ],
   imports: [
-     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     FormsModule,
     BrowserModule,
