@@ -1,215 +1,335 @@
 <div class="row">
     <div class="col-sm-12">
         <app-card [hidHeader]="true" [options]="false">
-            <h4>Add Inspection</h4>
+            <h4>{{title}}</h4>
             <hr>
-            <form #addForm="ngForm">
+            <form [formGroup]="addInspectionForm" (ngSubmit)="createInspection()">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Branch Name</label>
-                            <select class="form-control" id="UniqueID1" name="UniqueID1"
-                                [(ngModel)]="inspectionData.UniqueID" tabindex="1">
-                                <option value="-1">Select</option>
-                                <option class="form-control" *ngFor="let item of branches" [value]="item.UniqueID">
+                            <label for="exampleInputEmail1">Branch Code</label>
+                            <!-- <select class="form-control" formControlName="branchcode"
+                                [(ngModel)]="inspectionData.branchcode" required tabindex="10"
+                                [ngClass]="{ 'is-invalid': submitted && f.branchcode.errors }">
+                                <option class="form-control" *ngFor="let item of branches">
                                     <table>
                                         <tr>
-                                            <td> {{item.Town}}</td>
+                                            <td> {{item.branchCode}}</td>
+                                        </tr>
+                                    </table>
+                                </option>
+                            </select> -->
+                            <select class="form-control" formControlName="branchcode"
+                                [(ngModel)]="inspectionData.branchcode" tabindex="1"
+                                [ngClass]="{ 'is-invalid': submitted && f.branchcode.errors }" required>
+                                <option class="form-control" *ngFor="let item of branches" [value]="item.branchCode">
+                                    <table>
+                                        <tr>
+                                            <td> {{item.branchCode}}</td>
                                         </tr>
                                     </table>
                                 </option>
                             </select>
+
+
+                            <div *ngIf="submitted && f.branchcode.errors" class="invalid-feedback">
+                                <div *ngIf="f.branchcode.errors.required">Branch Code is required</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">IMD/SM Code</label>
                             <input type="text" class="form-control" placeholder="IMD/SM Code" tabindex="3"
-                                name="imdSmCode" [(ngModel)]="inspectionData.imdSmCode" required>
+                                formControlName="imdcode" [(ngModel)]="inspectionData.imdcode" required
+                                [ngClass]="{ 'is-invalid': submitted && f.imdcode.errors }" />
+                            <div *ngIf="submitted && f.imdcode.errors" class="invalid-feedback">
+                                <div *ngIf="f.imdcode.errors.required">IMD/SM Code is required</div>
+                            </div>
                         </div>
-
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Branch Code</label>
-                            <select class="form-control" id="UniqueID1" name="UniqueID1"
-                                [(ngModel)]="inspectionData.UniqueID" tabindex="2">
-                                <option value="-1">Select</option>
-                                <option class="form-control" *ngFor="let item of branchCode" [value]="item.UniqueID">
-                                    <table>
-                                        <tr>
-                                            <td> {{item.Town}}</td>
-                                        </tr>
-                                    </table>
-                                </option>
-                            </select>
+                            <label>Vendor Id</label>
+                            <input type="text" class="form-control" placeholder="Vendor Id" formControlName="vendorid"
+                                [(ngModel)]="inspectionData.vendorid" tabindex="2"
+                                [ngClass]="{ 'is-invalid': submitted && f.vendorid.errors }" required />
+                            <div *ngIf="submitted && f.vendorid.errors" class="invalid-feedback">
+                                <div *ngIf="f.vendorid.errors.required">Vendor is required</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Phone no of IMD/SM</label>
                             <input type="email" class="form-control" placeholder="Phone no of IMD/SM" required
-                                name="imdSmPhone" [(ngModel)]="inspectionData.imdSmPhone" tabindex="4">
+                                formControlName="phoneNoofsales" [(ngModel)]="inspectionData.phoneNoofsales"
+                                tabindex="4" [ngClass]="{ 'is-invalid': submitted && f.phoneNoofsales.errors }" />
+                            <div *ngIf="submitted && f.phoneNoofsales.errors" class="invalid-feedback">
+                                <div *ngIf="f.phoneNoofsales.errors.required">Phone no of IMD/SM is required</div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Customer Name</label>
-                            <input type="text" class="form-control" placeholder="Customer Name" required
-                                name="customername" tabindex="5" [(ngModel)]="inspectionData.customername">
+                            <label>Client Name</label>
+                            <input type="text" class="form-control" placeholder="Client Name" required
+                                formControlName="clientname" tabindex="5" [(ngModel)]="inspectionData.clientname"
+                                [ngClass]="{ 'is-invalid': submitted && f.clientname.errors }" />
+                            <div *ngIf="submitted && f.clientname.errors" class="invalid-feedback">
+                                <div *ngIf="f.clientname.errors.required">Client Name is required</div>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label>Customer Email Id</label>
-                            <input type="email" class="form-control" placeholder="Customer Email Id"
-                                name="customerEmail" tabindex="7" [(ngModel)]="inspectionData.customerEmail" required>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Customer Mobile No</label>
-                            <input type="text" class="form-control" placeholder="Customer Mobile No"
-                                name="customerMobile" tabindex="6" [(ngModel)]="inspectionData.customerMobile" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email of IMD/SM</label>
-                            <input type="text" class="form-control" name="imdSmEmail" placeholder="Email of IMD/SM"
-                                [(ngModel)]="inspectionData.imdSmEmail" tabindex="8" required>
+                            <label>Client Email Id</label>
+                            <input type="email" class="form-control" placeholder="Client Email Id"
+                                formControlName="clientemail" tabindex="7" [(ngModel)]="inspectionData.clientemail"
+                                required [ngClass]="{ 'is-invalid': submitted && f.clientemail.errors }" />
+                            <div *ngIf="submitted && f.clientemail.errors" class="invalid-feedback">
+                                <div *ngIf="f.clientemail.errors.required">Client Email is required</div>
+                                <div *ngIf="f.clientemail.errors.email">Email must be a valid email address</div>
+
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Alternate Phone No</label>
-                            <input type="text" class="form-control" placeholder="Alternate Phone Number" name="altphone"
-                                tabindex="9" [(ngModel)]="inspectionData.altphone" required>
+                            <label>Client Mobile No</label>
+                            <input type="text" class="form-control" placeholder="Client Mobile No"
+                                formControlName="clientphoneno" tabindex="6" [(ngModel)]="inspectionData.clientphoneno"
+                                required [ngClass]="{ 'is-invalid': submitted && f.clientphoneno.errors }" />
+                            <div *ngIf="submitted && f.clientphoneno.errors" class="invalid-feedback">
+                                <div *ngIf="f.clientphoneno.errors.required">Client Mobile No is required</div>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label>Product Type</label>
-                            <select class="form-control" name="type" [(ngModel)]="inspectionData.type" required
-                                tabindex="11">
-                                <option value="prod1">prod1</option>
-                                <option value="prod2">prod2</option>
-                                <option value="prod3">prod3</option>
-                            </select>
+                            <label>Email Id of sales</label>
+                            <input type="text" class="form-control" formControlName="emailidofsales"
+                                placeholder="Email Id of Sales" [(ngModel)]="inspectionData.emailidofsales" tabindex="8"
+                                required [ngClass]="{ 'is-invalid': submitted && f.emailidofsales.errors }" />
+                            <div *ngIf="submitted && f.emailidofsales.errors" class="invalid-feedback">
+                                <div *ngIf="f.emailidofsales.errors.required">Email Id of sales is required</div>
+                                <div *ngIf="f.emailidofsales.errors.email">Email must be a valid email address</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Alternate Client Phone No</label>
+                            <input type="text" class="form-control" placeholder="Alternate Phone Number"
+                                formControlName="clientalternatephoneno" tabindex="9"
+                                [(ngModel)]="inspectionData.clientalternatephoneno" required
+                                [ngClass]="{ 'is-invalid': submitted && f.clientalternatephoneno.errors }" />
+                            <div *ngIf="submitted && f.clientalternatephoneno.errors" class="invalid-feedback">
+                                <div *ngIf="f.clientalternatephoneno.errors.required">Alternate Client Phone No is
+                                    required
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label>Alternate Client Name</label>
+                            <input type="text" class="form-control" placeholder="Alternate Client Name"
+                                formControlName="altclientname" tabindex="11" [(ngModel)]="inspectionData.altclientname"
+                                required [ngClass]="{ 'is-invalid': submitted && f.altclientname.errors }" />
+                            <div *ngIf="submitted && f.altclientname.errors" class="invalid-feedback">
+                                <div *ngIf="f.altclientname.errors.required">Alternate Client Name is required</div>
+                            </div>
+
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Reason For Inspection</label>
-                            <select class="form-control" name="inspReason" [(ngModel)]="inspectionData.inspReason"
-                                required tabindex="10">
+                            <select class="form-control" formControlName="inspectionreason"
+                                [(ngModel)]="inspectionData.inspectionreason" required tabindex="10"
+                                [ngClass]="{ 'is-invalid': submitted && f.inspectionreason.errors }">
+
                                 <option value="Reason1">Reason1</option>
                                 <option value="Reason2">Reason2</option>
                                 <option value="Reason3">Reason3</option>
                             </select>
+                            <div *ngIf="submitted && f.inspectionreason.errors" class="invalid-feedback">
+                                <div *ngIf="f.inspectionreason.errors.required">Reason For Inspection is required</div>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlSelect1">Risk Type</label>
-                            <select class="form-control" name="riskType" [(ngModel)]="inspectionData.riskType" required
-                                tabindex="12">
-                                <option value="riskType1">Risk Type 1</option>
-                                <option value="riskType2">Risk Type 2</option>
-                                <option value="riskType3">Risk Type 3</option>
+                            <label>Pre Inspection Vendorid</label>
+                            <select class="form-control" id="preInstid" formControlName="preinsvendorid"
+                                [(ngModel)]="inspectionData.preinsvendorid" tabindex="12"
+                                [ngClass]="{ 'is-invalid': submitted && f.preinsvendorid.errors }" required>
+                                <option class="form-control" *ngFor="let item of PreinsvendorId"
+                                    [value]="item.preInstid">
+                                    <table>
+                                        <tr>
+                                            <td> {{item.paymentText}}</td>
+                                        </tr>
+                                    </table>
+                                </option>
                             </select>
+                            <div *ngIf="submitted && f.preinsvendorid.errors" class="invalid-feedback">
+                                <div *ngIf="f.preinsvendorid.errors.required">Pre Inspection Vendorid is required</div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Location of Inspection</label>
                             <input type="text" class="form-control" placeholder="Location of Inspection"
-                                name="inspectionLocation" tabindex="13" [(ngModel)]="inspectionData.inspectionLocation"
-                                required>
+                                formControlName="inspectionlocation" tabindex="13"
+                                [(ngModel)]="inspectionData.inspectionlocation" required
+                                [ngClass]="{ 'is-invalid': submitted && f.inspectionlocation.errors }" />
+                            <div *ngIf="submitted && f.inspectionlocation.errors" class="invalid-feedback">
+                                <div *ngIf="f.inspectionlocation.errors.required">Location of Inspection is required
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Duplicate Inspection</label>
-                            <select class="form-control" name="duplicateInspection"
-                                [(ngModel)]="inspectionData.duplicateInspection" required tabindex="15">
+                            <select class="form-control" formControlName="duplicateinspection"
+                                [ngClass]="{ 'is-invalid': submitted && f.duplicateinspection.errors }"
+                                [(ngModel)]="inspectionData.duplicateinspection" required tabindex="15">
                                 <option value="dupl1">Duplicate 1</option>
                                 <option value="dupl2">Duplicate 2</option>
                                 <option value="dupl3">Duplicate 3</option>
                             </select>
+                            <div *ngIf="submitted && f.duplicateinspection.errors" class="invalid-feedback">
+                                <div *ngIf="f.duplicateinspection.errors.required">Duplicate Inspection is
+                                    required</div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="exampleFormControlSelect1">Valid Reg No</label>
-                            <input type="text" class="form-control" placeholder="Valid Reg No" name="validRegNo"
-                                tabindex="14" [(ngModel)]="inspectionData.validRegNo" required>
+                            <label for="exampleFormControlSelect1">Registration No</label>
+                            <input type="text" class="form-control" placeholder="Registration No"
+                                formControlName="registrationno" tabindex="14"
+                                [(ngModel)]="inspectionData.registrationno" required
+                                [ngClass]="{ 'is-invalid': submitted && f.registrationno.errors }" />
+                            <div *ngIf="submitted && f.registrationno.errors" class="invalid-feedback">
+                                <div *ngIf="f.registrationno.errors.required">Registration No is required</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Payment Mode</label>
-                            <select class="form-control" name="paymentMode" [(ngModel)]="inspectionData.paymentMode"
-                                required tabindex="16">
-                                <option value="paymentMode1">Payment Mode 1</option>
-                                <option value="paymentMode2">Payment Mode 2</option>
-                                <option value="paymentMode3">Payment Mode 3</option>
+                            <select class="form-control" id="paymentid" formControlName="paymentmodeid"
+                                [(ngModel)]="inspectionData.paymentmodeid" tabindex="16"
+                                [ngClass]="{ 'is-invalid': submitted && f.paymentmodeid.errors }" required>
+                                <option class="form-control" *ngFor="let item of paymentMode" [value]="item.paymentid">
+                                    <table>
+                                        <tr>
+                                            <td> {{item.paymentText}}</td>
+                                        </tr>
+                                    </table>
+                                </option>
                             </select>
+                            <div *ngIf="submitted && f.paymentmodeid.errors" class="invalid-feedback">
+                                <div *ngIf="f.paymentmodeid.errors.required">Payment Mode is required</div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Make of Vehicle</label>
-                            <input type="text" class="form-control" placeholder="Make of Vehicle" name="vehMake"
-                                tabindex="17" [(ngModel)]="inspectionData.vehMake" required>
+                            <input type="text" class="form-control" placeholder="Make of Vehicle" formControlName="make"
+                                tabindex="17" [(ngModel)]="inspectionData.make" required
+                                [ngClass]="{ 'is-invalid': submitted && f.make.errors }" />
+                            <div *ngIf="submitted && f.make.errors" class="invalid-feedback">
+                                <div *ngIf="f.make.errors.required">Make is required</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Status</label>
-                            <select class="form-control" name="Status"  [(ngModel)]="inspectionData.Status" required
-                                tabindex="19">
-                                <option value="Status1">Status 1</option>
-                                <option value="Status2">Status 2</option>
-                                <option value="Status3">Status 3</option>
+                            <select class="form-control" id="statusid" formControlName="statusid"
+                                [(ngModel)]="inspectionData.statusid" tabindex="19"
+                                [ngClass]="{ 'is-invalid': submitted && f.statusid.errors }" required>
+                                <option class="form-control" *ngFor="let item of status" [value]="item.statusid">
+                                    <table>
+                                        <tr>
+                                            <td> {{item.statusText}}</td>
+                                        </tr>
+                                    </table>
+                                </option>
                             </select>
+                            <div *ngIf="submitted && f.statusid.errors" class="invalid-feedback">
+                                <div *ngIf="f.statusid.errors.required">Status is required</div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Model</label>
-                            <input type="text" class="form-control" placeholder="Model" name="Model" tabindex="18"
-                                [(ngModel)]="inspectionData.Model" required>
+                            <input type="text" class="form-control" placeholder="Model" formControlName="model"
+                                tabindex="18" [(ngModel)]="inspectionData.model" required
+                                [ngClass]="{ 'is-invalid': submitted && f.model.errors }" />
+                            <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
+                                <div *ngIf="f.model.errors.required">Model is required</div>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlSelect1">Vendor Email ID</label>
-                            <select class="form-control" name="vendorEmail" [(ngModel)]="inspectionData.vendorEmail"
-                                required tabindex="20">
-                                <option value="vendorEmail1">VendorEmail 1</option>
-                                <option value="vendorEmail2">VendorEmail 2</option>
-                                <option value="vendorEmail3">VendorEmail 3</option>
-                            </select>
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Conveyance in KM</label>
+                                <input type="text" class="form-control" placeholder="Conveyance in KM"
+                                    formControlName="conveyanceKm" tabindex="20"
+                                    [(ngModel)]="inspectionData.conveyanceKm"
+                                    [ngClass]="{ 'is-invalid': submitted && f.conveyanceKm.errors }" required />
+                                <div *ngIf="submitted && f.conveyanceKm.errors" class="invalid-feedback">
+                                    <div *ngIf="f.conveyanceKm.errors.required">Conveyance is required</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Referance No</label>
+                            <input type="text" class="form-control" placeholder="Referance Number"
+                                formControlName="referenceno" tabindex="21" [(ngModel)]="inspectionData.referenceno"
+                                required [ngClass]="{ 'is-invalid': submitted && f.referenceno.errors }" />
+                            <div *ngIf="submitted && f.referenceno.errors" class="invalid-feedback">
+                                <div *ngIf="f.referenceno.errors.required">Referance No is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Reason for Update</label>
+                                <input type="text" class="form-control" placeholder="Reason for Update" required
+                                    formControlName="updatereason" [(ngModel)]="inspectionData.updatereason"
+                                    tabindex="23" [ngClass]="{ 'is-invalid': submitted && f.updatereason.errors }" />
+                                <div *ngIf="submitted && f.updatereason.errors" class="invalid-feedback">
+                                    <div *ngIf="f.updatereason.errors.required">Reason for Update is required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Update Status</label>
+                            <select class="form-control" formControlName="updatestatus"
+                                [(ngModel)]="inspectionData.updatestatus" required tabindex="22"
+                                [ngClass]="{ 'is-invalid': submitted && f.updatestatus.errors }">
+                                <option value="abc">ABC</option>
+                                <option value="def">DEF</option>
+                                <option value="xya">XYZ</option>
+                            </select>
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Conveyance</label>
-                            <select class="form-control" name="conveyance" [(ngModel)]="inspectionData.conveyance"
-                                required tabindex="21">
-                                <option value="conveyance1">Conveyance 1</option>
-                                <option value="conveyance2">Conveyance 2</option>
-                                <option value="conveyance3">Conveyance 3</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Alternate Customer Name</label>
-                            <input type="text" class="form-control" placeholder="Alternate Customer Name"
-                                name="altCustomerName" tabindex="23" [(ngModel)]="inspectionData.altCustomerName"
-                                required>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Conveyance in KM</label>
-                            <input type="text" class="form-control" placeholder="Conveyance in KM" name="conveyanceKM" tabindex="22"
-                                [(ngModel)]="inspectionData.conveyanceKM" readonly required>
+                            <div *ngIf="submitted && f.updatestatus.errors" class="invalid-feedback">
+                                <div *ngIf="f.updatestatus.errors.required">Update Status is required</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Remarks</label>
-                            <textarea type="text-center" class="form-control form-control-sm" rows="2" name="remarks"
-                            [(ngModel)]="inspectionData.remarks" placeholder="Remarks" tabindex="24"></textarea>
+                            <textarea type="text-center" class="form-control form-control-sm" rows="2"
+                                formControlName="remarks" [(ngModel)]="inspectionData.remarks" placeholder="Remarks"
+                                tabindex="24" [ngClass]="{ 'is-invalid': submitted && f.remarks.errors }"></textarea>
+                            <div *ngIf="submitted && f.remarks.errors" class="invalid-feedback">
+                                <div *ngIf="f.remarks.errors.required">Remarks is required</div>
+                            </div>
                         </div>
                     </div>
-
-
                 </div>
                 <div class="row text-right">
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary mr-1">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Create Inspection</button>
+                        <button type="button" class="btn btn-primary mr-1" (click)="cancel()">Cancel</button>
+                        <button type="button" *ngIf="inspectionData.id!=undefined" class="btn btn-primary"
+                            (click)="updateInspection()">Update Inspection</button>
+                        <button type="submit" *ngIf="inspectionData.id==undefined" class="btn btn-primary">Create
+                            Inspection</button>
                     </div>
                 </div>
 
