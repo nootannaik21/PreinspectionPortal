@@ -73,7 +73,6 @@ export class AddInspectionComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger
     this.addInspectionForm = this.formBuilder.group({
       branchcode: ['', [Validators.required]],
       imdcode: ['', [Validators.required]],
@@ -105,7 +104,6 @@ export class AddInspectionComponent implements OnInit {
       this.getAllBranches();
       this.inspectionService.getInspectionById(localStorage.getItem('inspectionId')).subscribe(
         data => {
-          debugger
           this.inspectionData = Object.assign({},data);
         },
         err => {
@@ -145,15 +143,12 @@ export class AddInspectionComponent implements OnInit {
     this.inspectionData = {};
   }
   updateInspection() {
-    debugger
-    debugger
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
     } else {
     this.inspectionService.updateInspection(this.inspectionData.id, this.inspectionData).subscribe(
       data => {
-        debugger;
         this.alertService.successAlert("Success", "Inspection Updated successfully");
         this.router.navigateByUrl('inspection');
           this.inspectionData = {};
@@ -162,7 +157,6 @@ export class AddInspectionComponent implements OnInit {
     )}
   }
   createInspection() {
-    debugger
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
@@ -177,7 +171,6 @@ export class AddInspectionComponent implements OnInit {
       this.inspectionData.vendorid = v;
       this.inspectionService.addInspection(this.inspectionData).subscribe(
         data => {
-          debugger;
           this.alertService.successAlert("Success", "Inspection added successfully");
           this.router.navigateByUrl('inspection');
           this.inspectionData = {};
