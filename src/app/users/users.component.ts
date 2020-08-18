@@ -39,7 +39,6 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   showToasterSuccess(){
-    debugger
     this.notifyService.showSuccess("Data shown successfully !!", "Success")
 }
 
@@ -55,10 +54,8 @@ showToasterWarning(){
     this.notifyService.showWarning("This is warning", "ItSolutionStuff.com")
 }
   getUSerList() {
-    debugger;
     this.userapiService.getUserList().subscribe(
       data => {
-        debugger
         this.userList = data;
         this.rerender();
       },
