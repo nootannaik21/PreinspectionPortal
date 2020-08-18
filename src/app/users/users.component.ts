@@ -4,12 +4,15 @@ import { UserapiserviceService } from '../service/userapiservice.service'
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { AlertService } from '../service/alert.service';
+import { NotificationService } from '../service/notification.service'
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-tbl-datatable',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
+  title = 'toaster-not';
   userList: any = [];
   ngAfterViewInit(): void {
     this.userList = [];
@@ -21,7 +24,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   dtElement: DataTableDirective;
   isDtInitialized: boolean = false;
 
-  constructor(private router: Router, private userapiService: UserapiserviceService, private alertService:AlertService) { }
+  constructor(private notifyService : NotificationService,private router: Router, private userapiService: UserapiserviceService, private alertService:AlertService) { }
 
   ngOnInit() {
     this.dtOptions = {
@@ -35,6 +38,21 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.getUSerList();
 
   }
+  showToasterSuccess(){
+    this.notifyService.showSuccess("Data shown successfully !!", "Success")
+}
+
+showToasterError(){
+    this.notifyService.showError("Something is wrong", "ItSolutionStuff.com")
+}
+
+showToasterInfo(){
+    this.notifyService.showInfo("This is info", "ItSolutionStuff.com")
+}
+
+showToasterWarning(){
+    this.notifyService.showWarning("This is warning", "ItSolutionStuff.com")
+}
   getUSerList() {
     this.userapiService.getUserList().subscribe(
       data => {
@@ -45,11 +63,13 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     )
   }
+  
   editUserRow(item) {
     localStorage.setItem('userid', item.id);
     this.router.navigateByUrl('users/addUser');
   }
   deleteUser(item) {
+    this.alertService.confirmAlert(() => {
     this.userapiService.deleteUser(item.id).subscribe(
       data => {
         var res :any =data;
@@ -59,7 +79,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
       err => {
         this.alertService.errorAlert("Oops!","User Not Deleted");
        }
-    )
+    )})
   }
   rerender(): void {
     if (this.isDtInitialized) {

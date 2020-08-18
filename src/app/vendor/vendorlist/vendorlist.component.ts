@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { VendorServiceService } from '../../service/vendor-service.service'
 import { AlertService } from 'src/app/service/alert.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vendorlist',
@@ -22,10 +23,15 @@ export class VendorlistComponent implements OnInit, OnDestroy, AfterViewInit {
   dtElement: DataTableDirective;
   isDtInitialized: boolean = false;
 
-  constructor(private vendorService: VendorServiceService, private alertService:AlertService) { }
+  constructor(private router: Router, private vendorService: VendorServiceService, private alertService: AlertService) { }
 
   ngOnInit() {
     this.getAllVendors();
+    localStorage.removeItem('vendorid');
+  }
+  editVendor(item) {
+    localStorage.setItem('vendorid', item.id);
+    this.router.navigateByUrl('vendor/addVendor');
   }
   getAllVendors() {
     this.vendorService.getVendors().subscribe(
@@ -54,20 +60,23 @@ export class VendorlistComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dtTrigger.unsubscribe();
   }
   gotoAddVendorScreen() {
+    localStorage.removeItem('VendorIdid')
+    this.router.navigateByUrl('vendor/addVendor');
 
   }
   deleteVendor(item) {
+    this.alertService.confirmAlert(() => {
     this.vendorService.deleteVendor(item.id).subscribe(
       data => {
         var res: any = data;
         if (res.message.result == "success") {
-          this.alertService.successAlert("Success","Vendor Deleted Successfully");
-            this.getAllVendors();
+          this.alertService.successAlert("Success", "Vendor Deleted Successfully");
+          this.getAllVendors();
         }
       },
       err => {
       }
-    )
+    )})
 
   }
 }

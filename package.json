@@ -12,7 +12,7 @@
   "private": true,
   "dependencies": {
     "@agm/core": "^1.1.0",
-    "@angular/animations": "~10.0.5",
+    "@angular/animations": "^10.0.9",
     "@angular/common": "~10.0.5",
     "@angular/compiler": "~10.0.5",
     "@angular/core": "~10.0.5",
@@ -69,6 +69,7 @@
     "ngx-lightbox": "^2.2.0",
     "ngx-owl-carousel-o": "^4.0.0",
     "ngx-perfect-scrollbar": "^8.0.0",
+    "ngx-toastr": "^13.0.0",
     "nouislider": "^14.6.0",
     "peity": "^3.3.0",
     "rxjs": "~6.5.5",
