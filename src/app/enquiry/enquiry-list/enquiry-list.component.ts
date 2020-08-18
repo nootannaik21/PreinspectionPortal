@@ -27,7 +27,8 @@ export class EnquiryListComponent implements OnInit, OnDestroy, AfterViewInit {
   getEnquiryList(){
     this.enquiryService.getEnquiryList(this.enquiryData).subscribe(
       data =>{
-
+        this.enquiryList=data;
+        this.rerender();
       },
       err=>{
 

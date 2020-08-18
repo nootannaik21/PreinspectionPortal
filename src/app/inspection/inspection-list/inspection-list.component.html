@@ -25,6 +25,7 @@
                             <th class="text-left">Client Email</th>
                             <th class="text-left">Client Phone No</th>
                             <th class="text-left">Action</th>
+                            <!-- <th class="text-center">View</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -49,14 +50,17 @@
                             </td>
                             <td class="text-left">
                                 <div>
-                                    <!-- <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
-                                        style="cursor: pointer;" (click)="editInspectionRow(item)"></i> -->
+                                    <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
+                                        style="cursor: pointer;" (click)="editInspectionRow(item)"></i>
 
-                                    <!-- <i class="feather icon-trash-2 pr-3" className="tooltipstext" title="Delete"
-                                        style="cursor: pointer;" (click)="deleteInspection(item)"></i> -->
+                                    <i class="feather icon-trash-2 pr-3" className="tooltipstext" title="Delete"
+                                        style="cursor: pointer;" (click)="deleteInspection(item)"></i>
 
                                 </div>
                             </td>
+                            <!-- <td class="text-left">
+                                <button type="button"  class="btn btn-primary" (click)="viewInspectionHistory(item)">View</button>
+                            </td> -->
                         </tr>
                     </tbody>
                 </table>

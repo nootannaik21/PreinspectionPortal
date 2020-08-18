@@ -15,11 +15,12 @@ export class AuthResetPasswordComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private alertService: AlertService, private dataService: dataService, private router: Router) { }
 
   ngOnInit() {
+    localStorage.removeItem("resetFlag");
     this.getCaptcha(5);
     this.resetForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      captcha: [],
-      enteredCaptcha: [],
+      captcha: [''],
+      enteredCaptcha: ['', [Validators.required]]
     });
   }
   getCaptcha(length) {
@@ -39,36 +40,32 @@ export class AuthResetPasswordComponent implements OnInit {
     this.submitted = true;
     if (this.resetForm.invalid) {
       this.resetPwd = {};
+      this.getCaptcha(5);
       return;
     }
     else {
       if (this.resetPwd.captcha != this.resetPwd.enteredCaptcha) {
-        this.alertService.infoAlert("", "Entered text is not matching");
-        this.resetPwd.enteredCaptcha=undefined;
+        this.alertService.infoAlert("", "Entered Captcha is not matching");
+        this.resetPwd.enteredCaptcha = undefined;
         this.getCaptcha(5);
         return;
       }
-      else{ 
-      this.dataService.resetPassword(this.resetPwd).subscribe(
-        data => {
-          // this.alertService.successAlert("Success", "Password Reset Done");
-          // this.router.navigateByUrl('users');
-
-
-          //   var res :any =data;
-          //   if(res.result=="success"){
-          //   this.router.navigateByUrl("/login");
-          // }
-          // else{
-          //   this.alertService.errorAlert("Oops!","Password Reset Failed");
-          // }
-        },
-        err => {
-          this.submitted = false;
-          this.alertService.infoAlert("", "Entered Email does not exists");
-          // this.router.navigateByUrl("/auth/reset-password");
-        }
-      )}
+      else {
+        this.dataService.resetPassword(this.resetPwd).subscribe(
+          data => {
+            localStorage.setItem("resetFlag", "true");
+            this.router.navigateByUrl("auth");
+          },
+          err => {
+            this.submitted = false;
+            this.alertService.infoAlert("", "Your email ID is not registered in our system.");
+            this.getCaptcha(5);
+            this.router.navigateByUrl("/auth/reset-password");
+            localStorage.removeItem("resetFlag");
+            return;
+          }
+        )
+      }
     }
   }
   get f() { return this.resetForm.controls; }

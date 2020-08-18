@@ -16,16 +16,31 @@ export class AuthSigninComponent implements OnInit {
   user: any = {};
   isError: boolean;
   disableSignIn: boolean;
+  resetPanel:boolean=false;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private authservice: AuthService, private preInspection: PreinspectionService) {
 
   }
   ngOnInit() {
+    if(localStorage.getItem("resetFlag")=="true"){
+      this.resetPanel=true;
+      setTimeout(() => {
+        if (this.resetPanel == true) {
+          ("#hideresetPanel");
+          this.resetPanel = false;
+        }
+      }, 20000);
+    }
+    else{
+      this.resetPanel=false;
+      localStorage.removeItem("resetFlag");
+    }
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required]]
 
     });
+    
   }
   keyDownFunction(event) {
     if (event.keyCode === 13) {
@@ -33,7 +48,8 @@ export class AuthSigninComponent implements OnInit {
     }
   }
   onSubmit() {
-   this.getLogin();   
+    debugger
+   this.getLogin();
   }
   getLogin() {
     this.submitted = true;
@@ -42,7 +58,9 @@ export class AuthSigninComponent implements OnInit {
       return;
     }
     else{
+      debugger
       this.authservice.login(this.user).subscribe((data) => {
+        debugger
         var res: any = data;
         if (res.result == "success") {
           localStorage.setItem("UserName",this.user.email);
@@ -59,7 +77,7 @@ export class AuthSigninComponent implements OnInit {
             ("#hideDiv");
             this.isError = false;
             this.submitted = false;
-  
+
           }
         }, 5000);
         this.disableSignIn = false;
