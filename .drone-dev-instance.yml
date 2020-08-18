@@ -29,6 +29,13 @@ steps:
 #   commands:
 #   - npm install
 #   - ng e2e
+trigger:
+  branch:
+    include:
+    - master
+  event:
+    exclude:
+    - pull_request
 
 ---
 kind: pipeline
@@ -66,7 +73,7 @@ steps:
 trigger:
   branch:
     include:
-    - master
     - qa
   event:
+    exclude:
     - pull_request
