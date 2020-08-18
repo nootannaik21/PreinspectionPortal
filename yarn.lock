@@ -155,10 +155,17 @@
     ora "4.0.3"
     rxjs "6.5.4"
 
-"@angular/animations@>=4.2.4", "@angular/animations@~10.0.5":
+"@angular/animations@>=4.2.4":
   version "10.0.8"
   resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-10.0.8.tgz#f033a7043f41075fae128ea6e91bcdaec3a4df2f"
   integrity sha512-vxJRNz6CbguuoLxZpKbaCRcJRFg+/UeXvrUjRlUxwJpAni5hFYkWZUjjXvHDszI97q8FkDNLpGDPcggGqPfo4w==
+  dependencies:
+    tslib "^2.0.0"
+
+"@angular/animations@^10.0.9":
+  version "10.0.10"
+  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-10.0.10.tgz#c4f872e2917e9e7d4ffd04a64539e2aae67eef0c"
+  integrity sha512-lIbNeLVVl9bO41orPFpKoobCvxZIZ2wdcKJBEFtQiOdw0khRQQ8k7so4TAWOZXRJR+MkOUCjU2pO8gbMXgBweQ==
   dependencies:
     tslib "^2.0.0"
 
@@ -342,6 +349,13 @@
   version "9.1.12"
   resolved "https://registry.yarnpkg.com/@angular/router/-/router-9.1.12.tgz#4f7fc170e1e7ef72ca1714dbc7a3888aedc33f2d"
   integrity sha512-+qCaXa9y0nsRhzjAYBqmGoQ2YkrdXgftZwuFDf6t4qEi30EXa0oS97KrlFq0M5GKdLIDGrbUm9PcdHSTOI+ZhA==
+
+"@auth0/angular-jwt@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@auth0/angular-jwt/-/angular-jwt-5.0.1.tgz#37851d3ca2a0e88b3e673afd7dd2891f0c61bdf5"
+  integrity sha512-djllMh6rthPscEj5n5T9zF223q8t+sDqnUuAYTJjdKoHvMAzYwwi2yP67HbojqjODG4ZLFAcPtRuzGgp+r7nDQ==
+  dependencies:
+    tslib "^2.0.0"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.8.3":
   version "7.10.4"
@@ -6386,6 +6400,13 @@ ng-click-outside@^7.0.0:
   resolved "https://registry.yarnpkg.com/ng-click-outside/-/ng-click-outside-7.0.0.tgz#3db844cd3900cbfc3520f973daf7fe4dc281495d"
   integrity sha512-5QgqABb8ULqQtHNvCNXnBlzjKfILXrdZkq/xcnGL1aM1EmrY7xlUQQ/WLYnxno0gw/QQwCE5tH7sFfFUhIn8CA==
 
+ng-multiselect-dropdown@^0.2.10:
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/ng-multiselect-dropdown/-/ng-multiselect-dropdown-0.2.10.tgz#464dfe34c09d23b1ba8eb851663d05f4614fd1aa"
+  integrity sha512-X7JlVgWMUmkabWxGNxlNmPmBi/dPAPTSc5lkBmeZbWBehL+yrfrHVAs2F27w5genI7u64CIR1AHMINy51/ueUg==
+  dependencies:
+    tslib "^1.9.0"
+
 ng-number-formatter@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/ng-number-formatter/-/ng-number-formatter-1.5.0.tgz#5792dbec04576e396e4827e48e8d7588c1bffbbd"
@@ -6477,6 +6498,13 @@ ngx-perfect-scrollbar@^8.0.0:
   dependencies:
     perfect-scrollbar "^1.4.0"
     resize-observer-polyfill "^1.5.0"
+
+ngx-toastr@^13.0.0:
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-13.0.0.tgz#7d011117c4352d824399de2478d2aedeec5c9391"
+  integrity sha512-p/isNGkuCTCrCaUimrHzmR/OFP9u0HomkbqBJDmbIzpUNdCGILfRF6FiuJKhb7X9XQsFAKDe3MK3PejFPRCyrg==
+  dependencies:
+    tslib "^2.0.0"
 
 nice-try@^1.0.4:
   version "1.0.5"
