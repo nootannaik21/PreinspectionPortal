@@ -6,6 +6,7 @@ steps:
   image: node
   commands:
   - yarn global add @angular/cli
+  - yarn
   - yarn build
   # - npm install -g @angular/cli
   # - npm audit fix
@@ -38,6 +39,7 @@ steps:
   image: node
   commands:
   - yarn global add @angular/cli
+  - yarn
   - yarn qa-build
   # - npm install -g @angular/cli
   # - npm audit fix
