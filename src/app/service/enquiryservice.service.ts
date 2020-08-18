@@ -6,7 +6,7 @@ import { ApiService } from './api.service';
 })
 export class EnquiryserviceService {
   getEnquiryList(enquiryData) {
-    return this.apiService.get("branch/getActiveBranchById?id="+enquiryData);
+    return this.apiService.post("enquiry/enquiryDetails",enquiryData);
   }
 
   constructor(private apiService:ApiService) { }
