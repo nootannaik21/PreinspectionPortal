@@ -27,6 +27,20 @@ export class InspectionListComponent implements OnInit, OnDestroy, AfterViewInit
   ngOnInit() {
     this.getInspectionList();
   }
+  viewInspectionHistory(item){
+    this.inspectionService.getInspectionHistoryById(item.id).subscribe(
+      data =>{
+      },
+      err =>{
+
+      }
+    )
+  }
+  editInspectionRow(item){
+    localStorage.setItem('inspectionId', item.id);
+    this.router.navigateByUrl('inspection/addInspection');
+
+  }
   getInspectionList() {
     this.inspectionService.getInspectionList().subscribe(
       data =>{
@@ -40,10 +54,22 @@ export class InspectionListComponent implements OnInit, OnDestroy, AfterViewInit
     )
   }
   gotoAddInspectionScreen() {
+    localStorage.removeItem('inspectionId');
     this.router.navigateByUrl('inspection/addInspection');
   }
   deleteInspection(item){
-    
+    this.alertService.confirmAlert(() => {
+    this.inspectionService.deleteInspection(item.id).subscribe(
+      data => {
+        var res :any =data;
+        if(res.result=="success"){
+        this.alertService.successAlert("Success","Deleted Successfully");
+        this.getInspectionList();}
+      },
+      err => {
+        this.alertService.errorAlert("Oops!","User Not Deleted");
+       }
+    )})    
   }
   rerender(): void {
     if (this.isDtInitialized) {
