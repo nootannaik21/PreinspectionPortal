@@ -38,6 +38,9 @@
           <strong>Invalid Credentials.!</strong>
         </div>
         <button class="btn btn-block btn-primary mb-0" [disabled]="disableSignIn" (click)="onSubmit()" #signin>Signin</button> -->
+        <div id="hideresetPanel" class=" alert alert-success" *ngIf="resetPanel">
+          <strong>Please check your registered email ID for new password in Inbox or Junk/Spam folder.</strong>
+        </div>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (keydown)="keyDownFunction($event)">
           <div class="form-group">
             <div class="input-group mb-3">
