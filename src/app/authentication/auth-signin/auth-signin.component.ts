@@ -37,7 +37,7 @@ export class AuthSigninComponent implements OnInit {
     }
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required]]
 
     });
     
@@ -48,6 +48,7 @@ export class AuthSigninComponent implements OnInit {
     }
   }
   onSubmit() {
+    debugger
    this.getLogin();
   }
   getLogin() {
@@ -57,7 +58,9 @@ export class AuthSigninComponent implements OnInit {
       return;
     }
     else{
+      debugger
       this.authservice.login(this.user).subscribe((data) => {
+        debugger
         var res: any = data;
         if (res.result == "success") {
           localStorage.setItem("UserName",this.user.email);
