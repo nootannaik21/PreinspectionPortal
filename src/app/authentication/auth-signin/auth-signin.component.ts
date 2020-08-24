@@ -76,10 +76,26 @@ export class AuthSigninComponent implements OnInit {
           if(localStorage.getItem('type')=="Admin")
           {
             this.router.navigateByUrl('users');
+          }         
+          else if(localStorage.getItem('type')=="OPS")
+          {
+            this.router.navigateByUrl('inspection');
           }
           else if(localStorage.getItem('type')=="IMD")
           {
             this.router.navigateByUrl('inspection');
+          }
+          else if(localStorage.getItem('type')=="Branch")
+          {
+            this.router.navigateByUrl('inspection');
+          }
+          else if(localStorage.getItem('type')=="Vendor")
+          {
+            this.router.navigateByUrl('vendor');
+          }
+          else if(localStorage.getItem('type')=="Claims")
+          {
+            this.router.navigateByUrl('enquiry');
           }
 
           this.disableSignIn = true;
