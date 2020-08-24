@@ -3,7 +3,7 @@
         <h3>List of Branches</h3>
     </div>
     <div class="col text-right">
-        <button type="button" class="btn btn-primary" ngbTooltip="btn-primary" (click)="gotoAddBranchScreen()"> Add Branch</button>
+        <button type="button" class="btn btn-primary" ngbTooltip="btn-primary" (click)="gotoAddBranchScreen()" Permission [permission]="'Admin'"> Add Branch</button>
     </div>
   </div>
   <div class="row">
@@ -19,8 +19,8 @@
                   <th class="text-left">Branch Id</th>
                   <th class="text-left">Branch Code</th>
                   <th class="text-left">Branch Name</th>
-                  <th class="text-left">Zone</th>
-                  <th class="text-left">Action</th>
+                  <!-- <th class="text-left">Zone</th> -->
+                  <th class="text-left" Permission [permission]="'Admin'">Action</th>
               </tr>
           </thead>
           <tbody>
@@ -34,10 +34,10 @@
                   <td class="text-left">
                       {{item.branchName}}
                   </td>
-                  <td class="text-left">
+                  <!-- <td class="text-left">
                       {{item.zone}}
-                  </td>
-                  <td class="text-left">
+                  </td> -->
+                  <td class="text-left" Permission [permission]="'Admin'">
                       <div>
                           <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
                               style="cursor: pointer;" (click)="editBranchRow(item)"></i>
