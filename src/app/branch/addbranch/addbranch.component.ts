@@ -20,7 +20,7 @@ export class AddbranchComponent implements OnInit {
   ngOnInit() {
     this.addBranchForm = this.formBuilder.group({
       branchCode: ['', [Validators.required]],
-      zone: ['', [Validators.required]],
+      // zone: ['', [Validators.required]],
       branchName: ['', [Validators.required]],
     });
     if (localStorage.getItem('branchid')) {
