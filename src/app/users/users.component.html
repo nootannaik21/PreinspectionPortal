@@ -19,7 +19,7 @@
         Warning Toaster
     </button> -->
     <!-- <button class="btn btn-primary" (click)="this.toastEvent.toast({uid: 'toastRight', delay: 1500})">Right</button> -->
-      <button type="button" class="btn btn-primary" ngbTooltip="btn-primary" (click)="gotoAddUserScreen()"> Add User </button>
+      <button type="button" class="btn btn-primary" Permission [permission]="'Admin'" ngbTooltip="btn-primary" (click)="gotoAddUserScreen()"> Add User </button>
   </div>
 </div>
 <div class="row">
@@ -39,8 +39,7 @@
                 <th class="text-left">Last Name</th>
                 <th class="text-left">Email</th>
                 <th class="text-left">Company</th>
-                <th class="text-left">Phone</th>
-                <th class="text-left">Action</th>
+                <th class="text-left" Permission [permission]="'Admin'">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -60,10 +59,7 @@
                 <td class="text-left">
                     {{item.company}}
                 </td>
-                <td class="text-left">
-                    {{item.phone}}
-                </td>
-                <td class="text-center">
+                <td class="text-left" Permission [permission]="'Admin'">
                     <div>
                         <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
                             style="cursor: pointer;" (click)="editUserRow(item)"></i>

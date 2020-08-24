@@ -65,7 +65,9 @@ showToasterWarning(){
   }
   
   editUserRow(item) {
-   
+    debugger;
+    localStorage.setItem('userid', item.id)
+    this.router.navigateByUrl('users/addUser');   
   }
   deleteUser(item) {
     this.alertService.confirmAlert(() => {
