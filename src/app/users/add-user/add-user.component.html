@@ -55,22 +55,18 @@
                 <div *ngIf="f.password.errors.minlength">Password must be at least 15 characters</div>
               </div>
             </div>
+
             <div class="form-group">
-              <label for="exampleFormControlSelect1">User Type</label>
-              <select class="form-control" formControlName="type" [(ngModel)]="userdata.type" required tabindex="7"
-                (change)='onTypeSelect($event)' [ngClass]="{ 'is-invalid': submitted && f.type.errors }" required>
-                <option value="Admin">Admin</option>
-                <option value="OPS">OPS</option>
-                <option value="IMD">IMD</option>
-                <option value="Branch">Branch</option>
-                <option value="Vendor">Vendor</option>
-                <option value="Claims">Claims</option>
+              <label for="exampleFormControlSelect1">Status</label>
+              <select class="form-control" formControlName="status" [(ngModel)]="userdata.status" required tabindex="7"
+                (change)='onStatusSelect($event)' [ngClass]="{ 'is-invalid': submitted && f.status.errors }" required>
+                <option value="false">Active</option>
+                <option value="true">De Active</option>
               </select>
-              <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
-                <div *ngIf="f.type.errors.required">User Type is required</div>
+              <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
+                <div *ngIf="f.status.errors.required">Status is required</div>
               </div>
             </div>
-
           </div>
 
           <div class="col-md-6">
@@ -83,9 +79,28 @@
                 <div *ngIf="f.confPassword.errors.required">Confirm Password is required</div>
               </div>
             </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">User Type</label>
+              <select class="form-control" formControlName="type" [(ngModel)]="userdata.type" required tabindex="8"
+                (change)='onTypeSelect($event)' [ngClass]="{ 'is-invalid': submitted && f.type.errors }" required>
+                <option value="Admin">Admin</option>
+                <option value="OPS">OPS</option>
+                <option value="IMD">IMD</option>
+                <option value="Branch">Branch</option>
+                <option value="Vendor">Vendor</option>
+                <option value="Claims">Claims</option>
+              </select>
+              <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+                <div *ngIf="f.type.errors.required">User Type is required</div>
+              </div>
+            </div>
+            
+          </div>
+
+          <div class="col-md-6" >
             <div class="form-group" *ngIf="showBranch">
               <label for="exampleFormControlSelect1">Branch Name</label>
-              <select class="form-control" formControlName="branchName" [(ngModel)]="userdata.branchName" tabindex="8"
+              <select class="form-control" formControlName="branchName" [(ngModel)]="userdata.branchName" tabindex="9"
                 (change)='onBranchSelect()' [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }" required>
                 <option class="form-control" *ngFor="let item of branches" [value]="item.branchName">
                   <table>
@@ -99,21 +114,7 @@
                 <div *ngIf="f.branchName.errors.required">Branch Name is required</div>
               </div>
             </div>
-          </div>
-
-          <div class="col-md-6" *ngIf="showBranch">
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Branch Code</label>
-              <input type="text" class="form-control" aria-describedby="emailHelp" tabindex="9"
-                placeholder="Branch Code" formControlName="branchCode" required [(ngModel)]="userdata.branchCode"
-                readonly [ngClass]="{ 'is-invalid': submitted && f.branchCode.errors }" />
-              <div *ngIf="submitted && f.branchCode.errors" class="invalid-feedback">
-                <div *ngIf="f.branchCode.errors.required">Branch Code is required</div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6" *ngIf="showBranch">
-            <div class="form-group">
+            <div class="form-group" *ngIf="showBranch">
               <label for="exampleFormControlSelect1">Branches </label>
               <ng-multiselect-dropdown [placeholder]="'Select Branches'" required [settings]="dropdownSettings"
                 [data]="branches" tabindex="10" [(ngModel)]="selectedItems" formControlName="selectedItems"
@@ -124,6 +125,21 @@
                 <div *ngIf="f.selectedItems.errors.required">Branches required</div>
               </div>
             </div>
+           
+            
+          </div>
+          <div class="col-md-6" *ngIf="showBranch">
+
+            <div class="form-group" *ngIf="showBranch">
+              <label for="exampleFormControlSelect1">Branch Code</label>
+              <input type="text" class="form-control" aria-describedby="emailHelp" tabindex="9"
+                placeholder="Branch Code" formControlName="branchCode" required [(ngModel)]="userdata.branchCode"
+                readonly [ngClass]="{ 'is-invalid': submitted && f.branchCode.errors }" />
+              <div *ngIf="submitted && f.branchCode.errors" class="invalid-feedback">
+                <div *ngIf="f.branchCode.errors.required">Branch Code is required</div>
+              </div>
+            </div>
+           
           </div>
 
         </div>

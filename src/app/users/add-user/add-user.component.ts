@@ -28,6 +28,7 @@ export class AddUserComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private router: Router, private alertService: AlertService, private userapiService: UserapiserviceService) { }
 
   ngOnInit() {
+    debugger
     this.addUserForm = this.formBuilder.group({
       firstName: ['', [Validators.required]],
       company: ['', [Validators.required]],
@@ -35,6 +36,7 @@ export class AddUserComponent implements OnInit {
       branchName: ['', [Validators.required]],
       type: ['', [Validators.required]],
       branchCode: ['', [Validators.required]],
+      status: ['', [Validators.required]],
       // branches: ['', [Validators.required]],
       selectedItems: ['',],
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
@@ -45,23 +47,28 @@ export class AddUserComponent implements OnInit {
     if (localStorage.getItem('userid')) {
       this.title = "Update User";
       var temp: any = {};
+    debugger
       // this.addUserForm.get('email').reset();
       this.addUserForm.get('email').disable();
       this.addUserForm.get('password').disable();
       this.addUserForm.get('confPassword').disable();
       this.userapiService.getUserById(localStorage.getItem('userid')).subscribe(
         data => {
+          debugger
           var user: any = data;
           this.userdata = Object.assign(data);
           this.userdata.confPassword = this.userdata.password;
+          this.userdata.status = this.userdata.isDeleted;
           if (this.userdata.type == "Admin") {
             this.showBranch = false;
           }
           else {
             this.showBranch = true;
             let tmp = [];
+            if(user.branches!=0){
             this.userapiService.getBranches().subscribe(
               branches => {
+                debugger
                 var res: any = branches;
                 this.branches = res.data;
                 for (let i = 0; i < user.branches.split(',').length; i++) {
@@ -81,7 +88,10 @@ export class AddUserComponent implements OnInit {
               },
               err => {
               }
-            )
+            )}
+            else{
+              this.getAllBranches();
+            }
           }
 
         },
@@ -92,8 +102,7 @@ export class AddUserComponent implements OnInit {
       this.getAllBranches();
       this.title = "Add User";
       this.showBranch = true;
-
-
+      this.selectedItems=[];
     }
     // else {
     //   this.userdata = {};
@@ -113,6 +122,7 @@ export class AddUserComponent implements OnInit {
     this.userdata.branchCode = temp[0].branchCode;
   }
   onTypeSelect(eve) {
+    debugger
     if (eve.target.value == "Admin") {
       this.showBranch = false;
       this.userdata.branchName = "";
@@ -126,6 +136,10 @@ export class AddUserComponent implements OnInit {
       this.userdata.branches = [];
       this.getAllBranches();
     }
+  }
+  onStatusSelect(eve) {
+    debugger
+      this.userdata.status=eve.target.value
   }
   getAllBranches() {
     this.userapiService.getBranches().subscribe(
@@ -147,15 +161,33 @@ export class AddUserComponent implements OnInit {
   }
 
   onItemSelect(item: any) {
-    this.branchCodes.push(item.id);
-    this.userdata.branches = this.branchCodes;
+    debugger
+    this.userdata.branches=[];
+    if(this.selectedItems.length>0){
+      this.selectedItems.forEach(element => {
+        this.userdata.branches.push(element.id);
+      })
+    }   
+    // this.branchCodes=[];
+    // if(this.userdata.branches.length>0){
+    // this.userdata.branches.push(item.id);
+    // }
+    // else { 
+
+    // this.branchCodes.push(item.id);
+    // this.userdata.branches=this.branchCodes;
+
+  // }
   }
   onSelectAll(items: any) {
+    debugger
+    this.branchCodes=[];
+    this.userdata.branches=[];
     items.forEach(element => {
       // var temp: any = {};
       // temp.branchlist = element.id
       this.branchCodes.push(element.id);
-      // this.userdata.branchlist = this.branchCodes.map(String);
+      // this.userdata.branchlist = this.branchCodes;
     });
     this.userdata.branches = this.branchCodes;
   }
@@ -165,6 +197,7 @@ export class AddUserComponent implements OnInit {
     this.router.navigateByUrl('users');
   }
   onSubmit() {
+    debugger
     this.submitted = true;
     if (this.userdata.type == "Admin") {
       this.submitted = false;
@@ -187,6 +220,7 @@ export class AddUserComponent implements OnInit {
     addUserDetails(userdata) {
       this.userapiService.addUser(userdata).subscribe(
         data => {
+          debugger
           var res: any = data;
           if (res.result == "success") {
             this.alertService.successAlert("Success", "User Added Successfully");
@@ -208,8 +242,15 @@ export class AddUserComponent implements OnInit {
 
     }
     updateUser(data) {
+      debugger
       this.submitted = true;
       this.showBranch = true;
+      this.userdata.branches=[];
+      if(this.selectedItems.length>0){
+        this.selectedItems.forEach(element => {
+          this.userdata.branches.push(element.id);
+        })
+      }      
       if (this.userdata.type == "Admin") {
         this.submitted = false;
         this.showBranch = false
@@ -226,6 +267,7 @@ export class AddUserComponent implements OnInit {
     updateUserDetails(data) {
       this.userapiService.updateUser(data.id, data).subscribe(
         data => {
+          debugger
           var res: any = data;
           if (res.result.result == "success") {
             this.alertService.successAlert("Success", "User Updated Successfully");
@@ -242,9 +284,9 @@ export class AddUserComponent implements OnInit {
           return;
         }
       )
-      data.branches = [];
-      this.selectedItems.forEach(element => {
-        data.branches.push(element.id);
-      });
+      // data.branches = [];
+      // this.selectedItems.forEach(element => {
+      //   data.branches.push(element.id);
+      // });
     }
   }
