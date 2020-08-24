@@ -16,14 +16,14 @@ export class AuthSigninComponent implements OnInit {
   user: any = {};
   isError: boolean;
   disableSignIn: boolean;
-  resetPanel:boolean=false;
+  resetPanel: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private authservice: AuthService, private preInspection: PreinspectionService) {
 
   }
   ngOnInit() {
-    if(localStorage.getItem("resetFlag")=="true"){
-      this.resetPanel=true;
+    if (localStorage.getItem("resetFlag") == "true") {
+      this.resetPanel = true;
       setTimeout(() => {
         if (this.resetPanel == true) {
           ("#hideresetPanel");
@@ -31,8 +31,8 @@ export class AuthSigninComponent implements OnInit {
         }
       }, 20000);
     }
-    else{
-      this.resetPanel=false;
+    else {
+      this.resetPanel = false;
       localStorage.removeItem("resetFlag");
     }
     this.loginForm = this.formBuilder.group({
@@ -40,7 +40,7 @@ export class AuthSigninComponent implements OnInit {
       password: ['', [Validators.required]]
 
     });
-    
+
   }
   keyDownFunction(event) {
     if (event.keyCode === 13) {
@@ -48,21 +48,43 @@ export class AuthSigninComponent implements OnInit {
     }
   }
   onSubmit() {
-   this.getLogin();
+    this.getLogin();
   }
   getLogin() {
+    debugger
     this.submitted = true;
     if (this.loginForm.invalid) {
-      this.user={};
+      this.user = {};
       return;
     }
-    else{
+    else {
+      debugger
       this.authservice.login(this.user).subscribe((data) => {
+        debugger
         var res: any = data;
         if (res.result == "success") {
-          localStorage.setItem("UserName",this.user.email);
+          localStorage.setItem("UserName", this.user.email);
           this.preInspection.setInspnectioUser(res);
-          this.router.navigateByUrl('users');
+
+          let jwt = res.accessToken;
+          let jwtData = jwt.split('.')[1];
+          let decodedJwtJsonData = window.atob(jwtData);
+          let decodedJwtData = JSON.parse(decodedJwtJsonData);
+          localStorage.setItem('type', decodedJwtData.type);
+
+          // this.router.navigateByUrl('users');
+          
+          // console.log(localStorage.getItem('permission'))
+
+          if(localStorage.getItem('type')=="Admin")
+          {
+            this.router.navigateByUrl('users');
+          }
+          else if(localStorage.getItem('type')=="IMD")
+          {
+            this.router.navigateByUrl('inspection');
+          }
+
           this.disableSignIn = true;
         }
         else {
