@@ -77,7 +77,7 @@ export class AuthSigninComponent implements OnInit {
           {
             this.router.navigateByUrl('users');
           }
-          else if(localStorage.getItem('type')=="IMD")
+          else if(localStorage.getItem('type')=="Branch")
           {
             this.router.navigateByUrl('inspection');
           }
