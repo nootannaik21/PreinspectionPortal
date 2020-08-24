@@ -12,7 +12,6 @@ export class PermissionDirective {
   constructor(private el: ElementRef, public renderer: Renderer2, private userService: userService) { }
 
   ngOnInit() {
-    debugger
     if (this.permission) {
       localStorage.setItem("permission", this.permission);
       if (this.hasPermission()) {
@@ -28,7 +27,6 @@ export class PermissionDirective {
       return;
   }
   hasPermission() {
-    debugger
     let userType = this.userService.getUserType();
     // var list = Object.keys(this.userPermissions);
     let data = this.permission.split('|');
