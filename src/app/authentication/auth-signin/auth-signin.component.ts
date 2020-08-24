@@ -51,16 +51,13 @@ export class AuthSigninComponent implements OnInit {
     this.getLogin();
   }
   getLogin() {
-    debugger
     this.submitted = true;
     if (this.loginForm.invalid) {
       this.user = {};
       return;
     }
     else {
-      debugger
       this.authservice.login(this.user).subscribe((data) => {
-        debugger
         var res: any = data;
         if (res.result == "success") {
           localStorage.setItem("UserName", this.user.email);

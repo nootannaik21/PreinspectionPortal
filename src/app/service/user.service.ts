@@ -29,7 +29,6 @@ export class userService {
       return JSON.parse(data);
   }
   getUserType() {
-    debugger
     let currentUser = localStorage.getItem('currentUser');
     if (currentUser) {
       var token = JSON.parse(currentUser);
@@ -43,7 +42,6 @@ export class userService {
     }
   }
   getUserPermissions() {
-    debugger
     let currentUser = localStorage.getItem('currentUser');
     if (currentUser) {
       var token = JSON.parse(currentUser);
