@@ -46,7 +46,7 @@ import { ToastrModule } from 'ngx-toastr';
     NavRightComponent,
     ConfigurationComponent,
     AddbranchComponent,
-    PermissionDirective,
+    // PermissionDirective,
     // OnlystringDirective,
     // OnlystringDirective,
   ],
