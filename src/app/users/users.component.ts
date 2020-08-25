@@ -6,6 +6,9 @@ import { DataTableDirective } from 'angular-datatables';
 import { AlertService } from '../service/alert.service';
 import { NotificationService } from '../service/notification.service'
 import Swal from 'sweetalert2';
+
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-tbl-datatable',
   templateUrl: './users.component.html',
@@ -41,7 +44,40 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.getUSerList();
 
   }
+  changeStatus(id) {
+    debugger
+    this.userapiService.getUserById(id).subscribe(
+      data => {
+        debugger;
+        var res: any = data;
+        if (res.isDeleted == true) {
+          res.isDeleted = false;
+        }
+        else {
+          res.isDeleted = true;
+        }
+        this.userapiService.updateUser(res.id, res).subscribe(
+          data => {
+            debugger;
+            this.getUSerList();
+          }
+          ,
+
+          err => [
+
+          ]
+
+        )
+
+      }
+    )
+  }
+  // showSuccess() {
+  //   debugger
+  //   this.toastr.success('Hello world!', 'Toastr fun!');
+  // }
   showToasterSuccess() {
+    debugger;
     this.notifyService.showSuccess("Data shown successfully !!", "Success")
   }
 
@@ -83,22 +119,28 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   editUserRow(item) {
-    localStorage.setItem('userid', item.id)
-    this.router.navigateByUrl('users/addUser');
+    if (!item.isDeleted) {
+      localStorage.setItem('userid', item.id)
+      this.router.navigateByUrl('users/addUser');
+    }
   }
   deleteUser(item) {
-    this.alertService.confirmAlert(() => {
-      this.userapiService.deleteUser(item.id).subscribe(
-        data => {
-          var res: any = data;
-          this.alertService.successAlert("Success", res.message);
-          this.getUSerList();
-        },
-        err => {
-          this.alertService.errorAlert("Oops!", "User Not Deleted");
-        }
-      )
-    })
+    if (!item.isDeleted) {
+      this.alertService.confirmAlert(() => {
+        this.userapiService.deleteUser(item.id).subscribe(
+          data => {
+            var res: any = data;
+            this.notifyService.showSuccess("User Deleted successfully !!", "Success");
+            // this.alertService.successAlert("Success", res.message);
+            this.getUSerList();
+          },
+          err => {
+            // this.alertService.errorAlert("Oops!", "User Not Deleted");
+            this.notifyService.showError("Something is wrong", "User Not Deleted");
+          }
+        )
+      })
+    }
   }
   rerender(): void {
     if (this.isDtInitialized) {
