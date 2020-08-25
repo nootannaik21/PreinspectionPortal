@@ -4,6 +4,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { VendorServiceService } from '../../service/vendor-service.service'
 import { AlertService } from 'src/app/service/alert.service';
 import { Router } from '@angular/router';
+import { NotificationService } from 'src/app/service/notification.service';
 
 @Component({
   selector: 'app-vendorlist',
@@ -23,15 +24,17 @@ export class VendorlistComponent implements OnInit, OnDestroy, AfterViewInit {
   dtElement: DataTableDirective;
   isDtInitialized: boolean = false;
 
-  constructor(private router: Router, private vendorService: VendorServiceService, private alertService: AlertService) { }
+  constructor(private notifyService: NotificationService,private router: Router, private vendorService: VendorServiceService, private alertService: AlertService) { }
 
   ngOnInit() {
     this.getAllVendors();
     localStorage.removeItem('vendorid');
   }
   editVendor(item) {
+    if (!item.isDeleted) {
     localStorage.setItem('vendorid', item.id);
     this.router.navigateByUrl('vendor/addVendor');
+    }
   }
   getAllVendors() {
     this.vendorService.getVendors().subscribe(
@@ -41,6 +44,32 @@ export class VendorlistComponent implements OnInit, OnDestroy, AfterViewInit {
         this.rerender();
       },
       err => {
+
+      }
+    )
+  }
+  changeStatus(id) {
+    this.vendorService.getVendorById(id).subscribe(
+      data => {
+        var res: any = data;
+        if (res.isDeleted == true) {
+          res.status = false;
+          res.isDeleted = false;
+        }
+        else {
+          res.status = true;
+          res.isDeleted = true;
+        }
+
+        this.vendorService.updateVendorDetails(res.id, res).subscribe(
+          data => {
+            this.getAllVendors();
+          },
+          err => [
+
+          ]
+
+        )
 
       }
     )
@@ -60,23 +89,26 @@ export class VendorlistComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dtTrigger.unsubscribe();
   }
   gotoAddVendorScreen() {
+    
     localStorage.removeItem('VendorIdid')
     this.router.navigateByUrl('vendor/addVendor');
 
   }
   deleteVendor(item) {
+    if (!item.isDeleted) {
     this.alertService.confirmAlert(() => {
     this.vendorService.deleteVendor(item.id).subscribe(
       data => {
         var res: any = data;
         if (res.message.result == "success") {
-          this.alertService.successAlert("Success", "Vendor Deleted Successfully");
+          this.notifyService.showSuccess("Vendor Deleted Successfully !!", "Success");
+          // this.alertService.successAlert("Success", "Vendor Deleted Successfully");
           this.getAllVendors();
         }
       },
       err => {
       }
-    )})
+    )})}
 
   }
 }

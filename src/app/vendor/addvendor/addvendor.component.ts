@@ -5,6 +5,7 @@ import { userService } from 'src/app/service/user.service';
 import { UserapiserviceService } from 'src/app/service/userapiservice.service';
 import { AlertService } from 'src/app/service/alert.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NotificationService } from 'src/app/service/notification.service';
 
 @Component({
   selector: 'app-addvendor',
@@ -23,15 +24,15 @@ export class AddvendorComponent implements OnInit {
   title: string;
   vendorStatus: any = [];
   submitted = false;
-  constructor(private alertService: AlertService,private formBuilder: FormBuilder, private router: Router, private userapiService: UserapiserviceService, private vendorService: VendorServiceService,) {
+  constructor(private notifyService: NotificationService,private alertService: AlertService,private formBuilder: FormBuilder, private router: Router, private userapiService: UserapiserviceService, private vendorService: VendorServiceService,) {
     this.vendorStatus = [
       {
-        id: 1,
+        id: false,
         status: "Active"
       },
       {
-        id: 2,
-        status: "De Active"
+        id: true,
+        status: "De-Active"
       }
     ]
   }
@@ -44,11 +45,14 @@ export class AddvendorComponent implements OnInit {
       inspectionemail: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
     });
     if (localStorage.getItem('vendorid')) {
+      this.addVendorForm.get('inspectionemail').disable();
       this.title = "Update Vendor";
       this.getBranches();
       this.vendorService.getVendorById(localStorage.getItem('vendorid')).subscribe(
         data => {
-          this.vendordata = Object.assign({}, data);
+          var res:any=data;
+          this.vendordata = Object.assign({}, res);
+          this.vendordata.status = res.isDeleted;
         },
         err => {
 
@@ -82,7 +86,8 @@ export class AddvendorComponent implements OnInit {
         data => {
           var res: any = data;
           if (res.message.result == "success") {
-            this.alertService.successAlert("Success","Vendor Added Successfully");
+            this.notifyService.showSuccess("Vendor Added Successfully !!", "Success");
+            // this.alertService.successAlert("Success","Vendor Added Successfully");
             this.vendordata = {};
             this.router.navigateByUrl('vendor');
           }
@@ -120,9 +125,20 @@ export class AddvendorComponent implements OnInit {
     if (this.addVendorForm.invalid) {
       return;
     } else {
+      if(this.vendordata.status=="true"){
+        this.vendordata.status=true;
+        this.vendordata.isDeleted=true;
+      }
+      else{
+        this.vendordata.status=false;
+        this.vendordata.isDeleted=false;
+      }
+      
       this.vendorService.updateVendorDetails(this.vendordata.id, this.vendordata).subscribe(
         data => {
-          this.alertService.successAlert("Success","Vendor Updated Successfully");
+          // this.alertService.successAlert("Success","Vendor Updated Successfully");
+          this.notifyService.showSuccess("Vendor Updated Successfully !!", "Success");
+
           this.vendordata = {};
           this.router.navigateByUrl('vendor');
         },
