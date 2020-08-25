@@ -117,12 +117,12 @@
             <div class="form-group" *ngIf="showBranch">
               <label for="exampleFormControlSelect1">Branches </label>
               <ng-multiselect-dropdown [placeholder]="'Select Branches'" required [settings]="dropdownSettings"
-                [data]="branches" tabindex="10" [(ngModel)]="selectedItems" formControlName="selectedItems"
+                [data]="branches" tabindex="10" [(ngModel)]="selectedItems" formControlName="branches"
                 (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
-                [ngClass]="{ 'is-invalid': submitted && f.selectedItems.errors }">
+                [ngClass]="{ 'is-invalid': submitted && f.branches.errors }">
               </ng-multiselect-dropdown>
-              <div *ngIf="submitted && f.selectedItems.errors" class="invalid-feedback">
-                <div *ngIf="f.selectedItems.errors.required">Branches required</div>
+              <div *ngIf="submitted && f.branches.errors" class="invalid-feedback">
+                <div *ngIf="f.branches.errors.required">Branches required</div>
               </div>
             </div>
            

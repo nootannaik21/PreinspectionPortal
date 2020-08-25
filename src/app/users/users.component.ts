@@ -27,7 +27,6 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private notifyService: NotificationService, private router: Router, private userapiService: UserapiserviceService, private alertService: AlertService) { }
 
   ngOnInit() {
-    debugger
     this.dtOptions = {
       pagingType: 'full_numbers',
       lengthMenu: [
@@ -58,14 +57,11 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.notifyService.showWarning("This is warning", "ItSolutionStuff.com")
   }
   getUSerList() {
-    debugger
     this.userapiService.getUserList().subscribe(
       data => {
-        debugger
         this.rerender();
         this.userList = data;
         // this.userList.forEach(element => {
-        //   debugger
         //   if (element.isDeleted == true) {
         //     return this.userList[0].isDeleted = "Active";
         //   }

@@ -28,7 +28,6 @@ export class AddUserComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private router: Router, private alertService: AlertService, private userapiService: UserapiserviceService) { }
 
   ngOnInit() {
-    debugger
     this.addUserForm = this.formBuilder.group({
       firstName: ['', [Validators.required]],
       company: ['', [Validators.required]],
@@ -37,24 +36,22 @@ export class AddUserComponent implements OnInit {
       type: ['', [Validators.required]],
       branchCode: ['', [Validators.required]],
       status: ['', [Validators.required]],
-      // branches: ['', [Validators.required]],
-      selectedItems: ['',],
+      branches: ['', [Validators.required]],
+      // selectedItems: ['',],
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      password: ['', [Validators.required, Validators.minLength(15)]],
+      password: ['', [Validators.required, Validators.minLength(15), Validators.pattern('')]],
       confPassword: ['', [Validators.required, Validators.minLength(15)]]
 
     });
     if (localStorage.getItem('userid')) {
       this.title = "Update User";
       var temp: any = {};
-    debugger
       // this.addUserForm.get('email').reset();
       this.addUserForm.get('email').disable();
       this.addUserForm.get('password').disable();
       this.addUserForm.get('confPassword').disable();
       this.userapiService.getUserById(localStorage.getItem('userid')).subscribe(
         data => {
-          debugger
           var user: any = data;
           this.userdata = Object.assign(data);
           this.userdata.confPassword = this.userdata.password;
@@ -65,31 +62,34 @@ export class AddUserComponent implements OnInit {
           else {
             this.showBranch = true;
             let tmp = [];
-            if(user.branches!=0){
-            this.userapiService.getBranches().subscribe(
-              branches => {
-                debugger
-                var res: any = branches;
-                this.branches = res.data;
-                for (let i = 0; i < user.branches.split(',').length; i++) {
-                  var branch = this.branches.filter(x => x.id == user.branches.split(',')[i])
-                  var branchid: number = +branch[0].id;
-                  tmp.push({ id: branchid, branchCode: branch[0].branchCode });
-                  this.selectedItems = tmp;
+            if (user.branches != 0) {
+              this.userapiService.getBranches().subscribe(
+                branches => {
+                  var res: any = branches;
+                  this.branches = res.data;
+                  for (let i = 0; i < user.branches.split(',').length; i++) {
+                    var branch = this.branches.filter(x => x.id == user.branches.split(',')[i])
+                    if(branch.length>0)
+                    { 
+                    var branchid: number = +branch[0].id;
+                    tmp.push({ id: branchid, branchCode: branch[0].branchCode });
+                    this.selectedItems = tmp;
+                    }
+                  }
+                  this.dropdownSettings = {
+                    singleSelection: false,
+                    idField: 'id',
+                    textField: 'branchCode',
+                    selectAllText: 'Select All',
+                    unSelectAllText: 'UnSelect All',
+                    itemsShowLimit: 3,
+                  };
+                },
+                err => {
                 }
-                this.dropdownSettings = {
-                  singleSelection: false,
-                  idField: 'id',
-                  textField: 'branchCode',
-                  selectAllText: 'Select All',
-                  unSelectAllText: 'UnSelect All',
-                  itemsShowLimit: 3,
-                };
-              },
-              err => {
-              }
-            )}
-            else{
+              )
+            }
+            else {
               this.getAllBranches();
             }
           }
@@ -102,7 +102,7 @@ export class AddUserComponent implements OnInit {
       this.getAllBranches();
       this.title = "Add User";
       this.showBranch = true;
-      this.selectedItems=[];
+      this.selectedItems = [];
     }
     // else {
     //   this.userdata = {};
@@ -122,12 +122,18 @@ export class AddUserComponent implements OnInit {
     this.userdata.branchCode = temp[0].branchCode;
   }
   onTypeSelect(eve) {
-    debugger
+    const branchName = this.addUserForm.get('branchName');
+    const branchCode = this.addUserForm.get('branchCode');
+    const branches = this.addUserForm.get('branches');
     if (eve.target.value == "Admin") {
       this.showBranch = false;
       this.userdata.branchName = "";
       this.userdata.branchCode = "";
       this.userdata.branches = [];
+      branchName.setValidators(null);
+      branchCode.setValidators(null);
+      branches.setValidators(null);
+
     }
     else {
       this.showBranch = true;
@@ -135,11 +141,16 @@ export class AddUserComponent implements OnInit {
       this.userdata.branchCode = "";
       this.userdata.branches = [];
       this.getAllBranches();
+      branchName.setValidators([Validators.required]);
+      branchCode.setValidators([Validators.required]);
+      branches.setValidators([Validators.required]);
     }
+    branchName.updateValueAndValidity();
+    branchCode.updateValueAndValidity();
+    branches.updateValueAndValidity();
   }
   onStatusSelect(eve) {
-    debugger
-      this.userdata.status=eve.target.value
+    this.userdata.status = eve.target.value
   }
   getAllBranches() {
     this.userapiService.getBranches().subscribe(
@@ -161,33 +172,18 @@ export class AddUserComponent implements OnInit {
   }
 
   onItemSelect(item: any) {
-    debugger
-    this.userdata.branches=[];
-    if(this.selectedItems.length>0){
+    this.userdata.branches = [];
+    if (this.selectedItems.length > 0) {
       this.selectedItems.forEach(element => {
         this.userdata.branches.push(element.id);
       })
-    }   
-    // this.branchCodes=[];
-    // if(this.userdata.branches.length>0){
-    // this.userdata.branches.push(item.id);
-    // }
-    // else { 
-
-    // this.branchCodes.push(item.id);
-    // this.userdata.branches=this.branchCodes;
-
-  // }
+    }
   }
   onSelectAll(items: any) {
-    debugger
-    this.branchCodes=[];
-    this.userdata.branches=[];
+    this.branchCodes = [];
+    this.userdata.branches = [];
     items.forEach(element => {
-      // var temp: any = {};
-      // temp.branchlist = element.id
       this.branchCodes.push(element.id);
-      // this.userdata.branchlist = this.branchCodes;
     });
     this.userdata.branches = this.branchCodes;
   }
@@ -197,7 +193,6 @@ export class AddUserComponent implements OnInit {
     this.router.navigateByUrl('users');
   }
   onSubmit() {
-    debugger
     this.submitted = true;
     if (this.userdata.type == "Admin") {
       this.submitted = false;
@@ -212,81 +207,80 @@ export class AddUserComponent implements OnInit {
           this.alertService.infoAlert("", "Password and Confirm Password are not matching");
           return;
         }
-        else{
-        this.addUserDetails(this.userdata);}
+        else {
+          this.addUserDetails(this.userdata);
+        }
 
       }
-    }}
-    addUserDetails(userdata) {
-      this.userapiService.addUser(userdata).subscribe(
-        data => {
-          debugger
-          var res: any = data;
-          if (res.result == "success") {
-            this.alertService.successAlert("Success", "User Added Successfully");
-            this.router.navigateByUrl('users');
-            this.userdata = {};
-            this.selectedItems = [];
-            this.submitted = false;
-          }
-
-        },
-        err => {
-          this.alertService.errorAlert("Error", "User Not added");
-          this.selectedItems = [];
-          this.userdata = {};
-          this.submitted = false;
-          return;
-        }
-      )
-
     }
-    updateUser(data) {
-      debugger
+  }
+  addUserDetails(userdata) {
+    this.userapiService.addUser(userdata).subscribe(
+      data => {
+        var res: any = data;
+        if (res.result == "success") {
+          this.alertService.successAlert("Success", "User Added Successfully");
+          this.router.navigateByUrl('users');
+          this.userdata = {};
+          this.selectedItems = [];
+          this.submitted = false;
+        }
+
+      },
+      err => {
+        this.alertService.errorAlert("Error", "User Not added");
+        this.selectedItems = [];
+        this.userdata = {};
+        this.submitted = false;
+        return;
+      }
+    )
+
+  }
+  updateUser(data) {
+    this.showBranch = true;
+    this.userdata.branches = [];    
+    if (this.userdata.type == "Admin") {
+      this.submitted = false;
+      this.showBranch = false
+      this.updateUserDetails(data);
+    }
+    else {
       this.submitted = true;
-      this.showBranch = true;
-      this.userdata.branches=[];
-      if(this.selectedItems.length>0){
+      if (this.selectedItems.length > 0) {
         this.selectedItems.forEach(element => {
           this.userdata.branches.push(element.id);
         })
-      }      
-      if (this.userdata.type == "Admin") {
-        this.submitted = false;
-        this.showBranch = false
-        this.updateUserDetails(data);
       }
-      else {
-        if (this.addUserForm.invalid) {
-          return;
-        }
-        else
-        this.updateUserDetails(data);
+      if (this.addUserForm.invalid) {
+        return;
       }
-    }
-    updateUserDetails(data) {
-      this.userapiService.updateUser(data.id, data).subscribe(
-        data => {
-          debugger
-          var res: any = data;
-          if (res.result.result == "success") {
-            this.alertService.successAlert("Success", "User Updated Successfully");
-            this.router.navigateByUrl('users');
-            this.userdata = {};
-            this.getAllBranches();
-          }
-          else {
-            this.alertService.errorAlert("Error", "You have not updated anything");
-          }
-        },
-        err => {
-          this.alertService.errorAlert("Error", "User Update Failed");
-          return;
-        }
-      )
-      // data.branches = [];
-      // this.selectedItems.forEach(element => {
-      //   data.branches.push(element.id);
-      // });
+      else
+        this.updateUserDetails(data);
     }
   }
+  updateUserDetails(data) {
+    this.userapiService.updateUser(data.id, data).subscribe(
+      data => {
+        var res: any = data;
+        if (res.result.result == "success") {
+          this.alertService.successAlert("Success", "User Updated Successfully");
+          this.router.navigateByUrl('users');
+          this.userdata = {};
+          this.getAllBranches();
+        }
+        else {
+          this.alertService.errorAlert("Error", "You have not updated anything");
+        }
+      },
+      err => {
+        this.alertService.errorAlert("Error", "User Update Failed");
+        return;
+      }
+    )
+    // data.branches = [];
+    // this.selectedItems.forEach(element => {
+    //   data.branches.push(element.id);
+    // });
+  }
+}
