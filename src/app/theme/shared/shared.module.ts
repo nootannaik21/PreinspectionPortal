@@ -17,6 +17,8 @@ import {ToastService} from './components/toast/toast.service';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import {LightboxModule} from 'ngx-lightbox';
 import { PermissionDirective } from '../../helper/permission.directive';
+import { ToastrModule } from 'ngx-toastr';
+
 
 
 /*import 'hammerjs';
@@ -29,6 +31,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 @NgModule({
   imports: [
+    ToastrModule.forRoot(),
     CommonModule,
     PerfectScrollbarModule,
     FormsModule,
@@ -42,7 +45,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   ],
   exports: [
     PermissionDirective,
-
+    ToastrModule,
     CommonModule,
     PerfectScrollbarModule,
     FormsModule,

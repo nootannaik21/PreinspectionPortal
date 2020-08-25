@@ -4,6 +4,7 @@ import { AlertService } from 'src/app/service/alert.service';
 import { UserapiserviceService } from 'src/app/service/userapiservice.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NotificationService } from 'src/app/service/notification.service';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class AddUserComponent implements OnInit {
   showBranch: boolean;
   title: string;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private alertService: AlertService, private userapiService: UserapiserviceService) { }
+  constructor(private notifyService: NotificationService, private formBuilder: FormBuilder, private router: Router, private alertService: AlertService, private userapiService: UserapiserviceService) { }
 
   ngOnInit() {
     this.addUserForm = this.formBuilder.group({
@@ -35,10 +36,11 @@ export class AddUserComponent implements OnInit {
       branchName: ['', [Validators.required]],
       type: ['', [Validators.required]],
       branchCode: ['', [Validators.required]],
-      // branches: ['', [Validators.required]],
-      selectedItems: ['',],
+      status: ['', [Validators.required]],
+      branches: ['', [Validators.required]],
+      // selectedItems: ['',],
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      password: ['', [Validators.required, Validators.minLength(15)]],
+      password: ['', [Validators.required, Validators.minLength(15), Validators.pattern('')]],
       confPassword: ['', [Validators.required, Validators.minLength(15)]]
 
     });
@@ -54,34 +56,42 @@ export class AddUserComponent implements OnInit {
           var user: any = data;
           this.userdata = Object.assign(data);
           this.userdata.confPassword = this.userdata.password;
+          this.userdata.status = this.userdata.isDeleted;
           if (this.userdata.type == "Admin") {
             this.showBranch = false;
           }
           else {
             this.showBranch = true;
             let tmp = [];
-            this.userapiService.getBranches().subscribe(
-              branches => {
-                var res: any = branches;
-                this.branches = res.data;
-                for (let i = 0; i < user.branches.split(',').length; i++) {
-                  var branch = this.branches.filter(x => x.id == user.branches.split(',')[i])
-                  var branchid: number = +branch[0].id;
-                  tmp.push({ id: branchid, branchCode: branch[0].branchCode });
-                  this.selectedItems = tmp;
+            if (user.branches != 0) {
+              this.userapiService.getBranches().subscribe(
+                branches => {
+                  var res: any = branches;
+                  this.branches = res.data;
+                  for (let i = 0; i < user.branches.split(',').length; i++) {
+                    var branch = this.branches.filter(x => x.id == user.branches.split(',')[i])
+                    if (branch.length > 0) {
+                      var branchid: number = +branch[0].id;
+                      tmp.push({ id: branchid, branchCode: branch[0].branchCode });
+                      this.selectedItems = tmp;
+                    }
+                  }
+                  this.dropdownSettings = {
+                    singleSelection: false,
+                    idField: 'id',
+                    textField: 'branchCode',
+                    selectAllText: 'Select All',
+                    unSelectAllText: 'UnSelect All',
+                    itemsShowLimit: 3,
+                  };
+                },
+                err => {
                 }
-                this.dropdownSettings = {
-                  singleSelection: false,
-                  idField: 'id',
-                  textField: 'branchCode',
-                  selectAllText: 'Select All',
-                  unSelectAllText: 'UnSelect All',
-                  itemsShowLimit: 3,
-                };
-              },
-              err => {
-              }
-            )
+              )
+            }
+            else {
+              this.getAllBranches();
+            }
           }
 
         },
@@ -92,8 +102,7 @@ export class AddUserComponent implements OnInit {
       this.getAllBranches();
       this.title = "Add User";
       this.showBranch = true;
-
-
+      this.selectedItems = [];
     }
     // else {
     //   this.userdata = {};
@@ -113,6 +122,7 @@ export class AddUserComponent implements OnInit {
     this.userdata.branchCode = temp[0].branchCode;
   }
   onTypeSelect(eve) {
+
     if (eve.target.value == "Admin") {
       this.showBranch = false;
       this.userdata.branchName = "";
@@ -126,6 +136,9 @@ export class AddUserComponent implements OnInit {
       this.userdata.branches = [];
       this.getAllBranches();
     }
+  }
+  onStatusSelect(eve) {
+    this.userdata.status = eve.target.value
   }
   getAllBranches() {
     this.userapiService.getBranches().subscribe(
@@ -147,15 +160,18 @@ export class AddUserComponent implements OnInit {
   }
 
   onItemSelect(item: any) {
-    this.branchCodes.push(item.id);
-    this.userdata.branches = this.branchCodes;
+    this.userdata.branches = [];
+    if (this.selectedItems.length > 0) {
+      this.selectedItems.forEach(element => {
+        this.userdata.branches.push(element.id);
+      })
+    }
   }
   onSelectAll(items: any) {
+    this.branchCodes = [];
+    this.userdata.branches = [];
     items.forEach(element => {
-      // var temp: any = {};
-      // temp.branchlist = element.id
       this.branchCodes.push(element.id);
-      // this.userdata.branchlist = this.branchCodes.map(String);
     });
     this.userdata.branches = this.branchCodes;
   }
@@ -166,85 +182,161 @@ export class AddUserComponent implements OnInit {
   }
   onSubmit() {
     this.submitted = true;
+    const branchName = this.addUserForm.get('branchName');
+    const branchCode = this.addUserForm.get('branchCode');
+    const branches = this.addUserForm.get('branches');
     if (this.userdata.type == "Admin") {
-      this.submitted = false;
-      this.addUserDetails(this.userdata);
+      this.showBranch = false;
+      this.userdata.branchName = "";
+      this.userdata.branchCode = "";
+      this.userdata.branches = [];
+      branchName.setValidators(null);
+      branchCode.setValidators(null);
+      branches.setValidators(null);
+    }
+    else {
+      this.showBranch = true;
+      this.getAllBranches();
+      branchName.setValidators([Validators.required]);
+      branchCode.setValidators([Validators.required]);
+      branches.setValidators([Validators.required]);
+      this.userdata.branches = [];
+      if (this.selectedItems.length > 0) {
+        this.selectedItems.forEach(element => {
+          this.userdata.branches.push(element.id);
+        })
+      }
 
-    } else {
-      if (this.addUserForm.invalid) {
+    }
+    branchName.updateValueAndValidity();
+    branchCode.updateValueAndValidity();
+    branches.updateValueAndValidity();
+    this.addUserDetails(this.userdata);
+
+
+    // if (this.userdata.type == "Admin") {
+    //   this.submitted = false;
+    //   this.addUserDetails(this.userdata);
+
+    // } else {
+    //   if (this.addUserForm.invalid) {
+    //     return;
+    //   }
+    //   else {
+    //     if (this.userdata.password != this.userdata.confPassword) {
+    //       this.alertService.infoAlert("", "Password and Confirm Password are not matching");
+    //       return;
+    //     }
+    //     else {
+    //       this.addUserDetails(this.userdata);
+    //     }
+
+    //   }
+    // }
+  }
+  addUserDetails(userdata) {
+    this.submitted = true;
+    if (this.addUserForm.invalid) {
+      return;
+    }
+    else if (this.userdata.password != this.userdata.confPassword) {
+      this.alertService.infoAlert("", "Password and Confirm Password are not matching");
+      return;
+    }
+    else {
+    this.userapiService.addUser(userdata).subscribe(
+      data => {
+        var res: any = data;
+        if (res.result == "success") {
+          this.notifyService.showSuccess("User Added successfully !!", "Success");
+          // this.alertService.successAlert("Success", "User Added Successfully");
+          this.router.navigateByUrl('users');
+          this.userdata = {};
+          this.selectedItems = [];
+          this.submitted = false;
+        }
+
+      },
+      err => {
+        // this.alertService.errorAlert("Error", "User Not added");
+        this.notifyService.showError("Something is wrong", "User Not Added");
+
+        this.selectedItems = [];
+        this.userdata = {};
+        this.submitted = false;
         return;
       }
-      else {
-        if (this.userdata.password != this.userdata.confPassword) {
-          this.alertService.infoAlert("", "Password and Confirm Password are not matching");
-          return;
-        }
-        else{
-        this.addUserDetails(this.userdata);}
-
-      }
-    }}
-    addUserDetails(userdata) {
-      this.userapiService.addUser(userdata).subscribe(
-        data => {
-          var res: any = data;
-          if (res.result == "success") {
-            this.alertService.successAlert("Success", "User Added Successfully");
-            this.router.navigateByUrl('users');
-            this.userdata = {};
-            this.selectedItems = [];
-            this.submitted = false;
-          }
-
-        },
-        err => {
-          this.alertService.errorAlert("Error", "User Not added");
-          this.selectedItems = [];
-          this.userdata = {};
-          this.submitted = false;
-          return;
-        }
-      )
-
+    )
     }
-    updateUser(data) {
-      this.submitted = true;
+  }
+  updateUser(data) {
+    const branchName = this.addUserForm.get('branchName');
+    const branchCode = this.addUserForm.get('branchCode');
+    const branches = this.addUserForm.get('branches');
+
+    if (this.userdata.type == "Admin") {
+      this.showBranch = false;
+      this.userdata.branchName = "";
+      this.userdata.branchCode = "";
+      this.userdata.branches = [];
+      branchName.setValidators(null);
+      branchCode.setValidators(null);
+      branches.setValidators(null);
+    }
+    else {
       this.showBranch = true;
-      if (this.userdata.type == "Admin") {
-        this.submitted = false;
-        this.showBranch = false
-        this.updateUserDetails(data);
+      this.getAllBranches();
+      branchName.setValidators([Validators.required]);
+      branchCode.setValidators([Validators.required]);
+      branches.setValidators([Validators.required]);
+      this.userdata.branches = [];
+      if (this.selectedItems.length > 0) {
+        this.selectedItems.forEach(element => {
+          this.userdata.branches.push(element.id);
+        })
       }
-      else {
-        if (this.addUserForm.invalid) {
-          return;
-        }
-        else
-        this.updateUserDetails(data);
-      }
+
     }
-    updateUserDetails(data) {
+    branchName.updateValueAndValidity();
+    branchCode.updateValueAndValidity();
+    branches.updateValueAndValidity();
+    this.updateUserDetails(data);
+
+  }
+  updateUserDetails(data) {
+    this.submitted = true;
+    if (this.addUserForm.invalid) {
+      return;
+    }
+    else {
       this.userapiService.updateUser(data.id, data).subscribe(
         data => {
           var res: any = data;
           if (res.result.result == "success") {
-            this.alertService.successAlert("Success", "User Updated Successfully");
+            // this.alertService.successAlert("Success", "User Updated Successfully");
+          this.notifyService.showSuccess("User Updated successfully !!", "Success");
+
             this.router.navigateByUrl('users');
             this.userdata = {};
             this.getAllBranches();
           }
           else {
-            this.alertService.errorAlert("Error", "You have not updated anything");
+            // this.alertService.errorAlert("Error", "You have not updated anything");
+            this.notifyService.showError("Something is wrong", "User Not Updated");
+
           }
         },
         err => {
-          this.alertService.errorAlert("Error", "User Update Failed");
+          // this.alertService.errorAlert("Error", "User Update Failed");
+          this.notifyService.showError("Something is wrong", "User Not Updated");
+
           return;
         }
       )
-      data.branches = [];
-      this.selectedItems.forEach(element => {
-        data.branches.push(element.id);
-      });
     }
+    // data.branches = [];
+    // this.selectedItems.forEach(element => {
+    //   data.branches.push(element.id);
+    // });
   }
+}

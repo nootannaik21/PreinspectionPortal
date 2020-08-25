@@ -45,7 +45,9 @@
               "src/.htaccess"
             ],
             "styles": [
+              "node_modules/ngx-toastr/toastr.css",
               "src/styles.scss"
+              
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

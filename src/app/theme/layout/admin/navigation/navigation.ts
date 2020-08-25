@@ -70,7 +70,7 @@ const NavigationItems = [
     url: '/branch',
     classes: 'nav-item',
     icon: 'feather icon-menu',
-    accessrole:'Admin|Branch'
+    accessrole:'Admin'
   },
   {
     id: 'report',
@@ -79,7 +79,7 @@ const NavigationItems = [
     url: '/report',
     classes: 'nav-item',
     icon: 'feather icon-book',
-    accessrole:'Admin|Claims|Vendor|Claims'
+    accessrole:'Admin|Claims|Vendor|Branch'
   }
 ];
 

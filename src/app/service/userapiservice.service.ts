@@ -16,7 +16,7 @@ export class UserapiserviceService {
     return this.apiService.post("user/addUser", userdata);   
   }
   getUserById(userid) {
-    return this.apiService.get("user/getActiveUserById?userId="+userid);   
+    return this.apiService.get("user/getUserById?userId="+userid);   
   }
   getBranches() {
     return this.apiService.get("branch/getAllActiveBranches");   
@@ -25,7 +25,7 @@ export class UserapiserviceService {
     return this.apiService.delete("user/deleteUser/"+userId);   
   }
   getUserList() {
-    return this.apiService.get("user/getAllActiveUsers");   
+    return this.apiService.get("user/getAllUsersList");   
   }
 
   constructor(private apiService: ApiService) { }
