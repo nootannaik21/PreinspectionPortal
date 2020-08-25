@@ -28,7 +28,6 @@ import { FormsModule } from '@angular/forms';
 import { PermissionDirective } from './helper/permission.directive';
 // import { OnlystringDirective } from './helper/onlystring.directive';
 // import { PermissionDirective } from './helper/permission.directive';
-import { OnlystringDirective } from './helper/onlystring.directive';
 import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -49,7 +48,7 @@ import { ToastrModule } from 'ngx-toastr';
     AddbranchComponent,
     PermissionDirective,
     // OnlystringDirective,
-    OnlystringDirective,
+    // OnlystringDirective,
   ],
   imports: [
     ToastrModule.forRoot(),
