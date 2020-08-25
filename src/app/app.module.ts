@@ -26,7 +26,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AddbranchComponent } from './branch/addbranch/addbranch.component';
 import { FormsModule } from '@angular/forms';
 import { PermissionDirective } from './helper/permission.directive';
-import { OnlystringDirective } from './helper/onlystring.directive';
+// import { OnlystringDirective } from './helper/onlystring.directive';
 import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -46,7 +46,7 @@ import { ToastrModule } from 'ngx-toastr';
     ConfigurationComponent,
     AddbranchComponent,
     PermissionDirective,
-    OnlystringDirective,
+    // OnlystringDirective,
   ],
   imports: [
      BrowserAnimationsModule,
