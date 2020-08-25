@@ -45,24 +45,20 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   changeStatus(id) {
-    debugger
     this.userapiService.getUserById(id).subscribe(
       data => {
-        debugger;
         var res: any = data;
         if (res.isDeleted == true) {
-          res.isDeleted = false;
+          res.status = false;
         }
         else {
-          res.isDeleted = true;
+          res.status = true;
         }
+
         this.userapiService.updateUser(res.id, res).subscribe(
           data => {
-            debugger;
             this.getUSerList();
-          }
-          ,
-
+          },
           err => [
 
           ]
@@ -73,11 +69,9 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     )
   }
   // showSuccess() {
-  //   debugger
   //   this.toastr.success('Hello world!', 'Toastr fun!');
   // }
   showToasterSuccess() {
-    debugger;
     this.notifyService.showSuccess("Data shown successfully !!", "Success")
   }
 
