@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host=0.0.0.0 --disable-host-check",
-    "build": "ng build",
+    "build": "ng build --build-optimizer --base-href=/dev/",
+    "qa-build": "ng build --configuration=qa --build-optimizer --base-href=/qa/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -101,6 +102,7 @@
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~3.9.5"
+    "typescript": "~3.9.5",
+    "ngx-toastr": "9.1.1"
   }
 }

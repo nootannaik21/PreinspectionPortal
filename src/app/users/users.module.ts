@@ -7,10 +7,12 @@ import { SharedModule } from '../theme/shared/shared.module';
 import { DataTablesModule } from 'angular-datatables';
 import { FormsModule } from '@angular/forms';
 import { TblSearchingComponent } from './tbl-searching/tbl-searching.component';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
   imports: [
+    // BrowserAnimationsModule,
     CommonModule,
     UsersRoutingModule,
     SharedModule,

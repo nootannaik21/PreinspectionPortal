@@ -1,13 +1,16 @@
 kind: pipeline
-name: pre-inspection-portal-ui
+name: dev-pre-inspection-portal-ui
 
 steps:
 - name: build
   image: node
   commands:
-  - npm install -g @angular/cli
-  - npm audit fix
-  - ng build --prod --build-optimizer --base-href=/dev/
+  - yarn global add @angular/cli
+  - yarn
+  - yarn build
+  # - npm install -g @angular/cli
+  # - npm audit fix
+  #- ng qa-build
 - name: deploy
   image: cschlosser/drone-ftps
   environment:
@@ -26,9 +29,51 @@ steps:
 #   commands:
 #   - npm install
 #   - ng e2e
+trigger:
+  branch:
+    include:
+    - master
+  event:
+    exclude:
+    - pull_request
+
+---
+kind: pipeline
+name: qa-pre-inspection-portal-ui
+
+steps:
+- name: build
+  image: node
+  commands:
+  - yarn global add @angular/cli
+  - yarn
+  - yarn qa-build
+  # - npm install -g @angular/cli
+  # - npm audit fix
+  #- ng qa-build
+- name: deploy
+  image: cschlosser/drone-ftps
+  environment:
+    FTP_USERNAME:
+      from_secret: username
+    FTP_PASSWORD:
+      from_secret: password
+    PLUGIN_HOSTNAME:
+      from_secret: ftphostname
+    PLUGIN_DEST_DIR: /qa/
+    PLUGIN_SRC_DIR: /dist/ng-next/
+    PLUGIN_SECURE: true
+    PLUGIN_VERIFY: false
+# - name: e2e
+#   image: node
+#   commands:
+#   - npm install
+#   - ng e2e
 
 trigger:
   branch:
-  - master
+    include:
+    - qa
   event:
-  - pull_request
+    exclude:
+    - pull_request

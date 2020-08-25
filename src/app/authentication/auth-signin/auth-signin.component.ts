@@ -16,16 +16,31 @@ export class AuthSigninComponent implements OnInit {
   user: any = {};
   isError: boolean;
   disableSignIn: boolean;
+  resetPanel: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private authservice: AuthService, private preInspection: PreinspectionService) {
 
   }
   ngOnInit() {
+    if (localStorage.getItem("resetFlag") == "true") {
+      this.resetPanel = true;
+      setTimeout(() => {
+        if (this.resetPanel == true) {
+          ("#hideresetPanel");
+          this.resetPanel = false;
+        }
+      }, 20000);
+    }
+    else {
+      this.resetPanel = false;
+      localStorage.removeItem("resetFlag");
+    }
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required]]
 
     });
+
   }
   keyDownFunction(event) {
     if (event.keyCode === 13) {
@@ -33,21 +48,56 @@ export class AuthSigninComponent implements OnInit {
     }
   }
   onSubmit() {
-   this.getLogin();   
+    this.getLogin();
   }
   getLogin() {
     this.submitted = true;
     if (this.loginForm.invalid) {
-      this.user={};
+      this.user = {};
       return;
     }
-    else{
+    else {
       this.authservice.login(this.user).subscribe((data) => {
         var res: any = data;
         if (res.result == "success") {
-          localStorage.setItem("UserName",this.user.email);
+          localStorage.setItem("UserName", this.user.email);
           this.preInspection.setInspnectioUser(res);
-          this.router.navigateByUrl('users');
+
+          let jwt = res.accessToken;
+          let jwtData = jwt.split('.')[1];
+          let decodedJwtJsonData = window.atob(jwtData);
+          let decodedJwtData = JSON.parse(decodedJwtJsonData);
+          localStorage.setItem('type', decodedJwtData.type);
+
+          // this.router.navigateByUrl('users');
+          
+          // console.log(localStorage.getItem('permission'))
+
+          if(localStorage.getItem('type')=="Admin")
+          {
+            this.router.navigateByUrl('users');
+          }         
+          else if(localStorage.getItem('type')=="OPS")
+          {
+            this.router.navigateByUrl('inspection');
+          }
+          else if(localStorage.getItem('type')=="IMD")
+          {
+            this.router.navigateByUrl('inspection');
+          }
+          else if(localStorage.getItem('type')=="Branch")
+          {
+            this.router.navigateByUrl('inspection');
+          }
+          else if(localStorage.getItem('type')=="Vendor")
+          {
+            this.router.navigateByUrl('vendor');
+          }
+          else if(localStorage.getItem('type')=="Claims")
+          {
+            this.router.navigateByUrl('enquiry');
+          }
+
           this.disableSignIn = true;
         }
         else {
@@ -59,7 +109,7 @@ export class AuthSigninComponent implements OnInit {
             ("#hideDiv");
             this.isError = false;
             this.submitted = false;
-  
+
           }
         }, 5000);
         this.disableSignIn = false;
