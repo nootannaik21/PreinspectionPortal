@@ -12,9 +12,10 @@ import { Subject } from 'rxjs';
   templateUrl: './add-inspection.component.html',
   styleUrls: ['./add-inspection.component.scss']
 })
-export class AddInspectionComponent implements OnInit,OnDestroy, AfterViewInit  {
+export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit {
   showHistoryTable: boolean;
   showReferenceNo: boolean;
+  disableInspection: boolean;
   ngAfterViewInit(): void {
     this.inspectionHistory = [];
     this.rerender();
@@ -24,8 +25,8 @@ export class AddInspectionComponent implements OnInit,OnDestroy, AfterViewInit  
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   isDtInitialized: boolean = false;
-  
-  inspectionHistory:any=[];
+
+  inspectionHistory: any = [];
   inspectionData: any = {};
   branches: any = [];
   branchCode: any = [];
@@ -41,8 +42,8 @@ export class AddInspectionComponent implements OnInit,OnDestroy, AfterViewInit  
   convayances: any = [];
   inspectionreasons: any = [];
   vendorEmailIdDetails: any = [];
-  showUpload: boolean=false;
-  myFiles:string [] = [];
+  showUpload: boolean = false;
+  myFiles: string[] = [];
   constructor(private fileUploadService: FileuploadService, private alertService: AlertService, private formBuilder: FormBuilder, private inspectionService: InspectionSeriveService, private router: Router) {
     this.vendorEmailIdDetails = [
       {
@@ -221,62 +222,77 @@ export class AddInspectionComponent implements OnInit,OnDestroy, AfterViewInit  
     });
     if (localStorage.getItem('inspectionId')) {
       this.title = "Update Inspection";
-      this.showReferenceNo=true;
-      if(localStorage.getItem('type')=="Vendor"){
-        this.addInspectionForm.get('branchName').disable();
-        this.addInspectionForm.get('branchcode').disable();
-        this.addInspectionForm.get('imdcode').disable();
-        this.addInspectionForm.get('vendorEmailId').disable();
-        this.addInspectionForm.get('phoneNoofsales').disable();
-        this.addInspectionForm.get('emailidofsales').disable();
-        this.addInspectionForm.get('clientname').disable();
-        this.addInspectionForm.get('clientemail').disable();
-        this.addInspectionForm.get('altclientname').disable();
-        this.addInspectionForm.get('clientphoneno').disable();
-        this.addInspectionForm.get('clientalternatephoneno').disable();
-        this.addInspectionForm.get('inspectionreason').disable();
-        this.addInspectionForm.get('inspectionlocation').disable();
-        this.addInspectionForm.get('registrationno').disable();
-        this.addInspectionForm.get('duplicateinspection').disable();
-        this.addInspectionForm.get('productType').disable();
-        this.addInspectionForm.get('make').disable();
-        this.addInspectionForm.get('model').disable();
-        this.addInspectionForm.get('paymentmodeid').disable();
-        this.addInspectionForm.get('convayance').disable();
-        this.addInspectionForm.get('conveyanceKm').disable();
-        this.addInspectionForm.get('riskType').disable();
+      this.showReferenceNo = true;
+      if (localStorage.getItem('type') == "Vendor") {
+        this.disableFields();
         this.showUpload = true;
-        this.showHistoryTable=true;
+        this.showHistoryTable = true;
         this.getInspectionsHistory();
-        this.getInspections();      
-        }      
-      else{ 
-      this.showUpload = false;
-      this.showHistoryTable=false;
-      this.getInspections();      
-      }}        
+        this.disableInspection=false;
+
+        // this.getInspections();
+      }
+      else if (localStorage.getItem('type') == "Branch" || localStorage.getItem('type') == "IMD") {
+        this.disableFields();
+        this.addInspectionForm.get('statusid').disable();
+        this.addInspectionForm.get('remarks').disable();
+        this.disableInspection=true;
+        // this.getInspections();
+      }
+      else {
+        this.showUpload = false;
+        this.showHistoryTable = false;
+        this.disableInspection=false;
+        // this.getInspections();
+      }
+      this.getInspections();
+    }
     else {
       this.getAllBranches();
       localStorage.removeItem('inspectionId');
       this.title = "Add Inspection";
-      this.showReferenceNo=false;
+      this.showReferenceNo = false;
       // this.showUpload = false;
       // this.showHistoryTable=false;
     }
   }
+  disableFields() {
+    this.addInspectionForm.get('branchName').disable();
+    this.addInspectionForm.get('branchcode').disable();
+    this.addInspectionForm.get('imdcode').disable();
+    this.addInspectionForm.get('vendorEmailId').disable();
+    this.addInspectionForm.get('phoneNoofsales').disable();
+    this.addInspectionForm.get('emailidofsales').disable();
+    this.addInspectionForm.get('clientname').disable();
+    this.addInspectionForm.get('clientemail').disable();
+    this.addInspectionForm.get('altclientname').disable();
+    this.addInspectionForm.get('clientphoneno').disable();
+    this.addInspectionForm.get('clientalternatephoneno').disable();
+    this.addInspectionForm.get('inspectionreason').disable();
+    this.addInspectionForm.get('inspectionlocation').disable();
+    this.addInspectionForm.get('registrationno').disable();
+    this.addInspectionForm.get('duplicateinspection').disable();
+    this.addInspectionForm.get('productType').disable();
+    this.addInspectionForm.get('make').disable();
+    this.addInspectionForm.get('model').disable();
+    this.addInspectionForm.get('paymentmodeid').disable();
+    this.addInspectionForm.get('convayance').disable();
+    this.addInspectionForm.get('conveyanceKm').disable();
+    this.addInspectionForm.get('riskType').disable();
+  }
   getInspections() {
     this.getAllBranches();
-      this.inspectionService.getInspectionById(localStorage.getItem('inspectionId')).subscribe(
-        data => {
-          this.inspectionData = Object.assign({}, data);
-          if (this.inspectionData.duplicateinspection == true) { this.inspectionData.duplicateinspection = 1 }
-          else { this.inspectionData.duplicateinspection = 0; }
+    this.inspectionService.getInspectionById(localStorage.getItem('inspectionId')).subscribe(
+      data => {
+        this.inspectionData = Object.assign({}, data);
+        if (this.inspectionData.duplicateinspection == true) { this.inspectionData.duplicateinspection = 1 }
+        else { this.inspectionData.duplicateinspection = 0; }
 
-        },
-        err => {
+      },
+      err => {
 
-        }
-      )
+      }
+    )
   }
   getInspectionsHistory() {
     this.inspectionService.getInspectionHistoryById(localStorage.getItem('inspectionId')).subscribe(
@@ -284,7 +300,7 @@ export class AddInspectionComponent implements OnInit,OnDestroy, AfterViewInit  
         this.inspectionHistory = data;
         this.rerender();
       },
-      err =>{
+      err => {
 
       })
   }
@@ -302,18 +318,18 @@ export class AddInspectionComponent implements OnInit,OnDestroy, AfterViewInit  
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
   }
-  getFileDetails (e) {
+  getFileDetails(e) {
     //console.log (e.target.files);
-    for (var i = 0; i < e.target.files.length; i++) { 
+    for (var i = 0; i < e.target.files.length; i++) {
       this.myFiles.push(e.target.files[i]);
     }
     console.log(this.myFiles)
   }
 
-  uploadFiles () {
+  uploadFiles() {
     const frmData = new FormData();
-    
-    for (var i = 0; i < this.myFiles.length; i++) { 
+
+    for (var i = 0; i < this.myFiles.length; i++) {
       // frmData.append("fileUpload", this.myFiles[i]);
     }
     // this.inspectionService.uploadDocument(this.inspectionData.id, frmData);
@@ -378,14 +394,14 @@ export class AddInspectionComponent implements OnInit,OnDestroy, AfterViewInit  
       this.inspectionData.paymentmodeid = x;
       this.inspectionData.statusid = y;
       if (this.inspectionData.duplicateinspection == "1" ? this.inspectionData.duplicateinspection = true : this.inspectionData.duplicateinspection = false)
-      this.inspectionService.updateInspection(this.inspectionData.id, this.inspectionData).subscribe(
-        data => {
-          this.alertService.successAlert("Success", "Inspection Updated successfully");
-          this.router.navigateByUrl('inspection');
-          this.inspectionData = {};
-        },
-        err => { }
-      )
+        this.inspectionService.updateInspection(this.inspectionData.id, this.inspectionData).subscribe(
+          data => {
+            this.alertService.successAlert("Success", "Inspection Updated successfully");
+            this.router.navigateByUrl('inspection');
+            this.inspectionData = {};
+          },
+          err => { }
+        )
     }
   }
   onBranchSelect() {

@@ -357,7 +357,7 @@
                 <div class="row text-right">
                     <div class="col-12">
                         <button type="button" class="btn btn-primary mr-1" (click)="cancel()">Cancel</button>
-                        <button type="button" *ngIf="inspectionData.id!=undefined" class="btn btn-primary"
+                        <button type="button" *ngIf="inspectionData.id!=undefined" class="btn btn-primary" [disabled]="disableInspection"
                             (click)="updateInspection()">Update Inspection</button>
                         <button type="submit" *ngIf="inspectionData.id==undefined" class="btn btn-primary">Create
                             Inspection</button>
