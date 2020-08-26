@@ -83,6 +83,7 @@
               <label for="exampleFormControlSelect1">User Type</label>
               <select class="form-control" formControlName="type" [(ngModel)]="userdata.type" required tabindex="8"
                 (change)='onTypeSelect($event)' [ngClass]="{ 'is-invalid': submitted && f.type.errors }" required>
+                <option value="" >Choose User Type</option>
                 <option value="Admin">Admin</option>
                 <option value="OPS">OPS</option>
                 <option value="IMD">IMD</option>
@@ -101,7 +102,8 @@
             <div class="form-group" *ngIf="showBranch">
               <label for="exampleFormControlSelect1">Branch Name</label>
               <select class="form-control" formControlName="branchName" [(ngModel)]="userdata.branchName" tabindex="9"
-                (change)='onBranchSelect()' [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }" required>
+                (change)='onBranchSelect()' [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }" placeholder="Select Branch">
+                <option value="" >Choose Branch</option>
                 <option class="form-control" *ngFor="let item of branches" [value]="item.branchName">
                   <table>
                     <tr>
