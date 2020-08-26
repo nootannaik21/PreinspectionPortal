@@ -43,7 +43,7 @@ const NavigationItems = [
     url: '/inspection',
     classes: 'nav-item',
     icon: 'feather icon-eye',
-    accessrole:'Admin|ABS|IMD|Branch'
+    accessrole:'Admin|ABS|IMD|Branch|Vendor'
   },
   {
     id: 'enquiry',
@@ -61,7 +61,7 @@ const NavigationItems = [
     url: '/vendor',
     classes: 'nav-item',
     icon: 'feather icon-sidebar',
-    accessrole:'Admin|Vendor'
+    accessrole:'Admin'
   },
   {
     id: 'branch',

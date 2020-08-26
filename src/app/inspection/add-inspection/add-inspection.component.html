@@ -1,46 +1,41 @@
 <div class="row">
     <div class="col-sm-12">
+        <h4>{{title}}</h4>
         <app-card [hidHeader]="true" [options]="false">
-            <h4>{{title}}</h4>
-            <hr>
             <form [formGroup]="addInspectionForm" (ngSubmit)="createInspection()">
-                <div class="row">
+                <!-- <div class="row" *ngIf="showReferenceNo">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Branch Code</label>
-                            <!-- <select class="form-control" formControlName="branchcode"
-                                [(ngModel)]="inspectionData.branchcode" required tabindex="10"
-                                [ngClass]="{ 'is-invalid': submitted && f.branchcode.errors }">
-                                <option class="form-control" *ngFor="let item of branches">
+                            <label for="exampleInputEmail1">Reference No.</label>
+                            <input type="text" class="form-control" tabindex="2" readonly
+                                formControlName="referenceno" [(ngModel)]="inspectionData.referenceno">
+                        </div>
+                    </div>
+                </div> -->
+                <div class="row">                    
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Branch Name</label>
+                            <select class="form-control" formControlName="branchName" placeholder="Branch Name"
+                                [(ngModel)]="inspectionData.branchName" tabindex="1" (change)='onBranchSelect()'                                
+                                [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }" required>
+                                <option class="form-control" *ngFor="let item of branches" [value]="item.branchName">
                                     <table>
                                         <tr>
-                                            <td> {{item.branchCode}}</td>
-                                        </tr>
-                                    </table>
-                                </option>
-                            </select> -->
-                            <select class="form-control" formControlName="branchcode"
-                                [(ngModel)]="inspectionData.branchcode" tabindex="1"
-                                [ngClass]="{ 'is-invalid': submitted && f.branchcode.errors }" required>
-                                <option class="form-control" *ngFor="let item of branches" [value]="item.branchCode">
-                                    <table>
-                                        <tr>
-                                            <td> {{item.branchCode}}</td>
+                                            <td> {{item.branchName}}</td>
                                         </tr>
                                     </table>
                                 </option>
                             </select>
-
-
                             <div *ngIf="submitted && f.branchcode.errors" class="invalid-feedback">
-                                <div *ngIf="f.branchcode.errors.required">Branch Code is required</div>
+                                <div *ngIf="f.branchName.errors.required">Branch Name is required</div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">IMD/SM Code</label>
                             <input type="text" class="form-control" placeholder="IMD/SM Code" tabindex="3"
                                 formControlName="imdcode" [(ngModel)]="inspectionData.imdcode" required
-                                [ngClass]="{ 'is-invalid': submitted && f.imdcode.errors }" />
+                                [ngClass]="{ 'is-invalid': submitted && f.imdcode.errors }" appOnlyalphabets [onlyAlpha]="true"  />
                             <div *ngIf="submitted && f.imdcode.errors" class="invalid-feedback">
                                 <div *ngIf="f.imdcode.errors.required">IMD/SM Code is required</div>
                             </div>
@@ -48,17 +43,17 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Vendor Id</label>
-                            <input type="text" class="form-control" placeholder="Vendor Id" formControlName="vendorid"
-                                [(ngModel)]="inspectionData.vendorid" tabindex="2"
-                                [ngClass]="{ 'is-invalid': submitted && f.vendorid.errors }" required />
-                            <div *ngIf="submitted && f.vendorid.errors" class="invalid-feedback">
-                                <div *ngIf="f.vendorid.errors.required">Vendor is required</div>
+                            <label for="exampleInputEmail1">Branch Code</label>
+                            <input type="text" class="form-control" placeholder="branchcode" tabindex="2" readonly
+                                formControlName="branchcode" [(ngModel)]="inspectionData.branchcode" required
+                                [ngClass]="{ 'is-invalid': submitted && f.branchcode.errors }" />
+                            <div *ngIf="submitted && f.branchcode.errors" class="invalid-feedback">
+                                <div *ngIf="f.branchcode.errors.required">Branch Code is required</div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Phone no of IMD/SM</label>
-                            <input type="email" class="form-control" placeholder="Phone no of IMD/SM" required
+                            <input type="email" class="form-control" placeholder="Phone no of IMD/SM" required OnlyNumber [onlyNumber]="true"
                                 formControlName="phoneNoofsales" [(ngModel)]="inspectionData.phoneNoofsales"
                                 tabindex="4" [ngClass]="{ 'is-invalid': submitted && f.phoneNoofsales.errors }" />
                             <div *ngIf="submitted && f.phoneNoofsales.errors" class="invalid-feedback">
@@ -68,21 +63,21 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Client Name</label>
-                            <input type="text" class="form-control" placeholder="Client Name" required
-                                formControlName="clientname" tabindex="5" [(ngModel)]="inspectionData.clientname"
+                            <label>Customer Name</label>
+                            <input type="text" class="form-control" placeholder="Customer Name" required
+                                formControlName="clientname" tabindex="5" [(ngModel)]="inspectionData.clientname" appOnlyalphabets [onlyAlpha]="true" 
                                 [ngClass]="{ 'is-invalid': submitted && f.clientname.errors }" />
                             <div *ngIf="submitted && f.clientname.errors" class="invalid-feedback">
-                                <div *ngIf="f.clientname.errors.required">Client Name is required</div>
+                                <div *ngIf="f.clientname.errors.required">Customer Name is required</div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Client Email Id</label>
-                            <input type="email" class="form-control" placeholder="Client Email Id"
+                            <label>Customer Email Id</label>
+                            <input type="email" class="form-control" placeholder="Customer Email Id"
                                 formControlName="clientemail" tabindex="7" [(ngModel)]="inspectionData.clientemail"
                                 required [ngClass]="{ 'is-invalid': submitted && f.clientemail.errors }" />
                             <div *ngIf="submitted && f.clientemail.errors" class="invalid-feedback">
-                                <div *ngIf="f.clientemail.errors.required">Client Email is required</div>
+                                <div *ngIf="f.clientemail.errors.required">Customer Email is required</div>
                                 <div *ngIf="f.clientemail.errors.email">Email must be a valid email address</div>
 
                             </div>
@@ -90,81 +85,92 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Client Mobile No</label>
+                            <label>Customer Mobile No</label>
                             <input type="text" class="form-control" placeholder="Client Mobile No"
-                                formControlName="clientphoneno" tabindex="6" [(ngModel)]="inspectionData.clientphoneno"
+                                formControlName="clientphoneno" tabindex="6" [(ngModel)]="inspectionData.clientphoneno" OnlyNumber [onlyNumber]="true"
                                 required [ngClass]="{ 'is-invalid': submitted && f.clientphoneno.errors }" />
                             <div *ngIf="submitted && f.clientphoneno.errors" class="invalid-feedback">
-                                <div *ngIf="f.clientphoneno.errors.required">Client Mobile No is required</div>
+                                <div *ngIf="f.clientphoneno.errors.required">Customer Mobile No is required</div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Email Id of sales</label>
+                            <label>Email of IMD/SM</label>
                             <input type="text" class="form-control" formControlName="emailidofsales"
                                 placeholder="Email Id of Sales" [(ngModel)]="inspectionData.emailidofsales" tabindex="8"
                                 required [ngClass]="{ 'is-invalid': submitted && f.emailidofsales.errors }" />
                             <div *ngIf="submitted && f.emailidofsales.errors" class="invalid-feedback">
-                                <div *ngIf="f.emailidofsales.errors.required">Email Id of sales is required</div>
+                                <div *ngIf="f.emailidofsales.errors.required">Email of IMD/SM is required</div>
                                 <div *ngIf="f.emailidofsales.errors.email">Email must be a valid email address</div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Alternate Client Phone No</label>
-                            <input type="text" class="form-control" placeholder="Alternate Phone Number"
+                            <label>Alternate Phone No</label>
+                            <input type="text" class="form-control" placeholder="Alternate Phone Number" OnlyNumber [onlyNumber]="true"
                                 formControlName="clientalternatephoneno" tabindex="9"
                                 [(ngModel)]="inspectionData.clientalternatephoneno" required
                                 [ngClass]="{ 'is-invalid': submitted && f.clientalternatephoneno.errors }" />
                             <div *ngIf="submitted && f.clientalternatephoneno.errors" class="invalid-feedback">
-                                <div *ngIf="f.clientalternatephoneno.errors.required">Alternate Client Phone No is
+                                <div *ngIf="f.clientalternatephoneno.errors.required">Alternate Phone No is
                                     required
                                 </div>
                             </div>
-
                         </div>
                         <div class="form-group">
-                            <label>Alternate Client Name</label>
-                            <input type="text" class="form-control" placeholder="Alternate Client Name"
-                                formControlName="altclientname" tabindex="11" [(ngModel)]="inspectionData.altclientname"
-                                required [ngClass]="{ 'is-invalid': submitted && f.altclientname.errors }" />
-                            <div *ngIf="submitted && f.altclientname.errors" class="invalid-feedback">
-                                <div *ngIf="f.altclientname.errors.required">Alternate Client Name is required</div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Reason For Inspection</label>
-                            <select class="form-control" formControlName="inspectionreason"
-                                [(ngModel)]="inspectionData.inspectionreason" required tabindex="10"
-                                [ngClass]="{ 'is-invalid': submitted && f.inspectionreason.errors }">
-
-                                <option value="Reason1">Reason1</option>
-                                <option value="Reason2">Reason2</option>
-                                <option value="Reason3">Reason3</option>
-                            </select>
-                            <div *ngIf="submitted && f.inspectionreason.errors" class="invalid-feedback">
-                                <div *ngIf="f.inspectionreason.errors.required">Reason For Inspection is required</div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Pre Inspection Vendorid</label>
-                            <select class="form-control" id="preInstid" formControlName="preinsvendorid"
-                                [(ngModel)]="inspectionData.preinsvendorid" tabindex="12"
-                                [ngClass]="{ 'is-invalid': submitted && f.preinsvendorid.errors }" required>
-                                <option class="form-control" *ngFor="let item of PreinsvendorId"
-                                    [value]="item.preInstid">
+                            <label for="exampleInputEmail1">Product Type</label>
+                            <select class="form-control" formControlName="productType" placeholder="Product Type"
+                                [(ngModel)]="inspectionData.productType" tabindex="11"
+                                [ngClass]="{ 'is-invalid': submitted && f.productType.errors }" required>
+                                <option class="form-control" *ngFor="let item of productTypes"
+                                    [value]="item.productType">
                                     <table>
                                         <tr>
-                                            <td> {{item.paymentText}}</td>
+                                            <td> {{item.productType}}</td>
                                         </tr>
                                     </table>
                                 </option>
                             </select>
-                            <div *ngIf="submitted && f.preinsvendorid.errors" class="invalid-feedback">
-                                <div *ngIf="f.preinsvendorid.errors.required">Pre Inspection Vendorid is required</div>
+                            <div *ngIf="submitted && f.branchcode.errors" class="invalid-feedback">
+                                <div *ngIf="f.productType.errors.required">Product Type is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Reason for Inspection</label>
+                            <select class="form-control" formControlName="inspectionreason"
+                                placeholder="Inspection Reasons" [(ngModel)]="inspectionData.inspectionreason"
+                                tabindex="10" [ngClass]="{ 'is-invalid': submitted && f.inspectionreason.errors }"
+                                required>
+                                <option class="form-control" *ngFor="let item of inspectionreasons"
+                                    [value]="item.inspectionreason">
+                                    <table>
+                                        <tr>
+                                            <td> {{item.inspectionreason}}</td>
+                                        </tr>
+                                    </table>
+                                </option>
+                            </select>
+                            <div *ngIf="submitted && f.branchcode.errors" class="invalid-feedback">
+                                <div *ngIf="f.inspectionreason.errors.required">Inspection Reason is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Risk Type</label>
+                            <select class="form-control" formControlName="riskType" placeholder="Risk Type"
+                                [(ngModel)]="inspectionData.riskType" tabindex="11"
+                                [ngClass]="{ 'is-invalid': submitted && f.riskType.errors }" required>
+                                <option class="form-control" *ngFor="let item of riskTypes" [value]="item.riskType">
+                                    <table>
+                                        <tr>
+                                            <td> {{item.riskType}}</td>
+                                        </tr>
+                                    </table>
+                                </option>
+                            </select>
+                            <div *ngIf="submitted && f.branchcode.errors" class="invalid-feedback">
+                                <div *ngIf="f.riskType.errors.required">Risk Type is required</div>
                             </div>
                         </div>
                     </div>
@@ -172,7 +178,7 @@
                         <div class="form-group">
                             <label>Location of Inspection</label>
                             <input type="text" class="form-control" placeholder="Location of Inspection"
-                                formControlName="inspectionlocation" tabindex="13"
+                                formControlName="inspectionlocation" tabindex="13" appOnlyalphabets [onlyAlpha]="true" 
                                 [(ngModel)]="inspectionData.inspectionlocation" required
                                 [ngClass]="{ 'is-invalid': submitted && f.inspectionlocation.errors }" />
                             <div *ngIf="submitted && f.inspectionlocation.errors" class="invalid-feedback">
@@ -183,52 +189,58 @@
                         <div class="form-group">
                             <label>Duplicate Inspection</label>
                             <select class="form-control" formControlName="duplicateinspection"
-                                [ngClass]="{ 'is-invalid': submitted && f.duplicateinspection.errors }"
-                                [(ngModel)]="inspectionData.duplicateinspection" required tabindex="15">
-                                <option value="dupl1">Duplicate 1</option>
-                                <option value="dupl2">Duplicate 2</option>
-                                <option value="dupl3">Duplicate 3</option>
+                                placeholder="Duplicate Inspection" [(ngModel)]="inspectionData.duplicateinspection"
+                                tabindex="15" [ngClass]="{ 'is-invalid': submitted && f.duplicateinspection.errors }"
+                                required>
+                                <option class="form-control" *ngFor="let item of duplicateinspections"
+                                    [value]="item.id">
+                                    <table>
+                                        <tr>
+                                            <td> {{item.duplicateinspection}}</td>
+                                        </tr>
+                                    </table>
+                                </option>
                             </select>
                             <div *ngIf="submitted && f.duplicateinspection.errors" class="invalid-feedback">
                                 <div *ngIf="f.duplicateinspection.errors.required">Duplicate Inspection is
                                     required</div>
                             </div>
                         </div>
+
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="exampleFormControlSelect1">Registration No</label>
-                            <input type="text" class="form-control" placeholder="Registration No"
+                            <label for="exampleFormControlSelect1">Vehicle Reg. No</label>
+                            <input type="text" class="form-control" placeholder="Registration No" appOnlyalphabets [onlyAlpha]="true" 
                                 formControlName="registrationno" tabindex="14"
                                 [(ngModel)]="inspectionData.registrationno" required
                                 [ngClass]="{ 'is-invalid': submitted && f.registrationno.errors }" />
                             <div *ngIf="submitted && f.registrationno.errors" class="invalid-feedback">
-                                <div *ngIf="f.registrationno.errors.required">Registration No is required</div>
+                                <div *ngIf="f.registrationno.errors.required">Vehicle Reg No is required</div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Payment Mode</label>
-                            <select class="form-control" id="paymentid" formControlName="paymentmodeid"
-                                [(ngModel)]="inspectionData.paymentmodeid" tabindex="16"
-                                [ngClass]="{ 'is-invalid': submitted && f.paymentmodeid.errors }" required>
-                                <option class="form-control" *ngFor="let item of paymentMode" [value]="item.paymentid">
-                                    <table>
-                                        <tr>
-                                            <td> {{item.paymentText}}</td>
-                                        </tr>
-                                    </table>
-                                </option>
-                            </select>
-                            <div *ngIf="submitted && f.paymentmodeid.errors" class="invalid-feedback">
-                                <div *ngIf="f.paymentmodeid.errors.required">Payment Mode is required</div>
-                            </div>
+                        <label for="exampleFormControlSelect1">Payment Mode</label>
+                        <select class="form-control" id="paymentid" formControlName="paymentmodeid"
+                            [(ngModel)]="inspectionData.paymentmodeid" tabindex="16"
+                            [ngClass]="{ 'is-invalid': submitted && f.paymentmodeid.errors }" required>
+                            <option class="form-control" *ngFor="let item of paymentMode" [value]="item.paymentid">
+                                <table>
+                                    <tr>
+                                        <td> {{item.paymentText}}</td>
+                                    </tr>
+                                </table>
+                            </option>
+                        </select>
+                        <div *ngIf="submitted && f.paymentmodeid.errors" class="invalid-feedback">
+                            <div *ngIf="f.paymentmodeid.errors.required">Payment Mode is required</div>
                         </div>
                     </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Make of Vehicle</label>
                             <input type="text" class="form-control" placeholder="Make of Vehicle" formControlName="make"
-                                tabindex="17" [(ngModel)]="inspectionData.make" required
+                                tabindex="17" [(ngModel)]="inspectionData.make" required appOnlyalphabets [onlyAlpha]="true" 
                                 [ngClass]="{ 'is-invalid': submitted && f.make.errors }" />
                             <div *ngIf="submitted && f.make.errors" class="invalid-feedback">
                                 <div *ngIf="f.make.errors.required">Make is required</div>
@@ -251,76 +263,95 @@
                                 <div *ngIf="f.statusid.errors.required">Status is required</div>
                             </div>
                         </div>
+
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Model</label>
                             <input type="text" class="form-control" placeholder="Model" formControlName="model"
-                                tabindex="18" [(ngModel)]="inspectionData.model" required
+                                tabindex="18" [(ngModel)]="inspectionData.model" required appOnlyalphabets [onlyAlpha]="true" 
                                 [ngClass]="{ 'is-invalid': submitted && f.model.errors }" />
                             <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
                                 <div *ngIf="f.model.errors.required">Model is required</div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="form-group">
-                                <label for="exampleFormControlSelect1">Conveyance in KM</label>
-                                <input type="text" class="form-control" placeholder="Conveyance in KM"
-                                    formControlName="conveyanceKm" tabindex="20"
-                                    [(ngModel)]="inspectionData.conveyanceKm"
-                                    [ngClass]="{ 'is-invalid': submitted && f.conveyanceKm.errors }" required />
-                                <div *ngIf="submitted && f.conveyanceKm.errors" class="invalid-feedback">
-                                    <div *ngIf="f.conveyanceKm.errors.required">Conveyance is required</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Referance No</label>
-                            <input type="text" class="form-control" placeholder="Referance Number"
-                                formControlName="referenceno" tabindex="21" [(ngModel)]="inspectionData.referenceno"
-                                required [ngClass]="{ 'is-invalid': submitted && f.referenceno.errors }" />
-                            <div *ngIf="submitted && f.referenceno.errors" class="invalid-feedback">
-                                <div *ngIf="f.referenceno.errors.required">Referance No is required</div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="form-group">
-                                <label for="exampleFormControlSelect1">Reason for Update</label>
-                                <input type="text" class="form-control" placeholder="Reason for Update" required
-                                    formControlName="updatereason" [(ngModel)]="inspectionData.updatereason"
-                                    tabindex="23" [ngClass]="{ 'is-invalid': submitted && f.updatereason.errors }" />
-                                <div *ngIf="submitted && f.updatereason.errors" class="invalid-feedback">
-                                    <div *ngIf="f.updatereason.errors.required">Reason for Update is required</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Update Status</label>
-                            <select class="form-control" formControlName="updatestatus"
-                                [(ngModel)]="inspectionData.updatestatus" required tabindex="22"
-                                [ngClass]="{ 'is-invalid': submitted && f.updatestatus.errors }">
-                                <option value="abc">ABC</option>
-                                <option value="def">DEF</option>
-                                <option value="xya">XYZ</option>
+                            <label>Vendor Email ID</label>
+                            <select class="form-control" formControlName="vendorEmailId" placeholder="vendorEmailId"
+                                [(ngModel)]="inspectionData.vendorEmailId" tabindex="20"
+                                [ngClass]="{ 'is-invalid': submitted && f.vendorEmailId.errors }" required>
+                                <option class="form-control" *ngFor="let item of vendorEmailIdDetails"
+                                    [value]="item.vendorEmailId">
+                                    <table>
+                                        <tr>
+                                            <td> {{item.vendorEmailId}}</td>
+                                        </tr>
+                                    </table>
+                                </option>
                             </select>
-
-                            <div *ngIf="submitted && f.updatestatus.errors" class="invalid-feedback">
-                                <div *ngIf="f.updatestatus.errors.required">Update Status is required</div>
+                            <div *ngIf="submitted && f.vendorEmailId.errors" class="invalid-feedback">
+                                <div *ngIf="f.vendorEmailId.errors.required">Vendor Email IMD is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Conveyance</label>
+                            <select class="form-control" formControlName="convayance" placeholder="Convayance"
+                                [(ngModel)]="inspectionData.convayance" tabindex="21"
+                                [ngClass]="{ 'is-invalid': submitted && f.convayance.errors }" required>
+                                <option class="form-control" *ngFor="let item of convayances" [value]="item.convayance">
+                                    <table>
+                                        <tr>
+                                            <td> {{item.convayance}}</td>
+                                        </tr>
+                                    </table>
+                                </option>
+                            </select>
+                            <div *ngIf="submitted && f.branchcode.errors" class="invalid-feedback">
+                                <div *ngIf="f.convayance.errors.required">Conveyance is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Alternate Customer Name</label>
+                            <input type="text" class="form-control" placeholder="Alternate Customer Name"
+                                formControlName="altclientname" tabindex="23" [(ngModel)]="inspectionData.altclientname" appOnlyalphabets [onlyAlpha]="true" 
+                                required [ngClass]="{ 'is-invalid': submitted && f.altclientname.errors }" /> 
+                            <div *ngIf="submitted && f.altclientname.errors" class="invalid-feedback">
+                                <div *ngIf="f.altclientname.errors.required">Alternate Customer Name is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Conveyance in KM</label>
+                            <input type="text" class="form-control" placeholder="Conveyance in KM" OnlyNumber [onlyNumber]="true"
+                                formControlName="conveyanceKm" tabindex="22" [(ngModel)]="inspectionData.conveyanceKm"
+                                [ngClass]="{ 'is-invalid': submitted && f.conveyanceKm.errors }" required />
+                            <div *ngIf="submitted && f.conveyanceKm.errors" class="invalid-feedback">
+                                <div *ngIf="f.conveyanceKm.errors.required">Conveyance is required</div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Remarks</label>
-                            <textarea type="text-center" class="form-control form-control-sm" rows="2"
+                            <textarea type="text-center" class="form-control form-control-sm" rows="2" appOnlyalphabets [onlyAlpha]="true" 
                                 formControlName="remarks" [(ngModel)]="inspectionData.remarks" placeholder="Remarks"
                                 tabindex="24" [ngClass]="{ 'is-invalid': submitted && f.remarks.errors }"></textarea>
                             <div *ngIf="submitted && f.remarks.errors" class="invalid-feedback">
                                 <div *ngIf="f.remarks.errors.required">Remarks is required</div>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-md-6" *ngIf="showUpload">
+                        <div class="form-group">
+                            <input type="file" id="file" accept=".pdf,.png,.JPEG,.jpeg,.JPG,.jpg" multiple (change)="getFileDetails($event)">
+                            <!-- <input type='file' accept=".pdf,.png,.JPEG,.jpeg,.JPG,.jpg" (change)="onSelectFile($event)"
+                                multiple> -->
+                            <button (click)="uploadFiles()">Upload Documents</button>
+                        </div>
+                        <div *ngFor="let file of myFiles">
+                            <div>*  {{file.name}} - {{file.type}} - {{file.size}}</div> 
+                          </div>
                     </div>
                 </div>
                 <div class="row text-right">
@@ -331,6 +362,52 @@
                         <button type="submit" *ngIf="inspectionData.id==undefined" class="btn btn-primary">Create
                             Inspection</button>
                     </div>
+                </div><br>
+                <div class="table" *ngIf="showHistoryTable">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                        class="table table-striped table-bordered table-hover shrink-table-cell">
+                        <thead>
+                            <tr>
+                                <th class="text-left">Status</th>
+                                <th class="text-left">Updated By</th>
+                                <th class="text-left">Updated Date</th>
+                                <th class="text-left">Remarks</th>
+                                <th class="text-left"> Document</th>                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of inspectionHistory">
+                                <td class="text-left">
+                                    {{item.statusid}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.modifiedBy }}
+                                </td>
+                                <td class="text-left">
+                                    {{item.modifiedDate |  date:'dd/MM/yyyy'}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.remarks}}
+                                </td>                              
+                                <!-- <td class="text-left">
+                                    {{(item.statusid==1) ? "Recommended" : (item.statusid==2) ? "Not Recommended" : (item.statusid)==3 ? "Appointment Fix" : (item.statusid)==4 ? "Canceled" : "Rescheduled"}}
+                                </td> -->
+                                <!-- <td class="text-left">
+                                    <div>
+                                        <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit"
+                                            style="cursor: pointer;" (click)="editInspectionRow(item)"></i>
+    
+                                        <i class="feather icon-trash-2 pr-3" className="tooltipstext" title="Delete"
+                                            style="cursor: pointer;" (click)="deleteInspection(item)"></i>
+    
+                                    </div>
+                                </td> -->
+                                <td class="text-left">                                
+                                    <button type="button"  class="btn btn-primary" [disabled]="item.documentPath==null" (click)="downloadInspectionDetails(item)">Document</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
             </form>

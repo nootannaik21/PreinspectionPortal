@@ -25,16 +25,29 @@ export class InspectionListComponent implements OnInit, OnDestroy, AfterViewInit
   constructor(private router: Router, private inspectionService: InspectionSeriveService, private alertService: AlertService) { }
 
   ngOnInit() {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'All'],
+      ],
+      // columnDefs: [
+      //   { "width": "14%", "targets": [0,1,2,3,4,5,6] }
+      // ],
+      pageLength: 10,
+    };
     this.getInspectionList();
   }
-  viewInspectionHistory(item){
-    this.inspectionService.getInspectionHistoryById(item.id).subscribe(
-      data =>{
-      },
-      err =>{
+  downloadInspectionDetails(item){
+    localStorage.setItem('inspectionId', item.id);
+    this.router.navigateByUrl('inspection/addInspection');
+    // this.inspectionService.getInspectionHistoryById(item.id).subscribe(
+    //   data =>{
+    //   },
+    //   err =>{
 
-      }
-    )
+    //   }
+    // )
   }
   editInspectionRow(item){
     localStorage.setItem('inspectionId', item.id);
