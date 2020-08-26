@@ -67,7 +67,7 @@
                     {{item.type}}
                 </td>
                 <td class="text-left" >
-                    {{item.isDeleted==true?"De Active":"Active"}}
+                    {{item.isDeleted==true?"In Active":"Active"}}
                 </td>
                 <td class="text-left" >
                     <button type="button" class="btn btn-primary" ngbTooltip="btn-primary" (click)="changeStatus(item.id)"> {{item.isDeleted==true?"Enable":"Disable"}} </button>

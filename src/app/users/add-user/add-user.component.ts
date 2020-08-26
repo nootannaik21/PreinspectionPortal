@@ -29,6 +29,8 @@ export class AddUserComponent implements OnInit {
   constructor(private notifyService: NotificationService, private formBuilder: FormBuilder, private router: Router, private alertService: AlertService, private userapiService: UserapiserviceService) { }
 
   ngOnInit() {
+    this.userdata.type="";
+    this.userdata.branchName="";
     this.addUserForm = this.formBuilder.group({
       firstName: ['', [Validators.required]],
       company: ['', [Validators.required]],
@@ -122,7 +124,6 @@ export class AddUserComponent implements OnInit {
     this.userdata.branchCode = temp[0].branchCode;
   }
   onTypeSelect(eve) {
-
     if (eve.target.value == "Admin") {
       this.showBranch = false;
       this.userdata.branchName = "";
@@ -131,10 +132,10 @@ export class AddUserComponent implements OnInit {
     }
     else {
       this.showBranch = true;
-      this.userdata.branchName = "";
       this.userdata.branchCode = "";
       this.userdata.branches = [];
-      this.getAllBranches();
+      // this.getAllBranches();
+      this.userdata.branchName = "";
     }
   }
   onStatusSelect(eve) {
