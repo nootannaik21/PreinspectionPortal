@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from "@angular/core";
+import { Router } from "@angular/router";
+import * as Sentry from "@sentry/angular";
+import { APP_INITIALIZER } from "@angular/core";
 
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './theme/shared/shared.module';
@@ -63,7 +66,24 @@ import { ToastrModule } from 'ngx-toastr';
     NgbTabsetModule,
     HttpClientModule
   ],
-  providers: [NavigationItem],
+  providers: [
+    {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler({
+        showDialog: true,
+      }),
+    },
+    {
+      provide: Sentry.TraceService,
+      deps: [Router],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => () => {},
+      deps: [Sentry.TraceService],
+      multi: true,
+    },
+    NavigationItem],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

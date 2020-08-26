@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   baseApiUrl:"https://dev-api.preinspection-portal.forthedemo.com/api/",
-  name:"Development"
+  name:"Development",
+  dnsKey:"https://e6955b4ff4754eba83d22477e7db822b@glitchtip.codes.rorarii.com/2"
 };
 
 /*
