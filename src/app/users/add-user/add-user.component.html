@@ -8,7 +8,7 @@
             <div class="form-group">
               <label for="exampleInputEmail1">First Name</label>
               <input type="text" class="form-control" aria-describedby="emailHelp" tabindex="1" placeholder="First Name"
-                formControlName="firstName" required [(ngModel)]="userdata.firstName"
+                formControlName="firstName" required [(ngModel)]="userdata.firstName" appOnlyalphabets [onlyAlpha]="true"
                 (keypress)="avoidSpecialchar($event)" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
               <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
                 <div *ngIf="f.firstName.errors.required">First Name is required</div>
@@ -17,7 +17,7 @@
             <div class="form-group">
               <label>Company Name</label>
               <input type="text" class="form-control" required placeholder="Company Name" formControlName="company"
-                [(ngModel)]="userdata.company" tabindex="3" (keypress)="avoidSpecialchar($event)"
+                [(ngModel)]="userdata.company" tabindex="3" (keypress)="avoidSpecialchar($event)" appOnlyalphabets [onlyAlpha]="true"
                 [ngClass]="{ 'is-invalid': submitted && f.company.errors }" />
               <div *ngIf="submitted && f.company.errors" class="invalid-feedback">
                 <div *ngIf="f.company.errors.required">Company Name is required</div>
@@ -28,7 +28,7 @@
             <div class="form-group">
               <label for="exampleInputPassword1">Last Name</label>
               <input type="text" class="form-control" placeholder="Last Name" tabindex="2" formControlName="lastName"
-                [(ngModel)]="userdata.lastName" required (keypress)="avoidSpecialchar($event)"
+                [(ngModel)]="userdata.lastName" required (keypress)="avoidSpecialchar($event)" appOnlyalphabets [onlyAlpha]="true"
                 [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
               <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
                 <div *ngIf="f.lastName.errors.required">Last Name is required</div>
@@ -61,7 +61,7 @@
               <select class="form-control" formControlName="status" [(ngModel)]="userdata.status" required tabindex="7"
                 (change)='onStatusSelect($event)' [ngClass]="{ 'is-invalid': submitted && f.status.errors }" required>
                 <option value="false">Active</option>
-                <option value="true">De Active</option>
+                <option value="true"> In Active</option>
               </select>
               <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
                 <div *ngIf="f.status.errors.required">Status is required</div>
