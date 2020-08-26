@@ -91,7 +91,7 @@ export class AuthSigninComponent implements OnInit {
           }
           else if(localStorage.getItem('type')=="Vendor")
           {
-            this.router.navigateByUrl('vendor');
+            this.router.navigateByUrl('inspection');
           }
           else if(localStorage.getItem('type')=="Claims")
           {
