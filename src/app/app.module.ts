@@ -25,7 +25,7 @@ import { NgbButtonsModule, NgbDropdownModule, NgbTabsetModule, NgbTooltipModule 
 import { HttpClientModule } from '@angular/common/http';
 import { AddbranchComponent } from './branch/addbranch/addbranch.component';
 import { FormsModule } from '@angular/forms';
-import { PermissionDirective } from './helper/permission.directive';
+// import { PermissionDirective } from './helper/permission.directive';
 // import { OnlystringDirective } from './helper/onlystring.directive';
 // import { PermissionDirective } from './helper/permission.directive';
 import { ToastrModule } from 'ngx-toastr';
