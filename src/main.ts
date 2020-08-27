@@ -11,7 +11,7 @@ if (environment.production) {
 }
 
 Sentry.init({
-  dsn: environment.dnsKey,
+  dsn: environment.dsnKey,
     integrations: [
     new Integrations.BrowserTracing({
       tracingOrigins: ["localhost", environment.baseApiUrl],
