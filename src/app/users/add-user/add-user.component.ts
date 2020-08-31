@@ -146,7 +146,11 @@ export class AddUserComponent implements OnInit {
     }
   }
   onStatusSelect(eve) {
-    this.userdata.status = eve.target.value
+    if(eve.target.value=="true")
+    this.userdata.status = true;
+    else{
+    this.userdata.status = false;
+    }
   }
   getAllBranches() {
     this.userapiService.getBranches().subscribe(
