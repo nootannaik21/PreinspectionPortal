@@ -51,8 +51,8 @@ export class AddUserComponent implements OnInit {
       var temp: any = {};
       // this.addUserForm.get('email').reset();
       this.addUserForm.get('email').disable();
-      this.addUserForm.get('password').disable();
-      this.addUserForm.get('confPassword').disable();
+      this.addUserForm.get('password');
+      this.addUserForm.get('confPassword');
       this.userapiService.getUserById(localStorage.getItem('userid')).subscribe(
         data => {
           var user: any = data;
@@ -124,6 +124,10 @@ export class AddUserComponent implements OnInit {
   onBranchSelect() {
     var temp = this.branches.filter(x => x.branchName == this.userdata.branchName)
     this.userdata.branchCode = temp[0].branchCode;
+  }
+  onBranchCodeSelect() {
+    var temp = this.branches.filter(x => x.branchCode  == this.userdata.branchCode)
+    this.userdata.branchName = temp[0].branchName;
   }
   onTypeSelect(eve) {
     if (eve.target.value == "Admin") {
