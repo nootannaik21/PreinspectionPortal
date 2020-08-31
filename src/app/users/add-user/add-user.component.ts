@@ -198,6 +198,7 @@ export class AddUserComponent implements OnInit {
     const branchName = this.addUserForm.get('branchName');
     const branchCode = this.addUserForm.get('branchCode');
     const branches = this.addUserForm.get('branches');
+    const status = this.addUserForm.get('status');
     if (this.userdata.type == "Admin") {
       this.showBranch = false;
       this.userdata.branchName = "";
@@ -209,7 +210,7 @@ export class AddUserComponent implements OnInit {
     }
     else {
       this.showBranch = true;
-      this.getAllBranches();
+      // this.getAllBranches();
       branchName.setValidators([Validators.required]);
       branchCode.setValidators([Validators.required]);
       branches.setValidators([Validators.required]);
@@ -221,9 +222,11 @@ export class AddUserComponent implements OnInit {
       }
 
     }
+    status.setValidators(null);
     branchName.updateValueAndValidity();
     branchCode.updateValueAndValidity();
     branches.updateValueAndValidity();
+    status.updateValueAndValidity();
     this.addUserDetails(this.userdata);
 
 
