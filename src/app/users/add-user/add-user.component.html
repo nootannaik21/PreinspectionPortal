@@ -87,7 +87,7 @@
             
             <div class="form-group" *ngIf="showBranch">
               <label for="exampleFormControlSelect1">Branches </label>
-              <ng-multiselect-dropdown [placeholder]="'Select Branches'" required [settings]="dropdownSettings"
+              <ng-multiselect-dropdown [placeholder]="'Choose Branches'" required [settings]="dropdownSettings"
                 [data]="branches" tabindex="7" [(ngModel)]="selectedItems" formControlName="branches"
                 (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
                 [ngClass]="{ 'is-invalid': submitted && f.branches.errors }">
@@ -102,8 +102,8 @@
             <div class="form-group" *ngIf="showBranch">
               <label for="exampleFormControlSelect1">Branch Name</label>
               <select class="form-control" formControlName="branchName" [(ngModel)]="userdata.branchName" tabindex="8"
-                (change)='onBranchSelect()' [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }" placeholder="Select Branch">
-                <option value="" >Choose Branch</option>
+                (change)='onBranchSelect()' [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }" placeholder="Select Branch Name">
+                <option value="" >Choose Branch Name</option>
                 <option class="form-control" *ngFor="let item of branches" [value]="item.branchName">
                   <table>
                     <tr>
@@ -116,10 +116,11 @@
                 <div *ngIf="f.branchName.errors.required">Branch Name is required</div>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group"*ngIf="userdata.id!=undefined" >
               <label for="exampleFormControlSelect1">Status</label>
               <select class="form-control" formControlName="status" [(ngModel)]="userdata.status" required tabindex="10"
                 (change)='onStatusSelect($event)' [ngClass]="{ 'is-invalid': submitted && f.status.errors }" required>
+                <option value="">Choose Status</option>
                 <option value="false">Active</option>
                 <option value="true"> In Active</option>
               </select>
@@ -138,8 +139,8 @@
                 placeholder="Branch Code" formControlName="branchCode" required [(ngModel)]="userdata.branchCode"
                 readonly [ngClass]="{ 'is-invalid': submitted && f.branchCode.errors }" /> -->
                 <select class="form-control" formControlName="branchCode" [(ngModel)]="userdata.branchCode" tabindex="9"
-                (change)='onBranchCodeSelect()' [ngClass]="{ 'is-invalid': submitted && f.branchCode.errors }" placeholder="Select Branch Code">
-                <option value="" >Choose Branch</option>
+                (change)='onBranchCodeSelect()' [ngClass]="{ 'is-invalid': submitted && f.branchCode.errors }" placeholder="Choose Branch Code">
+                <option value="" >Choose Branch Code</option>
                 <option class="form-control" *ngFor="let item of branches" [value]="item.branchCode">
                   <table>
                     <tr>
