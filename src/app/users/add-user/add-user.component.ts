@@ -29,8 +29,8 @@ export class AddUserComponent implements OnInit {
   constructor(private notifyService: NotificationService, private formBuilder: FormBuilder, private router: Router, private alertService: AlertService, private userapiService: UserapiserviceService) { }
 
   ngOnInit() {
-    this.userdata.type="";
-    this.userdata.branchName="";
+    this.userdata.type = "";
+    this.userdata.branchName = "";
     this.addUserForm = this.formBuilder.group({
       firstName: ['', [Validators.required]],
       company: ['', [Validators.required]],
@@ -51,8 +51,8 @@ export class AddUserComponent implements OnInit {
       var temp: any = {};
       // this.addUserForm.get('email').reset();
       this.addUserForm.get('email').disable();
-      this.addUserForm.get('password').disable();
-      this.addUserForm.get('confPassword').disable();
+      this.addUserForm.get('password');
+      this.addUserForm.get('confPassword');
       this.userapiService.getUserById(localStorage.getItem('userid')).subscribe(
         data => {
           var user: any = data;
@@ -70,8 +70,10 @@ export class AddUserComponent implements OnInit {
                 branches => {
                   var res: any = branches;
                   this.branches = res.data;
-                  for (let i = 0; i < user.branches.split(',').length; i++) {
-                    var branch = this.branches.filter(x => x.id == user.branches.split(',')[i])
+                  // for (let i = 0; i < user.branches.split(',').length; i++) {
+                    for (let i = 0; i < user.branches[i]; i++) {
+                    // var branch = this.branches.filter(x => x.id == user.branches.split(',')[i])
+                    var branch = this.branches.filter(x => x.id == user.branches[i])
                     if (branch.length > 0) {
                       var branchid: number = +branch[0].id;
                       tmp.push({ id: branchid, branchCode: branch[0].branchCode });
@@ -122,6 +124,10 @@ export class AddUserComponent implements OnInit {
   onBranchSelect() {
     var temp = this.branches.filter(x => x.branchName == this.userdata.branchName)
     this.userdata.branchCode = temp[0].branchCode;
+  }
+  onBranchCodeSelect() {
+    var temp = this.branches.filter(x => x.branchCode  == this.userdata.branchCode)
+    this.userdata.branchName = temp[0].branchName;
   }
   onTypeSelect(eve) {
     if (eve.target.value == "Admin") {
@@ -245,29 +251,29 @@ export class AddUserComponent implements OnInit {
       return;
     }
     else {
-    this.userapiService.addUser(userdata).subscribe(
-      data => {
-        var res: any = data;
-        if (res.result == "success") {
-          this.notifyService.showSuccess("User Added successfully !!", "Success");
-          // this.alertService.successAlert("Success", "User Added Successfully");
-          this.router.navigateByUrl('users');
-          this.userdata = {};
+      this.userapiService.addUser(userdata).subscribe(
+        data => {
+          var res: any = data;
+          if (res.result == "success") {
+            this.notifyService.showSuccess("User Added successfully !!", "Success");
+            // this.alertService.successAlert("Success", "User Added Successfully");
+            this.router.navigateByUrl('users');
+            this.userdata = {};
+            this.selectedItems = [];
+            this.submitted = false;
+          }
+
+        },
+        err => {
+          // this.alertService.errorAlert("Error", "User Not added");
+          this.notifyService.showError("Something is wrong", "User Not Added");
+
           this.selectedItems = [];
+          this.userdata = {};
           this.submitted = false;
+          return;
         }
-
-      },
-      err => {
-        // this.alertService.errorAlert("Error", "User Not added");
-        this.notifyService.showError("Something is wrong", "User Not Added");
-
-        this.selectedItems = [];
-        this.userdata = {};
-        this.submitted = false;
-        return;
-      }
-    )
+      )
     }
   }
   updateUser(data) {
@@ -315,7 +321,7 @@ export class AddUserComponent implements OnInit {
           var res: any = data;
           if (res.result.result == "success") {
             // this.alertService.successAlert("Success", "User Updated Successfully");
-          this.notifyService.showSuccess("User Updated successfully !!", "Success");
+            this.notifyService.showSuccess("User Updated successfully !!", "Success");
 
             this.router.navigateByUrl('users');
             this.userdata = {};
