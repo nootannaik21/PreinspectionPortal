@@ -31,6 +31,8 @@ export class InspectionSeriveService {
   getInspectionList() {
     return this.apiService.get('inspection/getAllInspections');   
   }
-
+getVendorEmailByBranchCode(branchCode){
+  return this.apiService.get('vendor/getActiveVendorByBranchCode?branchCode='+ branchCode);
+}
   constructor(private apiService:ApiService) { }
 }

@@ -287,7 +287,7 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
         this.inspectionData = Object.assign({}, data);
         if (this.inspectionData.duplicateinspection == true) { this.inspectionData.duplicateinspection = 1 }
         else { this.inspectionData.duplicateinspection = 0; }
-
+        // this.getVendorEMailByBranchCode(this.inspectionData.branchcode);
       },
       err => {
 
@@ -430,5 +430,15 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
           }
         )
     }
+  }
+  getVendorEMailByBranchCode(branchCode){
+    this.inspectionService.getVendorEmailByBranchCode(branchCode).subscribe(
+      data => {
+        this.vendorEmailIdDetails  = Object.assign({}, data);
+      },
+      err => {
+
+      }
+    )
   }
 }

@@ -190,7 +190,6 @@ export class AddUserComponent implements OnInit {
     this.router.navigateByUrl('users');
   }
   onSubmit() {
-    debugger;
     this.submitted = true;
     const branchName = this.addUserForm.get('branchName');
     const branchCode = this.addUserForm.get('branchCode');
@@ -254,7 +253,6 @@ export class AddUserComponent implements OnInit {
       return;
     }
     else {
-      debugger;
       this.userapiService.addUser(userdata).subscribe(
         data => {
           var res: any = data;
