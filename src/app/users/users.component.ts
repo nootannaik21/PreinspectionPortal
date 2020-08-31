@@ -17,6 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   title = 'toaster-not';
   userList: any = [];
+  checkBox:any;
   ngAfterViewInit(): void {
     this.userList = [];
     this.rerender();
@@ -26,7 +27,10 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   isDtInitialized: boolean = false;
-
+  public options = [
+    { value: "on", id: "On" },
+    { value: "off", id: "Off" },
+  ]
   constructor(private notifyService: NotificationService, private router: Router, private userapiService: UserapiserviceService, private alertService: AlertService) { }
 
   ngOnInit() {
@@ -42,9 +46,9 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
       pageLength: 10,
     };
     this.getUSerList();
-
+    
   }
-  changeStatus(id) {
+  changeStatus(id,state) {
     this.userapiService.getUserById(id).subscribe(
       data => {
         var res: any = data;
@@ -54,17 +58,13 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
         else {
           res.status = true;
         }
-
         this.userapiService.updateUser(res.id, res).subscribe(
           data => {
             this.getUSerList();
           },
           err => [
-
           ]
-
         )
-
       }
     )
   }
@@ -153,5 +153,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   gotoAddUserScreen() {
     localStorage.removeItem('userid')
     this.router.navigateByUrl('users/addUser');
+  }
+  onSelectionChange(entry) {
+    // this.value = entry;
   }
 }

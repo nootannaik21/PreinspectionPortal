@@ -68,7 +68,7 @@ export class AuthSigninComponent implements OnInit {
           let decodedJwtJsonData = window.atob(jwtData);
           let decodedJwtData = JSON.parse(decodedJwtJsonData);
           localStorage.setItem('type', decodedJwtData.type);
-
+localStorage.setItem('loggedInUser',decodedJwtData.Email);
           // this.router.navigateByUrl('users');
           
           // console.log(localStorage.getItem('permission'))
