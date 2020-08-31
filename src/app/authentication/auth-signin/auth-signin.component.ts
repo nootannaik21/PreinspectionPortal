@@ -95,7 +95,7 @@ localStorage.setItem('loggedInUser',decodedJwtData.Email);
           }
           else if(localStorage.getItem('type')=="Claims")
           {
-            this.router.navigateByUrl('enquiry');
+            this.router.navigateByUrl('inspection');
           }
 
           this.disableSignIn = true;
