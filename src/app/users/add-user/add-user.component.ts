@@ -86,7 +86,8 @@ export class AddUserComponent implements OnInit {
                     textField: 'branchCode',
                     selectAllText: 'Select All',
                     unSelectAllText: 'UnSelect All',
-                    itemsShowLimit: 3,
+                    itemsShowLimit: 10,
+                    allowSearchFilter: true
                   };
                 },
                 err => {
@@ -158,7 +159,8 @@ export class AddUserComponent implements OnInit {
           textField: 'branchCode',
           selectAllText: 'Select All',
           unSelectAllText: 'UnSelect All',
-          itemsShowLimit: 3,
+          itemsShowLimit: 10,
+          allowSearchFilter: true
         };
       },
       err => {
@@ -188,6 +190,7 @@ export class AddUserComponent implements OnInit {
     this.router.navigateByUrl('users');
   }
   onSubmit() {
+    debugger;
     this.submitted = true;
     const branchName = this.addUserForm.get('branchName');
     const branchCode = this.addUserForm.get('branchCode');
@@ -251,6 +254,7 @@ export class AddUserComponent implements OnInit {
       return;
     }
     else {
+      debugger;
       this.userapiService.addUser(userdata).subscribe(
         data => {
           var res: any = data;
