@@ -47,12 +47,24 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label>Password</label>
+              
+              <label>Password
+              </label>
+            
+            <div class="hover"><i class="fa fa-info-circle" aria-hidden="true" style="color:grey !important;"></i>
+              <div class="tooltip">
+                <p>Password Policy:<br />
+                Characters must be 8<br />
+                First and last character should be alphabet<br />
+                Atleast one special character<br />
+              </div>
+            </div>
+         
               <input type="password" class="form-control" placeholder="Password" formControlName="password" tabindex="4"
                 [(ngModel)]="userdata.password" required [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
               <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                 <div *ngIf="f.password.errors.required">Password is required</div>
-                <div *ngIf="f.password.errors.minlength">Password must be at least 15 characters</div>
+                <div *ngIf="f.password.errors.maxLength">Password must be 8 characters</div>
               </div>
             </div>
             <div class="form-group">
