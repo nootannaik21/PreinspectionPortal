@@ -6,6 +6,8 @@ import { AlertService } from 'src/app/service/alert.service';
 import { FileuploadService } from 'src/app/service/fileupload.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
+import { NotificationService } from 'src/app/service/notification.service';
+
 
 @Component({
   selector: 'app-add-inspection',
@@ -16,6 +18,7 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
   showHistoryTable: boolean;
   showReferenceNo: boolean;
   disableInspection: boolean;
+  hideStatus: boolean;
   ngAfterViewInit(): void {
     this.inspectionHistory = [];
     this.rerender();
@@ -35,7 +38,6 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
   submitted = false;
   paymentMode: any = [];
   status: any = [];
-  PreinsvendorId: any = [];
   productTypes: any = [];
   riskTypes: any = [];
   duplicateinspections: any = [];
@@ -44,144 +46,15 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
   vendorEmailIdDetails: any = [];
   showUpload: boolean = false;
   myFiles: string[] = [];
-  constructor(private fileUploadService: FileuploadService, private alertService: AlertService, private formBuilder: FormBuilder, private inspectionService: InspectionSeriveService, private router: Router) {
-    this.vendorEmailIdDetails = [
-      {
-        id: 1,
-        vendorEmailId: "test@gmail.com"
-      },
-      {
-        id: 2,
-        vendorEmailId: "test12@gmail.com"
-      },
-      {
-        id: 3,
-        vendorEmailId: "sdsds@gmail.com"
-      },
-      {
-        id: 4,
-        vendorEmailId: "deeksha@vendor.com"
-      }
-    ]
-    this.inspectionreasons = [
-      {
-        id: 1,
-        inspectionreason: "reason1"
-      },
-      {
-        id: 2,
-        inspectionreason: "reason2"
-      },
-      {
-        id: 3,
-        inspectionreason: "reason3"
-      },
-    ]
-    this.convayances = [
-      {
-        id: 1,
-        convayance: "convayance1"
-      },
-      {
-        id: 2,
-        convayance: "convayance2"
-      },
-      {
-        id: 3,
-        convayance: "convayance3"
-      },
-    ]
+  constructor(private notifyService: NotificationService, private fileUploadService: FileuploadService, private alertService: AlertService, private formBuilder: FormBuilder, private inspectionService: InspectionSeriveService, private router: Router) {
     this.duplicateinspections = [
-      {
-        id: 1,
-        duplicateinspection: "Yes"
-      },
-      {
-        id: 0,
-        duplicateinspection: "No"
-      },
-
+      { id: 1, duplicateinspection: 'Yes', checked: true },
+      { id: 0, duplicateinspection: 'No' },
     ]
-    this.riskTypes = [
-      {
-        id: 1,
-        riskType: "risk1"
-      },
-      {
-        id: 2,
-        riskType: "risk2"
-      },
-      {
-        id: 3,
-        riskType: "risk3"
-      },
-    ]
-    this.productTypes = [
-      {
-        id: 1,
-        productType: "product1"
-      },
-      {
-        id: 2,
-        productType: "product2"
-      },
-      {
-        id: 3,
-        productType: "product3"
-      },
-    ]
-    this.PreinsvendorId = [
-      {
-        preInstid: 1,
-        paymentText: "ABC"
-      },
-      {
-        preInstid: 2,
-        paymentText: "XYZ"
-      },
-      {
-        preInstid: 3,
-        paymentText: "PQR"
-      }
-    ], this.paymentMode = [
-      {
-        paymentid: 1,
-        paymentText: "Cash"
-      },
-      {
-        paymentid: 2,
-        paymentText: "Check"
-      },
-      {
-        paymentid: 3,
-        paymentText: "Internet Banking"
-      }
-    ],
-      this.status = [
-        {
-          statusid: 1,
-          statusText: "Recommended"
-        },
-        {
-          statusid: 2,
-          statusText: "Not Recommended"
-        },
-        {
-          statusid: 3,
-          statusText: "Appointment Fix"
-        },
-        {
-          statusid: 4,
-          statusText: "Canceled"
-        },
-        {
-          statusid: 5,
-          statusText: "Rescheduled"
-        }
-      ]
   }
 
   ngOnInit() {
+    debugger
     this.dtOptions = {
       pagingType: 'full_numbers',
       lengthMenu: [
@@ -212,7 +85,7 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
       paymentmodeid: ['', [Validators.required]],
       make: ['', [Validators.required]],
       model: ['', [Validators.required]],
-      statusid: ['', [Validators.required]],
+      statusid: [''],
       vendorEmailId: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       convayance: ['', [Validators.required]],
       conveyanceKm: ['', [Validators.required]],
@@ -221,40 +94,152 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
       // referenceno:['']
     });
     if (localStorage.getItem('inspectionId')) {
-      this.title = "Update Inspection";
-      this.showReferenceNo = true;
-      if (localStorage.getItem('type') == "Vendor") {
-        this.disableFields();
-        this.showUpload = true;
-        this.showHistoryTable = true;
-        this.getInspectionsHistory();
-        this.disableInspection=false;
-
-        // this.getInspections();
-      }
-      else if (localStorage.getItem('type') == "Branch" || localStorage.getItem('type') == "IMD") {
-        this.disableFields();
-        this.addInspectionForm.get('statusid').disable();
-        this.addInspectionForm.get('remarks').disable();
-        this.disableInspection=true;
-        // this.getInspections();
-      }
-      else {
-        this.showUpload = false;
-        this.showHistoryTable = false;
-        this.disableInspection=false;
-        // this.getInspections();
-      }
-      this.getInspections();
+      debugger;
+        this.title = "Update Inspection";
+        this.showReferenceNo = true;
+        this.hideStatus = true;
+        if (localStorage.getItem('type') == "Vendor") {
+          this.disableFields();
+          this.showUpload = true;
+          this.showHistoryTable = true;
+          this.getInspectionsHistory();
+          this.disableInspection = false;
+        }
+        else if (localStorage.getItem('type') == "Branch") {
+          this.disableFields();
+          this.addInspectionForm.get('statusid').disable();
+          this.addInspectionForm.get('remarks').disable();
+          this.disableInspection = true;
+        }
+        else if (localStorage.getItem('type') == "IMD") {
+          this.disableFields();
+          this.addInspectionForm.get('statusid').disable();
+          this.addInspectionForm.get('remarks').disable();
+          this.disableInspection = true;
+        }
+        else if (localStorage.getItem('type') == "OPS") {
+          this.disableFields();
+          this.addInspectionForm.get('statusid').disable();
+          this.addInspectionForm.get('remarks').disable();
+          this.disableInspection = true;
+        }
+        else {
+          this.showUpload = false;
+          this.showHistoryTable = false;
+          this.disableInspection = false;
+        }
+        this.getInspections();
+      
     }
+
     else {
       this.getAllBranches();
+      this.getAllInspectionStatus();
+      this.getPaymentMode();
+      this.getRiskType();
+      this.getallProductType();
+      this.getinspectionreasons();
+      this.getAllconvayances();
       localStorage.removeItem('inspectionId');
+      this.inspectionData.branchName = "";
+      this.inspectionData.branchcode = "";
+      this.inspectionData.inspectionreason = "";
+      this.inspectionData.productType = "";
+      this.inspectionData.riskType = "";
+      this.inspectionData.paymentmodeid = "";
+      this.inspectionData.vendorEmailId = "";
+      this.inspectionData.convayance = "";
+      this.inspectionData.statusid = 6;
       this.title = "Add Inspection";
       this.showReferenceNo = false;
+      this.hideStatus = false;
       // this.showUpload = false;
       // this.showHistoryTable=false;
     }
+  }
+  selectedduplicateinspection(event) {
+    debugger
+    this.inspectionData.duplicateinspection = true;
+
+    // if (event.target.value == 1) {
+    //   this.inspectionData.duplicateinspection = "1";
+    //   this.inspectionData.duplicateinspection = true;
+    // }
+    // else {
+    //   this.inspectionData.duplicateinspection = "0";
+    //   this.inspectionData.duplicateinspection = false;
+    // }
+  }
+  selectedduplicateinspection1(event) {
+    debugger
+    this.inspectionData.duplicateinspection = false;
+
+    // if (event.target.value == 1) {
+    //   this.inspectionData.duplicateinspection = "1";
+    //   this.inspectionData.duplicateinspection = true;
+    // }
+    // else {
+    //   this.inspectionData.duplicateinspection = "0";
+    //   this.inspectionData.duplicateinspection = false;
+    // }
+  }
+  getAllconvayances() {
+    this.inspectionService.getAllconvayances().subscribe(
+      data => {
+        this.convayances = data;
+      },
+      err => { }
+    )
+  }
+  getinspectionreasons() {
+    this.inspectionService.getAllInspectionsReason().subscribe(
+      data => {
+        this.inspectionreasons = data;
+      },
+      err => { }
+    )
+  }
+  getallProductType() {
+    this.inspectionService.getAllProductType().subscribe(
+      data => {
+        this.productTypes = data;
+      },
+      err => { }
+    )
+  }
+  getRiskType() {
+    this.inspectionService.getAllRiskType().subscribe(
+      data => {
+        this.riskTypes = data;
+      },
+      err => { }
+    )
+  }
+  getPaymentMode() {
+    this.inspectionService.getAllPaymentMode().subscribe(
+      data => {
+        this.paymentMode = data;
+      },
+      err => { }
+    )
+  }
+  getAllInspectionStatus() {
+    this.inspectionService.getAllInspectionStatus().subscribe(
+      data => {
+        this.status = data;
+      },
+      err => { }
+    )
+  }
+  getVendorMailList(branchCode) {
+    this.inspectionService.getVendorMailList(branchCode).subscribe(
+      data => {
+        this.vendorEmailIdDetails = data;
+      },
+      err => {
+
+      }
+    )
   }
   disableFields() {
     this.addInspectionForm.get('branchName').disable();
@@ -281,13 +266,37 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     this.addInspectionForm.get('riskType').disable();
   }
   getInspections() {
+    debugger
     this.getAllBranches();
+    this.getAllInspectionStatus();
+    this.getPaymentMode();
+    this.getRiskType();
+    this.getallProductType();
+    this.getinspectionreasons();
+    this.getAllconvayances();
+    if (localStorage.getItem('view')=="View") {
+      debugger
+      this.title = "View Inspection";
+      this.disableFields();
+      this.addInspectionForm.get('remarks').disable();
+      this.addInspectionForm.get('statusid').disable();
+      this.disableInspection=true;
+      this.getinspectionByID();
+    }    
+    else{
+      this.getinspectionByID();
+    }
+  }
+  getinspectionByID() {
     this.inspectionService.getInspectionById(localStorage.getItem('inspectionId')).subscribe(
       data => {
+        debugger
+        var res: any = data;
         this.inspectionData = Object.assign({}, data);
-        if (this.inspectionData.duplicateinspection == true) { this.inspectionData.duplicateinspection = 1 }
-        else { this.inspectionData.duplicateinspection = 0; }
-        // this.getVendorEMailByBranchCode(this.inspectionData.branchcode);
+        if(res){ 
+        this.getVendorMailList(res.branchcode);}
+        if (this.inspectionData.duplicateinspection == true) { this.inspectionData.duplicateinspection = "1" }
+        else { this.inspectionData.duplicateinspection = "0"; }
       },
       err => {
 
@@ -373,6 +382,7 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
       data => {
         var res: any = data;
         this.branches = res.data;
+        this.branches = res.data;
       },
       err => {
 
@@ -385,6 +395,7 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     this.inspectionData = {};
   }
   updateInspection() {
+    debugger
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
@@ -396,7 +407,8 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
       if (this.inspectionData.duplicateinspection == "1" ? this.inspectionData.duplicateinspection = true : this.inspectionData.duplicateinspection = false)
         this.inspectionService.updateInspection(this.inspectionData.id, this.inspectionData).subscribe(
           data => {
-            this.alertService.successAlert("Success", "Inspection Updated successfully");
+            debugger
+            this.notifyService.showSuccess("Inspection Updated successfully !!", "Success");
             this.router.navigateByUrl('inspection');
             this.inspectionData = {};
           },
@@ -407,38 +419,50 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
   onBranchSelect() {
     var temp = this.branches.filter(x => x.branchName == this.inspectionData.branchName)
     this.inspectionData.branchcode = temp[0].branchCode;
+    this.getVendorMailList(this.inspectionData.branchcode);
+  }
+  onBranchCodeSelect() {
+    var temp = this.branches.filter(x => x.branchCode == this.inspectionData.branchcode)
+    this.inspectionData.branchName = temp[0].branchName;
+    if (this.inspectionData.branchcode) {
+      this.getVendorMailList(this.inspectionData.branchcode);
+    }
   }
   createInspection() {
+    // const statusid = this.addInspectionForm.get('statusid');
+    // statusid.setValidators(null);
+    // statusid.updateValueAndValidity();
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
     } else {
       var x: number = +(this.inspectionData.paymentmodeid);
-      var y: number = +(this.inspectionData.statusid);
+      // var y: number = +(this.inspectionData.statusid);
       this.inspectionData.paymentmodeid = x;
-      this.inspectionData.statusid = y;
-      if (this.inspectionData.duplicateinspection == "1" ? this.inspectionData.duplicateinspection = true : this.inspectionData.duplicateinspection = false)
-        this.inspectionService.addInspection(this.inspectionData).subscribe(
-          data => {
-            this.alertService.successAlert("Success", "Inspection added successfully");
-            this.router.navigateByUrl('inspection');
-            this.inspectionData = {};
-          },
-          err => {
-            this.alertService.errorAlert("Oops!", "Failed to add Inspection details");
-            return;
-          }
-        )
+      // this.inspectionData.statusid = y;
+      // if (this.inspectionData.duplicateinspection == "1" ? this.inspectionData.duplicateinspection = true : this.inspectionData.duplicateinspection = false)
+      this.inspectionService.addInspection(this.inspectionData).subscribe(
+        data => {
+          this.notifyService.showSuccess("Inspection added successfully !!", "Success");
+
+          this.router.navigateByUrl('inspection');
+          this.inspectionData = {};
+        },
+        err => {
+          this.notifyService.showError("Something is wrong", "Inspection Not Added");
+          return;
+        }
+      )
     }
   }
-  getVendorEMailByBranchCode(branchCode){
-    this.inspectionService.getVendorEmailByBranchCode(branchCode).subscribe(
-      data => {
-        this.vendorEmailIdDetails  = Object.assign({}, data);
-      },
-      err => {
+  // getVendorEMailByBranchCode(branchCode){
+  //   this.inspectionService.getVendorEmailByBranchCode(branchCode).subscribe(
+  //     data => {
+  //       this.vendorEmailIdDetails  = Object.assign({}, data);
+  //     },
+  //     err => {
 
-      }
-    )
-  }
+  //     }
+  //   )
+  // }
 }
