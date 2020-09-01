@@ -98,6 +98,9 @@ File: style.css
 
 // custom
 @import "themes/custom";
+.radio input[type=radio] + .cr:after {
+  top: 15px;
+}
 
 
 
