@@ -57,7 +57,6 @@ export class InspectionListComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   editInspectionRow(item) {
-    debugger
     localStorage.setItem('inspectionId', item.id);
     localStorage.setItem('view', "Edit");
     this.router.navigateByUrl('inspection/addInspection');

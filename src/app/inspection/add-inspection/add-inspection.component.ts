@@ -54,7 +54,6 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   ngOnInit() {
-    debugger
     this.dtOptions = {
       pagingType: 'full_numbers',
       lengthMenu: [
@@ -94,7 +93,6 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
       // referenceno:['']
     });
     if (localStorage.getItem('inspectionId')) {
-      debugger;
         this.title = "Update Inspection";
         this.showReferenceNo = true;
         this.hideStatus = true;
@@ -158,7 +156,6 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     }
   }
   selectedduplicateinspection(event) {
-    debugger
     this.inspectionData.duplicateinspection = true;
 
     // if (event.target.value == 1) {
@@ -171,7 +168,6 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     // }
   }
   selectedduplicateinspection1(event) {
-    debugger
     this.inspectionData.duplicateinspection = false;
 
     // if (event.target.value == 1) {
@@ -266,7 +262,6 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     this.addInspectionForm.get('riskType').disable();
   }
   getInspections() {
-    debugger
     this.getAllBranches();
     this.getAllInspectionStatus();
     this.getPaymentMode();
@@ -275,7 +270,6 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     this.getinspectionreasons();
     this.getAllconvayances();
     if (localStorage.getItem('view')=="View") {
-      debugger
       this.title = "View Inspection";
       this.disableFields();
       this.addInspectionForm.get('remarks').disable();
@@ -290,7 +284,6 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
   getinspectionByID() {
     this.inspectionService.getInspectionById(localStorage.getItem('inspectionId')).subscribe(
       data => {
-        debugger
         var res: any = data;
         this.inspectionData = Object.assign({}, data);
         if(res){ 
@@ -395,7 +388,6 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     this.inspectionData = {};
   }
   updateInspection() {
-    debugger
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
@@ -404,10 +396,9 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
       var y: number = +(this.inspectionData.statusid);
       this.inspectionData.paymentmodeid = x;
       this.inspectionData.statusid = y;
-      if (this.inspectionData.duplicateinspection == "1" ? this.inspectionData.duplicateinspection = true : this.inspectionData.duplicateinspection = false)
+      this.inspectionData.duplicateinspection == "1" ? this.inspectionData.duplicateinspection = true : this.inspectionData.duplicateinspection = false;
         this.inspectionService.updateInspection(this.inspectionData.id, this.inspectionData).subscribe(
           data => {
-            debugger
             this.notifyService.showSuccess("Inspection Updated successfully !!", "Success");
             this.router.navigateByUrl('inspection');
             this.inspectionData = {};
