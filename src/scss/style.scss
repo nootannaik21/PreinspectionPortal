@@ -98,3 +98,7 @@ File: style.css
 
 // custom
 @import "themes/custom";
+
+.was-validated .form-control:invalid, .form-control.is-invalid {
+  background-image: none;
+}
