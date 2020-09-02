@@ -21,13 +21,13 @@ export class ChangepasswordComponent implements OnInit {
     this.changePasswordForm = this.formBuilder.group({
       oldPassword: ['', [Validators.required]],
       // newPassword: ['', [Validators.required, Validators.minLength(15)]],
-      newPassword: [null, [Validators.required,Validators.minLength(15),Validators.pattern('(?![0-9]|.*[0-9]$)(?=.*[a-zA-Z0-9])(?=.*\d)(?=.*[_!?@#$%]).{8}$')]],
+      newPassword: [null, [Validators.required,Validators.minLength(8),Validators.pattern('^[a-zA-Z][a-zA-Z0-9!@#$]{6}[a-zA-Z]$')]],
+      // newPassword: [null, [Validators.required,Validators.minLength(15),Validators.pattern('(?![0-9]|.*[0-9]$)(?=.*[a-zA-Z0-9])(?=.*\d)(?=.*[_!?@#$%]).{8}$')]],
 
-      newpwd: ['', [Validators.required, Validators.minLength(15)]]}
+      newpwd: ['', [Validators.required, Validators.minLength(8),Validators.pattern('^[a-zA-Z][a-zA-Z0-9!@#$]{6}[a-zA-Z]$')]]}
     )
 }
 changePassword() {
-  debugger
   this.submitted = true;
   if (this.changePasswordForm.invalid) {
     return;
@@ -39,7 +39,6 @@ changePassword() {
   else {
     this.dataService.changePassword( localStorage.getItem("UserName"),this.changePwd).subscribe(
       data => {
-        debugger
         var res : any=data;
         this.alertService.successAlert("Success",res.message);
         this.changePwd={};
