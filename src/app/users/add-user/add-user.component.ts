@@ -42,9 +42,9 @@ export class AddUserComponent implements OnInit {
       branches: ['', [Validators.required]],
       // selectedItems: ['',],
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern('^[a-zA-Z][a-zA-Z0-9]*(?:[A-Za-z0-9]+)(?=.*[!@#$%^&*]).{6,}$')]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern('(?=^.{8,}$)(?=[^\d]*\d)(?=[^\W]*\W)(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])')]],
 
-      confPassword: ['', [Validators.required, Validators.minLength(8), Validators.pattern('^[a-zA-Z][a-zA-Z0-9]*(?:[A-Za-z0-9]+)(?=.*[!@#$%^&*]).{6,}$')]]
+      confPassword: ['', [Validators.required, Validators.minLength(8), Validators.pattern('(?=^.{8,}$)(?=[^\d]*\d)(?=[^\W]*\W)(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])')]]
 
     });
     if (localStorage.getItem('userid')) {
