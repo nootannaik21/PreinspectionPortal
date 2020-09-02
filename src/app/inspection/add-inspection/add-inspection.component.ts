@@ -48,8 +48,8 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
   myFiles: string[] = [];
   constructor(private notifyService: NotificationService, private fileUploadService: FileuploadService, private alertService: AlertService, private formBuilder: FormBuilder, private inspectionService: InspectionSeriveService, private router: Router) {
     this.duplicateinspections = [
-      { id: 1, duplicateinspection: 'Yes', checked: true },
-      { id: 0, duplicateinspection: 'No' },
+      { id: 1, duplicateinspection: 'Yes' },
+      { id: 0, duplicateinspection: 'No', checked: "true" },
     ]
   }
 
@@ -85,7 +85,7 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
       make: ['', [Validators.required]],
       model: ['', [Validators.required]],
       statusid: [''],
-      vendorEmailId: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      vendorEmailId: [null],
       convayance: ['', [Validators.required]],
       conveyanceKm: ['', [Validators.required]],
       altclientname: ['', [Validators.required]],
@@ -93,41 +93,40 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
       // referenceno:['']
     });
     if (localStorage.getItem('inspectionId')) {
-        this.title = "Update Inspection";
-        this.showReferenceNo = true;
-        this.hideStatus = true;
-        if (localStorage.getItem('type') == "Vendor") {
-          this.disableFields();
-          this.showUpload = true;
-          this.showHistoryTable = true;
-          this.getInspectionsHistory();
-          this.disableInspection = false;
-        }
-        else if (localStorage.getItem('type') == "Branch") {
-          this.disableFields();
-          this.addInspectionForm.get('statusid').disable();
-          this.addInspectionForm.get('remarks').disable();
-          this.disableInspection = true;
-        }
-        else if (localStorage.getItem('type') == "IMD") {
-          this.disableFields();
-          this.addInspectionForm.get('statusid').disable();
-          this.addInspectionForm.get('remarks').disable();
-          this.disableInspection = true;
-        }
-        else if (localStorage.getItem('type') == "OPS") {
-          this.disableFields();
-          this.addInspectionForm.get('statusid').disable();
-          this.addInspectionForm.get('remarks').disable();
-          this.disableInspection = true;
-        }
-        else {
-          this.showUpload = false;
-          this.showHistoryTable = false;
-          this.disableInspection = false;
-        }
-        this.getInspections();
-      
+      this.title = "Update Inspection";
+      this.showReferenceNo = true;
+      this.hideStatus = true;
+      if (localStorage.getItem('type') == "Vendor") {
+        this.disableFields();
+        this.showHistoryTable = true;
+        this.getInspectionsHistory();
+        this.disableInspection = false;
+      }
+      else if (localStorage.getItem('type') == "Branch") {
+        this.disableFields();
+        this.addInspectionForm.get('statusid').disable();
+        this.addInspectionForm.get('remarks').disable();
+        this.disableInspection = true;
+      }
+      else if (localStorage.getItem('type') == "IMD") {
+        this.disableFields();
+        this.addInspectionForm.get('statusid').disable();
+        this.addInspectionForm.get('remarks').disable();
+        this.disableInspection = true;
+      }
+      else if (localStorage.getItem('type') == "OPS") {
+        this.disableFields();
+        this.addInspectionForm.get('statusid').disable();
+        this.addInspectionForm.get('remarks').disable();
+        this.disableInspection = true;
+      }
+      else {
+        this.showUpload = false;
+        this.showHistoryTable = false;
+        this.disableInspection = false;
+      }
+      this.getInspections();
+
     }
 
     else {
@@ -148,36 +147,24 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
       this.inspectionData.vendorEmailId = "";
       this.inspectionData.convayance = "";
       this.inspectionData.statusid = 6;
+      this.inspectionData.duplicateinspection = "0";
       this.title = "Add Inspection";
       this.showReferenceNo = false;
       this.hideStatus = false;
+      // const vendorEmailId = this.addInspectionForm.get('vendorEmailId');
+      // vendorEmailId.setValidators(null);
+      // vendorEmailId.updateValueAndValidity();
       // this.showUpload = false;
       // this.showHistoryTable=false;
     }
   }
   selectedduplicateinspection(event) {
-    this.inspectionData.duplicateinspection = true;
-
-    // if (event.target.value == 1) {
-    //   this.inspectionData.duplicateinspection = "1";
-    //   this.inspectionData.duplicateinspection = true;
-    // }
-    // else {
-    //   this.inspectionData.duplicateinspection = "0";
-    //   this.inspectionData.duplicateinspection = false;
-    // }
-  }
-  selectedduplicateinspection1(event) {
-    this.inspectionData.duplicateinspection = false;
-
-    // if (event.target.value == 1) {
-    //   this.inspectionData.duplicateinspection = "1";
-    //   this.inspectionData.duplicateinspection = true;
-    // }
-    // else {
-    //   this.inspectionData.duplicateinspection = "0";
-    //   this.inspectionData.duplicateinspection = false;
-    // }
+    if (event.target.value == 1) {
+      this.inspectionData.duplicateinspection = true;
+    }
+    else {
+      this.inspectionData.duplicateinspection = false;
+    }
   }
   getAllconvayances() {
     this.inspectionService.getAllconvayances().subscribe(
@@ -262,13 +249,13 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     this.addInspectionForm.get('riskType').disable();
   }
   getInspections() {
-    if (localStorage.getItem('view')=="View") {
+    if (localStorage.getItem('view') == "View") {
       this.title = "View Inspection";
       this.disableFields();
       this.addInspectionForm.get('remarks').disable();
       this.addInspectionForm.get('statusid').disable();
-      this.disableInspection=true;
-    } 
+      this.disableInspection = true;
+    }
     this.getAllBranches();
     this.getAllInspectionStatus();
     this.getPaymentMode();
@@ -276,17 +263,36 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     this.getallProductType();
     this.getinspectionreasons();
     this.getAllconvayances();
-    this.getVendorMailList(this.inspectionData.branchcode);     
-      this.getinspectionByID();
+    // this.getVendorMailList(this.inspectionData.branchcode);     
+    this.getinspectionByID();
+  }
+  statusChanged(event){
+    if(event.target.value==1||event.target.value==2||event.target.value==4 && (localStorage.getItem('type') == "Vendor")){
+      if (localStorage.getItem('type') == "Vendor") {
+        this.showUpload = true;
+      }      
+    }
+    else{
+      this.showUpload=false
+    }
   }
   getinspectionByID() {
     this.inspectionService.getInspectionById(localStorage.getItem('inspectionId')).subscribe(
       data => {
         var res: any = data;
-        if(res){ 
-        this.getVendorMailList(res.branchcode);}
-        this.inspectionData = Object.assign({}, data);  
-        this.inspectionData.vendorEmailId=res.vendorEmailId;
+        if (res) {
+          this.getVendorMailList(res.branchcode);
+        }
+        this.inspectionData = Object.assign({}, data);
+        this.inspectionData.vendorEmailId = res.vendorEmailId;
+        if (res.statusid == 1 || res.statusid == 2 || res.statusid == 4) {
+          if (localStorage.getItem('type') == "Vendor") {
+            this.showUpload = true;
+          }
+          else {
+            this.showUpload = false;
+          }
+        }
         if (this.inspectionData.duplicateinspection == true) { this.inspectionData.duplicateinspection = "1" }
         else { this.inspectionData.duplicateinspection = "0"; }
       },
@@ -396,14 +402,14 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
       this.inspectionData.paymentmodeid = x;
       this.inspectionData.statusid = y;
       this.inspectionData.duplicateinspection == "1" ? this.inspectionData.duplicateinspection = true : this.inspectionData.duplicateinspection = false;
-        this.inspectionService.updateInspection(this.inspectionData.id, this.inspectionData).subscribe(
-          data => {
-            this.notifyService.showSuccess("Inspection Updated successfully !!", "Success");
-            this.router.navigateByUrl('inspection');
-            this.inspectionData = {};
-          },
-          err => { }
-        )
+      this.inspectionService.updateInspection(this.inspectionData.id, this.inspectionData).subscribe(
+        data => {
+          this.notifyService.showSuccess("Inspection Updated successfully !!", "Success");
+          this.router.navigateByUrl('inspection');
+          this.inspectionData = {};
+        },
+        err => { }
+      )
     }
   }
   onBranchSelect() {
@@ -425,7 +431,7 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     } else {
       var x: number = +(this.inspectionData.paymentmodeid);
       this.inspectionData.paymentmodeid = x;
-      // if (this.inspectionData.duplicateinspection == "1" ? this.inspectionData.duplicateinspection = true : this.inspectionData.duplicateinspection = false)
+      if (this.inspectionData.duplicateinspection == "1" ? this.inspectionData.duplicateinspection = true : this.inspectionData.duplicateinspection = false)
       this.inspectionService.addInspection(this.inspectionData).subscribe(
         data => {
           this.notifyService.showSuccess("Inspection added successfully !!", "Success");
