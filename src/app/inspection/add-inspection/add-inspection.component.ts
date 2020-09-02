@@ -19,6 +19,8 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
   showReferenceNo: boolean;
   disableInspection: boolean;
   hideStatus: boolean;
+  fileToUpload: File = null;
+
   ngAfterViewInit(): void {
     this.inspectionHistory = [];
     this.rerender();
@@ -45,7 +47,8 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
   inspectionreasons: any = [];
   vendorEmailIdDetails: any = [];
   showUpload: boolean = false;
-  myFiles: string[] = [];
+  myFiles: FileList;
+  file: File;
   constructor(private notifyService: NotificationService, private fileUploadService: FileuploadService, private alertService: AlertService, private formBuilder: FormBuilder, private inspectionService: InspectionSeriveService, private router: Router) {
     this.duplicateinspections = [
       { id: 1, duplicateinspection: 'Yes' },
@@ -326,21 +329,40 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     this.dtTrigger.unsubscribe();
   }
   getFileDetails(e) {
+    debugger;
+   
     //console.log (e.target.files);
-    for (var i = 0; i < e.target.files.length; i++) {
-      this.myFiles.push(e.target.files[i]);
+    let fileList: FileList = e.target.files;
+    if(fileList.length > 0) {
+      this.file = fileList[0];
+        
     }
-    console.log(this.myFiles)
+    // if(e.target.files.length > 0) {
+    //   let file: File = this.myFiles[0];
+    //   let formData:FormData = new FormData();
+    //   formData.append('uploadFile', file, file.name);
+    // }
   }
 
   uploadFiles() {
-    const frmData = new FormData();
-
-    for (var i = 0; i < this.myFiles.length; i++) {
-      // frmData.append("fileUpload", this.myFiles[i]);
-    }
-    // this.inspectionService.uploadDocument(this.inspectionData.id, frmData);
-
+    debugger;
+    // const frmData = new FormData();
+    let frmData:FormData = new FormData();
+    frmData.append('uploadFile', this.file, this.file.name);
+    // for (var i = 0; i < this.myFiles.length; i++) {
+    //    frmData.append("fileUpload", this.myFiles[i]);
+    // }
+    debugger;
+    //  this.inspectionService.uploadDocument(this.inspectionData.id, frmData);
+    
+    this.inspectionService.uploadDocument(this.inspectionData.id, frmData).subscribe(
+      data => {
+        debugger;
+      },
+      err => {
+console.log(err.error.message)
+      }
+    )
   }
   // // onSelectFile(event) {
   // //   if (event.target.files && event.target.files[0]) {
@@ -425,6 +447,7 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     }
   }
   createInspection() {
+    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;

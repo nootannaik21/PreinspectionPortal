@@ -364,7 +364,7 @@
                         <div class="form-group">
                             <input type="file" id="file" accept=".pdf,.png,.JPEG,.jpeg,.JPG,.jpg" multiple
                                 (change)="getFileDetails($event)">
-                            <button (click)="uploadFiles()">Upload Documents</button>
+                            <button (click)="uploadFiles($event.target.files)" type="button">Upload Documents</button>
                         </div>
                         <div *ngFor="let file of myFiles">
                             <div>* {{file.name}} - {{file.type}} - {{file.size}}</div>
