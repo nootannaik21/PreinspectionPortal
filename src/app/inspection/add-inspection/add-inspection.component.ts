@@ -262,6 +262,13 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     this.addInspectionForm.get('riskType').disable();
   }
   getInspections() {
+    if (localStorage.getItem('view')=="View") {
+      this.title = "View Inspection";
+      this.disableFields();
+      this.addInspectionForm.get('remarks').disable();
+      this.addInspectionForm.get('statusid').disable();
+      this.disableInspection=true;
+    } 
     this.getAllBranches();
     this.getAllInspectionStatus();
     this.getPaymentMode();
@@ -269,25 +276,17 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     this.getallProductType();
     this.getinspectionreasons();
     this.getAllconvayances();
-    if (localStorage.getItem('view')=="View") {
-      this.title = "View Inspection";
-      this.disableFields();
-      this.addInspectionForm.get('remarks').disable();
-      this.addInspectionForm.get('statusid').disable();
-      this.disableInspection=true;
+    this.getVendorMailList(this.inspectionData.branchcode);     
       this.getinspectionByID();
-    }    
-    else{
-      this.getinspectionByID();
-    }
   }
   getinspectionByID() {
     this.inspectionService.getInspectionById(localStorage.getItem('inspectionId')).subscribe(
       data => {
         var res: any = data;
-        this.inspectionData = Object.assign({}, data);
         if(res){ 
         this.getVendorMailList(res.branchcode);}
+        this.inspectionData = Object.assign({}, data);  
+        this.inspectionData.vendorEmailId=res.vendorEmailId;
         if (this.inspectionData.duplicateinspection == true) { this.inspectionData.duplicateinspection = "1" }
         else { this.inspectionData.duplicateinspection = "0"; }
       },
@@ -420,17 +419,12 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     }
   }
   createInspection() {
-    // const statusid = this.addInspectionForm.get('statusid');
-    // statusid.setValidators(null);
-    // statusid.updateValueAndValidity();
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
     } else {
       var x: number = +(this.inspectionData.paymentmodeid);
-      // var y: number = +(this.inspectionData.statusid);
       this.inspectionData.paymentmodeid = x;
-      // this.inspectionData.statusid = y;
       // if (this.inspectionData.duplicateinspection == "1" ? this.inspectionData.duplicateinspection = true : this.inspectionData.duplicateinspection = false)
       this.inspectionService.addInspection(this.inspectionData).subscribe(
         data => {
