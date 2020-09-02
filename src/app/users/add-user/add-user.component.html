@@ -61,7 +61,7 @@
                 [(ngModel)]="userdata.password"  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" required/>
               <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                 <div *ngIf="f.password.errors.required">Password is required</div>
-                <div *ngIf="userdata.password.length >8">Password must be 8 characters</div>
+                <div *ngIf="userdata.password.length<8">Password must be 8 characters</div>
 
                 <!-- <div *ngIf="f.email.errors.email">Email must be a valid email address</div> -->
 
