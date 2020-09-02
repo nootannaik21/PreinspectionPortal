@@ -9,7 +9,7 @@ export class VendorServiceService {
     return this.apiService.put("vendor/editVendor?id="+vendorid,vendordata);
   }
   getVendorById(vendorId) {
-    return this.apiService.get("vendor/getActiveVendorById?id="+vendorId);
+    return this.apiService.get("vendor/getVendorById?id="+vendorId);
   }
   addVendorDetails(vendordata) {
     return this.apiService.post("vendor/addVendor",vendordata);
@@ -22,7 +22,7 @@ export class VendorServiceService {
     return this.apiService.delete("vendor/deleteVendor?id="+id);
   }
   getVendors() {
-    return this.apiService.get("vendor/getAllActiveVendors");
+    return this.apiService.get("vendor/getAllVendors");
   }
 
   constructor(private apiService:ApiService) { }

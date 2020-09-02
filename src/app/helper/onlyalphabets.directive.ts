@@ -1,13 +1,16 @@
-import { Directive, Input, ElementRef, HostListener } from '@angular/core';
+import { Directive, Input, HostListener, ElementRef } from '@angular/core';
 
 @Directive({
-  selector: '[appOnlystring]'
+  selector: '[appOnlyalphabets]'
 })
-export class OnlystringDirective {
+export class OnlyalphabetsDirective {
   @Input() onlyAlpha: boolean;
   @Input() regex: any;
+  constructor(private el: ElementRef) {
 
-  constructor(private el: ElementRef) { }
+
+
+  }
   @HostListener('keydown', ['$event']) onKeyDown(event) {
     let e = <KeyboardEvent>event;
     

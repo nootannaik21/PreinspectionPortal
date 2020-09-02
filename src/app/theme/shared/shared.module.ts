@@ -16,6 +16,12 @@ import { ToastComponent } from './components/toast/toast.component';
 import {ToastService} from './components/toast/toast.service';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import {LightboxModule} from 'ngx-lightbox';
+import { OnlynumberDirective } from 'src/app/helper/onlynumber.directive';
+import { OnlyalphabetsDirective } from 'src/app/helper/onlyalphabets.directive';
+import { PermissionDirective } from '../../helper/permission.directive';
+import { ToastrModule } from 'ngx-toastr';
+
+
 
 /*import 'hammerjs';
 import 'mousetrap';
@@ -27,6 +33,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 @NgModule({
   imports: [
+    ToastrModule.forRoot(),
     CommonModule,
     PerfectScrollbarModule,
     FormsModule,
@@ -39,6 +46,11 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     LightboxModule
   ],
   exports: [
+    // OnlystringDirective,
+    OnlynumberDirective,
+    OnlyalphabetsDirective,
+    PermissionDirective,
+    ToastrModule,
     CommonModule,
     PerfectScrollbarModule,
     FormsModule,
@@ -57,6 +69,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ToastComponent
   ],
   declarations: [
+    OnlynumberDirective,
+    OnlyalphabetsDirective,
+    PermissionDirective,
     DataFilterPipe,
     TodoListRemoveDirective,
     TodoCardCompleteDirective,
