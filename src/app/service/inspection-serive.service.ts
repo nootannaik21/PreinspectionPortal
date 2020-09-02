@@ -5,6 +5,27 @@ import { ApiService } from './api.service';
   providedIn: 'root'
 })
 export class InspectionSeriveService {
+  getAllconvayances() {
+    return this.apiService.get("inspection/getAllConvayance");
+  }
+  getAllInspectionsReason() {
+    return this.apiService.get("inspection/getAllInspectionReason");
+  }
+  getAllProductType() {
+    return this.apiService.get("inspection/getAllProductType");
+  }
+  getAllRiskType() {
+    return this.apiService.get("inspection/getAllRiskType");   
+  }
+  getAllPaymentMode() {
+    return this.apiService.get("inspection/getAllPaymentMode");   
+  }
+  getAllInspectionStatus() {
+    return this.apiService.get("inspection/getAllInspectionStatus");   
+  }
+  getVendorMailList(branchCode) {
+    return this.apiService.get("vendor/getActiveVendorByBranchCode?branchCode="+branchCode);   
+  }
   uploadDocument(id, files) {
     return this.apiService.post("inspection/uploadDocument?inspectionId="+id,files);   
   }
@@ -31,6 +52,8 @@ export class InspectionSeriveService {
   getInspectionList() {
     return this.apiService.get('inspection/getAllInspections');   
   }
-
+getVendorEmailByBranchCode(branchCode){
+  return this.apiService.get('vendor/getActiveVendorByBranchCode?branchCode='+ branchCode);
+}
   constructor(private apiService:ApiService) { }
 }
