@@ -13,10 +13,10 @@ const routes: Routes = [
     path: 'addUser',
     component: AddUserComponent
   },
-  {
-    path: 'changePassword',
-    component: ChangepasswordComponent
-  }
+  // {
+  //   path: 'changePassword',
+  //   component: ChangepasswordComponent
+  // }
 ];
 
 @NgModule({
