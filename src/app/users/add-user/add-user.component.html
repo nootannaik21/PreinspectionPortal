@@ -17,7 +17,7 @@
             <div class="form-group">
               <label>Company Name</label>
               <input type="text" class="form-control" required placeholder="Company Name" formControlName="company"
-                [(ngModel)]="userdata.company" tabindex="3" (keypress)="avoidSpecialchar($event)" appOnlyalphabets [onlyAlpha]="true"
+                [(ngModel)]="userdata.company" tabindex="3" (keypress)="avoidSpecialchar($event)"
                 [ngClass]="{ 'is-invalid': submitted && f.company.errors }" />
               <div *ngIf="submitted && f.company.errors" class="invalid-feedback">
                 <div *ngIf="f.company.errors.required">Company Name is required</div>
@@ -41,7 +41,7 @@
                 required />
               <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                 <div *ngIf="f.email.errors.required">Email is required</div>
-                <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                <div *ngIf="f.email.errors.pattern">Email must be a valid email address</div>
               </div>
             </div>
           </div>
@@ -62,6 +62,7 @@
               <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                 <div *ngIf="f.password.errors.required">Password is required</div>
                 <div *ngIf="userdata.password.length<8">Password must be 8 characters</div>
+                <div *ngIf="f.password.errors.pattern">Password Not Matching</div>
 
                 <!-- <div *ngIf="f.email.errors.email">Email must be a valid email address</div> -->
 
@@ -99,7 +100,7 @@
             
             <div class="form-group" *ngIf="showBranch">
               <label for="exampleFormControlSelect1">Branches </label>
-              <ng-multiselect-dropdown [placeholder]="'Choose Branches'" required [settings]="dropdownSettings"
+              <ng-multiselect-dropdown [placeholder]="'Choose Branches'" required [settings]="dropdownSettings" 
                 [data]="branches" tabindex="7" [(ngModel)]="selectedItems" formControlName="branches"
                 (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
                 [ngClass]="{ 'is-invalid': submitted && f.branches.errors }">

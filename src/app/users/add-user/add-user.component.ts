@@ -87,7 +87,7 @@ export class AddUserComponent implements OnInit {
                     textField: 'branchCode',
                     selectAllText: 'Select All',
                     unSelectAllText: 'UnSelect All',
-                    itemsShowLimit: 10,
+                    // itemsShowLimit: 10,
                     allowSearchFilter: true
                   };
                 },
@@ -164,7 +164,7 @@ export class AddUserComponent implements OnInit {
           textField: 'branchCode',
           selectAllText: 'Select All',
           unSelectAllText: 'UnSelect All',
-          itemsShowLimit: 10,
+          // itemsShowLimit: 10,
           allowSearchFilter: true
         };
       },
