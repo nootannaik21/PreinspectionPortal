@@ -26,8 +26,6 @@ export class AddUserComponent implements OnInit {
   addUserForm: FormGroup;
   showBranch: boolean;
   title: string;
-  passwordPattern:"(?=^.{8,}$)(?=[^\d]*\d)(?=[^\W]*\W)(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])";
-
   constructor(private notifyService: NotificationService, private formBuilder: FormBuilder, private router: Router, private alertService: AlertService, private userapiService: UserapiserviceService) { }
 
   ngOnInit() {
@@ -74,7 +72,7 @@ export class AddUserComponent implements OnInit {
                   var res: any = branches;
                   this.branches = res.data;
                   // for (let i = 0; i < user.branches.split(',').length; i++) {
-                    for (let i = 0; i < user.branches[i]; i++) {
+                  for (let i = 0; i < user.branches[i]; i++) {
                     // var branch = this.branches.filter(x => x.id == user.branches.split(',')[i])
                     var branch = this.branches.filter(x => x.id == user.branches[i])
                     if (branch.length > 0) {
@@ -119,6 +117,7 @@ export class AddUserComponent implements OnInit {
   }
 
   get f() { return this.addUserForm.controls; }
+  
 
   avoidSpecialchar(event) {
     var k;
@@ -130,7 +129,7 @@ export class AddUserComponent implements OnInit {
     this.userdata.branchCode = temp[0].branchCode;
   }
   onBranchCodeSelect() {
-    var temp = this.branches.filter(x => x.branchCode  == this.userdata.branchCode)
+    var temp = this.branches.filter(x => x.branchCode == this.userdata.branchCode)
     this.userdata.branchName = temp[0].branchName;
   }
   onTypeSelect(eve) {
@@ -149,10 +148,10 @@ export class AddUserComponent implements OnInit {
     }
   }
   onStatusSelect(eve) {
-    if(eve.target.value=="true")
-    this.userdata.status = true;
-    else{
-    this.userdata.status = false;
+    if (eve.target.value == "true")
+      this.userdata.status = true;
+    else {
+      this.userdata.status = false;
     }
   }
   getAllBranches() {
@@ -277,12 +276,7 @@ export class AddUserComponent implements OnInit {
 
         },
         err => {
-          // this.alertService.errorAlert("Error", "User Not added");
-          this.notifyService.showError("Something is wrong", "User Not Added");
-
-          this.selectedItems = [];
-          this.userdata = {};
-          this.submitted = false;
+          this.notifyService.showError(err.error.message, "User Not Added");
           return;
         }
       )

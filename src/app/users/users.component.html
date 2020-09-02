@@ -42,11 +42,12 @@
                 <th class="text-left"  style="width:20%">Branch Name</th>
                 <th class="text-left"  style="width:10%">Role</th>
                 <th class="text-left"  style="width:10%">Status</th>
+                <th class="text-center" Permission [permission]="'Admin'"  style="width:10%">Action</th>
                 <!-- <th class="text-left" >Enable / <br>Disable</th> -->
-                <th class="text-left" Permission [permission]="'Admin'"  style="width:5%"><i class="feather icon-edit pr-3" className="tooltipstext" title="Action"></i></th>
+                <!-- <th class="text-left" Permission [permission]="'Admin'"  style="width:5%"><i class="feather icon-edit pr-3" className="tooltipstext" title="Action"></i></th> -->
             </tr>
         </thead>
-        <tbody>
+        <tbody >
             <tr *ngFor="let item of userList">
                 <!-- <td class="text-left">
                     {{item.username}}
@@ -101,7 +102,7 @@
                         <label>Disabled</label>
                       </div> -->
                 </td>
-                <td class="text-left" Permission [permission]="'Admin'">
+                <td class="text-center" Permission [permission]="'Admin'">
                     <div>
                         <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit" [ngClass]="{'disabled': item.isDeleted}"
                             style="cursor: pointer;" (click)="editUserRow(item)"></i>
