@@ -13,7 +13,7 @@ const routes: Routes = [
     path: 'addUser',
     component: AddUserComponent
   },
-  {
+  { 
     path: 'changePassword',
     component: ChangepasswordComponent
   }
