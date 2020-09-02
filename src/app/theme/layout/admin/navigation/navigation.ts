@@ -43,7 +43,7 @@ const NavigationItems = [
     url: '/inspection',
     classes: 'nav-item',
     icon: 'feather icon-eye',
-    accessrole:'Admin|OPS|IMD|Branch|Vendor|Claims'
+    accessrole:'Admin|ABS|IMD|Branch|Claims'
   },
   {
     id: 'enquiry',
@@ -52,7 +52,7 @@ const NavigationItems = [
     url: '/enquiry',
     classes: 'nav-item',
     icon: 'feather icon-repeat',
-    accessrole:'Admin|OPS|Branch|IMD|Claims'
+    accessrole:'Admin|ABS|Branch|IMD|Claims'
   },
   {
     id: 'vendor',
@@ -61,7 +61,7 @@ const NavigationItems = [
     url: '/vendor',
     classes: 'nav-item',
     icon: 'feather icon-sidebar',
-    accessrole:'Admin'
+    accessrole:'Admin|Vendor'
   },
   {
     id: 'branch',
@@ -70,7 +70,7 @@ const NavigationItems = [
     url: '/branch',
     classes: 'nav-item',
     icon: 'feather icon-menu',
-    accessrole:'Admin|OPS'
+    accessrole:'Admin'
   },
   {
     id: 'report',
@@ -79,7 +79,7 @@ const NavigationItems = [
     url: '/report',
     classes: 'nav-item',
     icon: 'feather icon-book',
-    accessrole:'Admin|Claims|Vendor|Branch|IMD'
+    accessrole:'Admin|Claims|Vendor|Claims\Branch'
   }
 ];
 

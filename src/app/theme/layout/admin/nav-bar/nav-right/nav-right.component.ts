@@ -22,6 +22,7 @@ this.loggedInUser = localStorage.getItem('loggedInUser');
     localStorage.clear();
   }
   changePassword(){
-    this.router.navigateByUrl("/change-password");
+    this.router.navigateByUrl('users/changePassword');
+
   }
 }

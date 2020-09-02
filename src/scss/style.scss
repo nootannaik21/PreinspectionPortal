@@ -98,28 +98,7 @@ File: style.css
 
 // custom
 @import "themes/custom";
-.radio input[type=radio] + .cr:after {
-  top: 15px;
-}
 
-
-
-
-
-table.shrink-table-cell {
-  width: 100%;
-  table-layout: fixed;
-}
-
-table.shrink-table-cell td, table.shrink-table-cell th {
-  max-width: 100px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.style-toggler {
-  display: none;
-}
-#toast-container > div {
-  opacity:1;
+.was-validated .form-control:invalid, .form-control.is-invalid {
+  background-image: none;
 }
