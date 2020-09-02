@@ -15,13 +15,13 @@
               </div>
             </div>
             <div class="form-group">
-              <label>Inspection Email</label>
+              <label>Vendor Email</label>
               <input type="email" class="form-control" placeholder="Inspection Email" formControlName="inspectionemail"
                 [(ngModel)]="vendordata.inspectionemail" tabindex="3"
                 [ngClass]="{ 'is-invalid': submitted && f.inspectionemail.errors }" required />
                 <div *ngIf="submitted && f.inspectionemail.errors" class="invalid-feedback">
                   <div *ngIf="f.inspectionemail.errors.required">Email is required</div>
-                  <div *ngIf="f.inspectionemail.errors.email">Email must be a valid email address</div>
+                  <div *ngIf="f.inspectionemail.errors.pattern">Email must be a valid email address</div>
                 </div>
             </div>
           </div>
@@ -30,7 +30,7 @@
               <label for="exampleFormControlSelect1">Branch Code</label>
               <select class="form-control" formControlName="branchcode" [(ngModel)]="vendordata.branchcode" tabindex="2"
                 [ngClass]="{ 'is-invalid': submitted && f.branchcode.errors }" required>
-                <!-- <option value="undefined">Select</option> -->
+                <option value="undefined">Select Branch</option>
                 <option class="form-control" *ngFor="let item of branchCode" [value]="item.branchCode">
                   <table>
                     <tr>
@@ -43,12 +43,12 @@
                 <div *ngIf="f.branchcode.errors.required">Please Select Branch Code</div>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="vendordata.id!=undefined">
               <label>Status</label>
               <select class="form-control" formControlName="status" [(ngModel)]="vendordata.status" tabindex="4"
                 [ngClass]="{ 'is-invalid': submitted && f.status.errors }" required>
                 <!-- <option value="undefined">Select</option> -->
-                <option class="form-control" *ngFor="let item of vendorStatus" [value]="item.id">
+                <option class="form-control" *ngFor="let item of vendorStatus" [value]="item.vendorStatus">
                   <table>
                     <tr>
                       <td> {{item.status}}</td>

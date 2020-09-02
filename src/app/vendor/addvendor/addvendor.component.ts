@@ -41,8 +41,8 @@ export class AddvendorComponent implements OnInit {
     this.addVendorForm = this.formBuilder.group({
       vendorname: ['', [Validators.required]],
       branchcode: ['', [Validators.required]],
-      status: ['', [Validators.required]],
-      inspectionemail: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      // status: ['', [Validators.required]],
+      inspectionemail:  ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
     });
     if (localStorage.getItem('vendorid')) {
       this.addVendorForm.get('inspectionemail').disable();
@@ -78,6 +78,7 @@ export class AddvendorComponent implements OnInit {
     )
   }
   addVendorDetails() {
+    debugger;
     this.submitted = true;
     if (this.addVendorForm.invalid) {
       return;
@@ -95,7 +96,9 @@ export class AddvendorComponent implements OnInit {
 
           }
         },
-        err => { }
+        err => { 
+          this.alertService.errorAlert("Oops!", err.error.message);
+                  }
       )
     }
 
@@ -142,9 +145,9 @@ export class AddvendorComponent implements OnInit {
           this.vendordata = {};
           this.router.navigateByUrl('vendor');
         },
-        err => {
-
-        }
+        err => { 
+          this.alertService.errorAlert("Oops!", err.error.message);
+                  }
       )
     }
   }
