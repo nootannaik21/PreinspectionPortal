@@ -44,22 +44,63 @@
             class="table table-striped table-bordered table-hover shrink-table-cell">
             <thead>
               <tr>
-                <th class="text-left">Branch Code</th>
+                <th class="text-left">Created<br> Date</th>
+                <th class="text-left">IMD/SM <br>Code</th>
+                <th class="text-left">Customer</th>
+                <th class="text-left">Vendor <br>Email ID</th>
+                <th class="text-left">Status</th>
+                <th class="text-left">Location</th>
+                <th class="text-left">Vehicle <br>Reg.#</th>
+                <th class="text-left">Action</th>
+                <!-- <th class="text-left">Branch Code</th>
                 <th class="text-left">Imd Code</th>
                 <th class="text-left">Phone No</th>
                 <th class="text-left">Email</th>
                 <th class="text-left">Inspection Location</th>
-                <th class="text-left">Download</th>
+                <th class="text-left">Download</th> -->
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of enquiryList">
                 <td class="text-left">
-                  {{item.branchcode}}
+                  {{item.createdDate |  date:'dd/MM/yyyy'}}
                 </td>
                 <td class="text-left">
                   {{item.imdcode}}
                 </td>
+                <td class="text-left">
+                  {{item.clientname}}
+              </td>
+              <td class="text-left">
+                  {{item.vendorEmailId}}
+              </td>
+              <td class="text-left">
+                  {{(item.statusid==1) ? "Recommended" : (item.statusid==2) ? "Not Recommended" : (item.statusid)==3 ? "Rescheduled" : (item.statusid)==4 ? "Cancelled":(item.statusid)==5 ? "Appointmant Fix" : "Request Raised"}}
+              </td>
+              <td class="text-left">
+                  {{item.inspectionlocation}}
+              </td>
+              <td class="text-left">
+                  {{item.registrationno}}
+              </td>
+              <td class="text-left">
+                <span *ngIf="(item.statusid==1)||(item.statusid==2)||(item.statusid==4)">
+                    <i class="feather icon-download pr-2" className="tooltipstext" title="Download"
+                        style="cursor: pointer;" Permission [permission]="'Admin|Claims'"></i> 
+                </span>
+                <span>
+                    <i class="feather icon-eye pr-2" className="tooltipstext" title="View"
+                    style="cursor: pointer;" (click)="viewInspection(item)" Permission [permission]="'Admin|Branch|IMD|OPS|Claims'"></i>
+                </span> 
+                <span>
+                    <i class="feather icon-edit pr-2" className="tooltipstext" title="Edit"
+                    style="cursor: pointer;" (click)="editInspectionRow(item)" Permission [permission]="'Admin|Vendor'"></i>
+                </span>
+            </td>
+                <!-- <td class="text-left">
+                  {{item.branchcode}}
+                </td>
+               
                 <td class="text-left">
                   {{item.phoneNoofsales}}
                 </td>
@@ -71,7 +112,7 @@
                 </td>
                 <td class="text-left">
                   <button type="button"  class="btn btn-primary" [disabled]="item.documentPath==null">Document</button>
-                </td>
+                </td> -->
               </tr>
             </tbody>
           </table>
