@@ -42,8 +42,9 @@ export class AddUserComponent implements OnInit {
       branches: ['', [Validators.required]],
       // selectedItems: ['',],
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      password: ['', [Validators.required, Validators.maxLength(8), Validators.pattern('^[a-zA-Z][a-zA-Z0-9!@#$]{6}[a-zA-Z]$')]],
-      confPassword: ['', [Validators.required, Validators.maxLength(8), Validators.pattern('^[a-zA-Z][a-zA-Z0-9!@#$]{6}[a-zA-Z]$')]]
+      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern('^[a-zA-Z][a-zA-Z0-9]*(?:[A-Za-z0-9]+)(?=.*[!@#$%^&*]).{6,}$')]],
+
+      confPassword: ['', [Validators.required, Validators.minLength(8), Validators.pattern('^[a-zA-Z][a-zA-Z0-9]*(?:[A-Za-z0-9]+)(?=.*[!@#$%^&*]).{6,}$')]]
 
     });
     if (localStorage.getItem('userid')) {
