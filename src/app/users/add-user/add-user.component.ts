@@ -3,8 +3,9 @@ import { Router } from '@angular/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { UserapiserviceService } from 'src/app/service/userapiservice.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NotificationService } from 'src/app/service/notification.service';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class AddUserComponent implements OnInit {
   addUserForm: FormGroup;
   showBranch: boolean;
   title: string;
+  passwordPattern:"(?=^.{8,}$)(?=[^\d]*\d)(?=[^\W]*\W)(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])";
 
   constructor(private notifyService: NotificationService, private formBuilder: FormBuilder, private router: Router, private alertService: AlertService, private userapiService: UserapiserviceService) { }
 
@@ -40,13 +42,13 @@ export class AddUserComponent implements OnInit {
       branchCode: ['', [Validators.required]],
       status: ['', [Validators.required]],
       branches: ['', [Validators.required]],
-      // selectedItems: ['',],
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern('(?=^.{8,}$)(?=[^\d]*\d)(?=[^\W]*\W)(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])')]],
+      password: ['', [Validators.required, Validators.pattern('^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=]).*$')]],
 
-      confPassword: ['', [Validators.required, Validators.minLength(8), Validators.pattern('(?=^.{8,}$)(?=[^\d]*\d)(?=[^\W]*\W)(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])')]]
+      confPassword: ['', [Validators.required]]
 
     });
+
     if (localStorage.getItem('userid')) {
       this.title = "Update User";
       var temp: any = {};

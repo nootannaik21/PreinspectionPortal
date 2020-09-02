@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
               <label>Email</label>
-              <input type="email" class="form-control" placeholder="Email" required formControlName="email"
+              <input type="email" class="form-control" placeholder="Email" formControlName="email"
                 [(ngModel)]="userdata.email" tabindex="4" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
                 required />
               <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
@@ -57,13 +57,13 @@
                 Atleast one special character<br />
               </div>
             </div>          -->
-              <input type="password" class="form-control" placeholder="Password" formControlName="password" tabindex="4"
+              <input type="password" class="form-control" placeholder="Password" formControlName="password" tabindex="4" 
                 [(ngModel)]="userdata.password"  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" required/>
               <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                 <div *ngIf="f.password.errors.required">Password is required</div>
-                <div *ngIf="userdata.password.length<8">Password must be 8 characters</div>
+                <div *ngIf="f.password.length<8">Password must be minimum 8 characters</div>
+                <!-- <div *ngIf="addUserForm.get('password').pattern">Password Not Matching</div> -->
                 <div *ngIf="f.password.errors.pattern">Password Not Matching</div>
-
                 <!-- <div *ngIf="f.email.errors.email">Email must be a valid email address</div> -->
 
               </div>
