@@ -102,3 +102,8 @@ File: style.css
 .was-validated .form-control:invalid, .form-control.is-invalid {
   background-image: none;
 }
+ng-multiselect-dropdown.ng-dirty.ng-valid.ng-touched div span {
+  height: 33px;
+  overflow: auto;
+  resize: both;
+}
