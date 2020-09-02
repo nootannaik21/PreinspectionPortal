@@ -13,6 +13,7 @@
               <div *ngIf="submitted && f.branchCode.errors" class="invalid-feedback">
                 <div *ngIf="f.branchCode.errors.required">Branch Code is required</div>
               </div>
+              <!-- <div *ngIf="message" style="color:red">Branch code already exist</div> -->
             </div>
             <!-- <div class="form-group">
               <label>Zone</label>
@@ -31,6 +32,7 @@
                 <div *ngIf="submitted && f.branchName.errors" class="invalid-feedback">
                   <div *ngIf="f.branchName.errors.required">Branch Name is required</div>
                 </div>
+                <!-- <div *ngIf="branchNamemessage" style="color:red">Branch code already exist</div> -->
             </div>
           </div>
         </div>
