@@ -46,20 +46,17 @@
             </div>
           </div>
           <div class="col-md-6">
-            <div class="form-group">
-              
+            <div class="form-group">              
               <label>Password
-              </label>
-            
-            <div class="hover"><i class="fa fa-info-circle" aria-hidden="true" style="color:grey !important;"></i>
+              </label>            
+            <!-- <div class="hover"><i class="fa fa-info-circle" aria-hidden="true" style="color:grey !important;"></i>
               <div class="tooltip">
                 <p>Password Policy:<br />
                 Characters must be 8<br />
                 First and last character should be alphabet<br />
                 Atleast one special character<br />
               </div>
-            </div>
-         
+            </div>          -->
               <input type="password" class="form-control" placeholder="Password" formControlName="password" tabindex="4"
                 [(ngModel)]="userdata.password" required [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
               <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
