@@ -27,7 +27,6 @@ export class InspectionSeriveService {
     return this.apiService.get("vendor/getActiveVendorByBranchCode?branchCode="+branchCode);   
   }
   uploadDocument(id, files) {
-    debugger
     return this.apiService.postUpload("inspection/uploadDocument?inspectionId="+id, files);   
   }
   getInspectionHistoryById(inspectionId) {

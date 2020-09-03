@@ -288,6 +288,10 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
         }
         this.inspectionData = Object.assign({}, data);
         this.inspectionData.vendorEmailId = res.vendorEmailId;
+        this.inspectionData.inspectionreason=res.inspectionreason;
+        this.inspectionData.productType=res.productType;
+        this.inspectionData.riskType=res.riskType;
+        this.inspectionData.convayance=res.convayance;        
         if (res.statusid == 1 || res.statusid == 2 || res.statusid == 4) {
           if (localStorage.getItem('type') == "Vendor") {
             this.showUpload = true;
@@ -329,8 +333,6 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     this.dtTrigger.unsubscribe();
   }
   getFileDetails(e) {
-    debugger;
-   
     //console.log (e.target.files);
     let fileList: FileList = e.target.files;
     if(fileList.length > 0) {
@@ -345,19 +347,16 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   uploadFiles() {
-    debugger;
     // const frmData = new FormData();
     let frmData:FormData = new FormData();
     frmData.append('uploadFile', this.file, this.file.name);
     // for (var i = 0; i < this.myFiles.length; i++) {
     //    frmData.append("fileUpload", this.myFiles[i]);
     // }
-    debugger;
     //  this.inspectionService.uploadDocument(this.inspectionData.id, frmData);
     
     this.inspectionService.uploadDocument(this.inspectionData.id, frmData).subscribe(
       data => {
-        debugger;
       },
       err => {
 console.log(err.error.message)
@@ -447,7 +446,6 @@ console.log(err.error.message)
     }
   }
   createInspection() {
-    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;

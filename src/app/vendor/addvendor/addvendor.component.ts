@@ -78,7 +78,6 @@ export class AddvendorComponent implements OnInit {
     )
   }
   addVendorDetails() {
-    debugger;
     this.submitted = true;
     if (this.addVendorForm.invalid) {
       return;

@@ -75,7 +75,6 @@ export class ApiService {
     return this.http.post(this.baseApiUrl + relativeUrl, resource, { headers: this.getHeaderOptions() });
   }
   postUpload(relativeUrl: string, resource: any) {
-    debugger;
     this.isLoading = true;
     let url = this.baseApiUrl + relativeUrl;
     return this.http.post(this.baseApiUrl + relativeUrl, resource, { headers: this.getHeaderOptionsforFileUpload() });
