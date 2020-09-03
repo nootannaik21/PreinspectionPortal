@@ -452,7 +452,7 @@ console.log(err.error.message)
     } else {
       var x: number = +(this.inspectionData.paymentmodeid);
       this.inspectionData.paymentmodeid = x;
-      if (this.inspectionData.duplicateinspection == "1" ? this.inspectionData.duplicateinspection = true : this.inspectionData.duplicateinspection = false)
+      this.inspectionData.duplicateinspection == "1" ? this.inspectionData.duplicateinspection = true : this.inspectionData.duplicateinspection = false;
       this.inspectionService.addInspection(this.inspectionData).subscribe(
         data => {
           this.notifyService.showSuccess("Inspection added successfully !!", "Success");
