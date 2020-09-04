@@ -71,13 +71,13 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     this.addInspectionForm = this.formBuilder.group({
       branchName: ['', [Validators.required]],
       branchcode: ['', [Validators.required]],
-      imdcode: ['', [Validators.required]],
-      phoneNoofsales: ['', [Validators.required]],
+      imdcode: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+$')]],
+      phoneNoofsales: ['', [Validators.required,Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       clientname: ['', [Validators.required]],
-      clientphoneno: ['', [Validators.required]],
+      clientphoneno: ['', [Validators.required,Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       clientemail: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       emailidofsales: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      clientalternatephoneno: ['', [Validators.required]],
+      clientalternatephoneno: ['', [Validators.required,Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       inspectionreason: ['', [Validators.required]],
       productType: ['', [Validators.required]],
       inspectionlocation: ['', [Validators.required]],
@@ -86,12 +86,12 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
       duplicateinspection: ['', [Validators.required]],
       paymentmodeid: ['', [Validators.required]],
       make: ['', [Validators.required]],
-      model: ['', [Validators.required]],
+      model: ['', [Validators.required,Validators.pattern('^[a-zA-Z0-9, ]+$')]],
       statusid: [''],
       vendorEmailId: [null],
       convayance: ['', [Validators.required]],
       conveyanceKm: ['', [Validators.required]],
-      altclientname: ['', [Validators.required]],
+      // altclientname: ['', [Validators.required]],
       remarks: ['', [Validators.required]],
       // referenceno:['']
     });
@@ -154,6 +154,7 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
       this.title = "Add Inspection";
       this.showReferenceNo = false;
       this.hideStatus = false;
+      this.inspectionData.altclientname = "";
       // const vendorEmailId = this.addInspectionForm.get('vendorEmailId');
       // vendorEmailId.setValidators(null);
       // vendorEmailId.updateValueAndValidity();
@@ -422,6 +423,7 @@ console.log(err.error.message)
       var y: number = +(this.inspectionData.statusid);
       this.inspectionData.paymentmodeid = x;
       this.inspectionData.statusid = y;
+      this.inspectionData.altclientname = "";
       this.inspectionData.duplicateinspection == "1" ? this.inspectionData.duplicateinspection = true : this.inspectionData.duplicateinspection = false;
       this.inspectionService.updateInspection(this.inspectionData.id, this.inspectionData).subscribe(
         data => {
@@ -446,6 +448,7 @@ console.log(err.error.message)
     }
   }
   createInspection() {
+    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
