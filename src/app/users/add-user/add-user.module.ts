@@ -5,6 +5,7 @@ import { AddUserRoutingModule } from './add-user-routing.module';
 import { AddUserComponent } from './add-user.component';
 import {SharedModule} from '../../theme/shared/shared.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     NgMultiSelectDropDownModule,
     CommonModule,
     AddUserRoutingModule,
-    SharedModule
+    SharedModule,
+    NgbTooltipModule
   ]
 })
 export class AddUserModule { }

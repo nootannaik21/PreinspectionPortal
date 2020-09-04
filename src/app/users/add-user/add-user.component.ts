@@ -71,9 +71,7 @@ export class AddUserComponent implements OnInit {
                 branches => {
                   var res: any = branches;
                   this.branches = res.data;
-                  // for (let i = 0; i < user.branches.split(',').length; i++) {
                   for (let i = 0; i < user.branches[i]; i++) {
-                    // var branch = this.branches.filter(x => x.id == user.branches.split(',')[i])
                     var branch = this.branches.filter(x => x.id == user.branches[i])
                     if (branch.length > 0) {
                       var branchid: number = +branch[0].id;
@@ -117,7 +115,7 @@ export class AddUserComponent implements OnInit {
   }
 
   get f() { return this.addUserForm.controls; }
-  
+
 
   avoidSpecialchar(event) {
     var k;
@@ -165,7 +163,6 @@ export class AddUserComponent implements OnInit {
           textField: 'branchCode',
           selectAllText: 'Select All',
           unSelectAllText: 'UnSelect All',
-          // itemsShowLimit: 10,
           allowSearchFilter: true
         };
       },
@@ -230,27 +227,6 @@ export class AddUserComponent implements OnInit {
     branches.updateValueAndValidity();
     status.updateValueAndValidity();
     this.addUserDetails(this.userdata);
-
-
-    // if (this.userdata.type == "Admin") {
-    //   this.submitted = false;
-    //   this.addUserDetails(this.userdata);
-
-    // } else {
-    //   if (this.addUserForm.invalid) {
-    //     return;
-    //   }
-    //   else {
-    //     if (this.userdata.password != this.userdata.confPassword) {
-    //       this.alertService.infoAlert("", "Password and Confirm Password are not matching");
-    //       return;
-    //     }
-    //     else {
-    //       this.addUserDetails(this.userdata);
-    //     }
-
-    //   }
-    // }
   }
   addUserDetails(userdata) {
     this.submitted = true;
@@ -267,7 +243,6 @@ export class AddUserComponent implements OnInit {
           var res: any = data;
           if (res.result == "success") {
             this.notifyService.showSuccess("User Added successfully !!", "Success");
-            // this.alertService.successAlert("Success", "User Added Successfully");
             this.router.navigateByUrl('users');
             this.userdata = {};
             this.selectedItems = [];
@@ -326,7 +301,6 @@ export class AddUserComponent implements OnInit {
         data => {
           var res: any = data;
           if (res.result.result == "success") {
-            // this.alertService.successAlert("Success", "User Updated Successfully");
             this.notifyService.showSuccess("User Updated successfully !!", "Success");
 
             this.router.navigateByUrl('users');
@@ -334,22 +308,16 @@ export class AddUserComponent implements OnInit {
             this.getAllBranches();
           }
           else {
-            // this.alertService.errorAlert("Error", "You have not updated anything");
             this.notifyService.showError("Something is wrong", "User Not Updated");
 
           }
         },
         err => {
-          // this.alertService.errorAlert("Error", "User Update Failed");
           this.notifyService.showError("Something is wrong", "User Not Updated");
 
           return;
         }
       )
     }
-    // data.branches = [];
-    // this.selectedItems.forEach(element => {
-    //   data.branches.push(element.id);
-    // });
   }
 }
