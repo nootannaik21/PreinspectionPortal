@@ -115,9 +115,9 @@
           <div class="col-md-6">
             <div class="form-group">
               <ng-template #htmlTooltip
-                >Minimum 8 characters.<br /><br />Must have an uppercase and
-                lowercase.<br /><br />Should have atleast one numeric
-                value.</ng-template
+                >I.Minimum 8 characters.<br />II.Must have an uppercase and
+                lowercase.<br />III.Should have atleast one numeric.
+                value.<br/>IV.Should have atleast one speial character.</ng-template
               >
               <label>Password </label> &nbsp;<i
                 class="fa fa-info-circle"
@@ -227,7 +227,7 @@
           <!--End of Branches-->
           <!--Branches Name-->
           <div class="col-md-6">
-            <div class="form-group" *ngIf="showBranch">
+            <div class="form-group" *ngIf="showBranchDetail">
               <label for="exampleFormControlSelect1">Branch Name</label>
               <select
                 class="form-control"
@@ -238,6 +238,9 @@
                 [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }"
                 placeholder="Select Branch Name"
               >
+              <option value="">
+                Choose Branch Name
+                              </option>
                 <option
                   class="form-control"
                   *ngFor="let item of branches"
@@ -262,8 +265,8 @@
           </div>
           <!--End of Branches Name-->
           <!--Branch Code-->
-          <div class="col-md-6" *ngIf="showBranch">
-            <div class="form-group" *ngIf="showBranch">
+          <div class="col-md-6" *ngIf="showBranchDetail">
+            <div class="form-group" *ngIf="showBranchDetail">
               <label for="exampleFormControlSelect1">Branch Code</label>
               <select
                 class="form-control"
@@ -273,6 +276,9 @@
                 (change)="onBranchCodeSelect()"
                 [ngClass]="{ 'is-invalid': submitted && f.branchCode.errors }"
               >
+              <option value="">
+Choose Branch Code
+              </option>
                 <option
                   class="form-control"
                   *ngFor="let item of branches"

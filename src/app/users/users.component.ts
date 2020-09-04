@@ -71,21 +71,21 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   // showSuccess() {
   //   this.toastr.success('Hello world!', 'Toastr fun!');
   // }
-  showToasterSuccess() {
-    this.notifyService.showSuccess("Data shown successfully !!", "Success")
-  }
+  // showToasterSuccess() {
+  //   this.notifyService.showSuccess("Data shown successfully !!", "Success")
+  // }
 
-  showToasterError() {
-    this.notifyService.showError("Something is wrong", "ItSolutionStuff.com")
-  }
+  // showToasterError() {
+  //   this.notifyService.showError("Something is wrong", "ItSolutionStuff.com")
+  // }
 
-  showToasterInfo() {
-    this.notifyService.showInfo("This is info", "ItSolutionStuff.com")
-  }
+  // showToasterInfo() {
+  //   this.notifyService.showInfo("This is info", "ItSolutionStuff.com")
+  // }
 
-  showToasterWarning() {
-    this.notifyService.showWarning("This is warning", "ItSolutionStuff.com")
-  }
+  // showToasterWarning() {
+  //   this.notifyService.showWarning("This is warning", "ItSolutionStuff.com")
+  // }
   getUSerList() {
     this.userapiService.getUserList().subscribe(
       data => {

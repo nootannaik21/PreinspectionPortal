@@ -20,6 +20,7 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
   disableInspection: boolean;
   hideStatus: boolean;
   fileToUpload: File = null;
+  showBranchDetail: boolean;
 
   ngAfterViewInit(): void {
     this.inspectionHistory = [];
@@ -95,6 +96,8 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
       remarks: ['', [Validators.required]],
       // referenceno:['']
     });
+    
+        
     if (localStorage.getItem('inspectionId')) {
       this.title = "Update Inspection";
       this.showReferenceNo = true;
@@ -104,34 +107,50 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
         this.showHistoryTable = true;
         this.getInspectionsHistory();
         this.disableInspection = false;
+        this.showBranchDetail = true;
+        this.addInspectionForm.get('branchName').disable();
+        this.addInspectionForm.get('branchcode').disable();
       }
       else if (localStorage.getItem('type') == "Branch") {
         this.disableFields();
+        this.addInspectionForm.get('branchName').disable();
+        this.addInspectionForm.get('branchcode').disable();
         this.addInspectionForm.get('statusid').disable();
         this.addInspectionForm.get('remarks').disable();
         this.disableInspection = true;
+        this.showBranchDetail = true;
+        //this.getVendorMailList(localStorage.getItem('branch'));
       }
       else if (localStorage.getItem('type') == "IMD") {
         this.disableFields();
+        this.addInspectionForm.get('branchName').disable();
+        this.addInspectionForm.get('branchcode').disable();
         this.addInspectionForm.get('statusid').disable();
         this.addInspectionForm.get('remarks').disable();
         this.disableInspection = true;
       }
       else if (localStorage.getItem('type') == "OPS") {
         this.disableFields();
-        this.addInspectionForm.get('statusid').disable();
-        this.addInspectionForm.get('remarks').disable();
-        this.disableInspection = true;
+        // this.addInspectionForm.get('statusid').disable();
+        // this.addInspectionForm.get('remarks').disable();
+        this.addInspectionForm.get('branchName').disable();
+        this.addInspectionForm.get('branchcode').disable();
+        this.showBranchDetail = false;
+        this.disableInspection = false;
+      }
+      else if (localStorage.getItem('type') == "Claims") {
+        this.showBranchDetail = true;
+        this.addInspectionForm.get('branchName').disable();
+        this.addInspectionForm.get('branchcode').disable();
       }
       else {
         this.showUpload = false;
         this.showHistoryTable = false;
         this.disableInspection = false;
+        this.showBranchDetail = true;
       }
       this.getInspections();
-
     }
-
     else {
       this.getAllBranches();
       this.getAllInspectionStatus();
@@ -155,6 +174,18 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
       this.showReferenceNo = false;
       this.hideStatus = false;
       this.inspectionData.altclientname = "";
+      if (localStorage.getItem('type') == "IMD" || localStorage.getItem('type') == "Branch") {
+      this.showBranchDetail = false;
+      this.addInspectionForm.get('branchName').disable();
+        this.addInspectionForm.get('branchcode').disable();
+        this.getVendorMailList(localStorage.getItem('branch'));
+      }
+      else {
+      this.showBranchDetail = true;
+      }
+      // if (localStorage.getItem('type') == "Branch") {
+      //   this.getVendorMailList(localStorage.getItem('branch'));
+      // }
       // const vendorEmailId = this.addInspectionForm.get('vendorEmailId');
       // vendorEmailId.setValidators(null);
       // vendorEmailId.updateValueAndValidity();
@@ -229,15 +260,15 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     )
   }
   disableFields() {
-    this.addInspectionForm.get('branchName').disable();
-    this.addInspectionForm.get('branchcode').disable();
+    // this.addInspectionForm.get('branchName').disable();
+    // this.addInspectionForm.get('branchcode').disable();
     this.addInspectionForm.get('imdcode').disable();
     this.addInspectionForm.get('vendorEmailId').disable();
     this.addInspectionForm.get('phoneNoofsales').disable();
     this.addInspectionForm.get('emailidofsales').disable();
     this.addInspectionForm.get('clientname').disable();
     this.addInspectionForm.get('clientemail').disable();
-    this.addInspectionForm.get('altclientname').disable();
+    // this.addInspectionForm.get('altclientname').disable();
     this.addInspectionForm.get('clientphoneno').disable();
     this.addInspectionForm.get('clientalternatephoneno').disable();
     this.addInspectionForm.get('inspectionreason').disable();
@@ -448,11 +479,14 @@ console.log(err.error.message)
     }
   }
   createInspection() {
-    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
     } else {
+      if (localStorage.getItem('type') == "Branch" || localStorage.getItem('type') == "IMD") {
+        this.inspectionData.branchCode = "";
+        this.inspectionData.branchName = "";
+      }
       var x: number = +(this.inspectionData.paymentmodeid);
       this.inspectionData.paymentmodeid = x;
       this.inspectionData.duplicateinspection == "1" ? this.inspectionData.duplicateinspection = true : this.inspectionData.duplicateinspection = false;
