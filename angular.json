@@ -41,13 +41,12 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/fake-data",
               "src/.htaccess"
             ],
             "styles": [
               "node_modules/ngx-toastr/toastr.css",
               "src/styles.scss"
-              
+
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
