@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './theme/layout/admin/admin.component';
-import { CoreChartModule } from './demo/pages/core-chart/core-chart.module';
 import { AuthComponent } from './theme/layout/auth/auth.component';
 import { BranchlistComponent } from './branch/branchlist/branchlist.component';
 
