@@ -72,15 +72,15 @@ const NavigationItems = [
     icon: 'feather icon-menu',
     accessrole:'Admin|OPS'
   },
-  {
-    id: 'report',
-    title: 'Report',
-    type: 'item',
-    url: '/report',
-    classes: 'nav-item',
-    icon: 'feather icon-book',
-    accessrole:'Admin|Claims|Vendor|Branch|IMD'
-  }
+  // {
+  //   id: 'report',
+  //   title: 'Report',
+  //   type: 'item',
+  //   url: '/report',
+  //   classes: 'nav-item',
+  //   icon: 'feather icon-book',
+  //   accessrole:'Admin|Claims|Vendor|Branch|IMD'
+  // }
 ];
 
 @Injectable()

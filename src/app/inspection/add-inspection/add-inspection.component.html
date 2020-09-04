@@ -36,8 +36,8 @@
                             <label for="exampleInputPassword1">IMD/SM Code</label>
                             <input type="text" class="form-control" placeholder="IMD/SM Code" tabindex="3"
                                 formControlName="imdcode" [(ngModel)]="inspectionData.imdcode" required
-                                [ngClass]="{ 'is-invalid': submitted && f.imdcode.errors }" appOnlyalphabets
-                                [onlyAlpha]="true" />
+                                [ngClass]="{ 'is-invalid': submitted && f.imdcode.errors }"
+                                 />
                             <div *ngIf="submitted && f.imdcode.errors" class="invalid-feedback">
                                 <div *ngIf="f.imdcode.errors.required">IMD/SM Code is required</div>
                             </div>
@@ -68,11 +68,12 @@
                         <div class="form-group">
                             <label>Phone no of IMD/SM</label>
                             <input type="email" class="form-control" placeholder="Phone no of IMD/SM" required
-                                OnlyNumber [onlyNumber]="true" formControlName="phoneNoofsales"
+                                 formControlName="phoneNoofsales"
                                 [(ngModel)]="inspectionData.phoneNoofsales" tabindex="4"
                                 [ngClass]="{ 'is-invalid': submitted && f.phoneNoofsales.errors }" />
                             <div *ngIf="submitted && f.phoneNoofsales.errors" class="invalid-feedback">
                                 <div *ngIf="f.phoneNoofsales.errors.required">Phone no of IMD/SM is required</div>
+                                <div *ngIf="f.phoneNoofsales.errors.pattern">Please enter valid phone number.e.g:xxxxxxxxxx</div>
                             </div>
                         </div>
                     </div>
@@ -107,6 +108,7 @@
                                 [ngClass]="{ 'is-invalid': submitted && f.clientphoneno.errors }" />
                             <div *ngIf="submitted && f.clientphoneno.errors" class="invalid-feedback">
                                 <div *ngIf="f.clientphoneno.errors.required">Customer Mobile No is required</div>
+                                <div *ngIf="f.clientphoneno.errors.pattern">Please enter valid phone number.e.g:xxxxxxxxxx</div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -131,6 +133,7 @@
                                 <div *ngIf="f.clientalternatephoneno.errors.required">Alternate Phone No is
                                     required
                                 </div>
+                                <div *ngIf="f.clientalternatephoneno.errors.pattern">Please enter valid phone number.e.g:xxxxxxxxxx</div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -225,9 +228,23 @@
                                 <div *ngIf="f.registrationno.errors.required">Vehicle Reg No is required</div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Model</label>
+                            <input type="text" class="form-control" placeholder="Model" formControlName="model"
+                                tabindex="16" [(ngModel)]="inspectionData.model" required
+                                 [ngClass]="{ 'is-invalid': submitted && f.model.errors }" />
+                            <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
+                                <div *ngIf="f.model.errors.required">Model is required</div>
+                                <div *ngIf="f.model.errors.pattern">Please enter valid format. Model format e.g:xxxx 2010 <fieldset></fieldset></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
                         <label for="exampleFormControlSelect1">Payment Mode</label>
                         <select class="form-control" id="paymentid" formControlName="paymentmodeid"
-                            [(ngModel)]="inspectionData.paymentmodeid" tabindex="16"
+                            [(ngModel)]="inspectionData.paymentmodeid" tabindex="17"
                             [ngClass]="{ 'is-invalid': submitted && f.paymentmodeid.errors }" required>
                             <option value="">Choose Payment Mode</option>
                             <option class="form-control" *ngFor="let item of paymentMode" [value]="item.id">
@@ -241,16 +258,6 @@
                         <div *ngIf="submitted && f.paymentmodeid.errors" class="invalid-feedback">
                             <div *ngIf="f.paymentmodeid.errors.required">Payment Mode is required</div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Model</label>
-                            <input type="text" class="form-control" placeholder="Model" formControlName="model"
-                                tabindex="17" [(ngModel)]="inspectionData.model" required OnlyNumber [onlyNumber]="true"
-                                maxlength="4" [ngClass]="{ 'is-invalid': submitted && f.model.errors }" />
-                            <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
-                                <div *ngIf="f.model.errors.required">Model is required</div>
-                            </div>
                         </div>
                         <div class="form-group">
                             <label>Vendor Email ID</label>
@@ -291,7 +298,7 @@
                                 <div *ngIf="f.convayance.errors.required">Conveyance is required</div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label>Alternate Customer Name</label>
                             <input type="text" class="form-control" placeholder="Alternate Customer Name"
                                 formControlName="altclientname" tabindex="20" [(ngModel)]="inspectionData.altclientname"
@@ -299,6 +306,16 @@
                                 [ngClass]="{ 'is-invalid': submitted && f.altclientname.errors }" />
                             <div *ngIf="submitted && f.altclientname.errors" class="invalid-feedback">
                                 <div *ngIf="f.altclientname.errors.required">Alternate Customer Name is required</div>
+                            </div>
+                        </div> -->
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Remarks</label>
+                            <textarea type="text-center" class="form-control form-control-sm" rows="2"
+                                formControlName="remarks" [(ngModel)]="inspectionData.remarks"
+                                placeholder="Remarks" tabindex="20"
+                                [ngClass]="{ 'is-invalid': submitted && f.remarks.errors }"></textarea>
+                            <div *ngIf="submitted && f.remarks.errors" class="invalid-feedback">
+                                <div *ngIf="f.remarks.errors.required">Remarks is required</div>
                             </div>
                         </div>
                     </div>
@@ -313,7 +330,7 @@
                                 <div *ngIf="f.conveyanceKm.errors.required">Conveyance is required</div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" *ngIf="inspectionData.id!=undefined">
                             <label class="">Duplicate Inspection</label>
                             <div *ngFor="let data of duplicateinspections" class="d-table-cell pl-4">
                                 <input type="radio" formControlName="duplicateinspection"
@@ -329,17 +346,6 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Remarks</label>
-                            <textarea type="text-center" class="form-control form-control-sm" rows="2" appOnlyalphabets
-                                [onlyAlpha]="true" formControlName="remarks" [(ngModel)]="inspectionData.remarks"
-                                placeholder="Remarks" tabindex="22"
-                                [ngClass]="{ 'is-invalid': submitted && f.remarks.errors }"></textarea>
-                            <div *ngIf="submitted && f.remarks.errors" class="invalid-feedback">
-                                <div *ngIf="f.remarks.errors.required">Remarks is required</div>
-                            </div>
-                        </div>
-
                         <div class="form-group" *ngIf="hideStatus">
                             <label>Status</label>
                             <select class="form-control" id="id" formControlName="statusid"
