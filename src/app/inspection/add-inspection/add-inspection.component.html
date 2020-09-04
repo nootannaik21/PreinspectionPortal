@@ -14,7 +14,7 @@
                 </div> -->
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group" *ngIf="showBranchDetail">
                             <label for="exampleInputEmail1">Branch Name</label>
                             <select class="form-control" formControlName="branchName" placeholder="Choose Branch Name"
                                 [(ngModel)]="inspectionData.branchName" tabindex="1" (change)='onBranchSelect()'
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group" *ngIf="showBranchDetail">
                             <label for="exampleInputEmail1">Branch Code</label>
                             <select class="form-control" formControlName="branchcode" placeholder="Choose Branch Code"
                                 [(ngModel)]="inspectionData.branchcode" tabindex="2" (change)='onBranchCodeSelect()'
@@ -330,7 +330,7 @@
                                 <div *ngIf="f.conveyanceKm.errors.required">Conveyance is required</div>
                             </div>
                         </div>
-                        <div class="form-group" *ngIf="inspectionData.id!=undefined">
+                        <div class="form-group">
                             <label class="">Duplicate Inspection</label>
                             <div *ngFor="let data of duplicateinspections" class="d-table-cell pl-4">
                                 <input type="radio" formControlName="duplicateinspection"
