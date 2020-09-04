@@ -12,14 +12,16 @@ import { Router } from '@angular/router';
 export class NavRightComponent implements OnInit {
 
   constructor(private router:Router, private preInspectionService:PreinspectionService) { }
-
-  ngOnInit() { }
+loggedInUser:string = '';
+  ngOnInit() { 
+this.loggedInUser = localStorage.getItem('loggedInUser');
+  }
   logOutUser() {
     this.preInspectionService.removeCurrentUser();
     this.router.navigateByUrl("/login");
     localStorage.clear();
   }
   changePassword(){
-    this.router.navigateByUrl("/change-password");
+    this.router.navigateByUrl('users/changePassword');
   }
 }

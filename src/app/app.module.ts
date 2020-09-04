@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from "@angular/core";
+import { Router } from "@angular/router";
+import * as Sentry from "@sentry/angular";
+import { APP_INITIALIZER } from "@angular/core";
 
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './theme/shared/shared.module';
@@ -25,8 +28,9 @@ import { NgbButtonsModule, NgbDropdownModule, NgbTabsetModule, NgbTooltipModule 
 import { HttpClientModule } from '@angular/common/http';
 import { AddbranchComponent } from './branch/addbranch/addbranch.component';
 import { FormsModule } from '@angular/forms';
-import { PermissionDirective } from './helper/permission.directive';
-import { OnlystringDirective } from './helper/onlystring.directive';
+// import { PermissionDirective } from './helper/permission.directive';
+// import { OnlystringDirective } from './helper/onlystring.directive';
+// import { PermissionDirective } from './helper/permission.directive';
 import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -45,8 +49,9 @@ import { ToastrModule } from 'ngx-toastr';
     NavRightComponent,
     ConfigurationComponent,
     AddbranchComponent,
-    PermissionDirective,
-    OnlystringDirective,
+    // PermissionDirective,
+    // OnlystringDirective,
+    // OnlystringDirective,
   ],
   imports: [
     ToastrModule.forRoot(),
@@ -61,7 +66,24 @@ import { ToastrModule } from 'ngx-toastr';
     NgbTabsetModule,
     HttpClientModule
   ],
-  providers: [NavigationItem],
+  providers: [
+    {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler({
+        showDialog: true,
+      }),
+    },
+    {
+      provide: Sentry.TraceService,
+      deps: [Router],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => () => {},
+      deps: [Sentry.TraceService],
+      multi: true,
+    },
+    NavigationItem],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

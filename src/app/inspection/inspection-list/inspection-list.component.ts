@@ -4,6 +4,7 @@ import { AlertService } from 'src/app/service/alert.service';
 import { InspectionSeriveService } from '../../service/inspection-serive.service'
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
+import { NotificationService } from 'src/app/service/notification.service';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { DataTableDirective } from 'angular-datatables';
   styleUrls: ['./inspection-list.component.scss']
 })
 export class InspectionListComponent implements OnInit, OnDestroy, AfterViewInit {
-  inspectionList:any=[];
+  inspectionList: any = [];
   ngAfterViewInit(): void {
     this.inspectionList = [];
     this.rerender();
@@ -22,33 +23,52 @@ export class InspectionListComponent implements OnInit, OnDestroy, AfterViewInit
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   isDtInitialized: boolean = false;
-  constructor(private router: Router, private inspectionService: InspectionSeriveService, private alertService: AlertService) { }
+  constructor(private notifyService: NotificationService, private router: Router, private inspectionService: InspectionSeriveService, private alertService: AlertService) { }
 
   ngOnInit() {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'All'],
+      ],
+      // columnDefs: [
+      //   { "width": "14%", "targets": [0,1,2,3,4,5,6] }
+      // ],
+      pageLength: 10,
+    };
     this.getInspectionList();
   }
-  viewInspectionHistory(item){
-    this.inspectionService.getInspectionHistoryById(item.id).subscribe(
-      data =>{
-      },
-      err =>{
-
-      }
-    )
-  }
-  editInspectionRow(item){
+  downloadInspectionDetails(item) {
     localStorage.setItem('inspectionId', item.id);
     this.router.navigateByUrl('inspection/addInspection');
+    // this.inspectionService.getInspectionHistoryById(item.id).subscribe(
+    //   data =>{
+    //   },
+    //   err =>{
 
+    //   }
+    // )
+  }
+  viewInspection(item){
+    localStorage.setItem('inspectionId', item.id);
+    localStorage.setItem('view', "View");
+    this.router.navigateByUrl('inspection/addInspection');
+  }
+
+  editInspectionRow(item) {
+    localStorage.setItem('inspectionId', item.id);
+    localStorage.setItem('view', "Edit");
+    this.router.navigateByUrl('inspection/addInspection');
   }
   getInspectionList() {
     this.inspectionService.getInspectionList().subscribe(
-      data =>{
-        var res:any=data;
-        this.inspectionList=res.data;
+      data => {
+        var res: any = data;
+        this.inspectionList = res.data;
         this.rerender();
       },
-      err =>{
+      err => {
 
       }
     )
@@ -56,20 +76,6 @@ export class InspectionListComponent implements OnInit, OnDestroy, AfterViewInit
   gotoAddInspectionScreen() {
     localStorage.removeItem('inspectionId');
     this.router.navigateByUrl('inspection/addInspection');
-  }
-  deleteInspection(item){
-    this.alertService.confirmAlert(() => {
-    this.inspectionService.deleteInspection(item.id).subscribe(
-      data => {
-        var res :any =data;
-        if(res.result=="success"){
-        this.alertService.successAlert("Success","Deleted Successfully");
-        this.getInspectionList();}
-      },
-      err => {
-        this.alertService.errorAlert("Oops!","User Not Deleted");
-       }
-    )})    
   }
   rerender(): void {
     if (this.isDtInitialized) {

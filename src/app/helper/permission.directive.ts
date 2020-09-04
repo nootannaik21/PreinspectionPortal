@@ -13,6 +13,7 @@ export class PermissionDirective {
 
   ngOnInit() {
     if (this.permission) {
+      localStorage.setItem("permission", this.permission);
       if (this.hasPermission()) {
         return;
       }

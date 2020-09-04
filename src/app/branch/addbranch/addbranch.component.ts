@@ -14,13 +14,14 @@ export class AddbranchComponent implements OnInit {
   addBranchForm: FormGroup;
   submitted = false;
   title: string;
-
+ message:string;
+ branchNamemessage:string;
   constructor(private formBuilder: FormBuilder, private router: Router, private alertService: AlertService, private branchService: BranchServiceService) { }
 
   ngOnInit() {
     this.addBranchForm = this.formBuilder.group({
-      branchCode: ['', [Validators.required]],
-      zone: ['', [Validators.required]],
+      branchCode: ['', [Validators.required, Validators.pattern('^([a-zA-Z0-9]).*$')]],
+      // zone: ['', [Validators.required]],
       branchName: ['', [Validators.required]],
     });
     if (localStorage.getItem('branchid')) {
@@ -53,7 +54,16 @@ export class AddbranchComponent implements OnInit {
             this.alertService.errorAlert("Oops!", "Branch Add Failed");
           }
         },
-        err => { }
+        err => { 
+//           if(err.error.message.includes("Branch code")){
+//             this.message = err.error.message;
+//           }
+//           else
+//           {
+// this.branchNamemessage = err.error.message;
+//           }
+this.alertService.errorAlert("Oops!", err.error.message);
+        }
       )
     }
   }
@@ -76,7 +86,7 @@ export class AddbranchComponent implements OnInit {
           }
         },
         err => {
-          this.alertService.errorAlert("Oops!", "Branch Update Failed");
+          this.alertService.errorAlert("Oops!", err.error.message);
         }
       )
     }

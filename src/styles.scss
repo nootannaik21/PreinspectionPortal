@@ -1,3 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 /* SCSS */
 @import "scss/style";
+
+.was-validated .form-control:invalid, .form-control.is-invalid {
+    background-image: none;
+}
+
+.menu-styler .style-toggler > a {
+    display: none;
+}

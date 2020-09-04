@@ -62,7 +62,41 @@ export class AuthSigninComponent implements OnInit {
         if (res.result == "success") {
           localStorage.setItem("UserName",this.user.email);
           this.preInspection.setInspnectioUser(res);
+          
+          let jwt = res.accessToken;
+          let jwtData = jwt.split('.')[1];
+          let decodedJwtJsonData = window.atob(jwtData);
+          let decodedJwtData = JSON.parse(decodedJwtJsonData);
+          localStorage.setItem('type', decodedJwtData.type);
+localStorage.setItem('loggedInUser',decodedJwtData.Email);
+          // this.router.navigateByUrl('users');
+          
+          // console.log(localStorage.getItem('permission'))
+
+          if(localStorage.getItem('type')=="Admin")
+          {
           this.router.navigateByUrl('users');
+          }         
+          else if(localStorage.getItem('type')=="OPS")
+          {
+            this.router.navigateByUrl('inspection');
+          }
+          else if(localStorage.getItem('type')=="IMD")
+          {
+            this.router.navigateByUrl('inspection');
+          }
+          else if(localStorage.getItem('type')=="Branch")
+          {
+            this.router.navigateByUrl('inspection');
+          }
+          else if(localStorage.getItem('type')=="Vendor")
+          {
+            this.router.navigateByUrl('inspection');
+          }
+          else if(localStorage.getItem('type')=="Claims")
+          {
+            this.router.navigateByUrl('inspection');
+          }
           this.disableSignIn = true;
         }
         else {
