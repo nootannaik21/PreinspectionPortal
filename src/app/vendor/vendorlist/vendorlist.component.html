@@ -30,7 +30,7 @@
               <th class="text-left" style="width: 45%">Vendor Name</th>
               <th class="text-left" style="width: 40%">Vendor Email Id</th>
               <th class="text-center" style="width: 5%">Status</th>
-              <th class="text-center" style="width: 5%">Action</th>
+              <th class="text-center" style="width: 5%">Edit</th>
             </tr>
           </thead>
           <tbody>
@@ -45,7 +45,7 @@
                 {{ item.inspectionemail }}
               </td>
               <td class="text-center mb-0 pb-0">
-                <label class="switch mb-0">
+                <label class="switch mb-0" title="De-activate | Activate Vendor">
                   <input
                     type="checkbox"
                     [checked]="!item.isDeleted"
@@ -57,20 +57,12 @@
               <td class="text-center">
                 <div>
                   <i
-                    class="feather icon-edit pr-3"
+                    class="feather icon-edit"
                     className="tooltipstext"
-                    title="Edit"
+                    title="Edit Vendor"
                     [ngClass]="{ disabled: item.isDeleted }"
                     style="cursor: pointer"
                     (click)="editVendor(item)"
-                  ></i>
-                  <i
-                    class="feather icon-trash-2"
-                    className="tooltipstext"
-                    title="Delete"
-                    [ngClass]="{ disabled: item.isDeleted }"
-                    style="cursor: pointer"
-                    (click)="deleteVendor(item)"
                   ></i>
                 </div>
               </td>
