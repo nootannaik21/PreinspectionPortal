@@ -69,6 +69,9 @@ export class AuthSigninComponent implements OnInit {
           let decodedJwtData = JSON.parse(decodedJwtJsonData);
           localStorage.setItem('type', decodedJwtData.type);
 localStorage.setItem('loggedInUser',decodedJwtData.Email);
+decodedJwtData.type == "Branch" ||decodedJwtData.type == "IMD" ?localStorage.setItem('branch',decodedJwtData.branchCode):'';
+
+
           // this.router.navigateByUrl('users');
           
           // console.log(localStorage.getItem('permission'))

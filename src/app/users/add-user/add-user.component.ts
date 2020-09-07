@@ -26,6 +26,7 @@ export class AddUserComponent implements OnInit {
   addUserForm: FormGroup;
   showBranch: boolean;
   title: string;
+  showBranchDetail:boolean;
   constructor(private notifyService: NotificationService, private formBuilder: FormBuilder, private router: Router, private alertService: AlertService, private userapiService: UserapiserviceService) { }
 
   ngOnInit() {
@@ -39,12 +40,10 @@ export class AddUserComponent implements OnInit {
       type: ['', [Validators.required]],
       branchCode: ['', [Validators.required]],
       status: ['', [Validators.required]],
-      branches: ['', [Validators.required]],
+      branches: [''],
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       password: ['', [Validators.required, Validators.pattern('^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=]).*$')]],
-
       confPassword: ['', [Validators.required]]
-
     });
 
     if (localStorage.getItem('userid')) {
@@ -60,11 +59,19 @@ export class AddUserComponent implements OnInit {
           this.userdata = Object.assign(data);
           this.userdata.confPassword = this.userdata.password;
           this.userdata.status = this.userdata.isDeleted;
-          if (this.userdata.type == "Admin") {
+          if (this.userdata.type == "Admin"  || this.userdata.type == "Claims") {
+            this.showBranchDetail = false;
             this.showBranch = false;
+            this.getAllBranches();
+          }
+          if (this.userdata.type == "IMD" || this.userdata.type == "Branch") {
+            this.showBranch = false;
+            this.showBranchDetail = true;
+            this.getAllBranches();
           }
           else {
             this.showBranch = true;
+            this.showBranchDetail = true;
             let tmp = [];
             if (user.branches != 0) {
               this.userapiService.getBranches().subscribe(
@@ -131,14 +138,20 @@ export class AddUserComponent implements OnInit {
     this.userdata.branchName = temp[0].branchName;
   }
   onTypeSelect(eve) {
-    if (eve.target.value == "Admin") {
+    if (eve.target.value == "IMD" || eve.target.value == "Branch") {
       this.showBranch = false;
+      this.showBranchDetail = true;
       this.userdata.branchName = "";
       this.userdata.branchCode = "";
       this.userdata.branches = [];
     }
+   else if (eve.target.value == "Admin"  || eve.target.value == "Claims") {
+      this.showBranch = false;
+      this.showBranchDetail = false;
+    }
     else {
       this.showBranch = true;
+      this.showBranchDetail = true;
       this.userdata.branchCode = "";
       this.userdata.branches = [];
       this.userdata.branchName = "";
@@ -198,8 +211,28 @@ export class AddUserComponent implements OnInit {
     const branchCode = this.addUserForm.get('branchCode');
     const branches = this.addUserForm.get('branches');
     const status = this.addUserForm.get('status');
-    if (this.userdata.type == "Admin") {
+    // if (this.userdata.type == "Admin"|| this.userdata.type == "Branch" ||this.userdata.type == "IMD" || this.userdata.type == "Claims") {
+    //   this.showBranch = false;
+    //   this.showBranchDetail = true;
+    //   this.userdata.branchName = "";
+    //   this.userdata.branchCode = "";
+    //   this.userdata.branches = [];
+    //   branchName.setValidators(null);
+    //   branchCode.setValidators(null);
+    //   branches.setValidators(null);
+    // }
+    if (this.userdata.type == "IMD" || this.userdata.type == "Branch") {
       this.showBranch = false;
+      this.showBranchDetail = true;
+      this.userdata.branches = [];
+      branches.setValidators(null);
+      // this.userdata.branchName = "";
+      // this.userdata.branchCode = "";
+      this.userdata.branches = [];
+    }
+   else if (this.userdata.type == "Admin"  || this.userdata.type == "Claims") {
+      this.showBranch = false;
+      this.showBranchDetail = false;
       this.userdata.branchName = "";
       this.userdata.branchCode = "";
       this.userdata.branches = [];
@@ -209,10 +242,11 @@ export class AddUserComponent implements OnInit {
     }
     else {
       this.showBranch = true;
+      this.showBranchDetail = true;
       // this.getAllBranches();
       branchName.setValidators([Validators.required]);
       branchCode.setValidators([Validators.required]);
-      branches.setValidators([Validators.required]);
+      //branches.setValidators([Validators.required]);
       this.userdata.branches = [];
       if (this.selectedItems.length > 0) {
         this.selectedItems.forEach(element => {
