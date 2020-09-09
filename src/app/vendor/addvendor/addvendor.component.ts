@@ -24,6 +24,7 @@ export class AddvendorComponent implements OnInit {
   title: string;
   vendorStatus: any = [];
   submitted = false;
+  branches: any = [];
   constructor(
     private notifyService: NotificationService,
     private alertService: AlertService,
@@ -47,7 +48,7 @@ export class AddvendorComponent implements OnInit {
   ngOnInit() {
     this.addVendorForm = this.formBuilder.group({
       vendorname: ['', [Validators.required]],
-      branchcode: ['', [Validators.required]],
+      branches: ['', [Validators.required]],
       inspectionemail: [
         '',
         [
@@ -68,6 +69,7 @@ export class AddvendorComponent implements OnInit {
             var res: any = data;
             this.vendordata = Object.assign({}, res);
             this.vendordata.status = res.isDeleted;
+            this.getBranches();
           },
           (err) => {}
         );
@@ -83,12 +85,24 @@ export class AddvendorComponent implements OnInit {
     this.vendorService.getBranches().subscribe(
       (data) => {
         var res: any = data;
-        this.branchCode = res.data;
+        //this.branchCode = res.data;
+        this.branches = res.data;
+        // this.branchCode = res.data.branchCode+res.data.branchName;
+        debugger;
+        this.dropdownSettings = {
+          singleSelection: false,
+          idField: 'id',
+          textField: 'branchCode',
+          selectAllText: 'Select All',
+          unSelectAllText: 'UnSelect All',
+          allowSearchFilter: true,
+        };
       },
       (err) => {}
     );
   }
   addVendorDetails() {
+    debugger;
     this.submitted = true;
     if (this.addVendorForm.invalid) {
       return;
@@ -118,16 +132,28 @@ export class AddvendorComponent implements OnInit {
     this.router.navigateByUrl('vendor');
   }
   onItemSelect(item: any) {
-    console.log(item);
-    this.branchCodes.push(item.id);
+    // console.log(item);
+    // this.branchCodes.push(item.id);
+    this.vendordata.branchCode = [];
+    if (this.selectedItems.length > 0) {
+      this.selectedItems.forEach((element) => {
+        this.vendordata.branchCode.push(element.id);
+      });
+    }
   }
   onSelectAll(items: any) {
-    console.log(items);
+    // console.log(items);
+    // items.forEach((element) => {
+    //   var temp: any = {};
+    //   temp.branchlist = element.id;
+    //   this.branchCodes.push(temp);
+    // });
+    this.branchCodes = [];
+    this.vendordata.branches = [];
     items.forEach((element) => {
-      var temp: any = {};
-      temp.branchlist = element.id;
-      this.branchCodes.push(temp);
+      this.branchCodes.push(element.id);
     });
+    this.vendordata.branchCode = this.branchCodes;
   }
   UpdateVendorDetails() {
     this.submitted = true;
@@ -159,4 +185,5 @@ export class AddvendorComponent implements OnInit {
         );
     }
   }
+  
 }
