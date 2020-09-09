@@ -11,6 +11,7 @@ import {
 } from '@angular/forms';
 import { NotificationService } from '../../service/notification.service';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { VendorServiceService } from 'src/app/service/vendor-service.service';
 
 @Component({
   selector: 'app-add-user',
@@ -30,13 +31,16 @@ export class AddUserComponent implements OnInit {
   addUserForm: FormGroup;
   showBranch: boolean;
   title: string;
-  showBranchDetail: boolean;
+  showBranchDetail: boolean = false;
+  showVendorOrganization: boolean = false;
+  vendorOganization: any = [];
   constructor(
     private notifyService: NotificationService,
     private formBuilder: FormBuilder,
     private router: Router,
     private alertService: AlertService,
-    private userapiService: UserapiserviceService
+    private userapiService: UserapiserviceService,
+    private vendorapiService: VendorServiceService
   ) {}
 
   ngOnInit() {
@@ -44,13 +48,14 @@ export class AddUserComponent implements OnInit {
     this.userdata.branchName = '';
     this.addUserForm = this.formBuilder.group({
       firstName: ['', [Validators.required]],
-      company: ['', [Validators.required]],
+      company: [''],
       lastName: ['', [Validators.required]],
       branchName: ['', [Validators.required]],
       type: ['', [Validators.required]],
       branchCode: ['', [Validators.required]],
       status: ['', [Validators.required]],
       branches: [''],
+      vendor: [''],
       email: [
         '',
         [
@@ -179,9 +184,20 @@ export class AddUserComponent implements OnInit {
     } else if (eve.target.value == 'Admin' || eve.target.value == 'Claims') {
       this.showBranch = false;
       this.showBranchDetail = false;
+    } else if (eve.target.value == 'Vendor') {
+      this.showBranch = false;
+      this.showBranchDetail = false;
+      this.showVendorOrganization = true;
+      this.vendorapiService.getVendors().subscribe(
+        (data) => {
+          var res: any = data;
+          this.vendorOganization = res;
+        },
+        (err) => {}
+      );
     } else {
       this.showBranch = true;
-      this.showBranchDetail = true;
+      this.showBranchDetail = false;
       this.userdata.branchCode = '';
       this.userdata.branches = [];
       this.userdata.branchName = '';
@@ -254,6 +270,17 @@ export class AddUserComponent implements OnInit {
       this.userdata.branchName = '';
       this.userdata.branchCode = '';
       this.userdata.branches = [];
+      this.userdata.company = '';
+
+      branchName.setValidators(null);
+      branchCode.setValidators(null);
+      branches.setValidators(null);
+    } else if (this.userdata.type == 'Vendor') {
+      this.showBranch = false;
+      this.showBranchDetail = false;
+      this.userdata.branchName = '';
+      this.userdata.branchCode = '';
+      this.userdata.branches = [];
       branchName.setValidators(null);
       branchCode.setValidators(null);
       branches.setValidators(null);
@@ -277,6 +304,7 @@ export class AddUserComponent implements OnInit {
     this.addUserDetails(this.userdata);
   }
   addUserDetails(userdata) {
+    debugger;
     this.submitted = true;
     if (this.addUserForm.invalid) {
       return;
@@ -287,6 +315,7 @@ export class AddUserComponent implements OnInit {
       );
       return;
     } else {
+      userdata.VendorOrganization = this.vendorOganization.vendorname;
       this.userapiService.addUser(userdata).subscribe(
         (data) => {
           var res: any = data;
@@ -344,6 +373,7 @@ export class AddUserComponent implements OnInit {
     if (this.addUserForm.invalid) {
       return;
     } else {
+      data.VendorOrganization = this.vendorOganization.vendorname;
       this.userapiService.updateUser(data.id, data).subscribe(
         (data) => {
           var res: any = data;
@@ -368,7 +398,6 @@ export class AddUserComponent implements OnInit {
             'Something is wrong',
             'User Not Updated'
           );
-
           return;
         }
       );

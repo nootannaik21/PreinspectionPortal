@@ -330,6 +330,29 @@
                 <div *ngIf="f.status.errors.required">Status is required</div>
               </div>
             </div>
+            <div class="form-group" *ngIf="showVendorOrganization ">
+              <label for="vendorOrganization">Vendor</label>
+              <select
+                class="form-control"
+                formControlName="vendor"
+                [(ngModel)]="vendorOganization.vendorname"
+                tabindex="9"
+              >
+                <option value="">Choose Vendor</option>
+                <option
+                  class="form-control"
+                  *ngFor="let item of vendorOganization"
+                  [value]="item.vendorname"
+                [ngClass]="{ 'is-invalid': submitted && f.vendor.errors }"
+                >
+                  <table>
+                    <tr>
+                      <td>{{ item.vendorname }}({{item.inspectionemail}})</td>
+                    </tr>
+                  </table>
+                </option>
+              </select>
+              </div>
           </div>
           <!--End of Status-->
           <div class="row text-right">
