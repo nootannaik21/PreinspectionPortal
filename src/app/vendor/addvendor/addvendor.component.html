@@ -69,7 +69,7 @@
           <!--End of Vendor Email-->
           <!--Branch Code-->
           <div class="col-md-6">
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="exampleFormControlSelect1">Branch Codes</label>
               <select
                 class="form-control"
@@ -100,6 +100,27 @@
                 <div *ngIf="f.branchcode.errors.required">
                   Please Select Branch Code
                 </div>
+              </div>
+            </div> -->
+            <div class="form-group">
+              <label for="allBranches">Branches</label>
+              <ng-multiselect-dropdown
+                [placeholder]="'Choose Branches'"
+                [settings]="dropdownSettings"
+                [data]="branches"
+                tabindex="7"
+                [(ngModel)]="selectedItems"
+                formControlName="branches"
+                (onSelect)="onItemSelect($event)"
+                (onSelectAll)="onSelectAll($event)"
+                [ngClass]="{ 'is-invalid': submitted && f.branches.errors }"
+              >
+              </ng-multiselect-dropdown>
+              <div
+                *ngIf="submitted && f.branches.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.branches.errors.required">Branches required</div>
               </div>
             </div>
           </div>
