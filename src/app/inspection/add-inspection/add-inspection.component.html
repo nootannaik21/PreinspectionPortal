@@ -661,15 +661,15 @@
           <!--Vendor Email ID-->
           <div class="col-md-6">
             <div class="form-group">
-              <label>Vendor Email ID</label>
+              <label>Vendor</label>
               <select
                 class="form-control"
                 formControlName="vendorEmailId"
                 placeholder="Choose Vendor EmailId"
-                [(ngModel)]="inspectionData.vendorEmailId"
+                [(ngModel)]="inspectionData.vendorOrganization"
                 tabindex="21"
               >
-                <option value="">Choose Vendor Email ID</option>
+                <option value="">Choose Vendor</option>
                 <option
                   class="form-control"
                   *ngFor="let item of vendorEmailIdDetails"
@@ -677,7 +677,7 @@
                 >
                   <table>
                     <tr>
-                      <td>{{ item.inspectionemail }}</td>
+                      <td>{{ item.vendorname }}({{item.inspectionemail}})</td>
                     </tr>
                   </table>
                 </option>
