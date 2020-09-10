@@ -269,6 +269,14 @@ export class AddInspectionComponent
       (err) => {}
     );
   }
+  // getVendorMailList(branchCode) {
+  //   this.inspectionService.getVendorMailList(branchCode).subscribe(
+  //     (data) => {
+  //       this.vendorEmailIdDetails = data;
+  //     },
+  //     (err) => {}
+  //   );
+  // }
   getVendorMailList(branchCode) {
     this.inspectionService.getVendorMailList(branchCode).subscribe(
       (data) => {
@@ -470,6 +478,7 @@ export class AddInspectionComponent
     }
   }
   createInspection() {
+    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
