@@ -90,7 +90,7 @@
           <!--End of Email-->
           <!--Company Name-->
           <div class="col-md-6">
-            <div class="form-group">
+            <div class="form-group" *ngIf="!showVendorOrganization">
               <label>Company Name</label>
               <input
                 type="text"
@@ -330,13 +330,14 @@
                 <div *ngIf="f.status.errors.required">Status is required</div>
               </div>
             </div>
-            <div class="form-group" *ngIf="showVendorOrganization ">
+            <div class="form-group" *ngIf="showVendorOrganization">
               <label for="vendorOrganization">Vendor</label>
               <select
                 class="form-control"
                 formControlName="vendor"
                 [(ngModel)]="vendorOganization.vendorname"
                 tabindex="9"
+                (change)="onVendorSelect($event)"
               >
                 <option value="">Choose Vendor</option>
                 <option
@@ -352,6 +353,27 @@
                   </table>
                 </option>
               </select>
+              </div>
+              <div class="form-group" *ngIf="showVendorOrganization">
+                <label for="exampleFormControlSelect1">Vendor Branches</label>
+                <ng-multiselect-dropdown
+                  [placeholder]="'Choose vendor'"
+                  [settings]="dropdownSettings"
+                  [data]="branchList"
+                  tabindex="7"
+                  [(ngModel)]="selectedItems"
+                  formControlName="vendorList"
+                  (onSelect)="onItemSelect($event)"
+                  (onSelectAll)="onSelectAll($event)"
+                  [ngClass]="{ 'is-invalid': submitted && f.branches.errors }"
+                >
+                </ng-multiselect-dropdown>
+                <div
+                  *ngIf="submitted && f.branches.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f.branches.errors.required">Branches required</div>
+                </div>
               </div>
           </div>
           <!--End of Status-->

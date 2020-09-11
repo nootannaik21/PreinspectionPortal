@@ -11,6 +11,9 @@ export class VendorServiceService {
   getVendorById(vendorId) {
     return this.apiService.get("vendor/getVendorById?id="+vendorId);
   }
+  getVendorByEmail(email) {
+    return this.apiService.get("vendor/getVendorByEmail?email="+email);
+  }
   addVendorDetails(vendordata) {
     return this.apiService.post("vendor/addVendor",vendordata);
 
