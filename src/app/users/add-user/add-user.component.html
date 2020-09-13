@@ -335,7 +335,7 @@
               <select
                 class="form-control"
                 formControlName="vendor"
-                [(ngModel)]="vendorOganization.vendorname"
+                [(ngModel)]="userdata.vendorOrganization"
                 tabindex="9"
                 (change)="onVendorSelect($event)"
               >
@@ -343,7 +343,7 @@
                 <option
                   class="form-control"
                   *ngFor="let item of vendorOganization"
-                  [value]="item.inspectionemail"
+                  [value]="item.vendorname"
                 [ngClass]="{ 'is-invalid': submitted && f.vendor.errors }"
                 >
                   <table>

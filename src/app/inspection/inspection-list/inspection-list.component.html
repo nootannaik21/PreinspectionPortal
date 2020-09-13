@@ -24,10 +24,11 @@
                             <th class="text-left" style="min-width: 10%;">Created Date</th>
                             <th class="text-left" style="min-width: 10%;">IMD/SM Code</th>
                             <th class="text-left" style="min-width: 15%;">Customer</th>
+                            <th class="text-left" style="min-width: 15%;">Vendor Organization</th>
                             <th class="text-left" style="min-width: 15%;">Vendor</th>
                             <th class="text-left" style="min-width: 10%;">Status</th>
-                            <th class="text-left" style="min-width: 10%;">Location</th>
-                            <th class="text-left" style="width: 10%;">Vehicle Reg.#</th>
+                            <!-- <th class="text-left" style="min-width: 10%;">Location</th>
+                            <th class="text-left" style="width: 10%;">Vehicle Reg.#</th> -->
                             <th class="text-center" style="width: 5%;">Action</th>
                         </tr>
                     </thead>
@@ -49,17 +50,20 @@
                                 {{item.clientname}}
                             </td>
                             <td class="text-left">
+                                {{item.vendorOrganization}}
+                            </td>
+                            <td class="text-left">
                                 {{item.vendorEmailId}}
                             </td>
                             <td class="text-left">
                                 {{(item.statusid==1) ? "Recommended" : (item.statusid==2) ? "Not Recommended" : (item.statusid)==3 ? "Rescheduled" : (item.statusid)==4 ? "Cancelled":(item.statusid)==5 ? "Appointmant Fix" : "Request Raised"}}
                             </td>
-                            <td class="text-left">
+                            <!-- <td class="text-left">
                                 {{item.inspectionlocation}}
                             </td>
                             <td class="text-left">
                                 {{item.registrationno}}
-                            </td>
+                            </td> -->
                             <td class="text-left">
                                 <span>
                                     <i class="feather icon-eye pr-3" className="tooltipstext" title="View Inspection"

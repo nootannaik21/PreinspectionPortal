@@ -8,8 +8,8 @@
   <div class="col-sm-12">
     <app-card [hidHeader]="true" [options]="false">
       <form [formGroup]="addInspectionForm" (ngSubmit)="createInspection()">
-        <h5>Branch Details</h5>
-        <hr />
+        <h5 *ngIf="showBranchDetail">Branch Details</h5>
+        <span *ngIf="showBranchDetail"><hr /></span>
         <div class="row">
           <!--Branch Name-->
           <div class="col-md-6">
@@ -575,10 +575,11 @@
                 formControlName="duplicateinspection"
                 [(ngModel)]="inspectionData.duplicateinspection"
                 tabindex="18"
+                (change)="onDuplicateInspection($event)"
               >
                 <option value="no" selected>No</option>
                 <option value="yes">Yes</option>
-              </select>
+            </select>
               <div
                 *ngIf="submitted && f.duplicateinspection.errors"
                 class="invalid-feedback"
@@ -593,7 +594,7 @@
           <!--Payment Mode-->
           <div class="col-md-6">
             <div class="form-group">
-              <label for="exampleFormControlSelect1">Payment Mode</label>
+              <label for="exampleFormControlSelect1">Payment Type</label>
               <select
                 class="form-control"
                 id="paymentid"
@@ -605,7 +606,7 @@
                 }"
                 required
               >
-                <option value="">Choose Payment Mode</option>
+                <option value="">Choose Payment Type</option>
                 <option
                   class="form-control"
                   *ngFor="let item of paymentMode"
@@ -768,16 +769,15 @@
             </button>
             <button
               type="button"
-              *ngIf="inspectionData.id != undefined"
+              *ngIf="disableInspection"
               class="btn btn-primary"
-              [disabled]="disableInspection"
               (click)="updateInspection()"
             >
               Update Inspection
             </button>
             <button
               type="submit"
-              *ngIf="inspectionData.id == undefined"
+              *ngIf="inspectionData.id == undefined && !disableInspection"
               class="btn btn-primary"
             >
               Create Inspection
