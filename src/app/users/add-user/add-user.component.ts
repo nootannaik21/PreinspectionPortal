@@ -109,13 +109,56 @@ export class AddUserComponent implements OnInit {
             this.showBranch = false;
             this.showBranchDetail = false;
             this.showVendorOrganization = true;
-            this.getAllBranches();
+            this.vendorapiService.getVendors().subscribe(
+              (content) => {
+                var res: any = content;
+                debugger;
+                this.vendorOganization = res;
+              },
+              (err) => {}
+            );
+            //this.getAllBranches();
+            //this.getBranchForVendor(this.userdata.branches);
+            debugger;
+            let tmp = [];
+            var branchOfVendor='';
+            this.userdata.branches.forEach(element => {
+      branchOfVendor == ''? branchOfVendor = "id="+element:branchOfVendor += "&id="+element;
+    });
+    this.branchApiService.getBranchByListofId(branchOfVendor).subscribe(result=>{
+     this.branchList = result;
+      debugger;
+      for (let i = 0; i <= user.branches.length; i++) {
+        var branch = this.branchList.filter(
+          (x) => x.id == user.branches[i]
+        );
+        if (branch.length > 0) {
+          var branchid: number = +branch[0].id;
+          tmp.push({
+            id: branchid,
+            branchCode: branch[0].branchCode,
+          });
+          this.selectedItems = tmp;
+        }
+      }
+              this.dropdownSettings = {
+                singleSelection: false,
+                idField: 'id',
+                textField: 'branchCode',
+                selectAllText: 'Select All',
+                unSelectAllText: 'UnSelect All',
+                allowSearchFilter: true,
+              };
+          },err=>{
+      
+          })
           } 
           else {
+            debugger;
             this.showBranch = true;
             this.showBranchDetail = false;
             let tmp = [];
-            if (user.branches != 0) {
+            if (user.branches.length > 0) {
               this.userapiService.getBranches().subscribe(
                 (branches) => {
                   var res: any = branches;

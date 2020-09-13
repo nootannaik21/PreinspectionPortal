@@ -57,11 +57,13 @@ export class AddvendorComponent implements OnInit {
           Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
         ],
       ],
+      status:['']
     });
     if (localStorage.getItem('vendorid')) {
+      debugger;
       this.addVendorForm.get('inspectionemail').disable();
       this.title = 'Update Vendor';
-      this.getBranches();
+      // this.getBranches();
       this.vendorService
         .getVendorById(localStorage.getItem('vendorid'))
         .subscribe(
@@ -69,10 +71,44 @@ export class AddvendorComponent implements OnInit {
             var res: any = data;
             this.vendordata = Object.assign({}, res);
             this.vendordata.status = res.isDeleted;
-            this.getBranches();
+            // this.getBranches();
+            let tmp = [];
+            if (this.vendordata.branchcode.length > 0) {
+              this.vendorService.getBranches().subscribe(
+                (branches) => {
+                  var res: any = branches;
+                  debugger;
+                  this.branches = res.data;
+                  for (let i = 0; i <= this.vendordata.branchcode.length; i++) {
+                    var branch = this.branches.filter(
+                      (x) => x.id == this.vendordata.branchcode[i]
+                    );
+                    if (branch.length > 0) {
+                      var branchid: number = +branch[0].id;
+                      tmp.push({
+                        id: branchid,
+                        branchCode: branch[0].branchCode,
+                      });
+                      this.selectedItems = tmp;
+                    }
+                  }
+                  this.dropdownSettings = {
+                    singleSelection: false,
+                    idField: 'id',
+                    textField: 'branchCode',
+                    selectAllText: 'Select All',
+                    unSelectAllText: 'UnSelect All',
+                    // itemsShowLimit: 10,
+                    allowSearchFilter: true,
+                  };
+                },
+                (err) => {}
+              );
+            }
           },
           (err) => {}
         );
+        
     } else {
       this.title = 'Add Vendor';
       this.getBranches();

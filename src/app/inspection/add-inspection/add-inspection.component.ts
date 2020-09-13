@@ -142,12 +142,13 @@ export class AddInspectionComponent
         this.disableFields();
         this.showHistoryTable = true;
         this.getInspectionsHistory();
-        this.disableInspection = false;
+        this.disableInspection = true;
         this.showBranchDetail = true;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
       } else if (localStorage.getItem('type') == 'Branch') {
         this.disableFields();
+        this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
         this.addInspectionForm.get('statusid').disable();
@@ -156,6 +157,7 @@ export class AddInspectionComponent
         this.showBranchDetail = true;
       } else if (localStorage.getItem('type') == 'IMD') {
         this.disableFields();
+        this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
         this.addInspectionForm.get('statusid').disable();
@@ -163,18 +165,20 @@ export class AddInspectionComponent
         this.disableInspection = true;
       } else if (localStorage.getItem('type') == 'OPS') {
         this.disableFields();
+        this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
         this.showBranchDetail = false;
-        this.disableInspection = false;
+        this.disableInspection = true;
       } else if (localStorage.getItem('type') == 'Claims') {
         this.showBranchDetail = true;
+        this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
       } else {
         this.showUpload = false;
-        this.showHistoryTable = false;
-        this.disableInspection = false;
+        this.showHistoryTable = true;
+        this.disableInspection = true;
         this.showBranchDetail = true;
       }
       this.getInspections();
@@ -286,6 +290,8 @@ export class AddInspectionComponent
     );
   }
   disableFields() {
+    this.addInspectionForm.get('branchcode').disable();
+    this.addInspectionForm.get('branchName').disable();
     this.addInspectionForm.get('imdcode').disable();
     this.addInspectionForm.get('vendorEmailId').disable();
     this.addInspectionForm.get('phoneNoofsales').disable();
@@ -307,12 +313,13 @@ export class AddInspectionComponent
     this.addInspectionForm.get('riskType').disable();
   }
   getInspections() {
+    debugger;
     if (localStorage.getItem('view') == 'View') {
       this.title = 'View Inspection';
+      this.disableInspection = false;
       this.disableFields();
       this.addInspectionForm.get('remarks').disable();
       this.addInspectionForm.get('statusid').disable();
-      this.disableInspection = true;
     }
     this.getAllBranches();
     this.getAllInspectionStatus();
@@ -337,6 +344,7 @@ export class AddInspectionComponent
     }
   }
   getinspectionByID() {
+    debugger;
     this.inspectionService
       .getInspectionById(localStorage.getItem('inspectionId'))
       .subscribe(
@@ -345,6 +353,7 @@ export class AddInspectionComponent
           if (res) {
             this.getVendorMailList(res.branchcode);
           }
+          debugger;
           this.inspectionData = Object.assign({}, data);
           this.inspectionData.vendorEmailId = res.vendorEmailId;
           this.inspectionData.inspectionreason = res.inspectionreason;
@@ -434,6 +443,7 @@ export class AddInspectionComponent
     this.inspectionData = {};
   }
   updateInspection() {
+    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
@@ -514,5 +524,16 @@ export class AddInspectionComponent
         }
       );
     }
+  }
+  onDuplicateInspection(evt){
+    debugger;
+if(evt.target.value == "yes"){
+  this.inspectionData.paymentmodeid = '2';
+  this.addInspectionForm.get('paymentmodeid').disable();
+}
+else{
+  this.addInspectionForm.get('paymentmodeid').enable();
+  this.inspectionData.paymentmodeid = '';
+}
   }
 }
