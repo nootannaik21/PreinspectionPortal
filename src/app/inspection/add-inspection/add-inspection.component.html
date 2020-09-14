@@ -113,6 +113,9 @@
                 <div *ngIf="f.imdcode.errors.required">
                   IMD Code is required
                 </div>
+                <div *ngIf="f.imdcode.errors.pattern">
+                  IMD Code should be 8 characters
+                </div>
               </div>
             </div>
           </div>
@@ -204,6 +207,9 @@
               >
                 <div *ngIf="f.clientname.errors.required">
                   Customer Name is required
+                </div>
+                <div *ngIf="f.clientname.errors.pattern">
+                  Customer Name should not exceed 20 characters
                 </div>
               </div>
             </div>
@@ -353,8 +359,6 @@
                 type="text"
                 class="form-control"
                 placeholder="Registration Number"
-                appOnlyalphabets
-                [onlyAlpha]="true"
                 formControlName="registrationno"
                 tabindex="11"
                 [(ngModel)]="inspectionData.registrationno"
@@ -368,7 +372,10 @@
                 class="invalid-feedback"
               >
                 <div *ngIf="f.registrationno.errors.required">
-                  Vehicle Reg No is required
+                  Vehicle Reg. No. is required
+                </div>
+                <div *ngIf="f.registrationno.errors.pattern">
+                Please enter correct Vehicle Reg. No.
                 </div>
               </div>
             </div>
