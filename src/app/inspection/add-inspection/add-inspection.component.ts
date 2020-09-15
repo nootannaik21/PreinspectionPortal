@@ -528,6 +528,13 @@ export class AddInspectionComponent
       );
     }
   }
+IsDuplicateInspection(evt){
+  this.inspectionService.IsDuplicateInspection(evt).subscribe(data =>{
+debugger;
+  },err=>{
+
+  })
+}
   onDuplicateInspection(evt){
     debugger;
 if(evt.target.value == "yes"){
