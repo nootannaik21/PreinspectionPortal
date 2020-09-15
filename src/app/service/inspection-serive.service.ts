@@ -55,6 +55,9 @@ export class InspectionSeriveService {
   getInspectionList() {
     return this.apiService.get('inspection/getAllInspections');   
   }
+  IsDuplicateInspection(RegNo){
+    return this.apiService.get('inspection/getDuplicateInspectonByRegNo/'+RegNo)
+  }
 getVendorEmailByBranchCode(branchCode){
   return this.apiService.get('vendor/getActiveVendorByBranchCode?branchCode='+ branchCode);
 }
