@@ -512,7 +512,7 @@ export class AddUserComponent implements OnInit {
   }
   onVendorSelect(evt){
 debugger;
-this.userdata.vendorOrganization = this.vendorOganization.vendorname;
+// this.userdata.vendorOrganization = this.vendorOganization.vendorname;
 this.vendorapiService.getVendorByEmail(evt.target.value).subscribe(
   (data) => {
     var res: any = data;

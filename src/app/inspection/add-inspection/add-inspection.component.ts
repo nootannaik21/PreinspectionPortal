@@ -84,13 +84,13 @@ export class AddInspectionComponent
       branchcode: ['', [Validators.required]],
       imdcode: [
         '',
-        [Validators.required, Validators.pattern('^[a-zA-Z0-9]+$')],
+        [Validators.required, Validators.pattern('^[0-9]{8}$')],
       ],
       phoneNoofsales: [
         '',
         [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
       ],
-      clientname: ['', [Validators.required]],
+      clientname: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,20}$')]],
       clientphoneno: [
         '',
         [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
@@ -119,7 +119,7 @@ export class AddInspectionComponent
       productType: ['', [Validators.required]],
       inspectionlocation: ['', [Validators.required]],
       riskType: ['', [Validators.required]],
-      registrationno: ['', [Validators.required]],
+      registrationno: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+$')]],
       duplicateinspection: ['', [Validators.required]],
       paymentmodeid: ['', [Validators.required]],
       make: ['', [Validators.required]],
@@ -409,13 +409,16 @@ export class AddInspectionComponent
   }
 
   uploadFiles() {
+    debugger;
     let frmData: FormData = new FormData();
     frmData.append('uploadFile', this.file, this.file.name);
 
     this.inspectionService
       .uploadDocument(this.inspectionData.id, frmData)
       .subscribe(
-        (data) => {},
+        (data) => {
+          this.alertService.successAlert("Success","File uploaded successfully");
+        },
         (err) => {
           console.log(err.error.message);
         }

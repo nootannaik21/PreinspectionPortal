@@ -63,7 +63,7 @@ export class ApiService {
   getFile(relative)
   {
     let url = this.baseApiUrl + relative;
-    return this.http.get(url, {headers: this.getHeaderOptions(),responseType: 'blob'});
+    return this.http.get(url, {headers: this.getHeaderOptionsforFileDownload(),responseType: 'blob'});
   }
 
   singIn(relativeUrl: string, resource: any) {
@@ -79,7 +79,7 @@ export class ApiService {
     let url = this.baseApiUrl + relativeUrl;
     return this.http.post(this.baseApiUrl + relativeUrl, resource, { headers: this.getHeaderOptionsforFileUpload() });
   }
-  delete(relativeUrl: string) {
+    delete(relativeUrl: string) {
     this.isLoading = true;
     let url = this.baseApiUrl + relativeUrl;
     return this.http.delete(url, { headers: this.getHeaderOptions() });
@@ -124,6 +124,18 @@ export class ApiService {
       const headers = new HttpHeaders().set('Authorization', "bearer "+authToken);
       headers.set('Content-Type', 'multipart/form-data')
       headers.set('Accept', 'application/json');
+      return headers;
+    }
+  }
+  getHeaderOptionsforFileDownload() {
+    this.Userdetails = this.UserService.getCurrentLoggedUser()
+    if ((this.Userdetails == null)) {
+      this.router.navigateByUrl("/login");
+    }
+    else {
+      const authToken = this.Userdetails.accessToken;
+      const headers = new HttpHeaders().set('Authorization', "bearer "+authToken);
+      headers.set('Accept', 'application/octet-stream');
       return headers;
     }
   }

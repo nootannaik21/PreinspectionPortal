@@ -75,7 +75,7 @@
                                 </span>
                                 <span *ngIf="(item.statusid==1)||(item.statusid==2)||(item.statusid==4)">
                                     <i class="feather icon-download" className="tooltipstext" title="Download Inspection Documents"
-                                        style="cursor: pointer;" Permission [permission]="'Admin|Claims'"></i>
+                                        style="cursor: pointer;" Permission (click)="downloadDoc(item.documentPath)" [permission]="'Admin|Claims'"></i>
                                 </span>
                             </td>
                         </tr>

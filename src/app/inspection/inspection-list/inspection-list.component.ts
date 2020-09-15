@@ -11,6 +11,7 @@ import { InspectionSeriveService } from '../../service/inspection-serive.service
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { NotificationService } from '../../service/notification.service';
+import { resolveForwardRef } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-inspection-list',
@@ -61,6 +62,24 @@ export class InspectionListComponent
     localStorage.setItem('inspectionId', item.id);
     localStorage.setItem('view', 'Edit');
     this.router.navigateByUrl('inspection/addInspection');
+  }
+  downloadDoc(evt){
+    debugger;
+// var firstSpaceIndex = evt.indexOf("\\");
+// var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
+// var secondString = evt.substring(firstSpaceIndex + 1);
+this.inspectionService.downloadDocument(evt).subscribe(data=>{
+debugger;
+var res: any = data;
+var blob = new Blob([res]);
+var downloadURL = window.URL.createObjectURL(res);
+var link = document.createElement('a');
+link.href = downloadURL;
+link.download = evt;
+link.click();
+},err=>{
+
+});
   }
   getInspectionList() {
     this.inspectionService.getInspectionList().subscribe(
