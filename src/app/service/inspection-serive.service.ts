@@ -29,6 +29,9 @@ export class InspectionSeriveService {
   uploadDocument(id, files) {
     return this.apiService.postUpload("inspection/uploadDocument?inspectionId="+id, files);   
   }
+  downloadDocument(file) {
+    return this.apiService.getFile("inspection/download?filename="+file);   
+  }
   getInspectionHistoryById(inspectionId) {
     return this.apiService.get("inspection/getInspectionHistoryByInspectionId?inspectionId="+inspectionId);   
   }

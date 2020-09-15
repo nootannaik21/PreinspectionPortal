@@ -31,6 +31,7 @@ export class AddbranchComponent implements OnInit {
           this.branchdata = data[0];
         },
         err => { })
+        
     }
     else {
       this.title = "Add Branch";

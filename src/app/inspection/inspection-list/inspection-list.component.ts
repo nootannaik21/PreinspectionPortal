@@ -1,18 +1,25 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertService } from 'src/app/service/alert.service';
-import { InspectionSeriveService } from '../../service/inspection-serive.service'
+import { AlertService } from '../../service/alert.service';
+import { InspectionSeriveService } from '../../service/inspection-serive.service';
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
-import { NotificationService } from 'src/app/service/notification.service';
-
+import { NotificationService } from '../../service/notification.service';
+import { resolveForwardRef } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-inspection-list',
   templateUrl: './inspection-list.component.html',
-  styleUrls: ['./inspection-list.component.scss']
+  styleUrls: ['./inspection-list.component.scss'],
 })
-export class InspectionListComponent implements OnInit, OnDestroy, AfterViewInit {
+export class InspectionListComponent
+  implements OnInit, OnDestroy, AfterViewInit {
   inspectionList: any = [];
   ngAfterViewInit(): void {
     this.inspectionList = [];
@@ -23,7 +30,12 @@ export class InspectionListComponent implements OnInit, OnDestroy, AfterViewInit
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   isDtInitialized: boolean = false;
-  constructor(private notifyService: NotificationService, private router: Router, private inspectionService: InspectionSeriveService, private alertService: AlertService) { }
+  constructor(
+    private notifyService: NotificationService,
+    private router: Router,
+    private inspectionService: InspectionSeriveService,
+    private alertService: AlertService
+  ) {}
 
   ngOnInit() {
     this.dtOptions = {
@@ -32,9 +44,6 @@ export class InspectionListComponent implements OnInit, OnDestroy, AfterViewInit
         [10, 25, 50, -1],
         [10, 25, 50, 'All'],
       ],
-      // columnDefs: [
-      //   { "width": "14%", "targets": [0,1,2,3,4,5,6] }
-      // ],
       pageLength: 10,
     };
     this.getInspectionList();
@@ -42,36 +51,45 @@ export class InspectionListComponent implements OnInit, OnDestroy, AfterViewInit
   downloadInspectionDetails(item) {
     localStorage.setItem('inspectionId', item.id);
     this.router.navigateByUrl('inspection/addInspection');
-    // this.inspectionService.getInspectionHistoryById(item.id).subscribe(
-    //   data =>{
-    //   },
-    //   err =>{
-
-    //   }
-    // )
   }
-  viewInspection(item){
+  viewInspection(item) {
     localStorage.setItem('inspectionId', item.id);
-    localStorage.setItem('view', "View");
+    localStorage.setItem('view', 'View');
     this.router.navigateByUrl('inspection/addInspection');
   }
 
   editInspectionRow(item) {
     localStorage.setItem('inspectionId', item.id);
-    localStorage.setItem('view', "Edit");
+    localStorage.setItem('view', 'Edit');
     this.router.navigateByUrl('inspection/addInspection');
+  }
+  downloadDoc(evt){
+    debugger;
+// var firstSpaceIndex = evt.indexOf("\\");
+// var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
+// var secondString = evt.substring(firstSpaceIndex + 1);
+this.inspectionService.downloadDocument(evt).subscribe(data=>{
+debugger;
+var res: any = data;
+var blob = new Blob([res]);
+var downloadURL = window.URL.createObjectURL(res);
+var link = document.createElement('a');
+link.href = downloadURL;
+link.download = evt;
+link.click();
+},err=>{
+
+});
   }
   getInspectionList() {
     this.inspectionService.getInspectionList().subscribe(
-      data => {
+      (data) => {
         var res: any = data;
         this.inspectionList = res.data;
         this.rerender();
       },
-      err => {
-
-      }
-    )
+      (err) => {}
+    );
   }
   gotoAddInspectionScreen() {
     localStorage.removeItem('inspectionId');

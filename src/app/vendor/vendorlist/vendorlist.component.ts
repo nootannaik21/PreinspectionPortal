@@ -1,15 +1,21 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  ViewChild,
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
-import { VendorServiceService } from '../../service/vendor-service.service'
-import { AlertService } from 'src/app/service/alert.service';
+import { VendorServiceService } from '../../service/vendor-service.service';
+import { AlertService } from '../../service/alert.service';
 import { Router } from '@angular/router';
-import { NotificationService } from 'src/app/service/notification.service';
+import { NotificationService } from '../../service/notification.service';
 
 @Component({
   selector: 'app-vendorlist',
   templateUrl: './vendorlist.component.html',
-  styleUrls: ['./vendorlist.component.scss']
+  styleUrls: ['./vendorlist.component.scss'],
 })
 export class VendorlistComponent implements OnInit, OnDestroy, AfterViewInit {
   vendorList: any = [];
@@ -24,7 +30,12 @@ export class VendorlistComponent implements OnInit, OnDestroy, AfterViewInit {
   dtElement: DataTableDirective;
   isDtInitialized: boolean = false;
 
-  constructor(private notifyService: NotificationService,private router: Router, private vendorService: VendorServiceService, private alertService: AlertService) { }
+  constructor(
+    private notifyService: NotificationService,
+    private router: Router,
+    private vendorService: VendorServiceService,
+    private alertService: AlertService
+  ) {}
 
   ngOnInit() {
     this.getAllVendors();
@@ -32,47 +43,37 @@ export class VendorlistComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   editVendor(item) {
     if (!item.isDeleted) {
-    localStorage.setItem('vendorid', item.id);
-    this.router.navigateByUrl('vendor/addVendor');
+      localStorage.setItem('vendorid', item.id);
+      this.router.navigateByUrl('vendor/addVendor');
     }
   }
   getAllVendors() {
     this.vendorService.getVendors().subscribe(
-      data => {
-        // var res:any=data;
+      (data) => {
         this.vendorList = data;
         this.rerender();
       },
-      err => {
-
-      }
-    )
+      (err) => {}
+    );
   }
   changeStatus(id) {
-    this.vendorService.getVendorById(id).subscribe(
-      data => {
-        var res: any = data;
-        if (res.isDeleted == true) {
-          res.status = false;
-          res.isDeleted = false;
-        }
-        else {
-          res.status = true;
-          res.isDeleted = true;
-        }
-
-        this.vendorService.updateVendorDetails(res.id, res).subscribe(
-          data => {
-            this.getAllVendors();
-          },
-          err => [
-
-          ]
-
-        )
-
+    this.vendorService.getVendorById(id).subscribe((data) => {
+      var res: any = data;
+      if (res.isDeleted == true) {
+        res.status = false;
+        res.isDeleted = false;
+      } else {
+        res.status = true;
+        res.isDeleted = true;
       }
-    )
+
+      this.vendorService.updateVendorDetails(res.id, res).subscribe(
+        (data) => {
+          this.getAllVendors();
+        },
+        (err) => []
+      );
+    });
   }
   rerender(): void {
     if (this.isDtInitialized) {
@@ -89,26 +90,7 @@ export class VendorlistComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dtTrigger.unsubscribe();
   }
   gotoAddVendorScreen() {
-    
-    localStorage.removeItem('VendorIdid')
+    localStorage.removeItem('VendorIdid');
     this.router.navigateByUrl('vendor/addVendor');
-
-  }
-  deleteVendor(item) {
-    if (!item.isDeleted) {
-    this.alertService.confirmAlert(() => {
-    this.vendorService.deleteVendor(item.id).subscribe(
-      data => {
-        var res: any = data;
-        if (res.message.result == "success") {
-          this.notifyService.showSuccess("Vendor Deleted Successfully !!", "Success");
-          // this.alertService.successAlert("Success", "Vendor Deleted Successfully");
-          this.getAllVendors();
-        }
-      },
-      err => {
-      }
-    )})}
-
   }
 }

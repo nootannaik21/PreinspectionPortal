@@ -1,20 +1,26 @@
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
-import { InspectionSeriveService } from 'src/app/service/inspection-serive.service';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+  AfterViewInit,
+} from '@angular/core';
+import { InspectionSeriveService } from '../../service/inspection-serive.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AlertService } from 'src/app/service/alert.service';
-import { FileuploadService } from 'src/app/service/fileupload.service';
+import { AlertService } from '../../service/alert.service';
+import { FileuploadService } from '../../service/fileupload.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
-import { NotificationService } from 'src/app/service/notification.service';
-
+import { NotificationService } from '../../service/notification.service';
 
 @Component({
   selector: 'app-add-inspection',
   templateUrl: './add-inspection.component.html',
-  styleUrls: ['./add-inspection.component.scss']
+  styleUrls: ['./add-inspection.component.scss'],
 })
-export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit {
+export class AddInspectionComponent
+  implements OnInit, OnDestroy, AfterViewInit {
   showHistoryTable: boolean;
   showReferenceNo: boolean;
   disableInspection: boolean;
@@ -50,11 +56,18 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
   showUpload: boolean = false;
   myFiles: FileList;
   file: File;
-  constructor(private notifyService: NotificationService, private fileUploadService: FileuploadService, private alertService: AlertService, private formBuilder: FormBuilder, private inspectionService: InspectionSeriveService, private router: Router) {
+  constructor(
+    private notifyService: NotificationService,
+    private fileUploadService: FileuploadService,
+    private alertService: AlertService,
+    private formBuilder: FormBuilder,
+    private inspectionService: InspectionSeriveService,
+    private router: Router
+  ) {
     this.duplicateinspections = [
       { id: 1, duplicateinspection: 'Yes' },
-      { id: 0, duplicateinspection: 'No', checked: "true" },
-    ]
+      { id: 0, duplicateinspection: 'No', checked: 'true' },
+    ];
   }
 
   ngOnInit() {
@@ -64,94 +77,112 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
         [10, 25, 50, -1],
         [10, 25, 50, 'All'],
       ],
-      // columnDefs: [
-      //   { "width": "14%", "targets": [0,1,2,3,4,5,6] }
-      // ],
       pageLength: 10,
     };
     this.addInspectionForm = this.formBuilder.group({
       branchName: ['', [Validators.required]],
       branchcode: ['', [Validators.required]],
-      imdcode: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+$')]],
-      phoneNoofsales: ['', [Validators.required,Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      clientname: ['', [Validators.required]],
-      clientphoneno: ['', [Validators.required,Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      clientemail: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      emailidofsales: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      clientalternatephoneno: ['', [Validators.required,Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      imdcode: [
+        '',
+        [Validators.required, Validators.pattern('^[0-9]{8}$')],
+      ],
+      phoneNoofsales: [
+        '',
+        [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
+      ],
+      clientname: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,20}$')]],
+      clientphoneno: [
+        '',
+        [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
+      ],
+      clientemail: [
+        '',
+        [
+          Validators.required,
+          Validators.email,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+        ],
+      ],
+      emailidofsales: [
+        '',
+        [
+          Validators.required,
+          Validators.email,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+        ],
+      ],
+      clientalternatephoneno: [
+        '',
+        [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
+      ],
       inspectionreason: ['', [Validators.required]],
       productType: ['', [Validators.required]],
       inspectionlocation: ['', [Validators.required]],
       riskType: ['', [Validators.required]],
-      registrationno: ['', [Validators.required]],
+      registrationno: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+$')]],
       duplicateinspection: ['', [Validators.required]],
       paymentmodeid: ['', [Validators.required]],
       make: ['', [Validators.required]],
-      model: ['', [Validators.required,Validators.pattern('^[a-zA-Z0-9, ]+$')]],
+      model: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9, ]+$')],
+      ],
       statusid: [''],
       vendorEmailId: [null],
       convayance: ['', [Validators.required]],
       conveyanceKm: ['', [Validators.required]],
-      // altclientname: ['', [Validators.required]],
       remarks: ['', [Validators.required]],
-      // referenceno:['']
     });
-    
-        
+
     if (localStorage.getItem('inspectionId')) {
-      this.title = "Update Inspection";
+      this.title = 'Update Inspection';
       this.showReferenceNo = true;
       this.hideStatus = true;
-      if (localStorage.getItem('type') == "Vendor") {
+      if (localStorage.getItem('type') == 'Vendor') {
         this.disableFields();
         this.showHistoryTable = true;
         this.getInspectionsHistory();
-        this.disableInspection = false;
+        this.disableInspection = true;
         this.showBranchDetail = true;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
-      }
-      else if (localStorage.getItem('type') == "Branch") {
+      } else if (localStorage.getItem('type') == 'Branch') {
         this.disableFields();
+        this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
         this.addInspectionForm.get('statusid').disable();
         this.addInspectionForm.get('remarks').disable();
         this.disableInspection = true;
         this.showBranchDetail = true;
-        //this.getVendorMailList(localStorage.getItem('branch'));
-      }
-      else if (localStorage.getItem('type') == "IMD") {
+      } else if (localStorage.getItem('type') == 'IMD') {
         this.disableFields();
+        this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
         this.addInspectionForm.get('statusid').disable();
         this.addInspectionForm.get('remarks').disable();
         this.disableInspection = true;
-      }
-      else if (localStorage.getItem('type') == "OPS") {
+      } else if (localStorage.getItem('type') == 'OPS') {
         this.disableFields();
-        // this.addInspectionForm.get('statusid').disable();
-        // this.addInspectionForm.get('remarks').disable();
+        this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
         this.showBranchDetail = false;
-        this.disableInspection = false;
-      }
-      else if (localStorage.getItem('type') == "Claims") {
+        this.disableInspection = true;
+      } else if (localStorage.getItem('type') == 'Claims') {
         this.showBranchDetail = true;
+        this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
-      }
-      else {
+      } else {
         this.showUpload = false;
-        this.showHistoryTable = false;
-        this.disableInspection = false;
+        this.showHistoryTable = true;
+        this.disableInspection = true;
         this.showBranchDetail = true;
       }
       this.getInspections();
-    }
-    else {
+    } else {
       this.getAllBranches();
       this.getAllInspectionStatus();
       this.getPaymentMode();
@@ -160,115 +191,113 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
       this.getinspectionreasons();
       this.getAllconvayances();
       localStorage.removeItem('inspectionId');
-      this.inspectionData.branchName = "";
-      this.inspectionData.branchcode = "";
-      this.inspectionData.inspectionreason = "";
-      this.inspectionData.productType = "";
-      this.inspectionData.riskType = "";
-      this.inspectionData.paymentmodeid = "";
-      this.inspectionData.vendorEmailId = "";
-      this.inspectionData.convayance = "";
+      this.inspectionData.branchName = '';
+      this.inspectionData.branchcode = '';
+      this.inspectionData.inspectionreason = '';
+      this.inspectionData.productType = '';
+      this.inspectionData.riskType = '';
+      this.inspectionData.paymentmodeid = '';
+      this.inspectionData.vendorEmailId = '';
+      this.inspectionData.convayance = '';
       this.inspectionData.statusid = 6;
-      this.inspectionData.duplicateinspection = "0";
-      this.title = "Add Inspection";
+      this.inspectionData.duplicateinspection = '0';
+      this.title = 'Add Inspection';
       this.showReferenceNo = false;
       this.hideStatus = false;
-      this.inspectionData.altclientname = "";
-      if (localStorage.getItem('type') == "IMD" || localStorage.getItem('type') == "Branch") {
-      this.showBranchDetail = false;
-      this.addInspectionForm.get('branchName').disable();
+      this.inspectionData.altclientname = '';
+      if (
+        localStorage.getItem('type') == 'IMD' ||
+        localStorage.getItem('type') == 'Branch'
+      ) {
+        this.showBranchDetail = false;
+        this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
         this.getVendorMailList(localStorage.getItem('branch'));
+      } else {
+        this.showBranchDetail = true;
       }
-      else {
-      this.showBranchDetail = true;
-      }
-      // if (localStorage.getItem('type') == "Branch") {
-      //   this.getVendorMailList(localStorage.getItem('branch'));
-      // }
-      // const vendorEmailId = this.addInspectionForm.get('vendorEmailId');
-      // vendorEmailId.setValidators(null);
-      // vendorEmailId.updateValueAndValidity();
-      // this.showUpload = false;
-      // this.showHistoryTable=false;
     }
   }
   selectedduplicateinspection(event) {
     if (event.target.value == 1) {
       this.inspectionData.duplicateinspection = true;
-    }
-    else {
+    } else {
       this.inspectionData.duplicateinspection = false;
     }
   }
   getAllconvayances() {
     this.inspectionService.getAllconvayances().subscribe(
-      data => {
+      (data) => {
         this.convayances = data;
       },
-      err => { }
-    )
+      (err) => {}
+    );
   }
   getinspectionreasons() {
     this.inspectionService.getAllInspectionsReason().subscribe(
-      data => {
+      (data) => {
         this.inspectionreasons = data;
       },
-      err => { }
-    )
+      (err) => {}
+    );
   }
   getallProductType() {
     this.inspectionService.getAllProductType().subscribe(
-      data => {
+      (data) => {
         this.productTypes = data;
       },
-      err => { }
-    )
+      (err) => {}
+    );
   }
   getRiskType() {
     this.inspectionService.getAllRiskType().subscribe(
-      data => {
+      (data) => {
         this.riskTypes = data;
       },
-      err => { }
-    )
+      (err) => {}
+    );
   }
   getPaymentMode() {
     this.inspectionService.getAllPaymentMode().subscribe(
-      data => {
+      (data) => {
         this.paymentMode = data;
       },
-      err => { }
-    )
+      (err) => {}
+    );
   }
   getAllInspectionStatus() {
     this.inspectionService.getAllInspectionStatus().subscribe(
-      data => {
+      (data) => {
         this.status = data;
       },
-      err => { }
-    )
+      (err) => {}
+    );
   }
+  // getVendorMailList(branchCode) {
+  //   this.inspectionService.getVendorMailList(branchCode).subscribe(
+  //     (data) => {
+  //       this.vendorEmailIdDetails = data;
+  //     },
+  //     (err) => {}
+  //   );
+  // }
   getVendorMailList(branchCode) {
     this.inspectionService.getVendorMailList(branchCode).subscribe(
-      data => {
+      (data) => {
         this.vendorEmailIdDetails = data;
       },
-      err => {
-
-      }
-    )
+      (err) => {}
+    );
   }
   disableFields() {
-    // this.addInspectionForm.get('branchName').disable();
-    // this.addInspectionForm.get('branchcode').disable();
+    this.addInspectionForm.get('branchcode').disable();
+    this.addInspectionForm.get('branchName').disable();
     this.addInspectionForm.get('imdcode').disable();
     this.addInspectionForm.get('vendorEmailId').disable();
     this.addInspectionForm.get('phoneNoofsales').disable();
     this.addInspectionForm.get('emailidofsales').disable();
     this.addInspectionForm.get('clientname').disable();
     this.addInspectionForm.get('clientemail').disable();
-    // this.addInspectionForm.get('altclientname').disable();
     this.addInspectionForm.get('clientphoneno').disable();
     this.addInspectionForm.get('clientalternatephoneno').disable();
     this.addInspectionForm.get('inspectionreason').disable();
@@ -284,12 +313,13 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     this.addInspectionForm.get('riskType').disable();
   }
   getInspections() {
-    if (localStorage.getItem('view') == "View") {
-      this.title = "View Inspection";
+    debugger;
+    if (localStorage.getItem('view') == 'View') {
+      this.title = 'View Inspection';
+      this.disableInspection = false;
       this.disableFields();
       this.addInspectionForm.get('remarks').disable();
       this.addInspectionForm.get('statusid').disable();
-      this.disableInspection = true;
     }
     this.getAllBranches();
     this.getAllInspectionStatus();
@@ -298,57 +328,64 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     this.getallProductType();
     this.getinspectionreasons();
     this.getAllconvayances();
-    // this.getVendorMailList(this.inspectionData.branchcode);     
     this.getinspectionByID();
   }
-  statusChanged(event){
-    if(event.target.value==1||event.target.value==2||event.target.value==4 && (localStorage.getItem('type') == "Vendor")){
-      if (localStorage.getItem('type') == "Vendor") {
+  statusChanged(event) {
+    if (
+      event.target.value == 1 ||
+      event.target.value == 2 ||
+      (event.target.value == 4 && localStorage.getItem('type') == 'Vendor')
+    ) {
+      if (localStorage.getItem('type') == 'Vendor') {
         this.showUpload = true;
-      }      
-    }
-    else{
-      this.showUpload=false
+      }
+    } else {
+      this.showUpload = false;
     }
   }
   getinspectionByID() {
-    this.inspectionService.getInspectionById(localStorage.getItem('inspectionId')).subscribe(
-      data => {
-        var res: any = data;
-        if (res) {
-          this.getVendorMailList(res.branchcode);
-        }
-        this.inspectionData = Object.assign({}, data);
-        this.inspectionData.vendorEmailId = res.vendorEmailId;
-        this.inspectionData.inspectionreason=res.inspectionreason;
-        this.inspectionData.productType=res.productType;
-        this.inspectionData.riskType=res.riskType;
-        this.inspectionData.convayance=res.convayance;        
-        if (res.statusid == 1 || res.statusid == 2 || res.statusid == 4) {
-          if (localStorage.getItem('type') == "Vendor") {
-            this.showUpload = true;
+    debugger;
+    this.inspectionService
+      .getInspectionById(localStorage.getItem('inspectionId'))
+      .subscribe(
+        (data) => {
+          var res: any = data;
+          if (res) {
+            this.getVendorMailList(res.branchcode);
           }
-          else {
-            this.showUpload = false;
+          debugger;
+          this.inspectionData = Object.assign({}, data);
+          this.inspectionData.vendorEmailId = res.vendorEmailId;
+          this.inspectionData.inspectionreason = res.inspectionreason;
+          this.inspectionData.productType = res.productType;
+          this.inspectionData.riskType = res.riskType;
+          this.inspectionData.convayance = res.convayance;
+          if (res.statusid == 1 || res.statusid == 2 || res.statusid == 4) {
+            if (localStorage.getItem('type') == 'Vendor') {
+              this.showUpload = true;
+            } else {
+              this.showUpload = false;
+            }
           }
-        }
-        if (this.inspectionData.duplicateinspection == true) { this.inspectionData.duplicateinspection = "1" }
-        else { this.inspectionData.duplicateinspection = "0"; }
-      },
-      err => {
-
-      }
-    )
+          if (this.inspectionData.duplicateinspection == true) {
+            this.inspectionData.duplicateinspection = '1';
+          } else {
+            this.inspectionData.duplicateinspection = '0';
+          }
+        },
+        (err) => {}
+      );
   }
   getInspectionsHistory() {
-    this.inspectionService.getInspectionHistoryById(localStorage.getItem('inspectionId')).subscribe(
-      data => {
-        this.inspectionHistory = data;
-        this.rerender();
-      },
-      err => {
-
-      })
+    this.inspectionService
+      .getInspectionHistoryById(localStorage.getItem('inspectionId'))
+      .subscribe(
+        (data) => {
+          this.inspectionHistory = data;
+          this.rerender();
+        },
+        (err) => {}
+      );
   }
   rerender(): void {
     if (this.isDtInitialized) {
@@ -365,80 +402,43 @@ export class AddInspectionComponent implements OnInit, OnDestroy, AfterViewInit 
     this.dtTrigger.unsubscribe();
   }
   getFileDetails(e) {
-    //console.log (e.target.files);
     let fileList: FileList = e.target.files;
-    if(fileList.length > 0) {
+    if (fileList.length > 0) {
       this.file = fileList[0];
-        
     }
-    // if(e.target.files.length > 0) {
-    //   let file: File = this.myFiles[0];
-    //   let formData:FormData = new FormData();
-    //   formData.append('uploadFile', file, file.name);
-    // }
   }
 
   uploadFiles() {
-    // const frmData = new FormData();
-    let frmData:FormData = new FormData();
+    debugger;
+    let frmData: FormData = new FormData();
     frmData.append('uploadFile', this.file, this.file.name);
-    // for (var i = 0; i < this.myFiles.length; i++) {
-    //    frmData.append("fileUpload", this.myFiles[i]);
-    // }
-    //  this.inspectionService.uploadDocument(this.inspectionData.id, frmData);
-    
-    this.inspectionService.uploadDocument(this.inspectionData.id, frmData).subscribe(
-      data => {
-      },
-      err => {
-console.log(err.error.message)
-      }
-    )
-  }
-  // // onSelectFile(event) {
-  // //   if (event.target.files && event.target.files[0]) {
-  // //     var filesAmount = event.target.files.length;
-  // //     for (let i = 0; i < filesAmount; i++) {
-  // //       var reader = new FileReader();
-  // //       reader.onload = (event: any) => {
-  // //         console.log(event.target.result);
-  // //         this.urls.push(event.target.result);
-  // //       }
-  // //     }
-  // //   }
-  //   this.inspectionService.uploadDocument(this.inspectionData.id, this.urls);
-  // }
-  uploadInspectionDetails(files: FileList) {
-    // this.fileToUpload = files.item(0);
 
-    // this.fileUploadService.postFile(this.fileToUpload).subscribe(data => {
-    //   // do something, if upload success
-    //   }, error => {
-    //     console.log(error);
-    //   });
+    this.inspectionService
+      .uploadDocument(this.inspectionData.id, frmData)
+      .subscribe(
+        (data) => {
+          this.alertService.successAlert("Success","File uploaded successfully");
+        },
+        (err) => {
+          console.log(err.error.message);
+        }
+      );
   }
-  downloadInspectionDetails() {
-
+  uploadInspectionDetails(files: FileList) {}
+  downloadInspectionDetails() {}
+  get f() {
+    return this.addInspectionForm.controls;
   }
-  get f() { return this.addInspectionForm.controls; }
-
-  // onOptionsSelected(event) {
-  //   var temp = this.branches.filter(x => x.branchCode == this.inspectionData.branchcode)
-  //   this.inspectionData.branchName = temp[0].branchName;
-  //   // this.newAssessmentforFine.UniqueID = temp[0].UniqueID;
-  // }
 
   getAllBranches() {
     this.inspectionService.getBranches().subscribe(
-      data => {
+      (data) => {
         var res: any = data;
         this.branches = res.data;
         this.branches = res.data;
       },
-      err => {
-
-      }
-    )
+      (err) => {}
+    );
   }
   cancel() {
     this.router.navigateByUrl('inspection');
@@ -446,72 +446,97 @@ console.log(err.error.message)
     this.inspectionData = {};
   }
   updateInspection() {
+    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
     } else {
-      var x: number = +(this.inspectionData.paymentmodeid);
-      var y: number = +(this.inspectionData.statusid);
+      var x: number = +this.inspectionData.paymentmodeid;
+      var y: number = +this.inspectionData.statusid;
       this.inspectionData.paymentmodeid = x;
       this.inspectionData.statusid = y;
-      this.inspectionData.altclientname = "";
-      this.inspectionData.duplicateinspection == "1" ? this.inspectionData.duplicateinspection = true : this.inspectionData.duplicateinspection = false;
-      this.inspectionService.updateInspection(this.inspectionData.id, this.inspectionData).subscribe(
-        data => {
-          this.notifyService.showSuccess("Inspection Updated successfully !!", "Success");
-          this.router.navigateByUrl('inspection');
-          this.inspectionData = {};
-        },
-        err => { }
-      )
+      this.inspectionData.altclientname = '';
+      this.inspectionData.duplicateinspection == '1'
+        ? (this.inspectionData.duplicateinspection = true)
+        : (this.inspectionData.duplicateinspection = false);
+      this.inspectionService
+        .updateInspection(this.inspectionData.id, this.inspectionData)
+        .subscribe(
+          (data) => {
+            this.notifyService.showSuccess(
+              'Inspection Updated successfully !!',
+              'Success'
+            );
+            this.router.navigateByUrl('inspection');
+            this.inspectionData = {};
+          },
+          (err) => {}
+        );
     }
   }
   onBranchSelect() {
-    var temp = this.branches.filter(x => x.branchName == this.inspectionData.branchName)
+    var temp = this.branches.filter(
+      (x) => x.branchName == this.inspectionData.branchName
+    );
     this.inspectionData.branchcode = temp[0].branchCode;
     this.getVendorMailList(this.inspectionData.branchcode);
   }
   onBranchCodeSelect() {
-    var temp = this.branches.filter(x => x.branchCode == this.inspectionData.branchcode)
+    var temp = this.branches.filter(
+      (x) => x.branchCode == this.inspectionData.branchcode
+    );
     this.inspectionData.branchName = temp[0].branchName;
     if (this.inspectionData.branchcode) {
       this.getVendorMailList(this.inspectionData.branchcode);
     }
   }
   createInspection() {
+    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
     } else {
-      if (localStorage.getItem('type') == "Branch" || localStorage.getItem('type') == "IMD") {
-        this.inspectionData.branchCode = "";
-        this.inspectionData.branchName = "";
+      if (
+        localStorage.getItem('type') == 'Branch' ||
+        localStorage.getItem('type') == 'IMD'
+      ) {
+        this.inspectionData.branchCode = '';
+        this.inspectionData.branchName = '';
       }
-      var x: number = +(this.inspectionData.paymentmodeid);
+      var x: number = +this.inspectionData.paymentmodeid;
       this.inspectionData.paymentmodeid = x;
-      this.inspectionData.duplicateinspection == "1" ? this.inspectionData.duplicateinspection = true : this.inspectionData.duplicateinspection = false;
+      this.inspectionData.duplicateinspection == '1'
+        ? (this.inspectionData.duplicateinspection = true)
+        : (this.inspectionData.duplicateinspection = false);
       this.inspectionService.addInspection(this.inspectionData).subscribe(
-        data => {
-          this.notifyService.showSuccess("Inspection added successfully !!", "Success");
+        (data) => {
+          this.notifyService.showSuccess(
+            'Inspection added successfully !!',
+            'Success'
+          );
 
           this.router.navigateByUrl('inspection');
           this.inspectionData = {};
         },
-        err => {
-          this.notifyService.showError("Something is wrong", "Inspection Not Added");
+        (err) => {
+          this.notifyService.showError(
+            'Something is wrong',
+            'Inspection Not Added'
+          );
           return;
         }
-      )
+      );
     }
   }
-  // getVendorEMailByBranchCode(branchCode){
-  //   this.inspectionService.getVendorEmailByBranchCode(branchCode).subscribe(
-  //     data => {
-  //       this.vendorEmailIdDetails  = Object.assign({}, data);
-  //     },
-  //     err => {
-
-  //     }
-  //   )
-  // }
+  onDuplicateInspection(evt){
+    debugger;
+if(evt.target.value == "yes"){
+  this.inspectionData.paymentmodeid = '2';
+  this.addInspectionForm.get('paymentmodeid').disable();
+}
+else{
+  this.addInspectionForm.get('paymentmodeid').enable();
+  this.inspectionData.paymentmodeid = '';
+}
+  }
 }
