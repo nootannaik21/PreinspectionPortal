@@ -70,7 +70,7 @@ const NavigationItems = [
     url: '/branch',
     classes: 'nav-item',
     icon: 'feather icon-menu',
-    accessrole:'Admin|OPS'
+    accessrole:'Admin'
   },
   // {
   //   id: 'report',

@@ -416,7 +416,9 @@ export class AddInspectionComponent
     this.inspectionService
       .uploadDocument(this.inspectionData.id, frmData)
       .subscribe(
-        (data) => {},
+        (data) => {
+          this.alertService.successAlert("Success","File uploaded successfully");
+        },
         (err) => {
           console.log(err.error.message);
         }
