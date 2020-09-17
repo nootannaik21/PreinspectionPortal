@@ -361,6 +361,7 @@
                 placeholder="Registration Number"
                 formControlName="registrationno"
                 tabindex="11"
+                (change)="IsDuplicateInspection($event)"
                 [(ngModel)]="inspectionData.registrationno"
                 required
                 [ngClass]="{
@@ -596,6 +597,9 @@
                   Duplicate Inspection is required
                 </div>
               </div>
+              <div *ngIf="IsDupInspection" style="color:red;">
+                This is a Duplicate Inspection
+              </div>
             </div>
           </div>
           <!--End of Duplicate Inspection-->
@@ -759,9 +763,15 @@
                 Upload Documents
               </button>
             </div>
-            <div *ngFor="let file of myFiles">
+            <div *ngFor="let file of fileList">
               <div>* {{ file.name }} - {{ file.type }} - {{ file.size }}</div>
             </div>
+          </div>
+          <div class="imagePreview" *ngIf="inspectionData.documentPath">
+            <div *ngFor="let item of documents">
+            <!-- <img [src]="item" alt="filee"> -->
+            <img [src]="sanitizeImageUrl(item)" />
+          </div>
           </div>
           <!--End of Upload Documents-->
         </div>

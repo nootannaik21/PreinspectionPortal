@@ -13,6 +13,7 @@ import { FileuploadService } from '../../service/fileupload.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { NotificationService } from '../../service/notification.service';
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-inspection',
@@ -54,15 +55,18 @@ export class AddInspectionComponent
   inspectionreasons: any = [];
   vendorEmailIdDetails: any = [];
   showUpload: boolean = false;
-  myFiles: FileList;
   file: File;
+  fileList: FileList;
+  IsDupInspection:boolean=false;
+  documents:any=[];
   constructor(
     private notifyService: NotificationService,
     private fileUploadService: FileuploadService,
     private alertService: AlertService,
     private formBuilder: FormBuilder,
     private inspectionService: InspectionSeriveService,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) {
     this.duplicateinspections = [
       { id: 1, duplicateinspection: 'Yes' },
@@ -360,6 +364,14 @@ export class AddInspectionComponent
           this.inspectionData.productType = res.productType;
           this.inspectionData.riskType = res.riskType;
           this.inspectionData.convayance = res.convayance;
+          let i = 0;
+          if(res.documentPath){
+            //this.documents =res.documentPath.split(',');
+            res.documentPath.split(',').forEach(element => {
+              this.documents[i]=element;
+              i++;
+            });
+          }
           if (res.statusid == 1 || res.statusid == 2 || res.statusid == 4) {
             if (localStorage.getItem('type') == 'Vendor') {
               this.showUpload = true;
@@ -402,22 +414,27 @@ export class AddInspectionComponent
     this.dtTrigger.unsubscribe();
   }
   getFileDetails(e) {
-    let fileList: FileList = e.target.files;
-    if (fileList.length > 0) {
-      this.file = fileList[0];
+  this.fileList = e.target.files;
+    if (this.fileList.length > 0) {
+      this.file = this.fileList[0];
     }
   }
 
   uploadFiles() {
     debugger;
+    debugger;
     let frmData: FormData = new FormData();
     frmData.append('uploadFile', this.file, this.file.name);
-
+    if(this.fileList.length){
+      for(let i=1 ; i < this.fileList.length ; i++)
+        frmData.append('files[]', this.fileList[i],this.fileList[i].name);
+    }
     this.inspectionService
-      .uploadDocument(this.inspectionData.id, frmData)
+      .uploadDocument(this.inspectionData.id,this.inspectionData.statusid, frmData)
       .subscribe(
         (data) => {
-          this.alertService.successAlert("Success","File uploaded successfully");
+          debugger;
+          this.alertService.successAlert("Success","File(s) uploaded successfully");
         },
         (err) => {
           console.log(err.error.message);
@@ -529,8 +546,20 @@ export class AddInspectionComponent
     }
   }
 IsDuplicateInspection(evt){
-  this.inspectionService.IsDuplicateInspection(evt).subscribe(data =>{
+  debugger;
+  this.inspectionService.IsDuplicateInspection(this.inspectionData.registrationno).subscribe(data =>{
 debugger;
+if(data){
+  this.IsDupInspection = true;
+  this.inspectionData.duplicateinspection = "yes";
+  this.inspectionData.paymentmodeid = '2';
+  this.addInspectionForm.get('paymentmodeid').disable();
+}
+else{
+  this.IsDupInspection = false;
+  this.addInspectionForm.get('paymentmodeid').enable();
+  this.inspectionData.paymentmodeid = '';
+}
   },err=>{
 
   })
@@ -546,4 +575,7 @@ else{
   this.inspectionData.paymentmodeid = '';
 }
   }
+  sanitizeImageUrl(imageUrl: string): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+}
 }

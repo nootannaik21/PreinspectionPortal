@@ -26,8 +26,8 @@ export class InspectionSeriveService {
   getVendorMailList(branchCode) {
     return this.apiService.get("vendor/getActiveVendorByBranchCode?branchCode="+branchCode);   
   }
-  uploadDocument(id, files) {
-    return this.apiService.postUpload("inspection/uploadDocument?inspectionId="+id, files);   
+  uploadDocument(id,status, files) {
+    return this.apiService.postUpload("inspection/uploadDocument?inspectionId="+id+"&status="+status,files);   
   }
   downloadDocument(file) {
     return this.apiService.getFile("inspection/download?filename="+file);   
@@ -56,7 +56,7 @@ export class InspectionSeriveService {
     return this.apiService.get('inspection/getAllInspections');   
   }
   IsDuplicateInspection(RegNo){
-    return this.apiService.get('inspection/getDuplicateInspectonByRegNo/'+RegNo)
+    return this.apiService.get('inspection/getDuplicateInspectonByRegNo?RegNo='+RegNo)
   }
 getVendorEmailByBranchCode(branchCode){
   return this.apiService.get('vendor/getActiveVendorByBranchCode?branchCode='+ branchCode);
