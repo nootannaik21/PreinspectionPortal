@@ -60,7 +60,6 @@ export class AddvendorComponent implements OnInit {
       status:['']
     });
     if (localStorage.getItem('vendorid')) {
-      debugger;
       this.addVendorForm.get('inspectionemail').disable();
       this.title = 'Update Vendor';
       // this.getBranches();
@@ -77,7 +76,6 @@ export class AddvendorComponent implements OnInit {
               this.vendorService.getBranches().subscribe(
                 (branches) => {
                   var res: any = branches;
-                  debugger;
                   this.branches = res.data;
                   for (let i = 0; i <= this.vendordata.branchcode.length; i++) {
                     var branch = this.branches.filter(
@@ -124,7 +122,6 @@ export class AddvendorComponent implements OnInit {
         //this.branchCode = res.data;
         this.branches = res.data;
         // this.branchCode = res.data.branchCode+res.data.branchName;
-        debugger;
         this.dropdownSettings = {
           singleSelection: false,
           idField: 'id',
@@ -138,8 +135,7 @@ export class AddvendorComponent implements OnInit {
     );
   }
   addVendorDetails() {
-    debugger;
-    this.submitted = true;
+        this.submitted = true;
     if (this.addVendorForm.invalid) {
       return;
     } else {

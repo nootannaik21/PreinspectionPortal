@@ -317,7 +317,6 @@ export class AddInspectionComponent
     this.addInspectionForm.get('riskType').disable();
   }
   getInspections() {
-    debugger;
     if (localStorage.getItem('view') == 'View') {
       this.title = 'View Inspection';
       this.disableInspection = false;
@@ -348,7 +347,6 @@ export class AddInspectionComponent
     }
   }
   getinspectionByID() {
-    debugger;
     this.inspectionService
       .getInspectionById(localStorage.getItem('inspectionId'))
       .subscribe(
@@ -357,7 +355,6 @@ export class AddInspectionComponent
           if (res) {
             this.getVendorMailList(res.branchcode);
           }
-          debugger;
           this.inspectionData = Object.assign({}, data);
           this.inspectionData.vendorEmailId = res.vendorEmailId;
           this.inspectionData.inspectionreason = res.inspectionreason;
@@ -421,8 +418,6 @@ export class AddInspectionComponent
   }
 
   uploadFiles() {
-    debugger;
-    debugger;
     let frmData: FormData = new FormData();
     frmData.append('uploadFile', this.file, this.file.name);
     if(this.fileList.length){
@@ -433,7 +428,6 @@ export class AddInspectionComponent
       .uploadDocument(this.inspectionData.id,this.inspectionData.statusid, frmData)
       .subscribe(
         (data) => {
-          debugger;
           this.alertService.successAlert("Success","File(s) uploaded successfully");
         },
         (err) => {
@@ -463,7 +457,6 @@ export class AddInspectionComponent
     this.inspectionData = {};
   }
   updateInspection() {
-    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
@@ -508,7 +501,6 @@ export class AddInspectionComponent
     }
   }
   createInspection() {
-    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
@@ -546,9 +538,7 @@ export class AddInspectionComponent
     }
   }
 IsDuplicateInspection(evt){
-  debugger;
   this.inspectionService.IsDuplicateInspection(this.inspectionData.registrationno).subscribe(data =>{
-debugger;
 if(data){
   this.IsDupInspection = true;
   this.inspectionData.duplicateinspection = "yes";
@@ -565,7 +555,6 @@ else{
   })
 }
   onDuplicateInspection(evt){
-    debugger;
 if(evt.target.value == "yes"){
   this.inspectionData.paymentmodeid = '2';
   this.addInspectionForm.get('paymentmodeid').disable();

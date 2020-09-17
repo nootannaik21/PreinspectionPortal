@@ -15,7 +15,6 @@ export class BranchServiceService {
     return this.apiService.get("branch/getActiveBranchById?id="+branchId);
   }
 getBranchByListofId(branchId) {
-    debugger;
     return this.apiService.get("branch/getActiveBranchById?"+branchId);
   }
   deleteBranch(id: any) {
