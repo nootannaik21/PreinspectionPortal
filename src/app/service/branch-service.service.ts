@@ -6,6 +6,7 @@ import { ApiService } from './api.service';
 })
 export class BranchServiceService {
   updateBranch(branchdata: any) {
+    debugger;
     return this.apiService.put("branch/editBranch?id="+branchdata.id,branchdata);
   }
   addBranch(branchdata) {
@@ -15,7 +16,6 @@ export class BranchServiceService {
     return this.apiService.get("branch/getActiveBranchById?id="+branchId);
   }
 getBranchByListofId(branchId) {
-    debugger;
     return this.apiService.get("branch/getActiveBranchById?"+branchId);
   }
   deleteBranch(id: any) {

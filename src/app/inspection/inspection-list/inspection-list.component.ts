@@ -64,12 +64,10 @@ export class InspectionListComponent
     this.router.navigateByUrl('inspection/addInspection');
   }
   downloadDoc(evt){
-    debugger;
 // var firstSpaceIndex = evt.indexOf("\\");
 // var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
 // var secondString = evt.substring(firstSpaceIndex + 1);
 this.inspectionService.downloadDocument(evt).subscribe(data=>{
-debugger;
 var res: any = data;
 var blob = new Blob([res]);
 var downloadURL = window.URL.createObjectURL(res);

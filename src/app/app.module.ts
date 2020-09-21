@@ -32,6 +32,7 @@ import { FormsModule } from '@angular/forms';
 // import { OnlystringDirective } from './helper/onlystring.directive';
 // import { PermissionDirective } from './helper/permission.directive';
 import { ToastrModule } from 'ngx-toastr';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,7 @@ import { ToastrModule } from 'ngx-toastr';
     {
       provide: ErrorHandler,
       useValue: Sentry.createErrorHandler({
-        showDialog: true,
+        showDialog: false,
       }),
     },
     {
@@ -83,7 +84,7 @@ import { ToastrModule } from 'ngx-toastr';
       deps: [Sentry.TraceService],
       multi: true,
     },
-    NavigationItem],
+    NavigationItem,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

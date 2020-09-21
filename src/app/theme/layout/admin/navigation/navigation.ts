@@ -72,15 +72,44 @@ const NavigationItems = [
     icon: 'feather icon-menu',
     accessrole:'Admin'
   },
-  // {
-  //   id: 'report',
-  //   title: 'Report',
-  //   type: 'item',
-  //   url: '/report',
-  //   classes: 'nav-item',
-  //   icon: 'feather icon-book',
-  //   accessrole:'Admin|Claims|Vendor|Branch|IMD'
-  // }
+  {
+    id: 'CMS',
+    title: 'CMS',
+    type: 'collapse',
+    url: '/cms',
+    classes: 'nav-item',
+    icon: 'feather icon-book',
+    accessrole:'Admin',
+children:[
+  {
+    id: 'risktype',
+    title: 'Risk Type',
+    type: 'item',
+    url: '/cms/risktype',
+    classes: 'nav-item',
+    icon: '',
+    accessrole:'Admin'
+  },
+  {
+    id: 'producttype',
+    title: 'Product Type',
+    type: 'item',
+    url: '/cms/producttype',
+    classes: 'nav-item',
+    icon: '',
+    accessrole:'Admin'
+  }
+]
+  },
+  {
+    id: 'report',
+    title: 'Report',
+    type: 'item',
+    url: '/report',
+    classes: 'nav-item',
+    icon: 'feather icon-book',
+    accessrole:'Admin|Claims|Vendor|Branch|IMD'
+  }
 ];
 
 @Injectable()

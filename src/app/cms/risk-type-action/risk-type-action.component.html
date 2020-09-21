@@ -1,0 +1,68 @@
+<div class="row">
+    <div class="col text-left">
+      <h3>{{ title }}</h3>
+    </div>
+  </div>
+  <div class="row">&nbsp;</div>
+  <div class="row">
+    <div class="col-sm-12">
+      <app-card [hidHeader]="true" [options]="false">
+        <form [formGroup]="addEditRiskTypeForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <!--First Name-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="type">Risk Type</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-describedby="emailHelp"
+                  tabindex="1"
+                  placeholder="Risk type"
+                  formControlName="type"
+                  [(ngModel)]="riskTypeData.type"
+                  [ngClass]="{ 'is-invalid': submitted && f.type.errors }"
+                />
+                <div
+                  *ngIf="submitted && f.type.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f.type.errors.required">
+                    Risk type is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--End of First Name-->
+            <div class="row text-right">
+              <div class="col-12">
+                <button
+                  type="button"
+                  class="btn btn-secondary mr-1"
+                  (click)="reset()"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  *ngIf="riskTypeData.id == undefined"
+                >
+                  Add Risk Type
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  *ngIf="riskTypeData.id != undefined"
+                  (click)="updateRiskType(riskTypeData)"
+                >
+                  Update
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </app-card>
+    </div>
+  </div>
+  

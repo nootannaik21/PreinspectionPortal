@@ -48,6 +48,14 @@ const routes: Routes = [
         path: 'inspection',
         loadChildren: () => import('./inspection/inspection.module').then(module => module.InspectionModule)
       },
+      {
+        path: 'report',
+        loadChildren: () => import('./reports/reports.module').then(module => module.ReportsModule)
+      },
+      {
+        path: 'cms',
+        loadChildren: () => import('./cms/cms.module').then(module => module.CmsModule)
+      },
     ]
   },
   {
