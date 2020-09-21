@@ -29,8 +29,11 @@ export class InspectionSeriveService {
   uploadDocument(id,status, files) {
     return this.apiService.postUpload("inspection/uploadDocument?inspectionId="+id+"&status="+status,files);   
   }
+  deleteDocument(file,inspectionId) {
+    return this.apiService.delete("inspection/deleteDocument?file="+file+"&inspectionId="+inspectionId);   
+  }
   downloadDocument(file) {
-    return this.apiService.getFile("inspection/download?filename="+file);   
+    return this.apiService.getFile("inspection/deleteDocument?filename="+file);   
   }
   getInspectionHistoryById(inspectionId) {
     return this.apiService.get("inspection/getInspectionHistoryByInspectionId?inspectionId="+inspectionId);   
@@ -60,6 +63,33 @@ export class InspectionSeriveService {
   }
 getVendorEmailByBranchCode(branchCode){
   return this.apiService.get('vendor/getActiveVendorByBranchCode?branchCode='+ branchCode);
+}
+addRiskType(riskTypeData) {
+  return this.apiService.post("inspection/addRiskType",riskTypeData);   
+}
+getRiskTypeById(id){
+  return this.apiService.get('inspection/getRiskTypeById?id='+ id);
+}
+updateRiskType(riskTypeData) {
+  debugger;
+  return this.apiService.put("inspection/editRiskType?id="+riskTypeData.id,riskTypeData);   
+}
+deleteRiskType(id: any) {
+  return this.apiService.delete("inspection/deleteRiskType?id="+id);
+}
+
+addProductType(productTypeData) {
+  return this.apiService.post("inspection/addProductType",productTypeData);   
+}
+getProductTypeById(id){
+  return this.apiService.get('inspection/getProductTypeById?id='+ id);
+}
+updateProductType(productTypeData) {
+  debugger;
+  return this.apiService.put("inspection/editProductType?productTypeId="+productTypeData.id,productTypeData);   
+}
+deleteProductType(id: any) {
+  return this.apiService.delete("inspection/deletePrductType?id="+id);
 }
   constructor(private apiService:ApiService) { }
 }

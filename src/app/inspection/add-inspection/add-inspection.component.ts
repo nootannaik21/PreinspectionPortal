@@ -59,6 +59,7 @@ export class AddInspectionComponent
   fileList: FileList;
   IsDupInspection:boolean=false;
   documents:any=[];
+  documentsPath:any=[];
   constructor(
     private notifyService: NotificationService,
     private fileUploadService: FileuploadService,
@@ -95,6 +96,7 @@ export class AddInspectionComponent
         [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
       ],
       clientname: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,20}$')]],
+      altclientname: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,20}$')]],
       clientphoneno: [
         '',
         [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
@@ -208,7 +210,7 @@ export class AddInspectionComponent
       this.title = 'Add Inspection';
       this.showReferenceNo = false;
       this.hideStatus = false;
-      this.inspectionData.altclientname = '';
+      // this.inspectionData.altclientname = '';
       if (
         localStorage.getItem('type') == 'IMD' ||
         localStorage.getItem('type') == 'Branch'
@@ -368,6 +370,7 @@ export class AddInspectionComponent
               this.documents[i]=element;
               i++;
             });
+            this.PreviewDoc(this.documents)
           }
           if (res.statusid == 1 || res.statusid == 2 || res.statusid == 4) {
             if (localStorage.getItem('type') == 'Vendor') {
@@ -465,7 +468,7 @@ export class AddInspectionComponent
       var y: number = +this.inspectionData.statusid;
       this.inspectionData.paymentmodeid = x;
       this.inspectionData.statusid = y;
-      this.inspectionData.altclientname = '';
+      // this.inspectionData.altclientname = '';
       this.inspectionData.duplicateinspection == '1'
         ? (this.inspectionData.duplicateinspection = true)
         : (this.inspectionData.duplicateinspection = false);
@@ -566,5 +569,42 @@ else{
   }
   sanitizeImageUrl(imageUrl: string): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+    // this.PreviewDoc(imageUrl)
 }
+PreviewDoc(document){
+  // var firstSpaceIndex = evt.indexOf("\\");
+  // var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
+  // var secondString = evt.substring(firstSpaceIndex + 1);
+  let i = 0;
+  document.forEach(element => {
+    this.inspectionService.downloadDocument(element).subscribe(data=>{
+      var res: any = data;
+      var blob = new Blob([res]);
+      var downloadURL = window.URL.createObjectURL(res);
+      this.documentsPath[i]=downloadURL;
+      i++;
+  });
+  
+  // var link = document.createElement('a');
+  // link.href = downloadURL;
+  // link.download = evt;
+  // link.click();
+  },err=>{
+  
+  });
+    }
+    DeleteDoc(file,inspectionId){
+      debugger;
+      this.inspectionService.deleteDocument(file,inspectionId).subscribe(data=>{
+        this.alertService.successAlert("Success","File deleted successfully");
+      },err=>{
+
+      })
+    }
+    downloadDoc(url){
+      var link = document.createElement('a');
+      link.href = url;
+      link.download = url;
+      link.click();
+        }
 }

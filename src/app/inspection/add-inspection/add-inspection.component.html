@@ -215,6 +215,36 @@
             </div>
           </div>
           <!--End of Customer Name-->
+          <!--Customer Name-->
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Alternate Customer Name</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Customer Name"
+                required
+                formControlName="altclientname"
+                tabindex="7"
+                [(ngModel)]="inspectionData.clientname"
+                appOnlyalphabets
+                [onlyAlpha]="true"
+                [ngClass]="{ 'is-invalid': submitted && f.clientname.errors }"
+              />
+              <div
+                *ngIf="submitted && f.clientname.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.clientname.errors.required">
+                  Customer Name is required
+                </div>
+                <div *ngIf="f.clientname.errors.pattern">
+                  Customer Name should not exceed 20 characters
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--End of Customer Name-->
           <!--Customer Email ID-->
           <div class="col-md-6">
             <div class="form-group">
@@ -224,7 +254,7 @@
                 class="form-control"
                 placeholder="Customer Email Id"
                 formControlName="clientemail"
-                tabindex="7"
+                tabindex="8"
                 [(ngModel)]="inspectionData.clientemail"
                 required
                 [ngClass]="{ 'is-invalid': submitted && f.clientemail.errors }"
@@ -252,7 +282,7 @@
                 class="form-control"
                 placeholder="Client Mobile Number"
                 formControlName="clientphoneno"
-                tabindex="8"
+                tabindex="9"
                 [(ngModel)]="inspectionData.clientphoneno"
                 OnlyNumber
                 [onlyNumber]="true"
@@ -286,7 +316,7 @@
                 OnlyNumber
                 [onlyNumber]="true"
                 formControlName="clientalternatephoneno"
-                tabindex="9"
+                tabindex="10"
                 [(ngModel)]="inspectionData.clientalternatephoneno"
                 required
                 [ngClass]="{
@@ -321,7 +351,7 @@
                 formControlName="productType"
                 placeholder="Product Type"
                 [(ngModel)]="inspectionData.productType"
-                tabindex="10"
+                tabindex="11"
                 [ngClass]="{ 'is-invalid': submitted && f.productType.errors }"
                 required
               >
@@ -360,7 +390,7 @@
                 class="form-control"
                 placeholder="Registration Number"
                 formControlName="registrationno"
-                tabindex="11"
+                tabindex="12"
                 (change)="IsDuplicateInspection($event)"
                 [(ngModel)]="inspectionData.registrationno"
                 required
@@ -392,7 +422,7 @@
                 class="form-control"
                 placeholder="Make of Vehicle"
                 formControlName="make"
-                tabindex="12"
+                tabindex="13"
                 [(ngModel)]="inspectionData.make"
                 required
                 appOnlyalphabets
@@ -414,7 +444,7 @@
                 class="form-control"
                 placeholder="Model"
                 formControlName="model"
-                tabindex="13"
+                tabindex="14"
                 [(ngModel)]="inspectionData.model"
                 required
                 [ngClass]="{ 'is-invalid': submitted && f.model.errors }"
@@ -438,7 +468,7 @@
                 formControlName="convayance"
                 placeholder="Convayance"
                 [(ngModel)]="inspectionData.convayance"
-                tabindex="14"
+                tabindex="15"
                 [ngClass]="{ 'is-invalid': submitted && f.convayance.errors }"
                 required
               >
@@ -477,7 +507,7 @@
                 OnlyNumber
                 [onlyNumber]="true"
                 formControlName="conveyanceKm"
-                tabindex="15"
+                tabindex="16"
                 [(ngModel)]="inspectionData.conveyanceKm"
                 [ngClass]="{ 'is-invalid': submitted && f.conveyanceKm.errors }"
                 required
@@ -507,7 +537,7 @@
                 formControlName="inspectionreason"
                 placeholder="Inspection Reasons"
                 [(ngModel)]="inspectionData.inspectionreason"
-                tabindex="16"
+                tabindex="17"
                 [ngClass]="{
                   'is-invalid': submitted && f.inspectionreason.errors
                 }"
@@ -546,7 +576,7 @@
                 formControlName="riskType"
                 placeholder="Risk Type"
                 [(ngModel)]="inspectionData.riskType"
-                tabindex="17"
+                tabindex="18"
                 [ngClass]="{ 'is-invalid': submitted && f.riskType.errors }"
                 required
               >
@@ -583,7 +613,7 @@
                 id="id"
                 formControlName="duplicateinspection"
                 [(ngModel)]="inspectionData.duplicateinspection"
-                tabindex="18"
+                tabindex="19"
                 (change)="onDuplicateInspection($event)"
               >
                 <option value="no" selected>No</option>
@@ -612,7 +642,7 @@
                 id="paymentid"
                 formControlName="paymentmodeid"
                 [(ngModel)]="inspectionData.paymentmodeid"
-                tabindex="19"
+                tabindex="20"
                 [ngClass]="{
                   'is-invalid': submitted && f.paymentmodeid.errors
                 }"
@@ -651,7 +681,7 @@
                 class="form-control"
                 placeholder="Location of Inspection"
                 formControlName="inspectionlocation"
-                tabindex="20"
+                tabindex="21"
                 appOnlyalphabets
                 [onlyAlpha]="true"
                 [(ngModel)]="inspectionData.inspectionlocation"
@@ -680,7 +710,7 @@
                 formControlName="vendorEmailId"
                 placeholder="Choose Vendor EmailId"
                 [(ngModel)]="inspectionData.vendorOrganization"
-                tabindex="21"
+                tabindex="22"
               >
                 <option value="">Choose Vendor</option>
                 <option
@@ -709,7 +739,7 @@
                 formControlName="remarks"
                 [(ngModel)]="inspectionData.remarks"
                 placeholder="Remarks"
-                tabindex="22"
+                tabindex="23"
                 [ngClass]="{ 'is-invalid': submitted && f.remarks.errors }"
               ></textarea>
               <div
@@ -730,7 +760,7 @@
                 id="id"
                 formControlName="statusid"
                 [(ngModel)]="inspectionData.statusid"
-                tabindex="23"
+                tabindex="24"
                 (change)="statusChanged($event)"
               >
                 <option value="">Choose Status</option>
@@ -768,9 +798,11 @@
             </div>
           </div>
           <div class="imagePreview" *ngIf="inspectionData.documentPath">
-            <div *ngFor="let item of documents">
+            <div *ngFor="let item of documentsPath">
             <!-- <img [src]="item" alt="filee"> -->
-            <img [src]="sanitizeImageUrl(item)" />
+            <img [src]="sanitizeImageUrl(item)" height="100em" width="100em"/>
+            <!-- <a (click)="DeleteDoc(item,inspectionData.id)" style="cursor: pointer;"><i class="fa fa-times" aria-hidden="true"></i></a> -->
+            <a (click)="downloadDoc(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
           </div>
           </div>
           <!--End of Upload Documents-->
