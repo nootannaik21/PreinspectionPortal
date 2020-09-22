@@ -21,11 +21,9 @@ export class ProductTypeActionComponent implements OnInit {
       type: ['', [Validators.required, Validators.pattern('^([a-zA-Z0-9]).*$')]]
     });
     if (localStorage.getItem('producttypeid')) {
-      debugger;
       this.title = "Update Product Type";
       this.inspectionServce.getProductTypeById(localStorage.getItem('producttypeid')).subscribe(
         data => {
-          debugger;
           var res:any=JSON.stringify(data);
         this.productTypeData=JSON.parse(res);
         },
@@ -38,14 +36,12 @@ export class ProductTypeActionComponent implements OnInit {
   }
   get f() { return this.addEditProductTypeForm.controls; }
   onSubmit(){
-    debugger;
     this.submitted = true;
     if (this.addEditProductTypeForm.invalid) {
       return;
     } else {
       this.inspectionServce.addProductType(this.productTypeData).subscribe(
         data => {
-          debugger;
           var res: any = data;
           if (res.result.result == "success") {
             this.alertService.successAlert("Success", "Product Type Added Successfully");
@@ -62,14 +58,12 @@ this.alertService.errorAlert("Oops!", err.error.message);
     }
   }
   updateProductType(riskTypeData){
-    debugger;
     this.submitted = true;
     if (this.addEditProductTypeForm.invalid) {
       return;
     } else {
       this.inspectionServce.updateProductType(riskTypeData).subscribe(
         data => {
-          debugger;
           var res: any = data;
           if (res.result.result == "success") {
             this.alertService.successAlert("Success", "Product Type Updated Successfully");

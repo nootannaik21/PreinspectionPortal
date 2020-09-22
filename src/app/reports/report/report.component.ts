@@ -33,11 +33,9 @@ export class ReportComponent implements OnInit {
   }
   getReport()
   {
-    debugger;
     let fromDate = this.reportDate.fromDate ? this.reportDate.fromDate : this.datePipe.transform(new Date(), "dd/MM/yyyy");
     let toDate = this.reportDate.toDate ? this.reportDate.toDate : this.datePipe.transform(new Date(),"dd/MM/yyyy");
 this.reportService.getReport(fromDate,toDate).subscribe(data => {
-  debugger;
   this.reportData = data;
   this.rerender();
 },err=>{

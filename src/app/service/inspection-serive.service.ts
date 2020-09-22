@@ -71,7 +71,6 @@ getRiskTypeById(id){
   return this.apiService.get('inspection/getRiskTypeById?id='+ id);
 }
 updateRiskType(riskTypeData) {
-  debugger;
   return this.apiService.put("inspection/editRiskType?id="+riskTypeData.id,riskTypeData);   
 }
 deleteRiskType(id: any) {
@@ -85,7 +84,6 @@ getProductTypeById(id){
   return this.apiService.get('inspection/getProductTypeById?id='+ id);
 }
 updateProductType(productTypeData) {
-  debugger;
   return this.apiService.put("inspection/editProductType?productTypeId="+productTypeData.id,productTypeData);   
 }
 deleteProductType(id: any) {
