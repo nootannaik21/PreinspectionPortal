@@ -5,6 +5,7 @@ import { ReportComponent } from './report/report.component';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../theme/shared/shared.module';
 import { DataTablesModule } from 'angular-datatables';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [ReportComponent],
@@ -14,6 +15,7 @@ import { DataTablesModule } from 'angular-datatables';
     FormsModule,
     SharedModule,
     DataTablesModule,
+    NgbDatepickerModule
   ]
 })
 export class ReportsModule { }

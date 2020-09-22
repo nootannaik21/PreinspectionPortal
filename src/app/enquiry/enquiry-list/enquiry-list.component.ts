@@ -47,6 +47,9 @@ export class EnquiryListComponent implements OnInit, OnDestroy, AfterViewInit {
     )
 
   }
+  reset(){
+    this.enquiryData = {};
+  }
   rerender(): void {
     if (this.isDtInitialized) {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {

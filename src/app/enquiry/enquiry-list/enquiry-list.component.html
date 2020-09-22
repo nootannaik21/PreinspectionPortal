@@ -32,12 +32,30 @@
           </form>
         </div>
       </div>
+      <!-- <div class="row text-right">
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary" (click)="getEnquiryList()">Submit</button>
+          <button
+                  type="button"
+                  class="btn btn-secondary mr-1"
+                  (click)="reset()"
+                >
+                  Cancel
+                </button>
+        </div>
+      </div> -->
       <div class="row text-right">
         <div class="col-12">
+          <button
+            type="button"
+            class="btn btn-secondary mr-1"
+            (click)="reset()"
+          >
+            Cancel
+          </button>
           <button type="submit" class="btn btn-primary" (click)="getEnquiryList()">Submit</button>
         </div>
       </div>
-
       <div class="row mt-2">
         <div class="col-12">
           <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"

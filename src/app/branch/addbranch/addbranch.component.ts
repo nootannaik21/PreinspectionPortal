@@ -20,7 +20,10 @@ export class AddbranchComponent implements OnInit {
 
   ngOnInit() {
     this.addBranchForm = this.formBuilder.group({
-      branchCode: ['', [Validators.required, Validators.pattern('^([a-zA-Z0-9]).*$')]],
+      branchCode: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9,-]+$')],
+      ],
       // zone: ['', [Validators.required]],
       branchName: ['', [Validators.required]],
     });
