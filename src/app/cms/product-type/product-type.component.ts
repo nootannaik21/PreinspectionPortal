@@ -48,7 +48,6 @@ export class ProductTypeComponent implements OnInit {
   }
   deleteProductType(item)
   {
-    debugger;
     this.alertService.confirmAlert(() => {
       this.inspectionService.deleteProductType(item.id).subscribe(
         data =>{

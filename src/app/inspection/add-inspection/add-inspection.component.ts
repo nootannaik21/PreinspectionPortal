@@ -594,7 +594,6 @@ PreviewDoc(document){
   });
     }
     DeleteDoc(file,inspectionId){
-      debugger;
       this.inspectionService.deleteDocument(file,inspectionId).subscribe(data=>{
         this.alertService.successAlert("Success","File deleted successfully");
       },err=>{

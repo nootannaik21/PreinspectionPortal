@@ -31,10 +31,8 @@ export class RiskTypeComponent implements OnInit {
     this.getAllRiskType();
   }
   getAllRiskType() {
-    debugger;
     this.inspectionService.getAllRiskType().subscribe(
       data =>{
-        debugger;
         this.riskTypeList=data;
         this.rerender();
       },
@@ -53,7 +51,6 @@ export class RiskTypeComponent implements OnInit {
   }
   deleteRiskType(item)
   {
-    debugger;
     this.alertService.confirmAlert(() => {
       this.inspectionService.deleteRiskType(item.id).subscribe(
         data =>{

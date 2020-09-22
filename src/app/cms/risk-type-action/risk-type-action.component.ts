@@ -21,11 +21,9 @@ export class RiskTypeActionComponent implements OnInit {
       type: ['', [Validators.required, Validators.pattern('^([a-zA-Z0-9]).*$')]]
     });
     if (localStorage.getItem('risktypeid')) {
-      debugger;
       this.title = "Update Risk Type";
       this.inspectionServce.getRiskTypeById(localStorage.getItem('risktypeid')).subscribe(
         data => {
-          debugger;
           var res:any=JSON.stringify(data);
         this.riskTypeData=JSON.parse(res);
         },
@@ -38,14 +36,12 @@ export class RiskTypeActionComponent implements OnInit {
   }
   get f() { return this.addEditRiskTypeForm.controls; }
   onSubmit(){
-    debugger;
     this.submitted = true;
     if (this.addEditRiskTypeForm.invalid) {
       return;
     } else {
       this.inspectionServce.addRiskType(this.riskTypeData).subscribe(
         data => {
-          debugger;
           var res: any = data;
           if (res.result.result == "success") {
             this.alertService.successAlert("Success", "Risk Type Added Successfully");
@@ -62,14 +58,12 @@ this.alertService.errorAlert("Oops!", err.error.message);
     }
   }
   updateRiskType(riskTypeData){
-    debugger;
     this.submitted = true;
     if (this.addEditRiskTypeForm.invalid) {
       return;
     } else {
       this.inspectionServce.updateRiskType(riskTypeData).subscribe(
         data => {
-          debugger;
           var res: any = data;
           if (res.result.result == "success") {
             this.alertService.successAlert("Success", "Risk Type Updated Successfully");
