@@ -33,10 +33,28 @@ export class ReportComponent implements OnInit {
   }
   getReport()
   {
-    let fromDate = this.reportDate.fromDate ? this.reportDate.fromDate : this.datePipe.transform(new Date(), "dd/MM/yyyy");
-    let toDate = this.reportDate.toDate ? this.reportDate.toDate : this.datePipe.transform(new Date(),"dd/MM/yyyy");
+    debugger;
+    let fromDate: any;
+    let toDate :any;
+   if (this.reportDate.fromDate) {
+     let month = this.reportDate.fromDate.month < 10 ? "0" + this.reportDate.fromDate.month:this.reportDate.fromDate.month;
+    fromDate = this.reportDate.fromDate.day +"/"+ month +"/" +this.reportDate.fromDate.year;
+   } else {
+    fromDate = this.datePipe.transform(new Date(), "dd/MM/yyyy");
+   }
+   if (this.reportDate.toDate) {
+     let month = this.reportDate.toDate.month < 10 ? "0" + this.reportDate.toDate.month:this.reportDate.toDate.month;
+    toDate = this.reportDate.toDate.day +"/" + month +"/" +this.reportDate.toDate.year;
+   } else {
+   toDate = this.datePipe.transform(new Date(),"dd/MM/yyyy");
+   }
 this.reportService.getReport(fromDate,toDate).subscribe(data => {
-  this.reportData = data;
+  debugger;
+  let tempdata:any = [];
+  tempdata = data;
+  if (tempdata.length > 0) {
+    this.reportData = data;
+  }
   this.rerender();
 },err=>{
 

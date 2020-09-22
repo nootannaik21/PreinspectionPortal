@@ -39,7 +39,7 @@
                 </option>
               </select>
               <div
-                *ngIf="submitted && f.branchcode.errors"
+                *ngIf="submitted && f.branchName.errors"
                 class="invalid-feedback"
               >
                 <div *ngIf="f.branchName.errors.required">
@@ -407,7 +407,7 @@
                   Vehicle Reg. No. is required
                 </div>
                 <div *ngIf="f.registrationno.errors.pattern">
-                Please enter correct Vehicle Reg. No.
+                Please enter correct Vehicle Reg. No. Maximum 14 characters. 
                 </div>
               </div>
             </div>
@@ -616,8 +616,8 @@
                 tabindex="19"
                 (change)="onDuplicateInspection($event)"
               >
-                <option value="no" selected>No</option>
-                <option value="yes">Yes</option>
+                <option value="2" selected>No</option>
+                <option value="1">Yes</option>
             </select>
               <div
                 *ngIf="submitted && f.duplicateinspection.errors"
@@ -702,7 +702,7 @@
           </div>
           <!--End of Location of Inspection-->
           <!--Vendor Email ID-->
-          <div class="col-md-6">
+          <!-- <div class="col-md-6">
             <div class="form-group">
               <label>Vendor</label>
               <select
@@ -725,6 +725,42 @@
                   </table>
                 </option>
               </select>
+            </div>
+          </div> -->
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Vendor</label>
+              <select
+                class="form-control"
+                formControlName="vendororganization"
+                placeholder="Choose Vendor EmailId"
+                [(ngModel)]="inspectionData.vendorOrganization"
+                tabindex="22"
+                [ngClass]="{
+                  'is-invalid': submitted && f.vendororganization.errors
+                }"
+              >
+                <option value="">Choose Vendor</option>
+                <option
+                  class="form-control"
+                  *ngFor="let item of vendorEmailIdDetails"
+                  [value]="item.inspectionemail"
+                >
+                  <table>
+                    <tr>
+                      <td>{{ item.vendorname }}({{item.inspectionemail}})</td>
+                    </tr>
+                  </table>
+                </option>
+              </select>
+              <div
+                *ngIf="submitted && f.vendororganization.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.vendororganization.errors.required">
+                  vendor is required
+                </div>
+              </div>
             </div>
           </div>
           <!--End of Vendor Email ID-->
@@ -776,6 +812,9 @@
                   </table>
                 </option>
               </select>
+                <div *ngIf="showRequestRaisedErr" style="color:red;">
+                  Please choose other status.
+                </div>
             </div>
           </div>
           <!--End of Status-->

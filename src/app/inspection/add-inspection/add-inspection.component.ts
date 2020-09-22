@@ -60,6 +60,7 @@ export class AddInspectionComponent
   IsDupInspection:boolean=false;
   documents:any=[];
   documentsPath:any=[];
+  showRequestRaisedErr : boolean = false;
   constructor(
     private notifyService: NotificationService,
     private fileUploadService: FileuploadService,
@@ -125,7 +126,7 @@ export class AddInspectionComponent
       productType: ['', [Validators.required]],
       inspectionlocation: ['', [Validators.required]],
       riskType: ['', [Validators.required]],
-      registrationno: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+$')]],
+      registrationno: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,14}$')]],
       duplicateinspection: ['', [Validators.required]],
       paymentmodeid: ['', [Validators.required]],
       make: ['', [Validators.required]],
@@ -134,7 +135,7 @@ export class AddInspectionComponent
         [Validators.required, Validators.pattern('^[a-zA-Z0-9, ]+$')],
       ],
       statusid: [''],
-      vendorEmailId: [null],
+      vendororganization: ['',[Validators.required]],
       convayance: ['', [Validators.required]],
       conveyanceKm: ['', [Validators.required]],
       remarks: ['', [Validators.required]],
@@ -144,10 +145,10 @@ export class AddInspectionComponent
       this.title = 'Update Inspection';
       this.showReferenceNo = true;
       this.hideStatus = true;
+      this.getInspectionsHistory();
       if (localStorage.getItem('type') == 'Vendor') {
         this.disableFields();
         this.showHistoryTable = true;
-        this.getInspectionsHistory();
         this.disableInspection = true;
         this.showBranchDetail = true;
         this.addInspectionForm.get('branchName').disable();
@@ -207,6 +208,7 @@ export class AddInspectionComponent
       this.inspectionData.convayance = '';
       this.inspectionData.statusid = 6;
       this.inspectionData.duplicateinspection = '0';
+      this.inspectionData.vendororganization = '';
       this.title = 'Add Inspection';
       this.showReferenceNo = false;
       this.hideStatus = false;
@@ -288,8 +290,10 @@ export class AddInspectionComponent
   //   );
   // }
   getVendorMailList(branchCode) {
+    debugger;
     this.inspectionService.getVendorMailList(branchCode).subscribe(
       (data) => {
+        debugger;
         this.vendorEmailIdDetails = data;
       },
       (err) => {}
@@ -336,6 +340,12 @@ export class AddInspectionComponent
     this.getinspectionByID();
   }
   statusChanged(event) {
+    debugger;
+    if (event.target.value == 6 && localStorage.getItem('inspectionId')) {
+      this.showRequestRaisedErr = true;
+    }
+    else{
+      this.showRequestRaisedErr = false;
     if (
       event.target.value == 1 ||
       event.target.value == 2 ||
@@ -348,7 +358,9 @@ export class AddInspectionComponent
       this.showUpload = false;
     }
   }
+  }
   getinspectionByID() {
+    debugger;
     this.inspectionService
       .getInspectionById(localStorage.getItem('inspectionId'))
       .subscribe(
@@ -363,6 +375,14 @@ export class AddInspectionComponent
           this.inspectionData.productType = res.productType;
           this.inspectionData.riskType = res.riskType;
           this.inspectionData.convayance = res.convayance;
+          if(this.inspectionData.duplicateinspection == true){
+            this.inspectionData.paymentmodeid = '2';
+            this.addInspectionForm.get('paymentmodeid').disable();
+          }
+          else{
+            this.addInspectionForm.get('paymentmodeid').enable();
+            this.inspectionData.paymentmodeid = '';
+          }          
           let i = 0;
           if(res.documentPath){
             //this.documents =res.documentPath.split(',');
@@ -389,6 +409,7 @@ export class AddInspectionComponent
       );
   }
   getInspectionsHistory() {
+    debugger;
     this.inspectionService
       .getInspectionHistoryById(localStorage.getItem('inspectionId'))
       .subscribe(
@@ -460,8 +481,9 @@ export class AddInspectionComponent
     this.inspectionData = {};
   }
   updateInspection() {
+    debugger;
     this.submitted = true;
-    if (this.addInspectionForm.invalid) {
+    if (this.addInspectionForm.invalid || this.showRequestRaisedErr) {
       return;
     } else {
       var x: number = +this.inspectionData.paymentmodeid;
@@ -558,7 +580,7 @@ else{
   })
 }
   onDuplicateInspection(evt){
-if(evt.target.value == "yes"){
+if(evt.target.value == "1"){
   this.inspectionData.paymentmodeid = '2';
   this.addInspectionForm.get('paymentmodeid').disable();
 }

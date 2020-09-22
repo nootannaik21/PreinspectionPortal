@@ -1,182 +1,157 @@
 <div class="row">
     <div class="col-sm-12">
-      <app-card [hidHeader]="true" [options]="false">
-        <h4>Report</h4>
-        <hr>
-        
+        <app-card [hidHeader]="true" [options]="false">
+            <h4>Report</h4>
+            <hr>
             <form action="javascript:">
-                <!-- <div class="row"> -->
-                    <!-- <div class="col-sm-12">
-                <div class="col-sm-6">
-              <div class="form-group">
-                <label for="fromDate">From Date</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="From Date" name="fromDate"
-                  [(ngModel)]="reportDate.fromDate"/>
-              </div>
-            </div>
-              <div class="col-sm-6">
-              <div class="form-group">
-                <label>To Date</label>
-                <input type="text" class="form-control" placeholder="ToDate" name="toDate"
-                  [(ngModel)]="reportDate.toDate" />
-              </div>
-            </div>
-        </div> -->
-
-
-        <div class="row">
-              <!--First Name-->
-          <div class="col-md-4">
-            <div class="form-group">
-                <label for="fromDate">From Date</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="From Date" name="fromDate"
-                  [(ngModel)]="reportDate.fromDate"/>
-            </div>
-          </div>
-          <!--End of First Name-->
-          <!--Last Name-->
-          <div class="col-md-4">
-            <div class="form-group">
-                <label>To Date</label>
-                <input type="text" class="form-control" placeholder="ToDate" name="toDate"
-                  [(ngModel)]="reportDate.toDate" />
-            </div>
-          </div>
-          <!--End of Last Name-->
-        <!-- </div> -->
-    <div class="row text-right">
-        <div class="col-sm-4">
-            <label for="toDate"></label>
-          <button type="submit" class="btn btn-primary" (click)="getReport()">Submit</button>
-        </div>
-      </div>
-    </div>
-
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="fromDate">From Date</label>
+                            <div class="input-group">
+                                <input class="form-control" autocomplete="off" placeholder="yyyy-mm-dd" name="fromDate"
+                                    [(ngModel)]="reportDate.fromDate" ngbDatepicker #d="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <span class="input-group-text" (click)="d.toggle()">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="fromDate">To Date</label>
+                            <div class="input-group">
+                                <input class="form-control" autocomplete="off" placeholder="yyyy-mm-dd" name="toDate"
+                                    [(ngModel)]="reportDate.toDate" ngbDatepicker #d2="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <span class="input-group-text" (click)="d2.toggle()">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-right">
+                        <div class="col-sm-2">
+                            <!-- <label for="toDate"></label>
+                            <label for="toDate"></label> -->
+                            <br/>
+                            <button type="submit" class="btn btn-primary" (click)="getReport()">Submit</button>
+                        </div>
+                    </div>
+                </div>
             </form>
-          
-       
-  
-        <div class="row mt-2">
-          <div class="col-12">
-            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
-              class="table table-striped table-bordered table-hover shrink-table-cell tableresponsive">
-              <thead>
-                <tr>
-                  <th class="text-left">Reference No<br> Date</th>
-                  <th class="text-left">Branch <br>Code</th>
-                  <th class="text-left">Branch Name</th>
-                  <th class="text-left">IMD/SM Code</th>
-                  <th class="text-left">Phone no of IMD/SM</th>
-                  <th class="text-left">Email of IMD/SM</th>
-                  <th class="text-left">Customer Name</th>
-                  <th class="text-left">Customer Mobile No</th>
-                  <th class="text-left">Reason For Inspection</th>
-                  <th class="text-left">Product Type</th>
-                  <th class="text-left">Risk Type</th>
-                  <th class="text-left">Location of Inspection</th>
-                  <th class="text-left">Vehicle Reg. No.</th>
-                  <th class="text-left">Duplicate Inspection</th>
-                  <th class="text-left">Make of <br>Vehicle</th>
-                  <th class="text-left">Model of <br>Vehicle</th>
-                  <th class="text-left">Payment Mode</th>
-                  <th class="text-left">Status</th>
-                  <th class="text-left">Created By</th>
-                  <th class="text-left">Vendor EmailID</th>
-                  <th class="text-left">vendor Name</th>
-                  <th class="text-left">Remarks</th>
-
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of reportData">
-                  <td class="text-left">
-                    <!-- {{item.createdDate |  date:'dd/MM/yyyy'}} -->
-                    {{item.referenceno}}
-                  </td>
-                  <td class="text-left">
-                    {{item.branchcode}}
-                  </td>
-                  <td class="text-left">
-                    {{item.branchName}}
-                </td>
-                <td class="text-left">
-                    {{item.imdcode}}
-                </td>
-                <!-- <td class="text-left">
+            <div class="row mt-2">
+                <div class="col-12" class="table-responsive">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                        class="table table-striped table-bordered table-hover shrink-table-cell">
+                        <thead>
+                            <tr>
+                                <th class="text-left">Reference #</th>
+                                <th class="text-left">Branch Code</th>
+                                <th class="text-left">Branch Name</th>
+                                <th class="text-left">IMD/SM Code</th>
+                                <th class="text-left">Phone no of IMD/SM</th>
+                                <th class="text-left">Email of IMD/SM</th>
+                                <th class="text-left">Customer Name</th>
+                                <th class="text-left">Customer Mobile No</th>
+                                <th class="text-left">Reason For Inspection</th>
+                                <th class="text-left">Product Type</th>
+                                <th class="text-left">Risk Type</th>
+                                <th class="text-left">Location of Inspection</th>
+                                <th class="text-left">Vehicle Reg. No.</th>
+                                <th class="text-left">Duplicate Inspection</th>
+                                <th class="text-left">Make of Vehicle</th>
+                                <th class="text-left">Model of Vehicle</th>
+                                <th class="text-left">Payment Mode</th>
+                                <th class="text-left">Status</th>
+                                <th class="text-left">Created By</th>
+                                <th class="text-left">Vendor Name</th>
+                                <th class="text-left">vendor Organization</th>
+                                <th class="text-left">Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of reportData">
+                                <td class="text-left">
+                                    <!-- {{item.createdDate |  date:'dd/MM/yyyy'}} -->
+                                    {{item.referenceno}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.branchcode}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.branchName}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.imdcode}}
+                                </td>
+                                <!-- <td class="text-left">
                     {{(item.statusid==1) ? "Recommended" : (item.statusid==2) ? "Not Recommended" : (item.statusid)==3 ? "Rescheduled" : (item.statusid)==4 ? "Cancelled":(item.statusid)==5 ? "Appointmant Fix" : "Request Raised"}}
                 </td> -->
-                <td class="text-left">
-                    {{item.phoneNoofsales}}
-                </td>
-                <td class="text-left">
-                    {{item.emailidofsales}}
-                </td>
-                  <td class="text-left">
-                    {{item.clientname}}
-                  </td>
-                 
-                  <td class="text-left">
-                    {{item.clientphoneno}}
-                  </td>
-                  <td class="text-left">
-                    {{item.inspectionreason}}
-                  </td>
-                  
+                                <td class="text-left">
+                                    {{item.phoneNoofsales}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.emailidofsales}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.clientname}}
+                                </td>
 
-                  <td class="text-left">
-                    {{item.productType}}
-                </td>
-                <td class="text-left">
-                    {{item.riskType}}
-                </td>
-                <td class="text-left">
-                    {{item.inspectionlocation}}
-                  </td>
-                  <td class="text-left">
-                    {{item.registrationno}}
-                  </td>
-                 
-                  <td class="text-left">
-                    {{item.duplicateinspection}}
-                  </td>
-                  <td class="text-left">
-                    {{item.make}}
-                  </td>
-                  <td class="text-left">
-                    {{item.model}}
-                  </td>
+                                <td class="text-left">
+                                    {{item.clientphoneno}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.inspectionreason}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.productType}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.riskType}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.inspectionlocation}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.registrationno}}
+                                </td>
 
-
-                  <td class="text-left">
-                    {{item.paymentmodeid}}
-                  </td>
-                  <td class="text-left">
-                    {{item.statusid}}
-                  </td>
-                  <td class="text-left">
-                    {{item.createdBy}}
-                  </td>
-
-
-                  <td class="text-left">
-                    {{item.vendorEmailId}}
-                  </td>
-                  <td class="text-left">
-                    {{item.vendorOrganization}}
-                  </td>
-                  <td class="text-left">
-                    {{item.remarks}}
-                  </td>
-
-
-
-
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-  
-      </app-card>
+                                <td class="text-left">
+                                    {{item.duplicateinspection}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.make}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.model}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.paymentmodeid}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.statusid}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.createdBy}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.vendorEmailId}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.vendorOrganization}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.remarks}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </app-card>
     </div>
-  </div>
+</div>
