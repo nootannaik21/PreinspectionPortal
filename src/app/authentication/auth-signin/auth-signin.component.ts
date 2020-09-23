@@ -68,7 +68,7 @@ export class AuthSigninComponent implements OnInit {
           let decodedJwtJsonData = window.atob(jwtData);
           let decodedJwtData = JSON.parse(decodedJwtJsonData);
           localStorage.setItem('type', decodedJwtData.type);
-localStorage.setItem('loggedInUser',decodedJwtData.Email);
+localStorage.setItem('loggedInUser',decodedJwtData.firstName + " " +decodedJwtData.lastName);
 decodedJwtData.type == "Branch" ||decodedJwtData.type == "IMD" ?localStorage.setItem('branch',decodedJwtData.branchCode):'';
 
 

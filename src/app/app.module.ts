@@ -33,6 +33,7 @@ import { FormsModule } from '@angular/forms';
 // import { PermissionDirective } from './helper/permission.directive';
 import { ToastrModule } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { DatePipe } from '@angular/common';
     NavRightComponent,
     ConfigurationComponent,
     AddbranchComponent,
+    
     // PermissionDirective,
     // OnlystringDirective,
     // OnlystringDirective,
@@ -65,7 +67,8 @@ import { DatePipe } from '@angular/common';
     NgbTooltipModule,
     NgbButtonsModule,
     NgbTabsetModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxDocViewerModule
   ],
   providers: [
     {

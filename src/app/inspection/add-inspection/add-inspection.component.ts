@@ -290,10 +290,8 @@ export class AddInspectionComponent
   //   );
   // }
   getVendorMailList(branchCode) {
-    debugger;
     this.inspectionService.getVendorMailList(branchCode).subscribe(
       (data) => {
-        debugger;
         this.vendorEmailIdDetails = data;
       },
       (err) => {}
@@ -340,7 +338,6 @@ export class AddInspectionComponent
     this.getinspectionByID();
   }
   statusChanged(event) {
-    debugger;
     if (event.target.value == 6 && localStorage.getItem('inspectionId')) {
       this.showRequestRaisedErr = true;
     }
@@ -360,7 +357,6 @@ export class AddInspectionComponent
   }
   }
   getinspectionByID() {
-    debugger;
     this.inspectionService
       .getInspectionById(localStorage.getItem('inspectionId'))
       .subscribe(
@@ -409,7 +405,6 @@ export class AddInspectionComponent
       );
   }
   getInspectionsHistory() {
-    debugger;
     this.inspectionService
       .getInspectionHistoryById(localStorage.getItem('inspectionId'))
       .subscribe(
@@ -481,7 +476,6 @@ export class AddInspectionComponent
     this.inspectionData = {};
   }
   updateInspection() {
-    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid || this.showRequestRaisedErr) {
       return;

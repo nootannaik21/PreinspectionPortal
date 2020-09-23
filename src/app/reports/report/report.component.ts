@@ -33,7 +33,6 @@ export class ReportComponent implements OnInit {
   }
   getReport()
   {
-    debugger;
     let fromDate: any;
     let toDate :any;
    if (this.reportDate.fromDate) {
@@ -49,7 +48,6 @@ export class ReportComponent implements OnInit {
    toDate = this.datePipe.transform(new Date(),"dd/MM/yyyy");
    }
 this.reportService.getReport(fromDate,toDate).subscribe(data => {
-  debugger;
   let tempdata:any = [];
   tempdata = data;
   if (tempdata.length > 0) {
