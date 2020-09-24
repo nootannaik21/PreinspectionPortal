@@ -142,6 +142,7 @@ export class AddInspectionComponent
     });
 
     if (localStorage.getItem('inspectionId')) {
+      debugger;
       this.title = 'Update Inspection';
       this.showReferenceNo = true;
       this.hideStatus = true;
@@ -154,21 +155,18 @@ export class AddInspectionComponent
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
       } else if (localStorage.getItem('type') == 'Branch') {
-        this.disableFields();
         this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
         this.addInspectionForm.get('statusid').disable();
-        this.addInspectionForm.get('remarks').disable();
         this.disableInspection = true;
-        this.showBranchDetail = true;
+        this.showBranchDetail = false;
       } else if (localStorage.getItem('type') == 'IMD') {
-        this.disableFields();
+        //this.disableFields();
         this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
         this.addInspectionForm.get('statusid').disable();
-        this.addInspectionForm.get('remarks').disable();
         this.disableInspection = true;
       } else if (localStorage.getItem('type') == 'OPS') {
         this.disableFields();
@@ -290,6 +288,7 @@ export class AddInspectionComponent
   //   );
   // }
   getVendorMailList(branchCode) {
+    debugger;
     this.inspectionService.getVendorMailList(branchCode).subscribe(
       (data) => {
         this.vendorEmailIdDetails = data;
@@ -298,10 +297,11 @@ export class AddInspectionComponent
     );
   }
   disableFields() {
+    debugger;
     this.addInspectionForm.get('branchcode').disable();
     this.addInspectionForm.get('branchName').disable();
     this.addInspectionForm.get('imdcode').disable();
-    this.addInspectionForm.get('vendorEmailId').disable();
+    this.addInspectionForm.get('vendororganization').disable();
     this.addInspectionForm.get('phoneNoofsales').disable();
     this.addInspectionForm.get('emailidofsales').disable();
     this.addInspectionForm.get('clientname').disable();
@@ -321,11 +321,12 @@ export class AddInspectionComponent
     this.addInspectionForm.get('riskType').disable();
   }
   getInspections() {
+    debugger;
     if (localStorage.getItem('view') == 'View') {
       this.title = 'View Inspection';
       this.disableInspection = false;
       this.disableFields();
-      this.addInspectionForm.get('remarks').disable();
+        this.addInspectionForm.get('remarks').disable();
       this.addInspectionForm.get('statusid').disable();
     }
     this.getAllBranches();
@@ -357,6 +358,7 @@ export class AddInspectionComponent
   }
   }
   getinspectionByID() {
+    debugger;
     this.inspectionService
       .getInspectionById(localStorage.getItem('inspectionId'))
       .subscribe(
@@ -365,6 +367,7 @@ export class AddInspectionComponent
           if (res) {
             this.getVendorMailList(res.branchcode);
           }
+          debugger;
           this.inspectionData = Object.assign({}, data);
           this.inspectionData.vendorEmailId = res.vendorEmailId;
           this.inspectionData.inspectionreason = res.inspectionreason;
@@ -375,10 +378,10 @@ export class AddInspectionComponent
             this.inspectionData.paymentmodeid = '2';
             this.addInspectionForm.get('paymentmodeid').disable();
           }
-          else{
-            this.addInspectionForm.get('paymentmodeid').enable();
-            this.inspectionData.paymentmodeid = '';
-          }          
+          // else{
+          //   this.addInspectionForm.get('paymentmodeid').enable();
+          //   this.inspectionData.paymentmodeid = '';
+          // }          
           let i = 0;
           if(res.documentPath){
             //this.documents =res.documentPath.split(',');
@@ -476,10 +479,18 @@ export class AddInspectionComponent
     this.inspectionData = {};
   }
   updateInspection() {
+    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid || this.showRequestRaisedErr) {
       return;
     } else {
+      // if (
+      //   localStorage.getItem('type') == 'Branch' ||
+      //   localStorage.getItem('type') == 'IMD'
+      // ) {
+      //   this.inspectionData.branchCode = '';
+      //   this.inspectionData.branchName = '';
+      // }
       var x: number = +this.inspectionData.paymentmodeid;
       var y: number = +this.inspectionData.statusid;
       this.inspectionData.paymentmodeid = x;
@@ -520,6 +531,7 @@ export class AddInspectionComponent
     }
   }
   createInspection() {
+    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
@@ -594,6 +606,7 @@ PreviewDoc(document){
   let i = 0;
   document.forEach(element => {
     this.inspectionService.downloadDocument(element).subscribe(data=>{
+      debugger;
       var res: any = data;
       var blob = new Blob([res]);
       var downloadURL = window.URL.createObjectURL(res);
