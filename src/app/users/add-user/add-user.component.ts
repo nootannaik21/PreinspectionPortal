@@ -348,10 +348,12 @@ export class AddUserComponent implements OnInit {
       branchCode.setValidators(null);
       // branches.setValidators(null);
     } else if (this.userdata.type == 'Vendor') {
+      debugger;
       this.showBranch = false;
       this.showBranchDetail = false;
       this.userdata.branchName = '';
       this.userdata.branchCode = '';
+      this.userdata.company = '';
       // this.userdata.branches = [];
       branchName.setValidators(null);
       branchCode.setValidators(null);
@@ -443,6 +445,7 @@ export class AddUserComponent implements OnInit {
       this.showVendorOrganization = true;
       this.userdata.branchName = '';
       this.userdata.branchCode = '';
+      this.userdata.company = '';
       branchName.setValidators(null);
       branchCode.setValidators(null);
     }

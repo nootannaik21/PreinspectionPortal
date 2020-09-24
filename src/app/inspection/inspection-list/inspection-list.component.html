@@ -71,7 +71,7 @@
                                 </span>
                                 <span>
                                     <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit Inspection"
-                                    style="cursor: pointer;" (click)="editInspectionRow(item)" Permission [permission]="'Admin|Vendor|OPS'"></i>
+                                    style="cursor: pointer;" (click)="editInspectionRow(item)" Permission [permission]="'Admin|Vendor|OPS|Branch|IMD'"></i>
                                 </span>
                                 <span *ngIf="(item.statusid==1)||(item.statusid==2)||(item.statusid==4)">
                                     <i class="feather icon-download" className="tooltipstext" title="Download Inspection Documents"

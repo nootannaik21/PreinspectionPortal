@@ -3,6 +3,7 @@ import { EnquiryserviceService } from '../../service/enquiryservice.service';
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { Router } from '@angular/router';
+import { AlertService } from 'src/app/service/alert.service';
 
 @Component({
   selector: 'app-enquiry-list',
@@ -21,7 +22,7 @@ export class EnquiryListComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   isDtInitialized: boolean = false;
-  constructor(private router: Router, private enquiryService:EnquiryserviceService) { }
+  constructor(private router: Router, private enquiryService:EnquiryserviceService,private alertService: AlertService,) { }
 
   ngOnInit() {
   }
@@ -36,13 +37,15 @@ export class EnquiryListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigateByUrl('inspection/addInspection');
   }
   getEnquiryList(){
+    debugger;
     this.enquiryService.getEnquiryList(this.enquiryData).subscribe(
       data =>{
+        debugger;
         this.enquiryList=data;
         this.rerender();
       },
       err=>{
-
+        this.alertService.errorAlert("Oops!", err.error.message);
       }
     )
 
