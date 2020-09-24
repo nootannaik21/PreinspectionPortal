@@ -8,11 +8,22 @@
             <div class="form-group">
               <label for="exampleInputEmail1">Branch Code</label>
               <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Branch Code"
-                formControlName="branchCode" [(ngModel)]="branchdata.branchCode" tabindex="1" appOnlyalphabets [onlyAlpha]="true"
+                formControlName="branchCode" [(ngModel)]="branchdata.branchCode" tabindex="1"
                 [ngClass]="{ 'is-invalid': submitted && f.branchCode.errors }" />
-              <div *ngIf="submitted && f.branchCode.errors" class="invalid-feedback">
+              <!-- <div *ngIf="submitted && f.branchCode.errors" class="invalid-feedback">
                 <div *ngIf="f.branchCode.errors.required">Branch Code is required</div>
                 <div *ngIf="f.branchCode.errors.pattern">Branch must be a valid </div>
+              </div> -->
+              <div
+                *ngIf="submitted && f.branchCode.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.branchCode.errors.required">
+                  Branch Code is required
+                </div>
+                <div *ngIf="f.branchCode.errors.pattern">
+                  Branch must be a valid 
+                </div>
               </div>
               <!-- <div *ngIf="message" style="color:red">Branch code already exist</div> -->
             </div>

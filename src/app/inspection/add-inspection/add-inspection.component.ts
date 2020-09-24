@@ -13,6 +13,7 @@ import { FileuploadService } from '../../service/fileupload.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { NotificationService } from '../../service/notification.service';
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-inspection',
@@ -54,15 +55,20 @@ export class AddInspectionComponent
   inspectionreasons: any = [];
   vendorEmailIdDetails: any = [];
   showUpload: boolean = false;
-  myFiles: FileList;
   file: File;
+  fileList: FileList;
+  IsDupInspection:boolean=false;
+  documents:any=[];
+  documentsPath:any=[];
+  showRequestRaisedErr : boolean = false;
   constructor(
     private notifyService: NotificationService,
     private fileUploadService: FileuploadService,
     private alertService: AlertService,
     private formBuilder: FormBuilder,
     private inspectionService: InspectionSeriveService,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) {
     this.duplicateinspections = [
       { id: 1, duplicateinspection: 'Yes' },
@@ -91,6 +97,7 @@ export class AddInspectionComponent
         [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
       ],
       clientname: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,20}$')]],
+      altclientname: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,20}$')]],
       clientphoneno: [
         '',
         [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
@@ -119,7 +126,7 @@ export class AddInspectionComponent
       productType: ['', [Validators.required]],
       inspectionlocation: ['', [Validators.required]],
       riskType: ['', [Validators.required]],
-      registrationno: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+$')]],
+      registrationno: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,14}$')]],
       duplicateinspection: ['', [Validators.required]],
       paymentmodeid: ['', [Validators.required]],
       make: ['', [Validators.required]],
@@ -128,7 +135,7 @@ export class AddInspectionComponent
         [Validators.required, Validators.pattern('^[a-zA-Z0-9, ]+$')],
       ],
       statusid: [''],
-      vendorEmailId: [null],
+      vendororganization: ['',[Validators.required]],
       convayance: ['', [Validators.required]],
       conveyanceKm: ['', [Validators.required]],
       remarks: ['', [Validators.required]],
@@ -138,10 +145,10 @@ export class AddInspectionComponent
       this.title = 'Update Inspection';
       this.showReferenceNo = true;
       this.hideStatus = true;
+      this.getInspectionsHistory();
       if (localStorage.getItem('type') == 'Vendor') {
         this.disableFields();
         this.showHistoryTable = true;
-        this.getInspectionsHistory();
         this.disableInspection = true;
         this.showBranchDetail = true;
         this.addInspectionForm.get('branchName').disable();
@@ -201,10 +208,11 @@ export class AddInspectionComponent
       this.inspectionData.convayance = '';
       this.inspectionData.statusid = 6;
       this.inspectionData.duplicateinspection = '0';
+      this.inspectionData.vendororganization = '';
       this.title = 'Add Inspection';
       this.showReferenceNo = false;
       this.hideStatus = false;
-      this.inspectionData.altclientname = '';
+      // this.inspectionData.altclientname = '';
       if (
         localStorage.getItem('type') == 'IMD' ||
         localStorage.getItem('type') == 'Branch'
@@ -313,7 +321,6 @@ export class AddInspectionComponent
     this.addInspectionForm.get('riskType').disable();
   }
   getInspections() {
-    debugger;
     if (localStorage.getItem('view') == 'View') {
       this.title = 'View Inspection';
       this.disableInspection = false;
@@ -331,6 +338,11 @@ export class AddInspectionComponent
     this.getinspectionByID();
   }
   statusChanged(event) {
+    if (event.target.value == 6 && localStorage.getItem('inspectionId')) {
+      this.showRequestRaisedErr = true;
+    }
+    else{
+      this.showRequestRaisedErr = false;
     if (
       event.target.value == 1 ||
       event.target.value == 2 ||
@@ -343,8 +355,8 @@ export class AddInspectionComponent
       this.showUpload = false;
     }
   }
+  }
   getinspectionByID() {
-    debugger;
     this.inspectionService
       .getInspectionById(localStorage.getItem('inspectionId'))
       .subscribe(
@@ -353,13 +365,29 @@ export class AddInspectionComponent
           if (res) {
             this.getVendorMailList(res.branchcode);
           }
-          debugger;
           this.inspectionData = Object.assign({}, data);
           this.inspectionData.vendorEmailId = res.vendorEmailId;
           this.inspectionData.inspectionreason = res.inspectionreason;
           this.inspectionData.productType = res.productType;
           this.inspectionData.riskType = res.riskType;
           this.inspectionData.convayance = res.convayance;
+          if(this.inspectionData.duplicateinspection == true){
+            this.inspectionData.paymentmodeid = '2';
+            this.addInspectionForm.get('paymentmodeid').disable();
+          }
+          else{
+            this.addInspectionForm.get('paymentmodeid').enable();
+            this.inspectionData.paymentmodeid = '';
+          }          
+          let i = 0;
+          if(res.documentPath){
+            //this.documents =res.documentPath.split(',');
+            res.documentPath.split(',').forEach(element => {
+              this.documents[i]=element;
+              i++;
+            });
+            this.PreviewDoc(this.documents)
+          }
           if (res.statusid == 1 || res.statusid == 2 || res.statusid == 4) {
             if (localStorage.getItem('type') == 'Vendor') {
               this.showUpload = true;
@@ -402,22 +430,24 @@ export class AddInspectionComponent
     this.dtTrigger.unsubscribe();
   }
   getFileDetails(e) {
-    let fileList: FileList = e.target.files;
-    if (fileList.length > 0) {
-      this.file = fileList[0];
+  this.fileList = e.target.files;
+    if (this.fileList.length > 0) {
+      this.file = this.fileList[0];
     }
   }
 
   uploadFiles() {
-    debugger;
     let frmData: FormData = new FormData();
     frmData.append('uploadFile', this.file, this.file.name);
-
+    if(this.fileList.length){
+      for(let i=1 ; i < this.fileList.length ; i++)
+        frmData.append('files[]', this.fileList[i],this.fileList[i].name);
+    }
     this.inspectionService
-      .uploadDocument(this.inspectionData.id, frmData)
+      .uploadDocument(this.inspectionData.id,this.inspectionData.statusid, frmData)
       .subscribe(
         (data) => {
-          this.alertService.successAlert("Success","File uploaded successfully");
+          this.alertService.successAlert("Success","File(s) uploaded successfully");
         },
         (err) => {
           console.log(err.error.message);
@@ -446,16 +476,15 @@ export class AddInspectionComponent
     this.inspectionData = {};
   }
   updateInspection() {
-    debugger;
     this.submitted = true;
-    if (this.addInspectionForm.invalid) {
+    if (this.addInspectionForm.invalid || this.showRequestRaisedErr) {
       return;
     } else {
       var x: number = +this.inspectionData.paymentmodeid;
       var y: number = +this.inspectionData.statusid;
       this.inspectionData.paymentmodeid = x;
       this.inspectionData.statusid = y;
-      this.inspectionData.altclientname = '';
+      // this.inspectionData.altclientname = '';
       this.inspectionData.duplicateinspection == '1'
         ? (this.inspectionData.duplicateinspection = true)
         : (this.inspectionData.duplicateinspection = false);
@@ -491,7 +520,6 @@ export class AddInspectionComponent
     }
   }
   createInspection() {
-    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
@@ -528,9 +556,25 @@ export class AddInspectionComponent
       );
     }
   }
+IsDuplicateInspection(evt){
+  this.inspectionService.IsDuplicateInspection(this.inspectionData.registrationno).subscribe(data =>{
+if(data){
+  this.IsDupInspection = true;
+  this.inspectionData.duplicateinspection = "yes";
+  this.inspectionData.paymentmodeid = '2';
+  this.addInspectionForm.get('paymentmodeid').disable();
+}
+else{
+  this.IsDupInspection = false;
+  this.addInspectionForm.get('paymentmodeid').enable();
+  this.inspectionData.paymentmodeid = '';
+}
+  },err=>{
+
+  })
+}
   onDuplicateInspection(evt){
-    debugger;
-if(evt.target.value == "yes"){
+if(evt.target.value == "1"){
   this.inspectionData.paymentmodeid = '2';
   this.addInspectionForm.get('paymentmodeid').disable();
 }
@@ -539,4 +583,43 @@ else{
   this.inspectionData.paymentmodeid = '';
 }
   }
+  sanitizeImageUrl(imageUrl: string): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+    // this.PreviewDoc(imageUrl)
+}
+PreviewDoc(document){
+  // var firstSpaceIndex = evt.indexOf("\\");
+  // var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
+  // var secondString = evt.substring(firstSpaceIndex + 1);
+  let i = 0;
+  document.forEach(element => {
+    this.inspectionService.downloadDocument(element).subscribe(data=>{
+      var res: any = data;
+      var blob = new Blob([res]);
+      var downloadURL = window.URL.createObjectURL(res);
+      this.documentsPath[i]=downloadURL;
+      i++;
+  });
+  
+  // var link = document.createElement('a');
+  // link.href = downloadURL;
+  // link.download = evt;
+  // link.click();
+  },err=>{
+  
+  });
+    }
+    DeleteDoc(file,inspectionId){
+      this.inspectionService.deleteDocument(file,inspectionId).subscribe(data=>{
+        this.alertService.successAlert("Success","File deleted successfully");
+      },err=>{
+
+      })
+    }
+    downloadDoc(url){
+      var link = document.createElement('a');
+      link.href = url;
+      link.download = url;
+      link.click();
+        }
 }

@@ -8,7 +8,6 @@ import { SharedModule } from '../theme/shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
 
-
 @NgModule({
   declarations: [AddInspectionComponent, InspectionListComponent],
   imports: [
@@ -16,7 +15,8 @@ import { DataTablesModule } from 'angular-datatables';
     FormsModule,
     DataTablesModule,
     CommonModule,
-    InspectionRoutingModule
+    InspectionRoutingModule,
+    
   ]
 })
 export class InspectionModule { }

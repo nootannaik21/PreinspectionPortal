@@ -94,7 +94,6 @@ export class AddUserComponent implements OnInit {
           this.userdata = Object.assign(data);
           this.userdata.confPassword = this.userdata.password;
           this.userdata.status = this.userdata.isDeleted;
-          debugger;
           if (this.userdata.type == 'Admin' || this.userdata.type == 'Claims') {
             this.showBranchDetail = false;
             this.showBranch = false;
@@ -112,14 +111,12 @@ export class AddUserComponent implements OnInit {
             this.vendorapiService.getVendors().subscribe(
               (content) => {
                 var res: any = content;
-                debugger;
                 this.vendorOganization = res;
               },
               (err) => {}
             );
             //this.getAllBranches();
             //this.getBranchForVendor(this.userdata.branches);
-            debugger;
             let tmp = [];
             var branchOfVendor='';
             this.userdata.branches.forEach(element => {
@@ -127,7 +124,6 @@ export class AddUserComponent implements OnInit {
     });
     this.branchApiService.getBranchByListofId(branchOfVendor).subscribe(result=>{
      this.branchList = result;
-      debugger;
       for (let i = 0; i <= user.branches.length; i++) {
         var branch = this.branchList.filter(
           (x) => x.id == user.branches[i]
@@ -154,7 +150,6 @@ export class AddUserComponent implements OnInit {
           })
           } 
           else {
-            debugger;
             this.showBranch = true;
             this.showBranchDetail = false;
             let tmp = [];
@@ -287,15 +282,12 @@ export class AddUserComponent implements OnInit {
   }
 
   onItemSelect(item: any) {
-   debugger;
     this.userdata.branches = [];
     if (this.selectedItems.length > 0) {
       this.selectedItems.forEach((element) => {
         this.userdata.branches.push(element.id);
       });
-      debugger;
     }
-    debugger;
   }
   onSelectAll(items: any) {
     this.branchCodes = [];
@@ -386,7 +378,6 @@ export class AddUserComponent implements OnInit {
     this.addUserDetails(this.userdata);
   }
   addUserDetails(userdata) {
-    debugger;
     this.submitted = true;
     if (this.addUserForm.invalid) {
       return;
@@ -419,7 +410,6 @@ export class AddUserComponent implements OnInit {
     }
   }
   updateUser(data) {
-    debugger;
     const branchName = this.addUserForm.get('branchName');
     const branchCode = this.addUserForm.get('branchCode');
     const branches = this.addUserForm.get('branches');
@@ -475,7 +465,6 @@ export class AddUserComponent implements OnInit {
     this.updateUserDetails(data);
   }
   updateUserDetails(data) {
-    debugger;
     this.submitted = true;
     if (this.addUserForm.invalid) {
       return;
@@ -511,14 +500,11 @@ export class AddUserComponent implements OnInit {
     }
   }
   onVendorSelect(evt){
-debugger;
 // this.userdata.vendorOrganization = this.vendorOganization.vendorname;
 this.vendorapiService.getVendorByEmail(evt.target.value).subscribe(
   (data) => {
     var res: any = data;
-    debugger;
     this.getBranchForVendor(res.branchcode);
-    debugger;
     // this.vendorList = res.data;
     //     this.dropdownSettings = {
     //       singleSelection: false,
@@ -533,14 +519,12 @@ this.vendorapiService.getVendorByEmail(evt.target.value).subscribe(
 );
   }
   getBranchForVendor(branches){
-    debugger;
    var branchOfVendor='';
     branches.forEach(element => {
       branchOfVendor == ''? branchOfVendor = "id="+element:branchOfVendor += "&id="+element;
     });
     this.branchApiService.getBranchByListofId(branchOfVendor).subscribe(result=>{
      this.branchList = result;
-      debugger;
               this.dropdownSettings = {
                 singleSelection: false,
                 idField: 'id',
