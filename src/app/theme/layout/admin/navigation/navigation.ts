@@ -108,7 +108,7 @@ children:[
     url: '/report',
     classes: 'nav-item',
     icon: 'feather icon-book',
-    accessrole:'Admin|Claims|Vendor|Branch|IMD'
+    accessrole:'Admin|Vendor|Branch|IMD|OPS'
   }
 ];
 

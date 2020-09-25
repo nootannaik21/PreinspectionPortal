@@ -226,19 +226,19 @@
                 required
                 formControlName="altclientname"
                 tabindex="7"
-                [(ngModel)]="inspectionData.clientname"
+                [(ngModel)]="inspectionData.altclientname"
                 appOnlyalphabets
                 [onlyAlpha]="true"
                 [ngClass]="{ 'is-invalid': submitted && f.clientname.errors }"
               />
               <div
-                *ngIf="submitted && f.clientname.errors"
+                *ngIf="submitted && f.altclientname.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="f.clientname.errors.required">
+                <div *ngIf="f.altclientname.errors.required">
                   Customer Name is required
                 </div>
-                <div *ngIf="f.clientname.errors.pattern">
+                <div *ngIf="f.altclientname.errors.pattern">
                   Customer Name should not exceed 20 characters
                 </div>
               </div>

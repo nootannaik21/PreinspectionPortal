@@ -154,21 +154,18 @@ export class AddInspectionComponent
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
       } else if (localStorage.getItem('type') == 'Branch') {
-        this.disableFields();
         this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
         this.addInspectionForm.get('statusid').disable();
-        this.addInspectionForm.get('remarks').disable();
         this.disableInspection = true;
-        this.showBranchDetail = true;
+        this.showBranchDetail = false;
       } else if (localStorage.getItem('type') == 'IMD') {
-        this.disableFields();
+        //this.disableFields();
         this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
         this.addInspectionForm.get('statusid').disable();
-        this.addInspectionForm.get('remarks').disable();
         this.disableInspection = true;
       } else if (localStorage.getItem('type') == 'OPS') {
         this.disableFields();
@@ -301,7 +298,7 @@ export class AddInspectionComponent
     this.addInspectionForm.get('branchcode').disable();
     this.addInspectionForm.get('branchName').disable();
     this.addInspectionForm.get('imdcode').disable();
-    this.addInspectionForm.get('vendorEmailId').disable();
+    this.addInspectionForm.get('vendororganization').disable();
     this.addInspectionForm.get('phoneNoofsales').disable();
     this.addInspectionForm.get('emailidofsales').disable();
     this.addInspectionForm.get('clientname').disable();
@@ -325,7 +322,7 @@ export class AddInspectionComponent
       this.title = 'View Inspection';
       this.disableInspection = false;
       this.disableFields();
-      this.addInspectionForm.get('remarks').disable();
+        this.addInspectionForm.get('remarks').disable();
       this.addInspectionForm.get('statusid').disable();
     }
     this.getAllBranches();
@@ -375,10 +372,10 @@ export class AddInspectionComponent
             this.inspectionData.paymentmodeid = '2';
             this.addInspectionForm.get('paymentmodeid').disable();
           }
-          else{
-            this.addInspectionForm.get('paymentmodeid').enable();
-            this.inspectionData.paymentmodeid = '';
-          }          
+          // else{
+          //   this.addInspectionForm.get('paymentmodeid').enable();
+          //   this.inspectionData.paymentmodeid = '';
+          // }          
           let i = 0;
           if(res.documentPath){
             //this.documents =res.documentPath.split(',');
@@ -480,6 +477,13 @@ export class AddInspectionComponent
     if (this.addInspectionForm.invalid || this.showRequestRaisedErr) {
       return;
     } else {
+      // if (
+      //   localStorage.getItem('type') == 'Branch' ||
+      //   localStorage.getItem('type') == 'IMD'
+      // ) {
+      //   this.inspectionData.branchCode = '';
+      //   this.inspectionData.branchName = '';
+      // }
       var x: number = +this.inspectionData.paymentmodeid;
       var y: number = +this.inspectionData.statusid;
       this.inspectionData.paymentmodeid = x;
