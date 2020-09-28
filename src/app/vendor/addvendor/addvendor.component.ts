@@ -199,6 +199,19 @@ export class AddvendorComponent implements OnInit {
         this.vendordata.status = false;
         this.vendordata.isDeleted = false;
       }
+      // this.getAllBranches();
+      // this.userdata.branches = [];
+      // if (this.selectedItems.length > 0) {
+      //   this.selectedItems.forEach((element) => {
+      //     this.userdata.branches.push(element.id);
+      //   });
+      // }
+      this.vendordata.branchCode = [];
+      if (this.selectedItems.length > 0) {
+        this.selectedItems.forEach((element) => {
+          this.vendordata.branchCode.push(element.id);
+        });
+      }
       this.vendorService
         .updateVendorDetails(this.vendordata.id, this.vendordata)
         .subscribe(

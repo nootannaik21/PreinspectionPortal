@@ -17,7 +17,7 @@ export class EnquiryListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.enquiryList = [];
     this.rerender();
   }
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   dtTrigger: any = new Subject();
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
@@ -25,6 +25,19 @@ export class EnquiryListComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private router: Router, private enquiryService:EnquiryserviceService,private alertService: AlertService,) { }
 
   ngOnInit() {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'All'],
+      ],
+      pageLength: 10,
+      processing: true,
+        dom: 'Bfrtip',
+          buttons: [
+              'excel'
+          ]
+    };
   }
   viewInspection(item){
     localStorage.setItem('inspectionId', item.id);
@@ -37,10 +50,8 @@ export class EnquiryListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigateByUrl('inspection/addInspection');
   }
   getEnquiryList(){
-    debugger;
     this.enquiryService.getEnquiryList(this.enquiryData).subscribe(
       data =>{
-        debugger;
         this.enquiryList=data;
         this.rerender();
       },

@@ -25,7 +25,7 @@ export class InspectionListComponent
     this.inspectionList = [];
     this.rerender();
   }
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   dtTrigger: any = new Subject();
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
@@ -45,6 +45,11 @@ export class InspectionListComponent
         [10, 25, 50, 'All'],
       ],
       pageLength: 10,
+      processing: true,
+        dom: 'Bfrtip',
+          buttons: [
+              'excel'
+          ]
     };
     this.getInspectionList();
   }

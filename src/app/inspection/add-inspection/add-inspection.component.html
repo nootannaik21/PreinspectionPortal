@@ -828,7 +828,7 @@
                 multiple
                 (change)="getFileDetails($event)"
               />
-              <button (click)="uploadFiles($event.target.files)" type="button">
+              <button (click)="uploadFiles($event)" type="button">
                 Upload Documents
               </button>
             </div>
@@ -838,9 +838,7 @@
           </div>
           <div class="imagePreview" *ngIf="inspectionData.documentPath">
             <div *ngFor="let item of documentsPath">
-            <!-- <img [src]="item" alt="filee"> -->
             <img [src]="sanitizeImageUrl(item)" height="100em" width="100em"/>
-            <!-- <a (click)="DeleteDoc(item,inspectionData.id)" style="cursor: pointer;"><i class="fa fa-times" aria-hidden="true"></i></a> -->
             <a (click)="downloadDoc(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
           </div>
           </div>
@@ -921,7 +919,7 @@
                     {{ item.modifiedBy }}
                   </td>
                   <td class="text-left">
-                    {{ item.modifiedDate | date: "dd/MM/yyyy" }}
+                    {{ item.modifiedDate | date: "dd/MM/yyyy hh:mm:ss a" }}
                   </td>
                   <td class="text-left">
                     {{ item.remarks }}

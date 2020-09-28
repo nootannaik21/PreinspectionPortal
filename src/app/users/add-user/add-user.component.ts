@@ -348,7 +348,6 @@ export class AddUserComponent implements OnInit {
       branchCode.setValidators(null);
       // branches.setValidators(null);
     } else if (this.userdata.type == 'Vendor') {
-      debugger;
       this.showBranch = false;
       this.showBranchDetail = false;
       this.userdata.branchName = '';
@@ -448,6 +447,13 @@ export class AddUserComponent implements OnInit {
       this.userdata.company = '';
       branchName.setValidators(null);
       branchCode.setValidators(null);
+      this.getAllBranches();
+      this.userdata.branches = [];
+      if (this.selectedItems.length > 0) {
+        this.selectedItems.forEach((element) => {
+          this.userdata.branches.push(element.id);
+        });
+      }
     }
     else {
       //this.showBranch = true;

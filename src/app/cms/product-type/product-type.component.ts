@@ -13,7 +13,7 @@ import { InspectionSeriveService } from 'src/app/service/inspection-serive.servi
 export class ProductTypeComponent implements OnInit {
 
   constructor(private inspectionService:InspectionSeriveService,private router:Router,private alertService:AlertService) { }
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   dtTrigger: any = new Subject();
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
@@ -27,6 +27,11 @@ export class ProductTypeComponent implements OnInit {
         [10, 25, 50, 'All'],
       ],
       pageLength: 10,
+      processing: true,
+        dom: 'Blfrtip',
+          buttons: [
+              'excel'
+          ]
     };
     this.getallProductType();
   }
@@ -34,6 +39,7 @@ export class ProductTypeComponent implements OnInit {
     this.inspectionService.getAllProductType().subscribe(
       (data) => {
         this.productTypeList = data;
+        this.rerender();
       },
       (err) => {}
     );
