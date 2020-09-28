@@ -500,6 +500,7 @@ this.alertService.infoAlert("OOPS!","Please select the document");
     if (this.addInspectionForm.invalid || this.showRequestRaisedErr) {
       return;
     } else {
+      debugger;
       // if (
       //   localStorage.getItem('type') == 'Branch' ||
       //   localStorage.getItem('type') == 'IMD'
@@ -537,7 +538,22 @@ this.alertService.infoAlert("OOPS!","Please select the document");
       this.alertService.infoAlert("OOPS!","Please upload document.");
     }
   }
- 
+ else
+ {
+  this.inspectionService
+  .updateInspection(this.inspectionData.id, this.inspectionData)
+  .subscribe(
+    (data) => {
+      this.notifyService.showSuccess(
+        'Inspection Updated successfully !!',
+        'Success'
+      );
+      this.router.navigateByUrl('inspection');
+      this.inspectionData = {};
+    },
+    (err) => {}
+  );
+ }
 }
 
   }
@@ -678,7 +694,6 @@ this.alertService.infoAlert("OOPS!","Please select the document");
   // }
   var orientation = -1;
 this.imgResultBeforeCompress = this.imageCompress.byteCount(file.size)/(1024*1024);
-e.warn('Size in bytes is now:',  this.imgResultBeforeCompress);
 this.imageCompress.compressFile(file, orientation, 50, 50).then(
 result => {
 this.imgResultAfterCompress = result;
