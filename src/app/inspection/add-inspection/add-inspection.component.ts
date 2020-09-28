@@ -465,7 +465,7 @@ export class AddInspectionComponent
           );
         },
         (err) => {
-          console.log(err.error.message);
+          this.alertService.errorAlert("OOPS!",err.error.message);
         }
       );
     }
@@ -666,12 +666,10 @@ this.alertService.infoAlert("OOPS!","Please select the document");
   compressFile(file,fileName) {
   //   this.imageCompress.uploadFile().then(({ image, orientation }) => {
   //     this.imgResultBeforeCompress = image;
-  //     console.warn('Size in bytes was:', this.imageCompress.byteCount(image));
   //     this.imageCompress
   //       .compressFile(image, orientation, 50, 50)
   //       .then((result) => {
   //         this.imgResultAfterCompress = result;
-  //         console.warn(
   //           'Size in bytes is now:',
   //           this.imageCompress.byteCount(result)
   //         );
@@ -680,13 +678,12 @@ this.alertService.infoAlert("OOPS!","Please select the document");
   // }
   var orientation = -1;
 this.imgResultBeforeCompress = this.imageCompress.byteCount(file.size)/(1024*1024);
-console.warn('Size in bytes is now:',  this.imgResultBeforeCompress);
+e.warn('Size in bytes is now:',  this.imgResultBeforeCompress);
 this.imageCompress.compressFile(file, orientation, 50, 50).then(
 result => {
 this.imgResultAfterCompress = result;
 this.localCompressedURl = result;
 this.sizeOFCompressedImage = this.imageCompress.byteCount(result)/(1024*1024)
-console.warn('Size in bytes after compression:',  this.sizeOFCompressedImage);
 });
   }
 }
