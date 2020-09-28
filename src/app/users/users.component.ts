@@ -22,7 +22,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userList = [];
     this.rerender();
   }
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   dtTrigger: any = new Subject();
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
@@ -44,6 +44,11 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
       //   { "width": "14%", "targets": [0,1,2,3,4,5,6] }
       // ],
       pageLength: 10,
+      processing: true,
+        dom: 'Blfrtip',
+          buttons: [
+              'excel'
+          ]
     };
     this.getUSerList();
     

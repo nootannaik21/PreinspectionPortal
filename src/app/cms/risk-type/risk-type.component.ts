@@ -11,7 +11,7 @@ import { InspectionSeriveService } from 'src/app/service/inspection-serive.servi
   styleUrls: ['./risk-type.component.scss']
 })
 export class RiskTypeComponent implements OnInit {
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   dtTrigger: any = new Subject();
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
@@ -27,6 +27,11 @@ export class RiskTypeComponent implements OnInit {
         [10, 25, 50, 'All'],
       ],
       pageLength: 10,
+      processing: true,
+        dom: 'Blfrtip',
+        buttons: [
+            'excel'
+        ]
     };
     this.getAllRiskType();
   }

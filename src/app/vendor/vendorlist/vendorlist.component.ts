@@ -24,7 +24,7 @@ export class VendorlistComponent implements OnInit, OnDestroy, AfterViewInit {
     this.vendorList = [];
     this.rerender();
   }
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   dtTrigger: any = new Subject();
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
@@ -38,6 +38,19 @@ export class VendorlistComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngOnInit() {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'All'],
+      ],
+      pageLength: 10,
+      processing: true,
+        dom: 'Bfrtip',
+          buttons: [
+              'excel'
+          ]
+    };
     this.getAllVendors();
     localStorage.removeItem('vendorid');
   }

@@ -13,7 +13,8 @@ import { FileuploadService } from '../../service/fileupload.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { NotificationService } from '../../service/notification.service';
-import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @Component({
   selector: 'app-add-inspection',
@@ -57,10 +58,10 @@ export class AddInspectionComponent
   showUpload: boolean = false;
   file: File;
   fileList: FileList;
-  IsDupInspection:boolean=false;
-  documents:any=[];
-  documentsPath:any=[];
-  showRequestRaisedErr : boolean = false;
+  IsDupInspection: boolean = false;
+  documents: any = [];
+  documentsPath: any = [];
+  showRequestRaisedErr: boolean = false;
   constructor(
     private notifyService: NotificationService,
     private fileUploadService: FileuploadService,
@@ -68,14 +69,18 @@ export class AddInspectionComponent
     private formBuilder: FormBuilder,
     private inspectionService: InspectionSeriveService,
     private router: Router,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private imageCompress: NgxImageCompressService
   ) {
     this.duplicateinspections = [
       { id: 1, duplicateinspection: 'Yes' },
       { id: 0, duplicateinspection: 'No', checked: 'true' },
     ];
   }
-
+  imgResultBeforeCompress: number;
+  imgResultAfterCompress: string;
+  localCompressedURl:any;
+  sizeOFCompressedImage:number;
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -88,16 +93,19 @@ export class AddInspectionComponent
     this.addInspectionForm = this.formBuilder.group({
       branchName: ['', [Validators.required]],
       branchcode: ['', [Validators.required]],
-      imdcode: [
-        '',
-        [Validators.required, Validators.pattern('^[0-9]{8}$')],
-      ],
+      imdcode: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]],
       phoneNoofsales: [
         '',
         [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
       ],
-      clientname: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,20}$')]],
-      altclientname: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,20}$')]],
+      clientname: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,20}$')],
+      ],
+      altclientname: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,20}$')],
+      ],
       clientphoneno: [
         '',
         [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
@@ -126,7 +134,10 @@ export class AddInspectionComponent
       productType: ['', [Validators.required]],
       inspectionlocation: ['', [Validators.required]],
       riskType: ['', [Validators.required]],
-      registrationno: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,14}$')]],
+      registrationno: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,14}$')],
+      ],
       duplicateinspection: ['', [Validators.required]],
       paymentmodeid: ['', [Validators.required]],
       make: ['', [Validators.required]],
@@ -135,7 +146,7 @@ export class AddInspectionComponent
         [Validators.required, Validators.pattern('^[a-zA-Z0-9, ]+$')],
       ],
       statusid: [''],
-      vendororganization: ['',[Validators.required]],
+      vendororganization: ['', [Validators.required]],
       convayance: ['', [Validators.required]],
       conveyanceKm: ['', [Validators.required]],
       remarks: ['', [Validators.required]],
@@ -302,6 +313,7 @@ export class AddInspectionComponent
     this.addInspectionForm.get('phoneNoofsales').disable();
     this.addInspectionForm.get('emailidofsales').disable();
     this.addInspectionForm.get('clientname').disable();
+    this.addInspectionForm.get('altclientname').disable();
     this.addInspectionForm.get('clientemail').disable();
     this.addInspectionForm.get('clientphoneno').disable();
     this.addInspectionForm.get('clientalternatephoneno').disable();
@@ -322,7 +334,7 @@ export class AddInspectionComponent
       this.title = 'View Inspection';
       this.disableInspection = false;
       this.disableFields();
-        this.addInspectionForm.get('remarks').disable();
+      this.addInspectionForm.get('remarks').disable();
       this.addInspectionForm.get('statusid').disable();
     }
     this.getAllBranches();
@@ -337,21 +349,19 @@ export class AddInspectionComponent
   statusChanged(event) {
     if (event.target.value == 6 && localStorage.getItem('inspectionId')) {
       this.showRequestRaisedErr = true;
-    }
-    else{
-      this.showRequestRaisedErr = false;
-    if (
-      event.target.value == 1 ||
-      event.target.value == 2 ||
-      (event.target.value == 4 && localStorage.getItem('type') == 'Vendor')
-    ) {
-      if (localStorage.getItem('type') == 'Vendor') {
-        this.showUpload = true;
-      }
     } else {
-      this.showUpload = false;
+      this.showRequestRaisedErr = false;
+      if (
+        event.target.value == 1 ||
+        event.target.value == 2 ||
+        (event.target.value == 4 && (localStorage.getItem('type') == 'Vendor' || localStorage.getItem('type') == 'Admin'))
+      ) {
+          this.showUpload = true;
+        }
+       else {
+        this.showUpload = false;
+      }
     }
-  }
   }
   getinspectionByID() {
     this.inspectionService
@@ -368,22 +378,22 @@ export class AddInspectionComponent
           this.inspectionData.productType = res.productType;
           this.inspectionData.riskType = res.riskType;
           this.inspectionData.convayance = res.convayance;
-          if(this.inspectionData.duplicateinspection == true){
+          if (this.inspectionData.duplicateinspection == true) {
             this.inspectionData.paymentmodeid = '2';
             this.addInspectionForm.get('paymentmodeid').disable();
           }
           // else{
           //   this.addInspectionForm.get('paymentmodeid').enable();
           //   this.inspectionData.paymentmodeid = '';
-          // }          
+          // }
           let i = 0;
-          if(res.documentPath){
+          if (res.documentPath) {
             //this.documents =res.documentPath.split(',');
-            res.documentPath.split(',').forEach(element => {
-              this.documents[i]=element;
+            res.documentPath.split(',').forEach((element) => {
+              this.documents[i] = element;
               i++;
             });
-            this.PreviewDoc(this.documents)
+            this.PreviewDoc(this.documents);
           }
           if (res.statusid == 1 || res.statusid == 2 || res.statusid == 4) {
             if (localStorage.getItem('type') == 'Vendor') {
@@ -427,29 +437,42 @@ export class AddInspectionComponent
     this.dtTrigger.unsubscribe();
   }
   getFileDetails(e) {
-  this.fileList = e.target.files;
+    this.fileList = e.target.files;
     if (this.fileList.length > 0) {
       this.file = this.fileList[0];
     }
   }
 
-  uploadFiles() {
+  uploadFiles(event: any) {
     let frmData: FormData = new FormData();
-    frmData.append('uploadFile', this.file, this.file.name);
-    if(this.fileList.length){
-      for(let i=1 ; i < this.fileList.length ; i++)
-        frmData.append('files[]', this.fileList[i],this.fileList[i].name);
-    }
+    //frmData.append('uploadFile', this.file, this.file.name);
+    if (this.fileList) {
+      for (let i = 1; i < this.fileList.length; i++)
+        frmData.append('files[]', this.fileList[i], this.fileList[i].name);
+    
+    //var documentData = this.compressFile(this.file,this.file.name);
     this.inspectionService
-      .uploadDocument(this.inspectionData.id,this.inspectionData.statusid, frmData)
+      .uploadDocument(
+        this.inspectionData.id,
+        this.inspectionData.statusid,
+        frmData
+      )
       .subscribe(
         (data) => {
-          this.alertService.successAlert("Success","File(s) uploaded successfully");
+          this.alertService.successAlert(
+            'Success',
+            'File(s) uploaded successfully'
+          );
         },
         (err) => {
           console.log(err.error.message);
         }
       );
+    }
+    else
+    {
+this.alertService.infoAlert("OOPS!","Please select the document");
+    }
   }
   uploadInspectionDetails(files: FileList) {}
   downloadInspectionDetails() {}
@@ -492,6 +515,9 @@ export class AddInspectionComponent
       this.inspectionData.duplicateinspection == '1'
         ? (this.inspectionData.duplicateinspection = true)
         : (this.inspectionData.duplicateinspection = false);
+        if (( this.inspectionData.statusid == '1' || this.inspectionData.statusid == '2' || this.inspectionData.statusid == '4')) {
+          this.getinspectionByID();
+          if (this.inspectionData.documentPath) {
       this.inspectionService
         .updateInspection(this.inspectionData.id, this.inspectionData)
         .subscribe(
@@ -506,6 +532,14 @@ export class AddInspectionComponent
           (err) => {}
         );
     }
+    else
+    {
+      this.alertService.infoAlert("OOPS!","Please upload document.");
+    }
+  }
+ 
+}
+
   }
   onBranchSelect() {
     var temp = this.branches.filter(
@@ -560,70 +594,99 @@ export class AddInspectionComponent
       );
     }
   }
-IsDuplicateInspection(evt){
-  this.inspectionService.IsDuplicateInspection(this.inspectionData.registrationno).subscribe(data =>{
-if(data){
-  this.IsDupInspection = true;
-  this.inspectionData.duplicateinspection = "yes";
-  this.inspectionData.paymentmodeid = '2';
-  this.addInspectionForm.get('paymentmodeid').disable();
-}
-else{
-  this.IsDupInspection = false;
-  this.addInspectionForm.get('paymentmodeid').enable();
-  this.inspectionData.paymentmodeid = '';
-}
-  },err=>{
-
-  })
-}
-  onDuplicateInspection(evt){
-if(evt.target.value == "1"){
-  this.inspectionData.paymentmodeid = '2';
-  this.addInspectionForm.get('paymentmodeid').disable();
-}
-else{
-  this.addInspectionForm.get('paymentmodeid').enable();
-  this.inspectionData.paymentmodeid = '';
-}
+  IsDuplicateInspection(evt) {
+    this.inspectionService
+      .IsDuplicateInspection(this.inspectionData.registrationno)
+      .subscribe(
+        (data) => {
+          if (data) {
+            this.IsDupInspection = true;
+            this.inspectionData.duplicateinspection = 'yes';
+            this.inspectionData.paymentmodeid = '2';
+            this.addInspectionForm.get('paymentmodeid').disable();
+          } else {
+            this.IsDupInspection = false;
+            this.addInspectionForm.get('paymentmodeid').enable();
+            this.inspectionData.paymentmodeid = '';
+          }
+        },
+        (err) => {}
+      );
+  }
+  onDuplicateInspection(evt) {
+    if (evt.target.value == '1') {
+      this.inspectionData.paymentmodeid = '2';
+      this.addInspectionForm.get('paymentmodeid').disable();
+    } else {
+      this.addInspectionForm.get('paymentmodeid').enable();
+      this.inspectionData.paymentmodeid = '';
+    }
   }
   sanitizeImageUrl(imageUrl: string): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
     // this.PreviewDoc(imageUrl)
-}
-PreviewDoc(document){
-  // var firstSpaceIndex = evt.indexOf("\\");
-  // var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
-  // var secondString = evt.substring(firstSpaceIndex + 1);
-  let i = 0;
-  document.forEach(element => {
-    this.inspectionService.downloadDocument(element).subscribe(data=>{
-      var res: any = data;
-      var blob = new Blob([res]);
-      var downloadURL = window.URL.createObjectURL(res);
-      this.documentsPath[i]=downloadURL;
-      i++;
-  });
-  
-  // var link = document.createElement('a');
-  // link.href = downloadURL;
-  // link.download = evt;
-  // link.click();
-  },err=>{
-  
-  });
-    }
-    DeleteDoc(file,inspectionId){
-      this.inspectionService.deleteDocument(file,inspectionId).subscribe(data=>{
-        this.alertService.successAlert("Success","File deleted successfully");
-      },err=>{
+  }
+  PreviewDoc(document) {
+    // var firstSpaceIndex = evt.indexOf("\\");
+    // var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
+    // var secondString = evt.substring(firstSpaceIndex + 1);
+    let i = 0;
+    document.forEach(
+      (element) => {
+        this.inspectionService.downloadDocument(element).subscribe((data) => {
+          var res: any = data;
+          var blob = new Blob([res]);
+          var downloadURL = window.URL.createObjectURL(res);
+          this.documentsPath[i] = downloadURL;
+          i++;
+        });
 
-      })
-    }
-    downloadDoc(url){
-      var link = document.createElement('a');
-      link.href = url;
-      link.download = url;
-      link.click();
-        }
+        // var link = document.createElement('a');
+        // link.href = downloadURL;
+        // link.download = evt;
+        // link.click();
+      },
+      (err) => {}
+    );
+  }
+  DeleteDoc(file, inspectionId) {
+    this.inspectionService.deleteDocument(file, inspectionId).subscribe(
+      (data) => {
+        this.alertService.successAlert('Success', 'File deleted successfully');
+      },
+      (err) => {}
+    );
+  }
+  downloadDoc(url) {
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = url;
+    link.click();
+  }
+  compressFile(file,fileName) {
+  //   this.imageCompress.uploadFile().then(({ image, orientation }) => {
+  //     this.imgResultBeforeCompress = image;
+  //     console.warn('Size in bytes was:', this.imageCompress.byteCount(image));
+  //     this.imageCompress
+  //       .compressFile(image, orientation, 50, 50)
+  //       .then((result) => {
+  //         this.imgResultAfterCompress = result;
+  //         console.warn(
+  //           'Size in bytes is now:',
+  //           this.imageCompress.byteCount(result)
+  //         );
+  //       });
+  //   });
+  // }
+  var orientation = -1;
+this.imgResultBeforeCompress = this.imageCompress.byteCount(file.size)/(1024*1024);
+console.warn('Size in bytes is now:',  this.imgResultBeforeCompress);
+this.imageCompress.compressFile(file, orientation, 50, 50).then(
+result => {
+this.imgResultAfterCompress = result;
+this.localCompressedURl = result;
+this.sizeOFCompressedImage = this.imageCompress.byteCount(result)/(1024*1024)
+console.warn('Size in bytes after compression:',  this.sizeOFCompressedImage);
+});
+  }
 }

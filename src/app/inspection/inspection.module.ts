@@ -7,6 +7,8 @@ import { InspectionListComponent } from './inspection-list/inspection-list.compo
 import { SharedModule } from '../theme/shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
+import {NgxImageCompressService} from 'ngx-image-compress';
+
 
 @NgModule({
   declarations: [AddInspectionComponent, InspectionListComponent],
@@ -17,6 +19,9 @@ import { DataTablesModule } from 'angular-datatables';
     CommonModule,
     InspectionRoutingModule,
     
+  ],
+  providers:[
+    NgxImageCompressService
   ]
 })
 export class InspectionModule { }
