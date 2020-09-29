@@ -11,7 +11,7 @@ import { ReportService } from 'src/app/service/report.service';
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   dtTrigger: any = new Subject();
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
@@ -22,13 +22,25 @@ export class ReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.dtOptions = {
-      pagingType: 'full_numbers',
-      lengthMenu: [
-        [10, 25, 50, -1],
-        [10, 25, 50, 'All'],
-      ],
-      pageLength: 10,
-    };
+      // pagingType: 'full_numbers',
+      // lengthMenu: [
+      //   [10, 25, 50, -1],
+      //   [10, 25, 50, 'All'],
+      // ],
+      // pageLength: 10,
+      // processing: true,
+      // dom: 'Bfrtip',
+      //   buttons: [
+      //       'copy', 'csv', 'excel', 'print'
+      //   ]
+        pagingType: 'full_numbers',
+        pageLength: 10,
+        processing: true,
+        dom: 'Bfrtip',
+          buttons: [
+              'excel'
+          ]
+      };
     this.getReport();
   }
   getReport()

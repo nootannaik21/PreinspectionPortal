@@ -17,7 +17,7 @@ export class BranchlistComponent implements OnInit, OnDestroy, AfterViewInit {
     this.branchList = [];
     this.rerender();
   }
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   dtTrigger: any = new Subject();
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
@@ -33,6 +33,11 @@ export class BranchlistComponent implements OnInit, OnDestroy, AfterViewInit {
         [10, 25, 50, 'All'],
       ],
       pageLength: 10,
+      processing: true,
+        dom: 'Bfrtip',
+          buttons: [
+              'excel'
+          ]
     };
     this.getAllBranches();
   }
