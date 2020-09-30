@@ -9,7 +9,6 @@
       <app-card [hidHeader]="true" [options]="false">
         <form [formGroup]="addEditRiskTypeForm" (ngSubmit)="onSubmit()">
           <div class="row">
-            <!--First Name-->
             <div class="col-md-6">
               <div class="form-group">
                 <label for="type">Risk Type</label>
@@ -33,8 +32,7 @@
                 </div>
               </div>
             </div>
-            <!--End of First Name-->
-            <div class="row text-right">
+            
               <div class="col-12">
                 <button
                   type="button"
@@ -59,7 +57,6 @@
                   Update
                 </button>
               </div>
-            </div>
           </div>
         </form>
       </app-card>

@@ -11,6 +11,14 @@ const routes: Routes = [
   {
     path: 'addInspection',
     component: AddInspectionComponent
+  },
+  {
+    path: 'editInspection',
+    component: AddInspectionComponent
+  },
+  {
+    path: 'viewInspection',
+    component: AddInspectionComponent
   }
 ];
 

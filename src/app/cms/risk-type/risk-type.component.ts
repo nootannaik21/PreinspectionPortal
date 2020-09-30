@@ -48,11 +48,11 @@ export class RiskTypeComponent implements OnInit {
   }
   gotoAddRiskTypeScreen(){
     localStorage.removeItem('risktypeid');
-    this.router.navigateByUrl('cms/risktypeaction');
+    this.router.navigateByUrl('cms/addrisktype');
   }
   editRiskType(item){
     localStorage.setItem('risktypeid', item.id);
-    this.router.navigateByUrl('cms/risktypeaction');
+    this.router.navigateByUrl('cms/editrisktype');
   }
   deleteRiskType(item)
   {
