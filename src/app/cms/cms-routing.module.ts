@@ -16,7 +16,11 @@ const routes: Routes = [
   component:RiskTypeComponent
 },
 {
-  path:'risktypeaction',
+  path:'addrisktype',
+  component:RiskTypeActionComponent
+},
+{
+  path:'editrisktype',
   component:RiskTypeActionComponent
 },
 {
@@ -24,7 +28,11 @@ const routes: Routes = [
   component:ProductTypeComponent
 },
 {
-  path:'producttypeaction',
+  path:'addproducttype',
+  component:ProductTypeActionComponent
+},
+{
+  path:'editproducttype',
   component:ProductTypeActionComponent
 }
 ];

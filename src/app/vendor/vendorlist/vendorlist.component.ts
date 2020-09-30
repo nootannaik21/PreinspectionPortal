@@ -57,7 +57,7 @@ export class VendorlistComponent implements OnInit, OnDestroy, AfterViewInit {
   editVendor(item) {
     if (!item.isDeleted) {
       localStorage.setItem('vendorid', item.id);
-      this.router.navigateByUrl('vendor/addVendor');
+      this.router.navigateByUrl('vendor/editVendor');
     }
   }
   getAllVendors() {

@@ -215,7 +215,7 @@ export class AddInspectionComponent
       this.inspectionData.vendorEmailId = '';
       this.inspectionData.convayance = '';
       this.inspectionData.statusid = 6;
-      this.inspectionData.duplicateinspection = '0';
+      this.inspectionData.duplicateinspection = '2';
       this.inspectionData.vendororganization = '';
       this.title = 'Add Inspection';
       this.showReferenceNo = false;
@@ -379,8 +379,12 @@ export class AddInspectionComponent
           this.inspectionData.riskType = res.riskType;
           this.inspectionData.convayance = res.convayance;
           if (this.inspectionData.duplicateinspection == true) {
+            this.inspectionData.duplicateinspection = "2";
             this.inspectionData.paymentmodeid = '2';
             this.addInspectionForm.get('paymentmodeid').disable();
+          }
+          else{
+            this.inspectionData.duplicateinspection = "1";
           }
           // else{
           //   this.addInspectionForm.get('paymentmodeid').enable();
@@ -617,7 +621,7 @@ this.alertService.infoAlert("OOPS!","Please select the document");
         (data) => {
           if (data) {
             this.IsDupInspection = true;
-            this.inspectionData.duplicateinspection = 'yes';
+            this.inspectionData.duplicateinspection = '1';
             this.inspectionData.paymentmodeid = '2';
             this.addInspectionForm.get('paymentmodeid').disable();
           } else {
