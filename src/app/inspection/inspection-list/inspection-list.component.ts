@@ -60,28 +60,34 @@ export class InspectionListComponent
   viewInspection(item) {
     localStorage.setItem('inspectionId', item.id);
     localStorage.setItem('view', 'View');
-    this.router.navigateByUrl('inspection/addInspection');
+    this.router.navigateByUrl('inspection/viewInspection');
   }
 
   editInspectionRow(item) {
     localStorage.setItem('inspectionId', item.id);
     localStorage.setItem('view', 'Edit');
-    this.router.navigateByUrl('inspection/addInspection');
+    this.router.navigateByUrl('inspection/editInspection');
   }
   downloadDoc(evt){
 // var firstSpaceIndex = evt.indexOf("\\");
 // var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
 // var secondString = evt.substring(firstSpaceIndex + 1);
-this.inspectionService.downloadDocument(evt).subscribe(data=>{
+debugger;
+var fileStr = evt.split(',');
+fileStr.forEach(element => {
+  
+
+this.inspectionService.downloadDocument(element).subscribe(data=>{
 var res: any = data;
 var blob = new Blob([res]);
 var downloadURL = window.URL.createObjectURL(res);
 var link = document.createElement('a');
 link.href = downloadURL;
-link.download = evt;
+link.download = element;
 link.click();
 },err=>{
 
+});
 });
   }
   getInspectionList() {

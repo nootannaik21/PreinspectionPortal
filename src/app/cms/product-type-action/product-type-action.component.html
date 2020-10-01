@@ -9,7 +9,6 @@
       <app-card [hidHeader]="true" [options]="false">
         <form [formGroup]="addEditProductTypeForm" (ngSubmit)="onSubmit()">
           <div class="row">
-            <!--First Name-->
             <div class="col-md-6">
               <div class="form-group">
                 <label for="type">Product Type</label>
@@ -33,9 +32,8 @@
                 </div>
               </div>
             </div>
-            <!--End of First Name-->
-            <div class="row text-right">
-              <div class="col-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-12">
                 <button
                   type="button"
                   class="btn btn-secondary mr-1"
@@ -58,9 +56,9 @@
                 >
                   Update
                 </button>
-              </div>
             </div>
           </div>
+         
         </form>
       </app-card>
     </div>

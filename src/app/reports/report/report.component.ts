@@ -48,14 +48,16 @@ export class ReportComponent implements OnInit {
     let fromDate: any;
     let toDate :any;
    if (this.reportDate.fromDate) {
+     let day = this.reportDate.fromDate.day < 10 ? "0" + this.reportDate.fromDate.day:this.reportDate.fromDate.day;
      let month = this.reportDate.fromDate.month < 10 ? "0" + this.reportDate.fromDate.month:this.reportDate.fromDate.month;
-    fromDate = this.reportDate.fromDate.day +"/"+ month +"/" +this.reportDate.fromDate.year;
+    fromDate = day +"/"+ month +"/" +this.reportDate.fromDate.year;
    } else {
     fromDate = this.datePipe.transform(new Date(), "dd/MM/yyyy");
    }
    if (this.reportDate.toDate) {
+    let day = this.reportDate.toDate.day < 10 ? "0" + this.reportDate.toDate.day:this.reportDate.toDate.day;
      let month = this.reportDate.toDate.month < 10 ? "0" + this.reportDate.toDate.month:this.reportDate.toDate.month;
-    toDate = this.reportDate.toDate.day +"/" + month +"/" +this.reportDate.toDate.year;
+    toDate = day +"/" + month +"/" +this.reportDate.toDate.year;
    } else {
    toDate = this.datePipe.transform(new Date(),"dd/MM/yyyy");
    }

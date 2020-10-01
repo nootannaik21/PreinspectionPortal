@@ -12,6 +12,10 @@ const routes: Routes = [
   {
     path: 'addBranch',
     component: AddbranchComponent
+  },
+  {
+    path: 'editBranch',
+    component: AddbranchComponent
   }
 ];
 

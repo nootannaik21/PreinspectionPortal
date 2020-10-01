@@ -46,11 +46,11 @@ export class ProductTypeComponent implements OnInit {
   }
   gotoAddProductTypeScreen(){
     localStorage.removeItem('producttypeid');
-    this.router.navigateByUrl('cms/producttypeaction');
+    this.router.navigateByUrl('cms/addproducttype');
   }
   editProductType(item){
     localStorage.setItem('producttypeid', item.id);
-    this.router.navigateByUrl('cms/producttypeaction');
+    this.router.navigateByUrl('cms/editproducttype');
   }
   deleteProductType(item)
   {

@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'addVendor',
     component: AddvendorComponent
+  },
+  {
+    path: 'editVendor',
+    component: AddvendorComponent
   }
 ];
 

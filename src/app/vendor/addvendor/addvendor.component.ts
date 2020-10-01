@@ -164,7 +164,6 @@ export class AddvendorComponent implements OnInit {
     this.router.navigateByUrl('vendor');
   }
   onItemSelect(item: any) {
-    // console.log(item);
     // this.branchCodes.push(item.id);
     this.vendordata.branchCode = [];
     if (this.selectedItems.length > 0) {
@@ -174,7 +173,6 @@ export class AddvendorComponent implements OnInit {
     }
   }
   onSelectAll(items: any) {
-    // console.log(items);
     // items.forEach((element) => {
     //   var temp: any = {};
     //   temp.branchlist = element.id;

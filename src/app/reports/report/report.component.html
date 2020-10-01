@@ -37,7 +37,7 @@
                         <div class="col-sm-2">
                             <!-- <label for="toDate"></label>
                             <label for="toDate"></label> -->
-                            <br/>
+                            <br />
                             <button type="submit" class="btn btn-primary" (click)="getReport()">Submit</button>
                         </div>
                     <!-- </div> -->
@@ -130,10 +130,10 @@
                                     {{item.model}}
                                 </td>
                                 <td class="text-left">
-                                    {{item.paymentmodeid}}
+                                    {{(item.paymentmodeid==1?"Company":"Customer")}}
                                 </td>
                                 <td class="text-left">
-                                    {{item.statusid}}
+                                    {{(item.statusid==1) ?"Active":"InActive"}}
                                 </td>
                                 <td class="text-left">
                                     {{item.createdBy}}

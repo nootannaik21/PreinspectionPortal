@@ -120,7 +120,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   editUserRow(item) {
     if (!item.isDeleted) {
       localStorage.setItem('userid', item.id)
-      this.router.navigateByUrl('users/addUser');
+      this.router.navigateByUrl('users/editUser');
     }
   }
   deleteUser(item) {
