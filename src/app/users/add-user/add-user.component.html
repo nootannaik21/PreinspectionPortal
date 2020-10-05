@@ -197,6 +197,7 @@
                 (change)="onTypeSelect($event)"
                 [ngClass]="{ 'is-invalid': submitted && f.type.errors }"
               >
+              <option value="">Choose User Type</option>
                 <option value="Admin">Admin</option>
                 <option value="OPS">OPS</option>
                 <option value="IMD">IMD</option>
@@ -213,9 +214,9 @@
           <!--Branches-->
           <div class="col-md-6">
             <div class="form-group" *ngIf="showBranch">
-              <label for="exampleFormControlSelect1">Branches</label>
+              <label for="exampleFormControlSelect1">Pin/Location</label>
               <ng-multiselect-dropdown
-                [placeholder]="'Choose Branches'"
+                [placeholder]="'Choose Pin/Location'"
                 [settings]="dropdownSettings"
                 [data]="branches"
                 tabindex="7"
@@ -230,50 +231,48 @@
                 *ngIf="submitted && f.branches.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="f.branches.errors.required">Branches required</div>
+                <div *ngIf="f.branches.errors.required">Pin/Location required</div>
               </div>
             </div>
+              <div class="form-group" *ngIf="showBranchDetail">
+                <label for="exampleFormControlSelect1">Pin/Location</label>
+                <select
+                  class="form-control"
+                  formControlName="branchName"
+                  [(ngModel)]="userdata.branchCode"
+                  tabindex="8"
+                  [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }"
+                  placeholder="Select Branch Name"
+                >
+                  <option value="">Choose Pin/Location</option>
+                  <option
+                    class="form-control"
+                    *ngFor="let item of branches"
+                    [value]="item.branchCode"
+                  >
+                    <table>
+                      <tr>
+                        <td>{{ item.branchCode }}-{{item.branchName}}</td>
+                      </tr>
+                    </table>
+                  </option>
+                </select>
+                <div
+                  *ngIf="submitted && f.branchName.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f.branchName.errors.required">
+                    Pin Code/Locatin is required
+                  </div>
+                </div>
+              </div>
           </div>
           <!--End of Branches-->
           <!--Branches Name-->
-          <div class="col-md-6" *ngIf="showBranchDetail">
-            <div class="form-group" *ngIf="showBranchDetail">
-              <label for="exampleFormControlSelect1">Branch Name</label>
-              <select
-                class="form-control"
-                formControlName="branchName"
-                [(ngModel)]="userdata.branchName"
-                tabindex="8"
-                (change)="onBranchSelect()"
-                [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }"
-                placeholder="Select Branch Name"
-              >
-                <option value="">Choose Branch Name</option>
-                <option
-                  class="form-control"
-                  *ngFor="let item of branches"
-                  [value]="item.branchName"
-                >
-                  <table>
-                    <tr>
-                      <td>{{ item.branchName }}</td>
-                    </tr>
-                  </table>
-                </option>
-              </select>
-              <div
-                *ngIf="submitted && f.branchName.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.branchName.errors.required">
-                  Branch Name is required
-                </div>
-              </div>
-            </div>
-          </div>
+         
           <!--End of Branches Name-->
           <!--Branch Code-->
-          <div class="col-md-6" *ngIf="showBranchDetail">
+          <!-- <div class="col-md-6" *ngIf="showBranchDetail">
             <div class="form-group" *ngIf="showBranchDetail">
               <label for="exampleFormControlSelect1">Branch Code</label>
               <select
@@ -306,7 +305,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <!--End of Branch Code-->
 
 
@@ -335,7 +334,7 @@
             </select>
             </div>
             <div class="col-md-6" *ngIf="showVendorOrganization">
-              <label for="exampleFormControlSelect1">Vendor Branches</label>
+              <label for="exampleFormControlSelect1">Pin/Location</label>
               <ng-multiselect-dropdown
                 [placeholder]="'Choose vendor'"
                 [settings]="dropdownSettings"
@@ -352,13 +351,9 @@
                 *ngIf="submitted && f.branches.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="f.branches.errors.required">Branches required</div>
+                <div *ngIf="f.branches.errors.required">Pin/Location required</div>
               </div>
             </div>
-
-
-
-
           <!--Status-->
           <div class="col-md-6">
             <div class="form-group" *ngIf="userdata.id != undefined">
@@ -384,7 +379,11 @@
             
           </div>
           <!--End of Status-->
-          <div class="row text-right">
+         
+        </div>
+        <br />
+        <div class="row float-right">
+         
             <div class="col-12">
               <button
                 type="button"
@@ -410,7 +409,6 @@
               </button>
             </div>
           </div>
-        </div>
       </form>
     </app-card>
   </div>

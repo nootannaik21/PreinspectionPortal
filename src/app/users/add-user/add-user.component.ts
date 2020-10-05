@@ -28,7 +28,6 @@ export class AddUserComponent implements OnInit {
   selectedItems = [];
   dropdownSettings: any = [];
   branchCodes: any = [];
-
   addUserForm: FormGroup;
   showBranch: boolean;
   title: string;
@@ -56,7 +55,7 @@ export class AddUserComponent implements OnInit {
       lastName: ['', [Validators.required]],
       branchName: ['', [Validators.required]],
       type: ['', [Validators.required]],
-      branchCode: ['', [Validators.required]],
+      branchCode: [''],
       status: ['', [Validators.required]],
       branches: [''],
       vendor: [''],
@@ -322,9 +321,10 @@ export class AddUserComponent implements OnInit {
     this.router.navigateByUrl('users');
   }
   onSubmit() {
+    debugger;
     this.submitted = true;
     const branchName = this.addUserForm.get('branchName');
-    const branchCode = this.addUserForm.get('branchCode');
+    //const branchCode = this.addUserForm.get('branchCode');
     // const branches = this.addUserForm.get('branches');
     const status = this.addUserForm.get('status');
     if (this.userdata.type == 'IMD' || this.userdata.type == 'Branch') {
@@ -345,7 +345,7 @@ export class AddUserComponent implements OnInit {
       this.userdata.vendorOrganization = '';
 
       branchName.setValidators(null);
-      branchCode.setValidators(null);
+      //branchCode.setValidators(null);
       // branches.setValidators(null);
     } else if (this.userdata.type == 'Vendor') {
       this.showBranch = false;
@@ -355,7 +355,7 @@ export class AddUserComponent implements OnInit {
       this.userdata.company = '';
       // this.userdata.branches = [];
       branchName.setValidators(null);
-      branchCode.setValidators(null);
+      //branchCode.setValidators(null);
       // branches.setValidators(null);
     } else {
       this.showBranch = true;
@@ -363,7 +363,7 @@ export class AddUserComponent implements OnInit {
       this.userdata.branchName = '';
       this.userdata.branchCode = '';
       branchName.setValidators(null);
-      branchCode.setValidators(null);
+      //branchCode.setValidators(null);
       this.userdata.branches = [];
       if (this.selectedItems.length > 0) {
         this.selectedItems.forEach((element) => {
@@ -373,7 +373,7 @@ export class AddUserComponent implements OnInit {
     }
     status.setValidators(null);
     branchName.updateValueAndValidity();
-    branchCode.updateValueAndValidity();
+    //branchCode.updateValueAndValidity();
     // branches.updateValueAndValidity();
     status.updateValueAndValidity();
     this.addUserDetails(this.userdata);
