@@ -6,8 +6,8 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="exampleInputEmail1">Branch Code</label>
-              <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Branch Code"
+              <label for="exampleInputEmail1">Pin Code</label>
+              <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Pin Code"
                 formControlName="branchCode" [(ngModel)]="branchdata.branchCode" tabindex="1"
                 [ngClass]="{ 'is-invalid': submitted && f.branchCode.errors }" />
               <!-- <div *ngIf="submitted && f.branchCode.errors" class="invalid-feedback">
@@ -19,10 +19,10 @@
                 class="invalid-feedback"
               >
                 <div *ngIf="f.branchCode.errors.required">
-                  Branch Code is required
+                  Pin Code is required
                 </div>
                 <div *ngIf="f.branchCode.errors.pattern">
-                  Branch must be a valid 
+                  Pin Code must be a valid 
                 </div>
               </div>
               <!-- <div *ngIf="message" style="color:red">Branch code already exist</div> -->
@@ -38,11 +38,11 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label>Branch Name</label>
-              <input type="text" class="form-control" placeholder="Branch Name" formControlName="branchName"
+              <label>Pin Location</label>
+              <input type="text" class="form-control" placeholder="Pin Location" formControlName="branchName"
                 [(ngModel)]="branchdata.branchName" tabindex="2" [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }" appOnlyalphabets [onlyAlpha]="true"/>
                 <div *ngIf="submitted && f.branchName.errors" class="invalid-feedback">
-                  <div *ngIf="f.branchName.errors.required">Branch Name is required</div>
+                  <div *ngIf="f.branchName.errors.required">Pin Location is required</div>
                 </div>
                 <!-- <div *ngIf="branchNamemessage" style="color:red">Branch code already exist</div> -->
             </div>
@@ -50,10 +50,10 @@
         </div>
         <div class="row text-right">
           <div class="col-12">
-            <button type="submit" class="btn btn-primary mr-1" (click)="cancel()">Cancel</button>
-            <button type="submit" class="btn btn-primary" *ngIf="branchdata.id==undefined">Add Branch Details</button>
+            <button type="submit" class="btn btn-secondary mr-1" (click)="cancel()">Cancel</button>
+            <button type="submit" class="btn btn-primary" *ngIf="branchdata.id==undefined">Add </button>
             <button type="button" class="btn btn-primary" *ngIf="branchdata.id!=undefined"
-              (click)="updateBranch(branchdata)">Update Branch Details</button>
+              (click)="updateBranch(branchdata)">Update </button>
           </div>
         </div>
       </form>
