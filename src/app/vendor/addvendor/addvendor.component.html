@@ -103,9 +103,9 @@
               </div>
             </div> -->
             <div class="form-group">
-              <label for="allBranches">Branches</label>
+              <label for="allBranches">Location</label>
               <ng-multiselect-dropdown
-                [placeholder]="'Choose Branches'"
+                [placeholder]="'Choose Location'"
                 [settings]="dropdownSettings"
                 [data]="branches"
                 tabindex="7"
@@ -120,7 +120,7 @@
                 *ngIf="submitted && f.branches.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="f.branches.errors.required">Branches required</div>
+                <div *ngIf="f.branches.errors.required">Location required</div>
               </div>
             </div>
           </div>
