@@ -28,7 +28,7 @@ export class AddbranchComponent implements OnInit {
       branchName: ['', [Validators.required]],
     });
     if (localStorage.getItem('branchid')) {
-      this.title = "Update Branch";
+      this.title = "Update Location";
       this.branchService.getBranchById(localStorage.getItem('branchid')).subscribe(
         data => {
           this.branchdata = data[0];
@@ -37,7 +37,7 @@ export class AddbranchComponent implements OnInit {
         
     }
     else {
-      this.title = "Add Branch";
+      this.title = "Add Location";
       this.branchdata = {};
     }
   }
@@ -97,7 +97,7 @@ this.alertService.errorAlert("Oops!", err.error.message);
   }
   cancel() {
     localStorage.removeItem('branchid');
-    this.router.navigateByUrl('branch');
+    this.router.navigateByUrl('location');
 
   }
 }
