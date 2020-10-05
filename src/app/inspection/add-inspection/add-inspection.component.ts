@@ -62,6 +62,9 @@ export class AddInspectionComponent
   documents: any = [];
   documentsPath: any = [];
   showRequestRaisedErr: boolean = false;
+  imdData: any = [];
+ makeData: any = [];
+  modelData: any = [];
   constructor(
     private notifyService: NotificationService,
     private fileUploadService: FileuploadService,
@@ -93,7 +96,8 @@ export class AddInspectionComponent
     this.addInspectionForm = this.formBuilder.group({
       branchName: ['', [Validators.required]],
       branchcode: ['', [Validators.required]],
-      imdcode: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]],
+      // imdcode: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]],
+      imdcode: ['', [Validators.required]],
       phoneNoofsales: [
         '',
         [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
@@ -104,7 +108,7 @@ export class AddInspectionComponent
       ],
       altclientname: [
         '',
-        [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,20}$')],
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9]{10,20}$')],
       ],
       clientphoneno: [
         '',
@@ -141,9 +145,13 @@ export class AddInspectionComponent
       duplicateinspection: ['', [Validators.required]],
       paymentmodeid: ['', [Validators.required]],
       make: ['', [Validators.required]],
+      // model: [
+      //   '',
+      //   [Validators.required, Validators.pattern('^[a-zA-Z0-9, ]+$')],
+      // ],
       model: [
         '',
-        [Validators.required, Validators.pattern('^[a-zA-Z0-9, ]+$')],
+        [Validators.required],
       ],
       statusid: [''],
       vendororganization: ['', [Validators.required]],
@@ -205,6 +213,9 @@ export class AddInspectionComponent
       this.getallProductType();
       this.getinspectionreasons();
       this.getAllconvayances();
+      this.getAllImdDetails();
+      this.getAllVehicleMake();
+      this.getAllVehicleModel();
       localStorage.removeItem('inspectionId');
       this.inspectionData.branchName = '';
       this.inspectionData.branchcode = '';
@@ -289,6 +300,38 @@ export class AddInspectionComponent
       (err) => {}
     );
   }
+  getAllImdDetails() {
+    this.inspectionService.getAllImdDetails().subscribe(
+      (data) => {
+        debugger;
+        var res: any = data;
+        this.imdData = res.imdData;
+      },
+      (err) => {}
+    );
+  }
+  getAllVehicleMake() {
+    debugger;
+    this.inspectionService.getAllVehicleMake().subscribe(
+      (data) => {
+        debugger;
+        var res: any = data;
+        this.makeData = res.data;
+      },
+      (err) => {}
+    );
+  }
+  getAllVehicleModel() {
+    debugger;
+    this.inspectionService.getAllVehicleModel().subscribe(
+      (data) => {
+        debugger;
+        var res: any = data;
+        this.modelData = res.data;
+      },
+      (err) => {}
+    );
+  }
   // getVendorMailList(branchCode) {
   //   this.inspectionService.getVendorMailList(branchCode).subscribe(
   //     (data) => {
@@ -298,8 +341,10 @@ export class AddInspectionComponent
   //   );
   // }
   getVendorMailList(branchCode) {
+    debugger;
     this.inspectionService.getVendorMailList(branchCode).subscribe(
       (data) => {
+        debugger;
         this.vendorEmailIdDetails = data;
       },
       (err) => {}
@@ -344,6 +389,7 @@ export class AddInspectionComponent
     this.getallProductType();
     this.getinspectionreasons();
     this.getAllconvayances();
+    this.getAllImdDetails();
     this.getinspectionByID();
   }
   statusChanged(event) {
@@ -562,10 +608,11 @@ this.alertService.infoAlert("OOPS!","Please select the document");
 
   }
   onBranchSelect() {
-    var temp = this.branches.filter(
-      (x) => x.branchName == this.inspectionData.branchName
-    );
-    this.inspectionData.branchcode = temp[0].branchCode;
+    debugger;
+    // var temp = this.branches.filter(
+    //   (x) => x.branchName == this.inspectionData.branchName
+    // );
+    // this.inspectionData.branchcode = temp[0].branchCode;
     this.getVendorMailList(this.inspectionData.branchcode);
   }
   onBranchCodeSelect() {
@@ -576,6 +623,25 @@ this.alertService.infoAlert("OOPS!","Please select the document");
     if (this.inspectionData.branchcode) {
       this.getVendorMailList(this.inspectionData.branchcode);
     }
+  }
+  onIMDSelect()
+  {
+    var temp = this.imdData.filter(
+      (x) => x.imdCode == this.inspectionData.imdCode
+    );
+    this.inspectionData.emailidofsales = temp[0].imdName;
+    this.inspectionData.phoneNoofsales = temp[0].imdPhone;
+  }
+  onConvayanceSelect()
+  {
+    debugger;
+if (this.inspectionData.convayance == "Yes") {
+  this.inspectionData.conveyanceKm = "";
+  this.addInspectionForm.get('conveyanceKm').enable();
+} else {
+  this.inspectionData.conveyanceKm = "0";
+  this.addInspectionForm.get('conveyanceKm').disable();
+}
   }
   createInspection() {
     this.submitted = true;

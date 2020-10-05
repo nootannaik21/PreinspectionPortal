@@ -8,32 +8,32 @@
   <div class="col-sm-12">
     <app-card [hidHeader]="true" [options]="false">
       <form [formGroup]="addInspectionForm" (ngSubmit)="createInspection()">
-        <h5 *ngIf="showBranchDetail">Branch Details</h5>
+        <h5 *ngIf="showBranchDetail">Location Details</h5>
         <span *ngIf="showBranchDetail"><hr /></span>
         <div class="row">
           <!--Branch Name-->
           <div class="col-md-6">
             <div class="form-group" *ngIf="showBranchDetail">
-              <label for="exampleInputEmail1">Branch Name</label>
+              <label for="exampleInputEmail1">Location</label>
               <select
                 class="form-control"
-                formControlName="branchName"
-                placeholder="Choose Branch Name"
-                [(ngModel)]="inspectionData.branchName"
+                formControlName="branchcode"
+                placeholder="Choose Location"
+                [(ngModel)]="inspectionData.branchcode"
                 tabindex="1"
                 (change)="onBranchSelect()"
-                [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }"
+                [ngClass]="{ 'is-invalid': submitted && f.branchcode.errors }"
                 required
               >
-                <option value="">Choose Branch Name</option>
+                <option value="">Choose Location</option>
                 <option
                   class="form-control"
                   *ngFor="let item of branches"
-                  [value]="item.branchName"
+                  [value]="item.branchCode"
                 >
                   <table>
                     <tr>
-                      <td>{{ item.branchName }}</td>
+                      <td>{{ item.branchCode }}-{{item.branchName}}</td>
                     </tr>
                   </table>
                 </option>
@@ -43,14 +43,14 @@
                 class="invalid-feedback"
               >
                 <div *ngIf="f.branchName.errors.required">
-                  Branch Name is required
+                  Location is required
                 </div>
               </div>
             </div>
           </div>
           <!--End of Branch Name-->
           <!--Branch Code-->
-          <div class="col-md-6">
+          <!-- <div class="col-md-6">
             <div class="form-group" *ngIf="showBranchDetail">
               <label for="exampleInputEmail1">Branch Code</label>
               <select
@@ -85,7 +85,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <!--End of Branch Code-->
         </div>
         <br />
@@ -94,7 +94,7 @@
         <div class="row">
           <!--IMD Code-->
           <div class="col-md-6">
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="exampleInputPassword1">IMD Code</label>
               <input
                 type="text"
@@ -117,7 +117,46 @@
                   IMD Code should be 8 characters
                 </div>
               </div>
+            </div> -->
+
+            <div class="form-group">
+              <label for="lImd">IMD Code</label>
+              <select
+                class="form-control"
+                formControlName="imdcode"
+                placeholder="IMD Code"
+                [(ngModel)]="inspectionData.imdCode"
+                tabindex="3"
+                (change)="onIMDSelect()"
+                [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }"
+                required
+              >
+                <option value="">Choose IMD</option>
+                <option
+                  class="form-control"
+                  *ngFor="let item of imdData"
+                  [value]="item.imdCode"
+                >
+                  <table>
+                    <tr>
+                      <td>{{ item.imdCode }}</td>
+                    </tr>
+                  </table>
+                </option>
+              </select>
+              <div
+                *ngIf="submitted && f.branchcode.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.productType.errors.required">
+                  IMD Code is required
+                </div>
+              </div>
             </div>
+
+
+
+
           </div>
           <!--End of IMD Code-->
           <!--IMD Email-->
@@ -239,7 +278,7 @@
                   Customer Name is required
                 </div>
                 <div *ngIf="f.altclientname.errors.pattern">
-                  Customer Name should not exceed 20 characters
+                  Customer Name should be 10 - 20 characters
                 </div>
               </div>
             </div>
@@ -415,7 +454,7 @@
           <!--End of Vechile Reg #-->
           <!--Make of Vechile-->
           <div class="col-md-6">
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label>Make of Vehicle</label>
               <input
                 type="text"
@@ -432,12 +471,45 @@
               <div *ngIf="submitted && f.make.errors" class="invalid-feedback">
                 <div *ngIf="f.make.errors.required">Make is required</div>
               </div>
+            </div> -->
+            <div class="form-group">
+              <label for="exampleInputEmail1">Vehicle Make</label>
+              <select
+                class="form-control"
+                formControlName="make"
+                placeholder="Choose make of Vehicle"
+                [(ngModel)]="inspectionData.make"
+                tabindex="1"
+                [ngClass]="{ 'is-invalid': submitted && f.make.errors }"
+                required
+              >
+                <option value="">Choose Make</option>
+                <option
+                  class="form-control"
+                  *ngFor="let item of makeData"
+                  [value]="item.make"
+                >
+                  <table>
+                    <tr>
+                      <td>{{ item.make }}</td>
+                    </tr>
+                  </table>
+                </option>
+              </select>
+              <div
+                *ngIf="submitted && f.make.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.make.errors.required">
+                  Location is required
+                </div>
+              </div>
             </div>
           </div>
           <!--End of Make of Vechile-->
           <!--Model-->
           <div class="col-md-6">
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="exampleFormControlSelect1">Model</label>
               <input
                 type="text"
@@ -456,6 +528,39 @@
                   <fieldset></fieldset>
                 </div>
               </div>
+            </div> -->
+            <div class="form-group">
+              <label for="exampleInputEmail1">Vehicle Model</label>
+              <select
+                class="form-control"
+                formControlName="make"
+                placeholder="Choose moel of Vehicle"
+                [(ngModel)]="inspectionData.model"
+                tabindex="1"
+                [ngClass]="{ 'is-invalid': submitted && f.model.errors }"
+                required
+              >
+                <option value="">Choose Model</option>
+                <option
+                  class="form-control"
+                  *ngFor="let item of modelData"
+                  [value]="item.model"
+                >
+                  <table>
+                    <tr>
+                      <td>{{ item.model }}</td>
+                    </tr>
+                  </table>
+                </option>
+              </select>
+              <div
+                *ngIf="submitted && f.model.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.model.errors.required">
+                  Location is required
+                </div>
+              </div>
             </div>
           </div>
           <!--End of Model-->
@@ -469,6 +574,7 @@
                 placeholder="Convayance"
                 [(ngModel)]="inspectionData.convayance"
                 tabindex="15"
+                (change)="onConvayanceSelect()"
                 [ngClass]="{ 'is-invalid': submitted && f.convayance.errors }"
                 required
               >
