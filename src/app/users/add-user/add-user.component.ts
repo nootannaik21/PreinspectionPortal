@@ -344,13 +344,23 @@ export class AddUserComponent implements OnInit {
     //const branchCode = this.addUserForm.get('branchCode');
     // const branches = this.addUserForm.get('branches');
     const status = this.addUserForm.get('status');
-    if (this.userdata.type == 'IMD' || this.userdata.type == 'Branch') {
+    if (this.userdata.type == 'Branch') {
       this.showBranch = false;
       this.showBranchDetail = true;
       this.userdata.branches = [];
       // branches.setValidators(null);
       this.userdata.branches = [];
-    } else if (
+    } 
+    else if(this.userdata.type == 'IMD')
+    {
+      var y: number = +this.userdata.imdCode;
+      this.userdata.imdCode = y;
+      this.showBranch = false;
+      this.showBranchDetail = true;
+      this.userdata.branches = [];
+      // branches.setValidators(null);
+      this.userdata.branches = [];
+    }else if (
       this.userdata.type == 'Admin' ||
       this.userdata.type == 'Claims'
     ) {
@@ -407,8 +417,7 @@ export class AddUserComponent implements OnInit {
       );
       return;
     } else {
-      var y: number = +this.userdata.imdCode;
-      this.userdata.imdCode = y;
+      
       this.userapiService.addUser(userdata).subscribe(
         (data) => {
           var res: any = data;
