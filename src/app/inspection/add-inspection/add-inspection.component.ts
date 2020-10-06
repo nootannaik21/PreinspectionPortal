@@ -645,26 +645,41 @@ this.alertService.infoAlert("OOPS!","Please select the document");
         ? (this.inspectionData.duplicateinspection = true)
         : (this.inspectionData.duplicateinspection = false);
         if (( this.inspectionData.statusid == '1' || this.inspectionData.statusid == '2' || this.inspectionData.statusid == '4')) {
-          this.getinspectionByID();
-          if (this.inspectionData.documentPath) {
-      this.inspectionService
-        .updateInspection(this.inspectionData.id, this.inspectionData)
-        .subscribe(
-          (data) => {
-            this.notifyService.showSuccess(
-              'Inspection Updated successfully !!',
-              'Success'
-            );
-            this.router.navigateByUrl('inspection');
-            this.inspectionData = {};
-          },
-          (err) => {}
-        );
-    }
-    else
-    {
-      this.alertService.infoAlert("OOPS!","Please upload document.");
-    }
+          // this.getinspectionByID();
+
+          this.inspectionService
+          .getInspectionById(localStorage.getItem('inspectionId'))
+          .subscribe(
+            (data) => {
+              var res: any = data;
+              debugger;
+              this.inspectionData = Object.assign({}, data);
+              if (this.inspectionData.documentPath) {
+                this.inspectionService
+                  .updateInspection(this.inspectionData.id, this.inspectionData)
+                  .subscribe(
+                    (data) => {
+                      this.notifyService.showSuccess(
+                        'Inspection Updated successfully !!',
+                        'Success'
+                      );
+                      this.router.navigateByUrl('inspection');
+                      this.inspectionData = {};
+                    },
+                    (err) => {}
+                  );
+              }
+              else
+              {
+                this.alertService.infoAlert("OOPS!","Please upload document.");
+              }
+            })
+
+
+
+
+
+          
   }
  else
  {
