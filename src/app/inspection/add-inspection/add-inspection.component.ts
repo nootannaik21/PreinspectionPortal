@@ -15,6 +15,7 @@ import { Subject } from 'rxjs';
 import { NotificationService } from '../../service/notification.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-add-inspection',
@@ -62,6 +63,9 @@ export class AddInspectionComponent
   documents: any = [];
   documentsPath: any = [];
   showRequestRaisedErr: boolean = false;
+  imdData: any = [];
+ makeData: any = [];
+  modelData: any = [];
   constructor(
     private notifyService: NotificationService,
     private fileUploadService: FileuploadService,
@@ -70,7 +74,8 @@ export class AddInspectionComponent
     private inspectionService: InspectionSeriveService,
     private router: Router,
     private sanitizer: DomSanitizer,
-    private imageCompress: NgxImageCompressService
+    private imageCompress: NgxImageCompressService,
+    private authService:AuthService,
   ) {
     this.duplicateinspections = [
       { id: 1, duplicateinspection: 'Yes' },
@@ -91,12 +96,13 @@ export class AddInspectionComponent
       pageLength: 10,
     };
     this.addInspectionForm = this.formBuilder.group({
-      branchName: ['', [Validators.required]],
+      branchName: [''],
       branchcode: ['', [Validators.required]],
-      imdcode: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]],
+      // imdcode: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]],
+      imdcode: ['', [Validators.required]],
       phoneNoofsales: [
         '',
-        [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
+        [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
       ],
       clientname: [
         '',
@@ -104,7 +110,7 @@ export class AddInspectionComponent
       ],
       altclientname: [
         '',
-        [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,20}$')],
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9]{10,20}$')],
       ],
       clientphoneno: [
         '',
@@ -141,9 +147,13 @@ export class AddInspectionComponent
       duplicateinspection: ['', [Validators.required]],
       paymentmodeid: ['', [Validators.required]],
       make: ['', [Validators.required]],
+      // model: [
+      //   '',
+      //   [Validators.required, Validators.pattern('^[a-zA-Z0-9, ]+$')],
+      // ],
       model: [
         '',
-        [Validators.required, Validators.pattern('^[a-zA-Z0-9, ]+$')],
+        [Validators.required],
       ],
       statusid: [''],
       vendororganization: ['', [Validators.required]],
@@ -157,6 +167,9 @@ export class AddInspectionComponent
       this.showReferenceNo = true;
       this.hideStatus = true;
       this.getInspectionsHistory();
+      this.getAllImdDetails();
+      this.getAllVehicleMake();
+      this.getAllVehicleModel();
       if (localStorage.getItem('type') == 'Vendor') {
         this.disableFields();
         this.showHistoryTable = true;
@@ -205,6 +218,9 @@ export class AddInspectionComponent
       this.getallProductType();
       this.getinspectionreasons();
       this.getAllconvayances();
+      this.getAllImdDetails();
+      this.getAllVehicleMake();
+      this.getAllVehicleModel();
       localStorage.removeItem('inspectionId');
       this.inspectionData.branchName = '';
       this.inspectionData.branchcode = '';
@@ -289,6 +305,38 @@ export class AddInspectionComponent
       (err) => {}
     );
   }
+  getAllImdDetails() {
+    this.inspectionService.getAllImdDetails().subscribe(
+      (data) => {
+        debugger;
+        var res: any = data;
+        this.imdData = res;
+      },
+      (err) => {}
+    );
+  }
+  getAllVehicleMake() {
+    debugger;
+    this.inspectionService.getAllVehicleMake().subscribe(
+      (data) => {
+        debugger;
+        var res: any = data;
+        this.makeData = res.data;
+      },
+      (err) => {}
+    );
+  }
+  getAllVehicleModel() {
+    debugger;
+    this.inspectionService.getAllVehicleModel().subscribe(
+      (data) => {
+        debugger;
+        var res: any = data;
+        this.modelData = res.data;
+      },
+      (err) => {}
+    );
+  }
   // getVendorMailList(branchCode) {
   //   this.inspectionService.getVendorMailList(branchCode).subscribe(
   //     (data) => {
@@ -298,8 +346,10 @@ export class AddInspectionComponent
   //   );
   // }
   getVendorMailList(branchCode) {
+    debugger;
     this.inspectionService.getVendorMailList(branchCode).subscribe(
       (data) => {
+        debugger;
         this.vendorEmailIdDetails = data;
       },
       (err) => {}
@@ -344,6 +394,7 @@ export class AddInspectionComponent
     this.getallProductType();
     this.getinspectionreasons();
     this.getAllconvayances();
+    this.getAllImdDetails();
     this.getinspectionByID();
   }
   statusChanged(event) {
@@ -449,29 +500,47 @@ export class AddInspectionComponent
 
   uploadFiles(event: any) {
     let frmData: FormData = new FormData();
+    debugger;
     //frmData.append('uploadFile', this.file, this.file.name);
     if (this.fileList) {
       for (let i = 1; i < this.fileList.length; i++)
         frmData.append('files[]', this.fileList[i], this.fileList[i].name);
     
     //var documentData = this.compressFile(this.file,this.file.name);
-    this.inspectionService
-      .uploadDocument(
-        this.inspectionData.id,
-        this.inspectionData.statusid,
-        frmData
-      )
-      .subscribe(
-        (data) => {
-          this.alertService.successAlert(
-            'Success',
-            'File(s) uploaded successfully'
-          );
-        },
-        (err) => {
-          this.alertService.errorAlert("OOPS!",err.error.message);
-        }
-      );
+    let data:any={};
+    data.username="QA_API_USER";
+    data.password="Welcome@123";
+    this.authService.loginForFileUpload(data).subscribe(data => {
+      debugger;
+      let res:any = data;
+this.fileUploadService.postFile(this.file,res.ticket).subscribe(data => {
+  debugger;
+},
+  err => {
+
+  })
+    },
+    err=>
+    {
+
+    })
+    // this.inspectionService
+    //   .uploadDocument(
+    //     this.inspectionData.id,
+    //     this.inspectionData.statusid,
+    //     frmData
+    //   )
+    //   .subscribe(
+    //     (data) => {
+    //       this.alertService.successAlert(
+    //         'Success',
+    //         'File(s) uploaded successfully'
+    //       );
+    //     },
+    //     (err) => {
+    //       this.alertService.errorAlert("OOPS!",err.error.message);
+    //     }
+    //   );
     }
     else
     {
@@ -562,10 +631,11 @@ this.alertService.infoAlert("OOPS!","Please select the document");
 
   }
   onBranchSelect() {
-    var temp = this.branches.filter(
-      (x) => x.branchName == this.inspectionData.branchName
-    );
-    this.inspectionData.branchcode = temp[0].branchCode;
+    debugger;
+    // var temp = this.branches.filter(
+    //   (x) => x.branchName == this.inspectionData.branchName
+    // );
+    // this.inspectionData.branchcode = temp[0].branchCode;
     this.getVendorMailList(this.inspectionData.branchcode);
   }
   onBranchCodeSelect() {
@@ -577,7 +647,27 @@ this.alertService.infoAlert("OOPS!","Please select the document");
       this.getVendorMailList(this.inspectionData.branchcode);
     }
   }
+  onIMDSelect()
+  {
+    var temp = this.imdData.filter(
+      (x) => x.imdCode == this.inspectionData.imdCode
+    );
+    this.inspectionData.emailidofsales = temp[0].email;
+    //this.inspectionData.phoneNoofsales = temp[0].imdPhone;
+  }
+  onConvayanceSelect()
+  {
+    debugger;
+if (this.inspectionData.convayance == "Yes") {
+  this.inspectionData.conveyanceKm = "";
+  this.addInspectionForm.get('conveyanceKm').enable();
+} else {
+  this.inspectionData.conveyanceKm = "0";
+  this.addInspectionForm.get('conveyanceKm').disable();
+}
+  }
   createInspection() {
+    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;

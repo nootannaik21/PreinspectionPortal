@@ -36,6 +36,7 @@ export class AddUserComponent implements OnInit {
   vendorOganization: any = [];
   vendorList: any = [];
   branchList: any = [];
+  imdUser:boolean=false;
   constructor(
     private notifyService: NotificationService,
     private formBuilder: FormBuilder,
@@ -78,6 +79,7 @@ export class AddUserComponent implements OnInit {
         ],
       ],
       confPassword: ['', [Validators.required]],
+      IMDCode: [''],
     });
 
     if (localStorage.getItem('userid')) {
@@ -98,7 +100,13 @@ export class AddUserComponent implements OnInit {
             this.showBranch = false;
             this.getAllBranches();
           }
-         else if (this.userdata.type == 'IMD' || this.userdata.type == 'Branch') {
+         else if (this.userdata.type == 'IMD') {
+            this.showBranch = false;
+            this.showBranchDetail = true;
+            this.getAllBranches();
+            this.imdUser = true;
+          }
+          else if(this.userdata.type == 'Branch') {
             this.showBranch = false;
             this.showBranchDetail = true;
             this.getAllBranches();
@@ -225,7 +233,16 @@ export class AddUserComponent implements OnInit {
     this.userdata.branchName = temp[0].branchName;
   }
   onTypeSelect(eve) {
-    if (eve.target.value == 'IMD' || eve.target.value == 'Branch') {
+    this.imdUser = false;
+    if (eve.target.value == 'IMD') {
+      this.showBranch = false;
+      this.showBranchDetail = true;
+      this.userdata.branchName = '';
+      this.userdata.branchCode = '';
+      this.userdata.branches = [];
+      this.imdUser = true;
+    }
+    else if(eve.target.value == 'Branch') {
       this.showBranch = false;
       this.showBranchDetail = true;
       this.userdata.branchName = '';
@@ -379,6 +396,7 @@ export class AddUserComponent implements OnInit {
     this.addUserDetails(this.userdata);
   }
   addUserDetails(userdata) {
+    debugger;
     this.submitted = true;
     if (this.addUserForm.invalid) {
       return;
@@ -389,6 +407,8 @@ export class AddUserComponent implements OnInit {
       );
       return;
     } else {
+      var y: number = +this.userdata.imdCode;
+      this.userdata.imdCode = y;
       this.userapiService.addUser(userdata).subscribe(
         (data) => {
           var res: any = data;
