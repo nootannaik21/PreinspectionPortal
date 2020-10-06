@@ -539,40 +539,40 @@ export class AddInspectionComponent
         frmData.append('files[]', this.fileList[i], this.fileList[i].name);
     
     //var documentData = this.compressFile(this.file,this.file.name);
-    let data:any={};
-    data.username="QA_API_USER";
-    data.password="Welcome@123";
-    this.authService.loginForFileUpload(data).subscribe(data => {
-      debugger;
-      let res:any = data;
-this.fileUploadService.postFile(this.file,res.ticket).subscribe(data => {
-  debugger;
-},
-  err => {
+//     let data:any={};
+//     data.username="QA_API_USER";
+//     data.password="Welcome@123";
+//     this.authService.loginForFileUpload(data).subscribe(data => {
+//       debugger;
+//       let res:any = data;
+// this.fileUploadService.postFile(this.file,res.ticket).subscribe(data => {
+//   debugger;
+// },
+//   err => {
 
-  })
-    },
-    err=>
-    {
+//   })
+//     },
+//     err=>
+//     {
 
-    })
-    // this.inspectionService
-    //   .uploadDocument(
-    //     this.inspectionData.id,
-    //     this.inspectionData.statusid,
-    //     frmData
-    //   )
-    //   .subscribe(
-    //     (data) => {
-    //       this.alertService.successAlert(
-    //         'Success',
-    //         'File(s) uploaded successfully'
-    //       );
-    //     },
-    //     (err) => {
-    //       this.alertService.errorAlert("OOPS!",err.error.message);
-    //     }
-    //   );
+//     })
+    this.inspectionService
+      .uploadDocument(
+        this.inspectionData.id,
+        this.inspectionData.statusid,
+        frmData
+      )
+      .subscribe(
+        (data) => {
+          this.alertService.successAlert(
+            'Success',
+            'File(s) uploaded successfully'
+          );
+        },
+        (err) => {
+          this.alertService.errorAlert("OOPS!",err.error.message);
+        }
+      );
     }
     else
     {
