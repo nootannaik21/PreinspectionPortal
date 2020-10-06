@@ -158,15 +158,17 @@ export class AddUserComponent implements OnInit {
           })
           } 
           else {
+            debugger;
             this.showBranch = true;
             this.showBranchDetail = false;
             let tmp = [];
             if (user.branches.length > 0) {
               this.userapiService.getBranches().subscribe(
                 (branches) => {
+                  debugger;
                   var res: any = branches;
                   this.branches = res.data;
-                  for (let i = 0; i < user.branches[i]; i++) {
+                  for (let i = 0; i < user.branches.length; i++) {
                     var branch = this.branches.filter(
                       (x) => x.id == user.branches[i]
                     );
@@ -444,6 +446,7 @@ export class AddUserComponent implements OnInit {
     }
   }
   updateUser(data) {
+    debugger;
     const branchName = this.addUserForm.get('branchName');
     const branchCode = this.addUserForm.get('branchCode');
     const branches = this.addUserForm.get('branches');
