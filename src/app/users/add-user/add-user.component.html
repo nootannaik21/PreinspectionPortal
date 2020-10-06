@@ -150,7 +150,7 @@
                   Password must be minimum 8 characters
                 </div>
                 <div *ngIf="f.password.errors.pattern">
-                  Password Not Matching
+                  Password Not Matching minimum criteria
                 </div>
               </div>
             </div>
@@ -191,16 +191,15 @@
                 placeholder="IMD Code"
                 formControlName="IMDCode"
                 [(ngModel)]="userdata.imdCode"
-                [ngClass]="{ 'is-invalid': submitted && f.imdCode.errors }"
               />
-              <div
+              <!-- <div
                 *ngIf="submitted && f.imdCode.errors"
                 class="invalid-feedback"
               >
                 <div *ngIf="f.imdCode.errors.required">
                   IMD Code is required
-                </div>
-              </div>
+                </div> -->
+              <!-- </div> -->
             </div>
           </div>
         </div>

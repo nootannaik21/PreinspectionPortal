@@ -420,8 +420,10 @@ export class AddUserComponent implements OnInit {
       
       this.userapiService.addUser(userdata).subscribe(
         (data) => {
+          debugger;
           var res: any = data;
           if (res.result == 'success') {
+            debugger;
             this.notifyService.showSuccess(
               'User Added successfully !!',
               'Success'
@@ -433,6 +435,7 @@ export class AddUserComponent implements OnInit {
           }
         },
         (err) => {
+          debugger;
           this.notifyService.showError(err.error.message, 'User Not Added');
           return;
         }
