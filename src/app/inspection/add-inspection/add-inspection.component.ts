@@ -67,6 +67,7 @@ export class AddInspectionComponent
   imdData: any = [];
  makeData: any = [];
   modelData: any = [];
+  imduserDetail:boolean=false;
   constructor(
     private notifyService: NotificationService,
     private fileUploadService: FileuploadService,
@@ -108,11 +109,11 @@ export class AddInspectionComponent
       ],
       clientname: [
         '',
-        [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,20}$')],
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
       ],
       altclientname: [
         '',
-        [Validators.required, Validators.pattern('^[a-zA-Z0-9]{10,20}$')],
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]{10,}$')],
       ],
       clientphoneno: [
         '',
@@ -168,8 +169,8 @@ export class AddInspectionComponent
       this.title = 'Update Inspection';
       this.showReferenceNo = true;
       this.hideStatus = true;
+      this.imduserDetail = false;
       this.getInspectionsHistory();
-      this.getAllImdDetails();
       this.getAllVehicleMake();
       this.getAllVehicleModel();
       if (localStorage.getItem('type') == 'Vendor') {
@@ -188,20 +189,18 @@ export class AddInspectionComponent
         this.showBranchDetail = false;
       } else if (localStorage.getItem('type') == 'IMD') {
         debugger;
-        //this.disableFields();
         this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
         this.addInspectionForm.get('statusid').disable();
         this.disableInspection = true;
-        this.userapiService.getUserById(localStorage.getItem('userid')).subscribe(
-          (data) => {
-            var user: any = data;
-            this.inspectionData.imdCode = user.imCode;
-            this.inspectionData.emailidofsales = user.email;
-          });
-          this.addInspectionForm.get('imdcode').disable();
-          this.addInspectionForm.get('emailidofsales').disable();
+      //   this.inspectionData.imdCode =localStorage.getItem('imdCode');
+      //       this.inspectionData.emailidofsales = localStorage.getItem('UserName');
+      //     this.addInspectionForm.get('imdcode').disable();
+      //     this.addInspectionForm.get('emailidofsales').disable();
+      // this.addInspectionForm.get('imdcode').disable();
+      // this.addInspectionForm.get('emailidofsales').disable();
+
       } else if (localStorage.getItem('type') == 'OPS') {
         this.disableFields();
         this.showHistoryTable = true;
@@ -263,7 +262,7 @@ export class AddInspectionComponent
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
         this.getVendorMailList(localStorage.getItem('branch'));
-            this.inspectionData.imdCode =localStorage.getItem('imdCode');
+            this.inspectionData.imdcode =localStorage.getItem('imdCode');
             this.inspectionData.emailidofsales = localStorage.getItem('UserName');
           this.addInspectionForm.get('imdcode').disable();
           this.addInspectionForm.get('emailidofsales').disable();
@@ -339,10 +338,8 @@ export class AddInspectionComponent
     );
   }
   getAllVehicleMake() {
-    debugger;
     this.inspectionService.getAllVehicleMake().subscribe(
       (data) => {
-        debugger;
         var res: any = data;
         this.makeData = res.data;
       },
@@ -350,10 +347,9 @@ export class AddInspectionComponent
     );
   }
   getAllVehicleModel() {
-    debugger;
     this.inspectionService.getAllVehicleModel().subscribe(
       (data) => {
-        debugger;
+
         var res: any = data;
         this.modelData = res.data;
       },
@@ -403,6 +399,7 @@ export class AddInspectionComponent
     this.addInspectionForm.get('riskType').disable();
   }
   getInspections() {
+    debugger;
     if (localStorage.getItem('view') == 'View') {
       this.title = 'View Inspection';
       this.disableInspection = false;
@@ -419,9 +416,15 @@ export class AddInspectionComponent
     this.getAllconvayances();
     this.getAllImdDetails();
     this.getinspectionByID();
-    this.getAllImdDetails();
-      this.getAllVehicleMake();
-      this.getAllVehicleModel();
+    this.getAllVehicleMake();
+    this.getAllVehicleModel();
+    if(localStorage.getItem('type') == "IMD")
+    {
+      // this.inspectionData.imdCode =localStorage.getItem('imdCode');
+      //       this.inspectionData.emailidofsales = localStorage.getItem('UserName');
+          this.addInspectionForm.get('imdcode').disable();
+          this.addInspectionForm.get('emailidofsales').disable();
+    }
   }
   statusChanged(event) {
     if (event.target.value == 6 && localStorage.getItem('inspectionId')) {
@@ -675,8 +678,9 @@ this.alertService.infoAlert("OOPS!","Please select the document");
   }
   onIMDSelect()
   {
+    debugger;
     var temp = this.imdData.filter(
-      (x) => x.imdCode == this.inspectionData.imdCode
+      (x) => x.imdCode == this.inspectionData.imdcode
     );
     this.inspectionData.emailidofsales = temp[0].email;
     //this.inspectionData.phoneNoofsales = temp[0].imdPhone;
@@ -699,11 +703,18 @@ if (this.inspectionData.convayance == "Yes") {
       return;
     } else {
       if (
-        localStorage.getItem('type') == 'Branch' ||
+        localStorage.getItem('type') == 'Branch'
+      ) {
+        this.inspectionData.branchCode = '';
+        this.inspectionData.branchName = '';
+      }
+      if (
         localStorage.getItem('type') == 'IMD'
       ) {
         this.inspectionData.branchCode = '';
         this.inspectionData.branchName = '';
+      //   var y: number = +this.inspectionData.imdCode;
+      // this.inspectionData.imdCode = y;
       }
       var x: number = +this.inspectionData.paymentmodeid;
       this.inspectionData.paymentmodeid = x;

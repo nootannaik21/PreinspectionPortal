@@ -125,7 +125,7 @@
                 class="form-control"
                 formControlName="imdcode"
                 placeholder="IMD Code"
-                [(ngModel)]="inspectionData.imdCode"
+                [(ngModel)]="inspectionData.imdcode"
                 tabindex="3"
                 (change)="onIMDSelect()"
                 [ngClass]="{ 'is-invalid': submitted && f.imdcode.errors }"
@@ -248,7 +248,7 @@
                   Customer Name is required
                 </div>
                 <div *ngIf="f.clientname.errors.pattern">
-                  Customer Name should not exceed 20 characters
+                  Customer Name should be valid
                 </div>
               </div>
             </div>
@@ -278,7 +278,7 @@
                   Customer Name is required
                 </div>
                 <div *ngIf="f.altclientname.errors.pattern">
-                  Customer Name should be 10 - 20 characters
+                  Customer Name should be 10 or more characters
                 </div>
               </div>
             </div>
@@ -788,8 +788,6 @@
                 placeholder="Location of Inspection"
                 formControlName="inspectionlocation"
                 tabindex="21"
-                appOnlyalphabets
-                [onlyAlpha]="true"
                 [(ngModel)]="inspectionData.inspectionlocation"
                 required
                 [ngClass]="{
