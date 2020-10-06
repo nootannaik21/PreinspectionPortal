@@ -357,7 +357,7 @@
             </select>
             </div>
             <div class="col-md-6" *ngIf="showVendorOrganization">
-              <label for="exampleFormControlSelect1">Vendor</label>
+              <label for="exampleFormControlSelect1">Choose Pincode</label>
               <ng-multiselect-dropdown
                 [placeholder]="'Choose vendor'"
                 [settings]="dropdownSettings"
@@ -374,7 +374,7 @@
                 *ngIf="submitted && f.vendorList.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="f.vendorList.errors.required">Vendor required</div>
+                <div *ngIf="f.vendorList.errors.required">Pincode required</div>
               </div>
             </div>
           <!--Status-->

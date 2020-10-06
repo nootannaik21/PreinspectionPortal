@@ -65,9 +65,9 @@ export class AddInspectionComponent
   documentsPath: any = [];
   showRequestRaisedErr: boolean = false;
   imdData: any = [];
- makeData: any = [];
+  makeData: any = [];
   modelData: any = [];
-  imduserDetail:boolean=false;
+  imduserDetail: boolean = false;
   constructor(
     private notifyService: NotificationService,
     private fileUploadService: FileuploadService,
@@ -77,8 +77,8 @@ export class AddInspectionComponent
     private router: Router,
     private sanitizer: DomSanitizer,
     private imageCompress: NgxImageCompressService,
-    private authService:AuthService,
-    private userapiService:UserapiserviceService,
+    private authService: AuthService,
+    private userapiService: UserapiserviceService
   ) {
     this.duplicateinspections = [
       { id: 1, duplicateinspection: 'Yes' },
@@ -87,8 +87,8 @@ export class AddInspectionComponent
   }
   imgResultBeforeCompress: number;
   imgResultAfterCompress: string;
-  localCompressedURl:any;
-  sizeOFCompressedImage:number;
+  localCompressedURl: any;
+  sizeOFCompressedImage: number;
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -103,10 +103,7 @@ export class AddInspectionComponent
       branchcode: ['', [Validators.required]],
       // imdcode: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]],
       imdcode: ['', [Validators.required]],
-      phoneNoofsales: [
-        '',
-        [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
-      ],
+      phoneNoofsales: ['', [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       clientname: [
         '',
         [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
@@ -154,10 +151,7 @@ export class AddInspectionComponent
       //   '',
       //   [Validators.required, Validators.pattern('^[a-zA-Z0-9, ]+$')],
       // ],
-      model: [
-        '',
-        [Validators.required],
-      ],
+      model: ['', [Validators.required]],
       statusid: [''],
       vendororganization: ['', [Validators.required]],
       convayance: ['', [Validators.required]],
@@ -197,13 +191,12 @@ export class AddInspectionComponent
         this.addInspectionForm.get('statusid').disable();
         this.disableInspection = true;
         this.showBranchDetail = true;
-      //   this.inspectionData.imdCode =localStorage.getItem('imdCode');
-      //       this.inspectionData.emailidofsales = localStorage.getItem('UserName');
-      //     this.addInspectionForm.get('imdcode').disable();
-      //     this.addInspectionForm.get('emailidofsales').disable();
-      // this.addInspectionForm.get('imdcode').disable();
-      // this.addInspectionForm.get('emailidofsales').disable();
-
+        //   this.inspectionData.imdCode =localStorage.getItem('imdCode');
+        //       this.inspectionData.emailidofsales = localStorage.getItem('UserName');
+        //     this.addInspectionForm.get('imdcode').disable();
+        //     this.addInspectionForm.get('emailidofsales').disable();
+        // this.addInspectionForm.get('imdcode').disable();
+        // this.addInspectionForm.get('emailidofsales').disable();
       } else if (localStorage.getItem('type') == 'OPS') {
         // this.disableFields();
         this.showHistoryTable = true;
@@ -216,24 +209,25 @@ export class AddInspectionComponent
         this.addInspectionForm.get('clientphoneno').disable();
         this.addInspectionForm.get('clientalternatephoneno').disable();
         this.addInspectionForm.get('productType').disable();
-    this.addInspectionForm.get('make').disable();
-    this.addInspectionForm.get('model').disable();
-    this.addInspectionForm.get('paymentmodeid').disable();
-    this.addInspectionForm.get('convayance').disable();
-    this.addInspectionForm.get('conveyanceKm').disable();    
-    this.addInspectionForm.get('registrationno').disable();    
-    this.addInspectionForm.get('inspectionreason').disable();
-    this.addInspectionForm.get('riskType').disable();
-    this.addInspectionForm.get('statusid').disable();
-    this.addInspectionForm.get('duplicateinspection').disable();
+        this.addInspectionForm.get('make').disable();
+        this.addInspectionForm.get('model').disable();
+        this.addInspectionForm.get('paymentmodeid').disable();
+        this.addInspectionForm.get('convayance').disable();
+        this.addInspectionForm.get('conveyanceKm').disable();
+        this.addInspectionForm.get('registrationno').disable();
+        this.addInspectionForm.get('inspectionreason').disable();
+        this.addInspectionForm.get('riskType').disable();
+        this.addInspectionForm.get('statusid').disable();
+        this.addInspectionForm.get('duplicateinspection').disable();
         this.showBranchDetail = true;
         this.disableInspection = true;
-
       } else if (localStorage.getItem('type') == 'Claims') {
         this.showBranchDetail = true;
         this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
+        this.disableInspection = true;
+        this.disableFields();
       } else {
         this.showUpload = false;
         this.showHistoryTable = true;
@@ -268,29 +262,24 @@ export class AddInspectionComponent
       this.showReferenceNo = false;
       this.hideStatus = false;
       // this.inspectionData.altclientname = '';
-      if (
-         localStorage.getItem('type') == 'Branch'
-      ) {
+      if (localStorage.getItem('type') == 'Branch') {
         this.showBranchDetail = true;
         this.addInspectionForm.get('branchName').disable();
         this.inspectionData.branchcode = localStorage.getItem('branch');
         this.addInspectionForm.get('branchcode').disable();
         this.getVendorMailList(localStorage.getItem('branch'));
-      } 
-      else if(localStorage.getItem('type') == 'IMD')
-      {
+      } else if (localStorage.getItem('type') == 'IMD') {
         debugger;
         this.showBranchDetail = true;
         this.addInspectionForm.get('branchName').disable();
         this.inspectionData.branchcode = localStorage.getItem('branch');
         this.addInspectionForm.get('branchcode').disable();
         this.getVendorMailList(localStorage.getItem('branch'));
-            this.inspectionData.imdcode =localStorage.getItem('imdCode');
-            this.inspectionData.emailidofsales = localStorage.getItem('UserName');
-          this.addInspectionForm.get('imdcode').disable();
-          this.addInspectionForm.get('emailidofsales').disable();
-      }
-      else {
+        this.inspectionData.imdcode = localStorage.getItem('imdCode');
+        this.inspectionData.emailidofsales = localStorage.getItem('UserName');
+        this.addInspectionForm.get('imdcode').disable();
+        this.addInspectionForm.get('emailidofsales').disable();
+      } else {
         this.showBranchDetail = true;
       }
     }
@@ -373,7 +362,6 @@ export class AddInspectionComponent
   getAllVehicleModel() {
     this.inspectionService.getAllVehicleModel().subscribe(
       (data) => {
-
         var res: any = data;
         this.modelData = res.data;
       },
@@ -442,12 +430,11 @@ export class AddInspectionComponent
       this.addInspectionForm.get('remarks').disable();
       this.addInspectionForm.get('statusid').disable();
     }
-    if(localStorage.getItem('type') == "IMD")
-    {
+    if (localStorage.getItem('type') == 'IMD') {
       // this.inspectionData.imdCode =localStorage.getItem('imdCode');
       //       this.inspectionData.emailidofsales = localStorage.getItem('UserName');
-          this.addInspectionForm.get('imdcode').disable();
-          this.addInspectionForm.get('emailidofsales').disable();
+      this.addInspectionForm.get('imdcode').disable();
+      this.addInspectionForm.get('emailidofsales').disable();
     }
   }
   statusChanged(event) {
@@ -458,11 +445,12 @@ export class AddInspectionComponent
       if (
         event.target.value == 1 ||
         event.target.value == 2 ||
-        (event.target.value == 4 && (localStorage.getItem('type') == 'Vendor' || localStorage.getItem('type') == 'Admin'))
+        (event.target.value == 4 &&
+          (localStorage.getItem('type') == 'Vendor' ||
+            localStorage.getItem('type') == 'Admin'))
       ) {
-          this.showUpload = true;
-        }
-       else {
+        this.showUpload = true;
+      } else {
         this.showUpload = false;
       }
     }
@@ -484,12 +472,11 @@ export class AddInspectionComponent
           this.inspectionData.convayance = res.convayance;
           debugger;
           if (this.inspectionData.duplicateinspection == true) {
-            this.inspectionData.duplicateinspection = "1";
+            this.inspectionData.duplicateinspection = '1';
             this.inspectionData.paymentmodeid = '2';
             this.addInspectionForm.get('paymentmodeid').disable();
-          }
-          else{
-            this.inspectionData.duplicateinspection = "2";
+          } else {
+            this.inspectionData.duplicateinspection = '2';
           }
           // else{
           //   this.addInspectionForm.get('paymentmodeid').enable();
@@ -559,46 +546,44 @@ export class AddInspectionComponent
     if (this.fileList) {
       for (let i = 1; i < this.fileList.length; i++)
         frmData.append('files[]', this.fileList[i], this.fileList[i].name);
-    
-    //var documentData = this.compressFile(this.file,this.file.name);
-//     let data:any={};
-//     data.username="QA_API_USER";
-//     data.password="Welcome@123";
-//     this.authService.loginForFileUpload(data).subscribe(data => {
-//       debugger;
-//       let res:any = data;
-// this.fileUploadService.postFile(this.file,res.ticket).subscribe(data => {
-//   debugger;
-// },
-//   err => {
 
-//   })
-//     },
-//     err=>
-//     {
+      //var documentData = this.compressFile(this.file,this.file.name);
+      //     let data:any={};
+      //     data.username="QA_API_USER";
+      //     data.password="Welcome@123";
+      //     this.authService.loginForFileUpload(data).subscribe(data => {
+      //       debugger;
+      //       let res:any = data;
+      // this.fileUploadService.postFile(this.file,res.ticket).subscribe(data => {
+      //   debugger;
+      // },
+      //   err => {
 
-//     })
-    this.inspectionService
-      .uploadDocument(
-        this.inspectionData.id,
-        this.inspectionData.statusid,
-        frmData
-      )
-      .subscribe(
-        (data) => {
-          this.alertService.successAlert(
-            'Success',
-            'File(s) uploaded successfully'
-          );
-        },
-        (err) => {
-          this.alertService.errorAlert("OOPS!",err.error.message);
-        }
-      );
-    }
-    else
-    {
-this.alertService.infoAlert("OOPS!","Please select the document");
+      //   })
+      //     },
+      //     err=>
+      //     {
+
+      //     })
+      this.inspectionService
+        .uploadDocument(
+          this.inspectionData.id,
+          this.inspectionData.statusid,
+          frmData
+        )
+        .subscribe(
+          (data) => {
+            this.alertService.successAlert(
+              'Success',
+              'File(s) uploaded successfully'
+            );
+          },
+          (err) => {
+            this.alertService.errorAlert('OOPS!', err.error.message);
+          }
+        );
+    } else {
+      this.alertService.infoAlert('OOPS!', 'Please select the document');
     }
   }
   uploadInspectionDetails(files: FileList) {}
@@ -639,66 +624,58 @@ this.alertService.infoAlert("OOPS!","Please select the document");
       var y: number = +this.inspectionData.statusid;
       this.inspectionData.paymentmodeid = x;
       this.inspectionData.statusid = y;
-    
+
       // this.inspectionData.altclientname = '';
       this.inspectionData.duplicateinspection == '1'
         ? (this.inspectionData.duplicateinspection = true)
         : (this.inspectionData.duplicateinspection = false);
-        if (( this.inspectionData.statusid == '1' || this.inspectionData.statusid == '2' || this.inspectionData.statusid == '4')) {
-          // this.getinspectionByID();
+      if (
+        this.inspectionData.statusid == '1' ||
+        this.inspectionData.statusid == '2' ||
+        this.inspectionData.statusid == '4'
+      ) {
+        // this.getinspectionByID();
 
-          this.inspectionService
+        this.inspectionService
           .getInspectionById(localStorage.getItem('inspectionId'))
+          .subscribe((data) => {
+            var res: any = data;
+            debugger;
+            this.inspectionData = Object.assign({}, data);
+            if (this.inspectionData.documentPath) {
+              this.inspectionService
+                .updateInspection(this.inspectionData.id, this.inspectionData)
+                .subscribe(
+                  (data) => {
+                    this.notifyService.showSuccess(
+                      'Inspection Updated successfully !!',
+                      'Success'
+                    );
+                    this.router.navigateByUrl('inspection');
+                    this.inspectionData = {};
+                  },
+                  (err) => {}
+                );
+            } else {
+              this.alertService.infoAlert('OOPS!', 'Please upload document.');
+            }
+          });
+      } else {
+        this.inspectionService
+          .updateInspection(this.inspectionData.id, this.inspectionData)
           .subscribe(
             (data) => {
-              var res: any = data;
-              debugger;
-              this.inspectionData = Object.assign({}, data);
-              if (this.inspectionData.documentPath) {
-                this.inspectionService
-                  .updateInspection(this.inspectionData.id, this.inspectionData)
-                  .subscribe(
-                    (data) => {
-                      this.notifyService.showSuccess(
-                        'Inspection Updated successfully !!',
-                        'Success'
-                      );
-                      this.router.navigateByUrl('inspection');
-                      this.inspectionData = {};
-                    },
-                    (err) => {}
-                  );
-              }
-              else
-              {
-                this.alertService.infoAlert("OOPS!","Please upload document.");
-              }
-            })
-
-
-
-
-
-          
-  }
- else
- {
-  this.inspectionService
-  .updateInspection(this.inspectionData.id, this.inspectionData)
-  .subscribe(
-    (data) => {
-      this.notifyService.showSuccess(
-        'Inspection Updated successfully !!',
-        'Success'
-      );
-      this.router.navigateByUrl('inspection');
-      this.inspectionData = {};
-    },
-    (err) => {}
-  );
- }
-}
-
+              this.notifyService.showSuccess(
+                'Inspection Updated successfully !!',
+                'Success'
+              );
+              this.router.navigateByUrl('inspection');
+              this.inspectionData = {};
+            },
+            (err) => {}
+          );
+      }
+    }
   }
   onBranchSelect() {
     debugger;
@@ -717,8 +694,7 @@ this.alertService.infoAlert("OOPS!","Please select the document");
       this.getVendorMailList(this.inspectionData.branchcode);
     }
   }
-  onIMDSelect()
-  {
+  onIMDSelect() {
     debugger;
     var temp = this.imdData.filter(
       (x) => x.imdCode == this.inspectionData.imdcode
@@ -726,16 +702,15 @@ this.alertService.infoAlert("OOPS!","Please select the document");
     this.inspectionData.emailidofsales = temp[0].email;
     //this.inspectionData.phoneNoofsales = temp[0].imdPhone;
   }
-  onConvayanceSelect()
-  {
+  onConvayanceSelect() {
     debugger;
-if (this.inspectionData.convayance == "Yes") {
-  this.inspectionData.conveyanceKm = "";
-  this.addInspectionForm.get('conveyanceKm').enable();
-} else {
-  this.inspectionData.conveyanceKm = "0";
-  this.addInspectionForm.get('conveyanceKm').disable();
-}
+    if (this.inspectionData.convayance == 'Yes') {
+      this.inspectionData.conveyanceKm = '';
+      this.addInspectionForm.get('conveyanceKm').enable();
+    } else {
+      this.inspectionData.conveyanceKm = '0';
+      this.addInspectionForm.get('conveyanceKm').disable();
+    }
   }
   createInspection() {
     debugger;
@@ -743,19 +718,15 @@ if (this.inspectionData.convayance == "Yes") {
     if (this.addInspectionForm.invalid) {
       return;
     } else {
-      if (
-        localStorage.getItem('type') == 'Branch'
-      ) {
+      if (localStorage.getItem('type') == 'Branch') {
         this.inspectionData.branchCode = '';
         this.inspectionData.branchName = '';
       }
-      if (
-        localStorage.getItem('type') == 'IMD'
-      ) {
+      if (localStorage.getItem('type') == 'IMD') {
         this.inspectionData.branchCode = '';
         this.inspectionData.branchName = '';
-      //   var y: number = +this.inspectionData.imdCode;
-      // this.inspectionData.imdCode = y;
+        //   var y: number = +this.inspectionData.imdCode;
+        // this.inspectionData.imdCode = y;
       }
       var x: number = +this.inspectionData.paymentmodeid;
       this.inspectionData.paymentmodeid = x;
@@ -851,26 +822,29 @@ if (this.inspectionData.convayance == "Yes") {
     link.download = url;
     link.click();
   }
-  compressFile(file,fileName) {
-  //   this.imageCompress.uploadFile().then(({ image, orientation }) => {
-  //     this.imgResultBeforeCompress = image;
-  //     this.imageCompress
-  //       .compressFile(image, orientation, 50, 50)
-  //       .then((result) => {
-  //         this.imgResultAfterCompress = result;
-  //           'Size in bytes is now:',
-  //           this.imageCompress.byteCount(result)
-  //         );
-  //       });
-  //   });
-  // }
-  var orientation = -1;
-this.imgResultBeforeCompress = this.imageCompress.byteCount(file.size)/(1024*1024);
-this.imageCompress.compressFile(file, orientation, 50, 50).then(
-result => {
-this.imgResultAfterCompress = result;
-this.localCompressedURl = result;
-this.sizeOFCompressedImage = this.imageCompress.byteCount(result)/(1024*1024)
-});
+  compressFile(file, fileName) {
+    //   this.imageCompress.uploadFile().then(({ image, orientation }) => {
+    //     this.imgResultBeforeCompress = image;
+    //     this.imageCompress
+    //       .compressFile(image, orientation, 50, 50)
+    //       .then((result) => {
+    //         this.imgResultAfterCompress = result;
+    //           'Size in bytes is now:',
+    //           this.imageCompress.byteCount(result)
+    //         );
+    //       });
+    //   });
+    // }
+    var orientation = -1;
+    this.imgResultBeforeCompress =
+      this.imageCompress.byteCount(file.size) / (1024 * 1024);
+    this.imageCompress
+      .compressFile(file, orientation, 50, 50)
+      .then((result) => {
+        this.imgResultAfterCompress = result;
+        this.localCompressedURl = result;
+        this.sizeOFCompressedImage =
+          this.imageCompress.byteCount(result) / (1024 * 1024);
+      });
   }
 }
