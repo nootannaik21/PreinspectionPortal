@@ -226,7 +226,7 @@
                 <option value="IMD">IMD</option>
                 <option value="Branch">Branch</option>
                 <option value="Vendor">Vendor</option>
-                <option value="Claims">Claims</option>
+                <option value="Claims">Underwriter</option>
               </select>
               <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
                 <div *ngIf="f.type.errors.required">User Type is required</div>
@@ -237,9 +237,9 @@
           <!--Branches-->
           <div class="col-md-6">
             <div class="form-group" *ngIf="showBranch">
-              <label for="exampleFormControlSelect1">Pin Code</label>
+              <label for="exampleFormControlSelect1">Pincode</label>
               <ng-multiselect-dropdown
-                [placeholder]="'Choose Pin/Location'"
+                [placeholder]="'Choose Pincode'"
                 [settings]="dropdownSettings"
                 [data]="branches"
                 tabindex="7"
@@ -254,11 +254,11 @@
                 *ngIf="submitted && f.branches.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="f.branches.errors.required">Pin/Location required</div>
+                <div *ngIf="f.branches.errors.required">Pincode required</div>
               </div>
             </div>
               <div class="form-group" *ngIf="showBranchDetail">
-                <label for="exampleFormControlSelect1">Pin/Location</label>
+                <label for="exampleFormControlSelect1">Pincode</label>
                 <select
                   class="form-control"
                   formControlName="branchName"
@@ -267,7 +267,7 @@
                   [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }"
                   placeholder="Select Branch Name"
                 >
-                  <option value="">Choose Pin/Location</option>
+                  <option value="">Choose Pincode</option>
                   <option
                     class="form-control"
                     *ngFor="let item of branches"
@@ -285,7 +285,7 @@
                   class="invalid-feedback"
                 >
                   <div *ngIf="f.branchName.errors.required">
-                    Pin Code/Locatin is required
+                    Pincode is required
                   </div>
                 </div>
               </div>

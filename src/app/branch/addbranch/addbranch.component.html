@@ -6,8 +6,8 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="exampleInputEmail1">Pin Code</label>
-              <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Pin Code"
+              <label for="exampleInputEmail1">Pincode</label>
+              <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Pincode"
                 formControlName="branchCode" [(ngModel)]="branchdata.branchCode" tabindex="1"
                 [ngClass]="{ 'is-invalid': submitted && f.branchCode.errors }" />
               <!-- <div *ngIf="submitted && f.branchCode.errors" class="invalid-feedback">
@@ -19,10 +19,10 @@
                 class="invalid-feedback"
               >
                 <div *ngIf="f.branchCode.errors.required">
-                  Pin Code is required
+                  Pincode is required
                 </div>
                 <div *ngIf="f.branchCode.errors.pattern">
-                  Pin Code should be 6 digit numeric value. 
+                  Pincode should be 6 digit numeric value. 
                 </div>
               </div>
               <!-- <div *ngIf="message" style="color:red">Branch code already exist</div> -->
