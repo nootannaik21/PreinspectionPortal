@@ -15,6 +15,7 @@ import { Subject } from 'rxjs';
 import { NotificationService } from '../../service/notification.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-add-inspection',
@@ -73,7 +74,8 @@ export class AddInspectionComponent
     private inspectionService: InspectionSeriveService,
     private router: Router,
     private sanitizer: DomSanitizer,
-    private imageCompress: NgxImageCompressService
+    private imageCompress: NgxImageCompressService,
+    private authService:AuthService,
   ) {
     this.duplicateinspections = [
       { id: 1, duplicateinspection: 'Yes' },
@@ -94,13 +96,13 @@ export class AddInspectionComponent
       pageLength: 10,
     };
     this.addInspectionForm = this.formBuilder.group({
-      branchName: ['', [Validators.required]],
+      branchName: [''],
       branchcode: ['', [Validators.required]],
       // imdcode: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]],
       imdcode: ['', [Validators.required]],
       phoneNoofsales: [
         '',
-        [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
+        [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
       ],
       clientname: [
         '',
@@ -165,6 +167,9 @@ export class AddInspectionComponent
       this.showReferenceNo = true;
       this.hideStatus = true;
       this.getInspectionsHistory();
+      this.getAllImdDetails();
+      this.getAllVehicleMake();
+      this.getAllVehicleModel();
       if (localStorage.getItem('type') == 'Vendor') {
         this.disableFields();
         this.showHistoryTable = true;
@@ -305,7 +310,7 @@ export class AddInspectionComponent
       (data) => {
         debugger;
         var res: any = data;
-        this.imdData = res.imdData;
+        this.imdData = res;
       },
       (err) => {}
     );
@@ -495,29 +500,47 @@ export class AddInspectionComponent
 
   uploadFiles(event: any) {
     let frmData: FormData = new FormData();
+    debugger;
     //frmData.append('uploadFile', this.file, this.file.name);
     if (this.fileList) {
       for (let i = 1; i < this.fileList.length; i++)
         frmData.append('files[]', this.fileList[i], this.fileList[i].name);
     
     //var documentData = this.compressFile(this.file,this.file.name);
-    this.inspectionService
-      .uploadDocument(
-        this.inspectionData.id,
-        this.inspectionData.statusid,
-        frmData
-      )
-      .subscribe(
-        (data) => {
-          this.alertService.successAlert(
-            'Success',
-            'File(s) uploaded successfully'
-          );
-        },
-        (err) => {
-          this.alertService.errorAlert("OOPS!",err.error.message);
-        }
-      );
+    let data:any={};
+    data.username="QA_API_USER";
+    data.password="Welcome@123";
+    this.authService.loginForFileUpload(data).subscribe(data => {
+      debugger;
+      let res:any = data;
+this.fileUploadService.postFile(this.file,res.ticket).subscribe(data => {
+  debugger;
+},
+  err => {
+
+  })
+    },
+    err=>
+    {
+
+    })
+    // this.inspectionService
+    //   .uploadDocument(
+    //     this.inspectionData.id,
+    //     this.inspectionData.statusid,
+    //     frmData
+    //   )
+    //   .subscribe(
+    //     (data) => {
+    //       this.alertService.successAlert(
+    //         'Success',
+    //         'File(s) uploaded successfully'
+    //       );
+    //     },
+    //     (err) => {
+    //       this.alertService.errorAlert("OOPS!",err.error.message);
+    //     }
+    //   );
     }
     else
     {
@@ -629,8 +652,8 @@ this.alertService.infoAlert("OOPS!","Please select the document");
     var temp = this.imdData.filter(
       (x) => x.imdCode == this.inspectionData.imdCode
     );
-    this.inspectionData.emailidofsales = temp[0].imdName;
-    this.inspectionData.phoneNoofsales = temp[0].imdPhone;
+    this.inspectionData.emailidofsales = temp[0].email;
+    //this.inspectionData.phoneNoofsales = temp[0].imdPhone;
   }
   onConvayanceSelect()
   {
@@ -644,6 +667,7 @@ if (this.inspectionData.convayance == "Yes") {
 }
   }
   createInspection() {
+    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;

@@ -128,7 +128,7 @@
                 [(ngModel)]="inspectionData.imdCode"
                 tabindex="3"
                 (change)="onIMDSelect()"
-                [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }"
+                [ngClass]="{ 'is-invalid': submitted && f.imdcode.errors }"
                 required
               >
                 <option value="">Choose IMD</option>
@@ -533,8 +533,8 @@
               <label for="exampleInputEmail1">Vehicle Model</label>
               <select
                 class="form-control"
-                formControlName="make"
-                placeholder="Choose moel of Vehicle"
+                formControlName="model"
+                placeholder="Choose model of Vehicle"
                 [(ngModel)]="inspectionData.model"
                 tabindex="1"
                 [ngClass]="{ 'is-invalid': submitted && f.model.errors }"
@@ -558,7 +558,7 @@
                 class="invalid-feedback"
               >
                 <div *ngIf="f.model.errors.required">
-                  Location is required
+                  Model is required
                 </div>
               </div>
             </div>

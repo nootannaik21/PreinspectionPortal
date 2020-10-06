@@ -90,7 +90,7 @@ deleteProductType(id: any) {
   return this.apiService.delete("inspection/deletePrductType?id="+id);
 }
 getAllImdDetails() {
-  return this.apiService.get("imd/getAllImd");
+  return this.apiService.get("user/getIMDDetails");
 }
 getAllVehicleMake() {
   return this.apiService.get("vehicle/getAllVehicleMake");
