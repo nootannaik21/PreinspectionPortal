@@ -268,7 +268,7 @@
                 [(ngModel)]="inspectionData.altclientname"
                 appOnlyalphabets
                 [onlyAlpha]="true"
-                [ngClass]="{ 'is-invalid': submitted && f.clientname.errors }"
+                [ngClass]="{ 'is-invalid': submitted && f.altclientname.errors }"
               />
               <div
                 *ngIf="submitted && f.altclientname.errors"
@@ -357,7 +357,6 @@
                 formControlName="clientalternatephoneno"
                 tabindex="10"
                 [(ngModel)]="inspectionData.clientalternatephoneno"
-                required
                 [ngClass]="{
                   'is-invalid': submitted && f.clientalternatephoneno.errors
                 }"
@@ -366,9 +365,9 @@
                 *ngIf="submitted && f.clientalternatephoneno.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="f.clientalternatephoneno.errors.required">
+                <!-- <div *ngIf="f.clientalternatephoneno.errors.required">
                   Alternate Phone No is required
-                </div>
+                </div> -->
                 <div *ngIf="f.clientalternatephoneno.errors.pattern">
                   Please enter valid phone number.e.g:xxxxxxxxxx
                 </div>

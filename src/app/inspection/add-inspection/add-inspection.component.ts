@@ -82,7 +82,7 @@ export class AddInspectionComponent
   ) {
     this.duplicateinspections = [
       { id: 1, duplicateinspection: 'Yes' },
-      { id: 0, duplicateinspection: 'No', checked: 'true' },
+      { id: 2, duplicateinspection: 'No', checked: 'true' },
     ];
   }
   imgResultBeforeCompress: number;
@@ -137,7 +137,7 @@ export class AddInspectionComponent
       ],
       clientalternatephoneno: [
         '',
-        [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
+        [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
       ],
       inspectionreason: ['', [Validators.required]],
       productType: ['', [Validators.required]],
@@ -338,6 +338,7 @@ export class AddInspectionComponent
     );
   }
   getAllVehicleMake() {
+    debugger;
     this.inspectionService.getAllVehicleMake().subscribe(
       (data) => {
         var res: any = data;
@@ -415,9 +416,10 @@ export class AddInspectionComponent
     this.getinspectionreasons();
     this.getAllconvayances();
     this.getAllImdDetails();
-    this.getinspectionByID();
     this.getAllVehicleMake();
     this.getAllVehicleModel();
+    this.getinspectionByID();
+    
     if(localStorage.getItem('type') == "IMD")
     {
       // this.inspectionData.imdCode =localStorage.getItem('imdCode');
@@ -458,13 +460,14 @@ export class AddInspectionComponent
           this.inspectionData.productType = res.productType;
           this.inspectionData.riskType = res.riskType;
           this.inspectionData.convayance = res.convayance;
+          debugger;
           if (this.inspectionData.duplicateinspection == true) {
-            this.inspectionData.duplicateinspection = "2";
+            this.inspectionData.duplicateinspection = "1";
             this.inspectionData.paymentmodeid = '2';
             this.addInspectionForm.get('paymentmodeid').disable();
           }
           else{
-            this.inspectionData.duplicateinspection = "1";
+            this.inspectionData.duplicateinspection = "2";
           }
           // else{
           //   this.addInspectionForm.get('paymentmodeid').enable();
@@ -614,6 +617,7 @@ this.alertService.infoAlert("OOPS!","Please select the document");
       var y: number = +this.inspectionData.statusid;
       this.inspectionData.paymentmodeid = x;
       this.inspectionData.statusid = y;
+    
       // this.inspectionData.altclientname = '';
       this.inspectionData.duplicateinspection == '1'
         ? (this.inspectionData.duplicateinspection = true)
