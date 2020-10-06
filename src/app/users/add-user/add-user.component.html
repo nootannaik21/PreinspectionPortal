@@ -180,7 +180,7 @@
             </div>
           </div>
           <!--End of Confirm Password-->
-          <div class="col-md-6"*ngIf="imdUser">
+          <div class="col-md-6" *ngIf="imdUser">
             <div class="form-group">
               <label for="exampleInputEmail1">IMD Code</label>
               <input
@@ -191,15 +191,16 @@
                 placeholder="IMD Code"
                 formControlName="IMDCode"
                 [(ngModel)]="userdata.imdCode"
+                [ngClass]="{ 'is-invalid': submitted && f.IMDCode.errors }"
               />
-              <!-- <div
-                *ngIf="submitted && f.imdCode.errors"
+              <div
+                *ngIf="submitted && f.IMDCode.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="f.imdCode.errors.required">
+                <div *ngIf="f.IMDCode.errors.pattern">
                   IMD Code is required
-                </div> -->
-              <!-- </div> -->
+                </div> 
+              </div>
             </div>
           </div>
         </div>
@@ -236,7 +237,7 @@
           <!--Branches-->
           <div class="col-md-6">
             <div class="form-group" *ngIf="showBranch">
-              <label for="exampleFormControlSelect1">Pin/Location</label>
+              <label for="exampleFormControlSelect1">Pin Code</label>
               <ng-multiselect-dropdown
                 [placeholder]="'Choose Pin/Location'"
                 [settings]="dropdownSettings"
@@ -274,7 +275,7 @@
                   >
                     <table>
                       <tr>
-                        <td>{{ item.branchCode }}-{{item.branchName}}</td>
+                        <td>{{ item.branchCode }}</td>
                       </tr>
                     </table>
                   </option>
@@ -356,7 +357,7 @@
             </select>
             </div>
             <div class="col-md-6" *ngIf="showVendorOrganization">
-              <label for="exampleFormControlSelect1">Pin/Location</label>
+              <label for="exampleFormControlSelect1">Vendor</label>
               <ng-multiselect-dropdown
                 [placeholder]="'Choose vendor'"
                 [settings]="dropdownSettings"
@@ -366,14 +367,14 @@
                 formControlName="vendorList"
                 (onSelect)="onItemSelect($event)"
                 (onSelectAll)="onSelectAll($event)"
-                [ngClass]="{ 'is-invalid': submitted && f.branches.errors }"
+                [ngClass]="{ 'is-invalid': submitted && f.vendorList.errors }"
               >
               </ng-multiselect-dropdown>
               <div
-                *ngIf="submitted && f.branches.errors"
+                *ngIf="submitted && f.vendorList.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="f.branches.errors.required">Pin/Location required</div>
+                <div *ngIf="f.vendorList.errors.required">Vendor required</div>
               </div>
             </div>
           <!--Status-->

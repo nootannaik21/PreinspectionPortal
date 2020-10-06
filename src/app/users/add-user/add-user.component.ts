@@ -79,7 +79,8 @@ export class AddUserComponent implements OnInit {
         ],
       ],
       confPassword: ['', [Validators.required]],
-      IMDCode: [''],
+      IMDCode: ['', [ Validators.pattern('^[0-9]{8}$')]],
+      // imdcode: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]]
     });
 
     if (localStorage.getItem('userid')) {
