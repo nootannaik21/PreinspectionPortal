@@ -42,12 +42,12 @@ export class EnquiryListComponent implements OnInit, OnDestroy, AfterViewInit {
   viewInspection(item){
     localStorage.setItem('inspectionId', item.id);
     localStorage.setItem('view', "View");
-    this.router.navigateByUrl('inspection/addInspection');
+    this.router.navigateByUrl('inspection/viewInspection');
   }
   editInspectionRow(item) {
     localStorage.setItem('inspectionId', item.id);
     localStorage.setItem('view', "Edit");
-    this.router.navigateByUrl('inspection/addInspection');
+    this.router.navigateByUrl('inspection/editInspection');
   }
   getEnquiryList(){
     this.enquiryService.getEnquiryList(this.enquiryData).subscribe(

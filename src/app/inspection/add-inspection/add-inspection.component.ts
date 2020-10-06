@@ -419,13 +419,6 @@ export class AddInspectionComponent
   }
   getInspections() {
     debugger;
-    if (localStorage.getItem('view') == 'View') {
-      this.title = 'View Inspection';
-      this.disableInspection = false;
-      this.disableFields();
-      this.addInspectionForm.get('remarks').disable();
-      this.addInspectionForm.get('statusid').disable();
-    }
     this.getAllBranches();
     this.getAllInspectionStatus();
     this.getPaymentMode();
@@ -437,7 +430,13 @@ export class AddInspectionComponent
     this.getAllVehicleMake();
     this.getAllVehicleModel();
     this.getinspectionByID();
-    
+    if (localStorage.getItem('view') == 'View') {
+      this.title = 'View Inspection';
+      this.disableInspection = false;
+      this.disableFields();
+      this.addInspectionForm.get('remarks').disable();
+      this.addInspectionForm.get('statusid').disable();
+    }
     if(localStorage.getItem('type') == "IMD")
     {
       // this.inspectionData.imdCode =localStorage.getItem('imdCode');
