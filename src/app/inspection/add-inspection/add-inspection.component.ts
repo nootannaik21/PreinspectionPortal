@@ -183,17 +183,20 @@ export class AddInspectionComponent
       } else if (localStorage.getItem('type') == 'Branch') {
         this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
+        this.inspectionData.branchcode = localStorage.getItem('branch');
         this.addInspectionForm.get('branchcode').disable();
         this.addInspectionForm.get('statusid').disable();
         this.disableInspection = true;
-        this.showBranchDetail = false;
+        this.showBranchDetail = true;
       } else if (localStorage.getItem('type') == 'IMD') {
         debugger;
         this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
+        this.inspectionData.branchcode = localStorage.getItem('branch');
         this.addInspectionForm.get('branchcode').disable();
         this.addInspectionForm.get('statusid').disable();
         this.disableInspection = true;
+        this.showBranchDetail = true;
       //   this.inspectionData.imdCode =localStorage.getItem('imdCode');
       //       this.inspectionData.emailidofsales = localStorage.getItem('UserName');
       //     this.addInspectionForm.get('imdcode').disable();
@@ -268,16 +271,18 @@ export class AddInspectionComponent
       if (
          localStorage.getItem('type') == 'Branch'
       ) {
-        this.showBranchDetail = false;
+        this.showBranchDetail = true;
         this.addInspectionForm.get('branchName').disable();
+        this.inspectionData.branchcode = localStorage.getItem('branch');
         this.addInspectionForm.get('branchcode').disable();
         this.getVendorMailList(localStorage.getItem('branch'));
       } 
       else if(localStorage.getItem('type') == 'IMD')
       {
         debugger;
-        this.showBranchDetail = false;
+        this.showBranchDetail = true;
         this.addInspectionForm.get('branchName').disable();
+        this.inspectionData.branchcode = localStorage.getItem('branch');
         this.addInspectionForm.get('branchcode').disable();
         this.getVendorMailList(localStorage.getItem('branch'));
             this.inspectionData.imdcode =localStorage.getItem('imdCode');
