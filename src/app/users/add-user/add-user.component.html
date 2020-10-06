@@ -191,9 +191,6 @@
                 placeholder="IMD Code"
                 formControlName="IMDCode"
                 [(ngModel)]="userdata.imdCode"
-                appOnlyalphabets
-                [onlyAlpha]="true"
-                (keypress)="avoidSpecialchar($event)"
                 [ngClass]="{ 'is-invalid': submitted && f.imdCode.errors }"
               />
               <div
