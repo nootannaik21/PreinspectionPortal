@@ -145,10 +145,10 @@
                 </option>
               </select>
               <div
-                *ngIf="submitted && f.branchcode.errors"
+                *ngIf="submitted && f.imdcode.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="f.productType.errors.required">
+                <div *ngIf="f.imdcode.errors.required">
                   IMD Code is required
                 </div>
               </div>

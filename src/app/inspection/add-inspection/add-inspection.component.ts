@@ -16,6 +16,7 @@ import { NotificationService } from '../../service/notification.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { AuthService } from 'src/app/service/auth.service';
+import { UserapiserviceService } from 'src/app/service/userapiservice.service';
 
 @Component({
   selector: 'app-add-inspection',
@@ -76,6 +77,7 @@ export class AddInspectionComponent
     private sanitizer: DomSanitizer,
     private imageCompress: NgxImageCompressService,
     private authService:AuthService,
+    private userapiService:UserapiserviceService,
   ) {
     this.duplicateinspections = [
       { id: 1, duplicateinspection: 'Yes' },
@@ -185,12 +187,21 @@ export class AddInspectionComponent
         this.disableInspection = true;
         this.showBranchDetail = false;
       } else if (localStorage.getItem('type') == 'IMD') {
+        debugger;
         //this.disableFields();
         this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
         this.addInspectionForm.get('statusid').disable();
         this.disableInspection = true;
+        this.userapiService.getUserById(localStorage.getItem('userid')).subscribe(
+          (data) => {
+            var user: any = data;
+            this.inspectionData.imdCode = user.imCode;
+            this.inspectionData.emailidofsales = user.email;
+          });
+          this.addInspectionForm.get('imdcode').disable();
+          this.addInspectionForm.get('emailidofsales').disable();
       } else if (localStorage.getItem('type') == 'OPS') {
         this.disableFields();
         this.showHistoryTable = true;
@@ -238,14 +249,30 @@ export class AddInspectionComponent
       this.hideStatus = false;
       // this.inspectionData.altclientname = '';
       if (
-        localStorage.getItem('type') == 'IMD' ||
-        localStorage.getItem('type') == 'Branch'
+         localStorage.getItem('type') == 'Branch'
       ) {
         this.showBranchDetail = false;
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
         this.getVendorMailList(localStorage.getItem('branch'));
-      } else {
+      } 
+      else if(localStorage.getItem('type') == 'IMD')
+      {
+        debugger;
+        this.showBranchDetail = false;
+        this.addInspectionForm.get('branchName').disable();
+        this.addInspectionForm.get('branchcode').disable();
+        this.getVendorMailList(localStorage.getItem('branch'));
+        this.userapiService.getUserById(localStorage.getItem('userid')).subscribe(
+          (data) => {
+            var user: any = data;
+            this.inspectionData.imdCode = user.imCode;
+            this.inspectionData.emailidofsales = user.email;
+          });
+          this.addInspectionForm.get('imdcode').disable();
+          this.addInspectionForm.get('emailidofsales').disable();
+      }
+      else {
         this.showBranchDetail = true;
       }
     }
@@ -396,6 +423,9 @@ export class AddInspectionComponent
     this.getAllconvayances();
     this.getAllImdDetails();
     this.getinspectionByID();
+    this.getAllImdDetails();
+      this.getAllVehicleMake();
+      this.getAllVehicleModel();
   }
   statusChanged(event) {
     if (event.target.value == 6 && localStorage.getItem('inspectionId')) {

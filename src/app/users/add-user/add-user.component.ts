@@ -557,7 +557,7 @@ this.vendorapiService.getVendorByEmail(evt.target.value).subscribe(
               this.dropdownSettings = {
                 singleSelection: false,
                 idField: 'id',
-                textField: 'branchName',
+                textField: 'branchCode',
                 selectAllText: 'Select All',
                 unSelectAllText: 'UnSelect All',
                 allowSearchFilter: true,
