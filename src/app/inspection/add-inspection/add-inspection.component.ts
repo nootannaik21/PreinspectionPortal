@@ -202,12 +202,30 @@ export class AddInspectionComponent
       // this.addInspectionForm.get('emailidofsales').disable();
 
       } else if (localStorage.getItem('type') == 'OPS') {
-        this.disableFields();
+        // this.disableFields();
         this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
-        this.addInspectionForm.get('branchcode').disable();
-        this.showBranchDetail = false;
+        //this.addInspectionForm.get('branchcode').disable();
+
+        this.addInspectionForm.get('clientname').disable();
+        this.addInspectionForm.get('altclientname').disable();
+        this.addInspectionForm.get('clientemail').disable();
+        this.addInspectionForm.get('clientphoneno').disable();
+        this.addInspectionForm.get('clientalternatephoneno').disable();
+        this.addInspectionForm.get('productType').disable();
+    this.addInspectionForm.get('make').disable();
+    this.addInspectionForm.get('model').disable();
+    this.addInspectionForm.get('paymentmodeid').disable();
+    this.addInspectionForm.get('convayance').disable();
+    this.addInspectionForm.get('conveyanceKm').disable();    
+    this.addInspectionForm.get('registrationno').disable();    
+    this.addInspectionForm.get('inspectionreason').disable();
+    this.addInspectionForm.get('riskType').disable();
+    this.addInspectionForm.get('statusid').disable();
+    this.addInspectionForm.get('duplicateinspection').disable();
+        this.showBranchDetail = true;
         this.disableInspection = true;
+
       } else if (localStorage.getItem('type') == 'Claims') {
         this.showBranchDetail = true;
         this.showHistoryTable = true;
