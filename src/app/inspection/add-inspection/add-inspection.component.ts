@@ -263,12 +263,8 @@ export class AddInspectionComponent
         this.addInspectionForm.get('branchName').disable();
         this.addInspectionForm.get('branchcode').disable();
         this.getVendorMailList(localStorage.getItem('branch'));
-        this.userapiService.getUserById(localStorage.getItem('userid')).subscribe(
-          (data) => {
-            var user: any = data;
-            this.inspectionData.imdCode = user.imCode;
-            this.inspectionData.emailidofsales = user.email;
-          });
+            this.inspectionData.imdCode =localStorage.getItem('imdCode');
+            this.inspectionData.emailidofsales = localStorage.getItem('UserName');
           this.addInspectionForm.get('imdcode').disable();
           this.addInspectionForm.get('emailidofsales').disable();
       }
