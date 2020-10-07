@@ -89,8 +89,8 @@ updateProductType(productTypeData) {
 deleteProductType(id: any) {
   return this.apiService.delete("inspection/deletePrductType?id="+id);
 }
-getAllImdDetails() {
-  return this.apiService.get("user/getIMDDetails");
+getAllImdDetails(branchCode) {
+  return this.apiService.get("user/getIMDDetails?pincode="+ branchCode);
 }
 getAllVehicleMake() {
   return this.apiService.get("vehicle/getAllVehicleMake");

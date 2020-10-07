@@ -178,31 +178,12 @@ export class AddInspectionComponent
         this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.inspectionData.branchcode = localStorage.getItem('branch');
+        this.getAllImdDetails(localStorage.getItem('branch'));
         this.addInspectionForm.get('branchcode').disable();
         this.addInspectionForm.get('statusid').disable();
         this.disableInspection = true;
         this.showBranchDetail = true;
-      } else if (localStorage.getItem('type') == 'IMD') {
-        debugger;
-        this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
-        this.inspectionData.branchcode = localStorage.getItem('branch');
-        this.addInspectionForm.get('branchcode').disable();
-        this.addInspectionForm.get('statusid').disable();
-        this.disableInspection = true;
-        this.showBranchDetail = true;
-        //   this.inspectionData.imdCode =localStorage.getItem('imdCode');
-        //       this.inspectionData.emailidofsales = localStorage.getItem('UserName');
-        //     this.addInspectionForm.get('imdcode').disable();
-        //     this.addInspectionForm.get('emailidofsales').disable();
-        // this.addInspectionForm.get('imdcode').disable();
-        // this.addInspectionForm.get('emailidofsales').disable();
-      } else if (localStorage.getItem('type') == 'OPS') {
-        // this.disableFields();
-        this.showHistoryTable = true;
-        this.addInspectionForm.get('branchName').disable();
-        //this.addInspectionForm.get('branchcode').disable();
-
         this.addInspectionForm.get('clientname').disable();
         this.addInspectionForm.get('altclientname').disable();
         this.addInspectionForm.get('clientemail').disable();
@@ -218,6 +199,38 @@ export class AddInspectionComponent
         this.addInspectionForm.get('inspectionreason').disable();
         this.addInspectionForm.get('riskType').disable();
         this.addInspectionForm.get('statusid').disable();
+        this.addInspectionForm.get('duplicateinspection').disable();
+      } else if (localStorage.getItem('type') == 'IMD') {
+        debugger;
+        this.showHistoryTable = true;
+        this.addInspectionForm.get('branchName').disable();
+        this.inspectionData.branchcode = localStorage.getItem('branch');
+        this.getAllImdDetails(localStorage.getItem('branch'));
+        this.addInspectionForm.get('branchcode').disable();
+        this.addInspectionForm.get('statusid').disable();
+        this.disableInspection = true;
+        this.showBranchDetail = true;
+        this.disableFields();
+        this.addInspectionForm.get('vendororganization').enable();
+      } else if (localStorage.getItem('type') == 'OPS') {
+        this.showHistoryTable = true;
+        this.addInspectionForm.get('branchName').disable();
+        this.addInspectionForm.get('clientname').disable();
+        this.addInspectionForm.get('altclientname').disable();
+        this.addInspectionForm.get('clientemail').disable();
+        this.addInspectionForm.get('clientphoneno').disable();
+        this.addInspectionForm.get('clientalternatephoneno').disable();
+        this.addInspectionForm.get('productType').disable();
+        this.addInspectionForm.get('make').disable();
+        this.addInspectionForm.get('model').disable();
+        this.addInspectionForm.get('paymentmodeid').disable();
+        this.addInspectionForm.get('convayance').disable();
+        this.addInspectionForm.get('conveyanceKm').disable();
+        this.addInspectionForm.get('registrationno').disable();
+        this.addInspectionForm.get('inspectionreason').disable();
+        this.addInspectionForm.get('riskType').disable();
+        this.addInspectionForm.get('statusid').disable();
+        this.addInspectionForm.get('inspectionlocation').disable();
         this.addInspectionForm.get('duplicateinspection').disable();
         this.showBranchDetail = true;
         this.disableInspection = true;
@@ -243,7 +256,7 @@ export class AddInspectionComponent
       this.getallProductType();
       this.getinspectionreasons();
       this.getAllconvayances();
-      this.getAllImdDetails();
+      this.getAllImdDetails(this.inspectionData.branchcode);
       this.getAllVehicleMake();
       this.getAllVehicleModel();
       localStorage.removeItem('inspectionId');
@@ -256,8 +269,11 @@ export class AddInspectionComponent
       this.inspectionData.vendorEmailId = '';
       this.inspectionData.convayance = '';
       this.inspectionData.statusid = 6;
-      this.inspectionData.duplicateinspection = '2';
-      this.inspectionData.vendororganization = '';
+      this.inspectionData.duplicateinspection = '0';
+      this.inspectionData.vendorOrganization = '';
+      this.inspectionData.imdcode = '';
+      this.inspectionData.make = '';
+      this.inspectionData.model = '';
       this.title = 'Add Inspection';
       this.showReferenceNo = false;
       this.hideStatus = false;
@@ -266,6 +282,7 @@ export class AddInspectionComponent
         this.showBranchDetail = true;
         this.addInspectionForm.get('branchName').disable();
         this.inspectionData.branchcode = localStorage.getItem('branch');
+        this.getAllImdDetails(localStorage.getItem('branch'));
         this.addInspectionForm.get('branchcode').disable();
         this.getVendorMailList(localStorage.getItem('branch'));
       } else if (localStorage.getItem('type') == 'IMD') {
@@ -273,6 +290,7 @@ export class AddInspectionComponent
         this.showBranchDetail = true;
         this.addInspectionForm.get('branchName').disable();
         this.inspectionData.branchcode = localStorage.getItem('branch');
+        this.getAllImdDetails(localStorage.getItem('branch'));
         this.addInspectionForm.get('branchcode').disable();
         this.getVendorMailList(localStorage.getItem('branch'));
         this.inspectionData.imdcode = localStorage.getItem('imdCode');
@@ -339,8 +357,8 @@ export class AddInspectionComponent
       (err) => {}
     );
   }
-  getAllImdDetails() {
-    this.inspectionService.getAllImdDetails().subscribe(
+  getAllImdDetails(branchCode) {
+    this.inspectionService.getAllImdDetails(branchCode).subscribe(
       (data) => {
         debugger;
         var res: any = data;
@@ -362,6 +380,7 @@ export class AddInspectionComponent
   getAllVehicleModel() {
     this.inspectionService.getAllVehicleModel().subscribe(
       (data) => {
+        debugger;
         var res: any = data;
         this.modelData = res.data;
       },
@@ -419,7 +438,6 @@ export class AddInspectionComponent
     this.getallProductType();
     this.getinspectionreasons();
     this.getAllconvayances();
-    this.getAllImdDetails();
     this.getAllVehicleMake();
     this.getAllVehicleModel();
     this.getinspectionByID();
@@ -431,8 +449,6 @@ export class AddInspectionComponent
       this.addInspectionForm.get('statusid').disable();
     }
     if (localStorage.getItem('type') == 'IMD') {
-      // this.inspectionData.imdCode =localStorage.getItem('imdCode');
-      //       this.inspectionData.emailidofsales = localStorage.getItem('UserName');
       this.addInspectionForm.get('imdcode').disable();
       this.addInspectionForm.get('emailidofsales').disable();
     }
@@ -463,6 +479,7 @@ export class AddInspectionComponent
           var res: any = data;
           if (res) {
             this.getVendorMailList(res.branchcode);
+            this.getAllImdDetails(res.branchcode);
           }
           this.inspectionData = Object.assign({}, data);
           this.inspectionData.vendorEmailId = res.vendorEmailId;
@@ -470,13 +487,17 @@ export class AddInspectionComponent
           this.inspectionData.productType = res.productType;
           this.inspectionData.riskType = res.riskType;
           this.inspectionData.convayance = res.convayance;
+          this.inspectionData.imdcode = res.imdcode;
+          this.inspectionData.make = res.make;
+          this.inspectionData.model = res.model;
+          debugger;
           debugger;
           if (this.inspectionData.duplicateinspection == true) {
             this.inspectionData.duplicateinspection = '1';
             this.inspectionData.paymentmodeid = '2';
             this.addInspectionForm.get('paymentmodeid').disable();
           } else {
-            this.inspectionData.duplicateinspection = '2';
+            this.inspectionData.duplicateinspection = '0';
           }
           // else{
           //   this.addInspectionForm.get('paymentmodeid').enable();
@@ -540,36 +561,25 @@ export class AddInspectionComponent
   }
 
   uploadFiles(event: any) {
-    let frmData: FormData = new FormData();
+    let formData: FormData = new FormData();
     debugger;
     //frmData.append('uploadFile', this.file, this.file.name);
+    
+    // if (condition) {
+      
+    // } else {
+      
+    // }
+    
     if (this.fileList) {
       for (let i = 1; i < this.fileList.length; i++)
-        frmData.append('files[]', this.fileList[i], this.fileList[i].name);
-
-      //var documentData = this.compressFile(this.file,this.file.name);
-      //     let data:any={};
-      //     data.username="QA_API_USER";
-      //     data.password="Welcome@123";
-      //     this.authService.loginForFileUpload(data).subscribe(data => {
-      //       debugger;
-      //       let res:any = data;
-      // this.fileUploadService.postFile(this.file,res.ticket).subscribe(data => {
-      //   debugger;
-      // },
-      //   err => {
-
-      //   })
-      //     },
-      //     err=>
-      //     {
-
-      //     })
+         formData.append('files[]',this.fileList[i], this.fileList[i].name);
+        //formData.append('files[]', this.fileList[i], this.fileList[i].name);
       this.inspectionService
         .uploadDocument(
           this.inspectionData.id,
           this.inspectionData.statusid,
-          frmData
+          formData
         )
         .subscribe(
           (data) => {
@@ -691,6 +701,7 @@ export class AddInspectionComponent
     // );
     // this.inspectionData.branchcode = temp[0].branchCode;
     this.getVendorMailList(this.inspectionData.branchcode);
+    this.getAllImdDetails(this.inspectionData.branchcode);
   }
   onBranchCodeSelect() {
     var temp = this.branches.filter(
