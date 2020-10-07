@@ -78,6 +78,7 @@ fileStr.forEach(element => {
   
 
 this.inspectionService.downloadDocument(element).subscribe(data=>{
+  debugger;
 var res: any = data;
 var blob = new Blob([res]);
 var downloadURL = window.URL.createObjectURL(res);

@@ -28,7 +28,6 @@ export class AddUserComponent implements OnInit {
   selectedItems = [];
   dropdownSettings: any = [];
   branchCodes: any = [];
-
   addUserForm: FormGroup;
   showBranch: boolean;
   title: string;
@@ -37,6 +36,7 @@ export class AddUserComponent implements OnInit {
   vendorOganization: any = [];
   vendorList: any = [];
   branchList: any = [];
+  imdUser:boolean=false;
   constructor(
     private notifyService: NotificationService,
     private formBuilder: FormBuilder,
@@ -56,7 +56,7 @@ export class AddUserComponent implements OnInit {
       lastName: ['', [Validators.required]],
       branchName: ['', [Validators.required]],
       type: ['', [Validators.required]],
-      branchCode: ['', [Validators.required]],
+      branchCode: [''],
       status: ['', [Validators.required]],
       branches: [''],
       vendor: [''],
@@ -79,6 +79,8 @@ export class AddUserComponent implements OnInit {
         ],
       ],
       confPassword: ['', [Validators.required]],
+      IMDCode: ['', [ Validators.pattern('^[0-9]{8}$')]],
+      // imdcode: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]]
     });
 
     if (localStorage.getItem('userid')) {
@@ -99,7 +101,13 @@ export class AddUserComponent implements OnInit {
             this.showBranch = false;
             this.getAllBranches();
           }
-         else if (this.userdata.type == 'IMD' || this.userdata.type == 'Branch') {
+         else if (this.userdata.type == 'IMD') {
+            this.showBranch = false;
+            this.showBranchDetail = true;
+            this.getAllBranches();
+            this.imdUser = true;
+          }
+          else if(this.userdata.type == 'Branch') {
             this.showBranch = false;
             this.showBranchDetail = true;
             this.getAllBranches();
@@ -150,15 +158,17 @@ export class AddUserComponent implements OnInit {
           })
           } 
           else {
+            debugger;
             this.showBranch = true;
             this.showBranchDetail = false;
             let tmp = [];
             if (user.branches.length > 0) {
               this.userapiService.getBranches().subscribe(
                 (branches) => {
+                  debugger;
                   var res: any = branches;
                   this.branches = res.data;
-                  for (let i = 0; i < user.branches[i]; i++) {
+                  for (let i = 0; i < user.branches.length; i++) {
                     var branch = this.branches.filter(
                       (x) => x.id == user.branches[i]
                     );
@@ -226,7 +236,16 @@ export class AddUserComponent implements OnInit {
     this.userdata.branchName = temp[0].branchName;
   }
   onTypeSelect(eve) {
-    if (eve.target.value == 'IMD' || eve.target.value == 'Branch') {
+    this.imdUser = false;
+    if (eve.target.value == 'IMD') {
+      this.showBranch = false;
+      this.showBranchDetail = true;
+      this.userdata.branchName = '';
+      this.userdata.branchCode = '';
+      this.userdata.branches = [];
+      this.imdUser = true;
+    }
+    else if(eve.target.value == 'Branch') {
       this.showBranch = false;
       this.showBranchDetail = true;
       this.userdata.branchName = '';
@@ -322,18 +341,29 @@ export class AddUserComponent implements OnInit {
     this.router.navigateByUrl('users');
   }
   onSubmit() {
+    debugger;
     this.submitted = true;
     const branchName = this.addUserForm.get('branchName');
-    const branchCode = this.addUserForm.get('branchCode');
+    //const branchCode = this.addUserForm.get('branchCode');
     // const branches = this.addUserForm.get('branches');
     const status = this.addUserForm.get('status');
-    if (this.userdata.type == 'IMD' || this.userdata.type == 'Branch') {
+    if (this.userdata.type == 'Branch') {
       this.showBranch = false;
       this.showBranchDetail = true;
       this.userdata.branches = [];
       // branches.setValidators(null);
       this.userdata.branches = [];
-    } else if (
+    } 
+    else if(this.userdata.type == 'IMD')
+    {
+      var y: number = +this.userdata.imdCode;
+      this.userdata.imdCode = y;
+      this.showBranch = false;
+      this.showBranchDetail = true;
+      this.userdata.branches = [];
+      // branches.setValidators(null);
+      this.userdata.branches = [];
+    }else if (
       this.userdata.type == 'Admin' ||
       this.userdata.type == 'Claims'
     ) {
@@ -345,7 +375,7 @@ export class AddUserComponent implements OnInit {
       this.userdata.vendorOrganization = '';
 
       branchName.setValidators(null);
-      branchCode.setValidators(null);
+      //branchCode.setValidators(null);
       // branches.setValidators(null);
     } else if (this.userdata.type == 'Vendor') {
       this.showBranch = false;
@@ -355,7 +385,7 @@ export class AddUserComponent implements OnInit {
       this.userdata.company = '';
       // this.userdata.branches = [];
       branchName.setValidators(null);
-      branchCode.setValidators(null);
+      //branchCode.setValidators(null);
       // branches.setValidators(null);
     } else {
       this.showBranch = true;
@@ -363,7 +393,7 @@ export class AddUserComponent implements OnInit {
       this.userdata.branchName = '';
       this.userdata.branchCode = '';
       branchName.setValidators(null);
-      branchCode.setValidators(null);
+      //branchCode.setValidators(null);
       this.userdata.branches = [];
       if (this.selectedItems.length > 0) {
         this.selectedItems.forEach((element) => {
@@ -373,12 +403,13 @@ export class AddUserComponent implements OnInit {
     }
     status.setValidators(null);
     branchName.updateValueAndValidity();
-    branchCode.updateValueAndValidity();
+    //branchCode.updateValueAndValidity();
     // branches.updateValueAndValidity();
     status.updateValueAndValidity();
     this.addUserDetails(this.userdata);
   }
   addUserDetails(userdata) {
+    debugger;
     this.submitted = true;
     if (this.addUserForm.invalid) {
       return;
@@ -389,10 +420,13 @@ export class AddUserComponent implements OnInit {
       );
       return;
     } else {
+      
       this.userapiService.addUser(userdata).subscribe(
         (data) => {
+          debugger;
           var res: any = data;
           if (res.result == 'success') {
+            debugger;
             this.notifyService.showSuccess(
               'User Added successfully !!',
               'Success'
@@ -404,13 +438,21 @@ export class AddUserComponent implements OnInit {
           }
         },
         (err) => {
+          debugger;
+          if(err.error.message != null)
+          {
           this.notifyService.showError(err.error.message, 'User Not Added');
           return;
+        }
+        else{
+          this.router.navigateByUrl('users');
+        }
         }
       );
     }
   }
   updateUser(data) {
+    debugger;
     const branchName = this.addUserForm.get('branchName');
     const branchCode = this.addUserForm.get('branchCode');
     const branches = this.addUserForm.get('branches');
@@ -537,7 +579,7 @@ this.vendorapiService.getVendorByEmail(evt.target.value).subscribe(
               this.dropdownSettings = {
                 singleSelection: false,
                 idField: 'id',
-                textField: 'branchName',
+                textField: 'branchCode',
                 selectAllText: 'Select All',
                 unSelectAllText: 'UnSelect All',
                 allowSearchFilter: true,

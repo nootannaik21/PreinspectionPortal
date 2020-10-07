@@ -150,7 +150,7 @@
                   Password must be minimum 8 characters
                 </div>
                 <div *ngIf="f.password.errors.pattern">
-                  Password Not Matching
+                  Password Not Matching minimum criteria
                 </div>
               </div>
             </div>
@@ -180,6 +180,29 @@
             </div>
           </div>
           <!--End of Confirm Password-->
+          <div class="col-md-6" *ngIf="imdUser">
+            <div class="form-group">
+              <label for="exampleInputEmail1">IMD Code</label>
+              <input
+                type="text"
+                class="form-control"
+                aria-describedby="emailHelp"
+                tabindex="7"
+                placeholder="IMD Code"
+                formControlName="IMDCode"
+                [(ngModel)]="userdata.imdCode"
+                [ngClass]="{ 'is-invalid': submitted && f.IMDCode.errors }"
+              />
+              <div
+                *ngIf="submitted && f.IMDCode.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.IMDCode.errors.pattern">
+                  IMD Code is required
+                </div> 
+              </div>
+            </div>
+          </div>
         </div>
         <br />
         <h5>User Role and Authorization</h5>
@@ -197,12 +220,13 @@
                 (change)="onTypeSelect($event)"
                 [ngClass]="{ 'is-invalid': submitted && f.type.errors }"
               >
+              <option value="">Choose User Type</option>
                 <option value="Admin">Admin</option>
                 <option value="OPS">OPS</option>
                 <option value="IMD">IMD</option>
                 <option value="Branch">Branch</option>
                 <option value="Vendor">Vendor</option>
-                <option value="Claims">Claims</option>
+                <option value="Claims">Underwriter</option>
               </select>
               <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
                 <div *ngIf="f.type.errors.required">User Type is required</div>
@@ -213,9 +237,9 @@
           <!--Branches-->
           <div class="col-md-6">
             <div class="form-group" *ngIf="showBranch">
-              <label for="exampleFormControlSelect1">Branches</label>
+              <label for="exampleFormControlSelect1">Pincode</label>
               <ng-multiselect-dropdown
-                [placeholder]="'Choose Branches'"
+                [placeholder]="'Choose Pincode'"
                 [settings]="dropdownSettings"
                 [data]="branches"
                 tabindex="7"
@@ -230,50 +254,48 @@
                 *ngIf="submitted && f.branches.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="f.branches.errors.required">Branches required</div>
+                <div *ngIf="f.branches.errors.required">Pincode required</div>
               </div>
             </div>
+              <div class="form-group" *ngIf="showBranchDetail">
+                <label for="exampleFormControlSelect1">Pincode</label>
+                <select
+                  class="form-control"
+                  formControlName="branchName"
+                  [(ngModel)]="userdata.branchCode"
+                  tabindex="8"
+                  [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }"
+                  placeholder="Select Branch Name"
+                >
+                  <option value="">Choose Pincode</option>
+                  <option
+                    class="form-control"
+                    *ngFor="let item of branches"
+                    [value]="item.branchCode"
+                  >
+                    <table>
+                      <tr>
+                        <td>{{ item.branchCode }}</td>
+                      </tr>
+                    </table>
+                  </option>
+                </select>
+                <div
+                  *ngIf="submitted && f.branchName.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f.branchName.errors.required">
+                    Pincode is required
+                  </div>
+                </div>
+              </div>
           </div>
           <!--End of Branches-->
           <!--Branches Name-->
-          <div class="col-md-6" *ngIf="showBranchDetail">
-            <div class="form-group" *ngIf="showBranchDetail">
-              <label for="exampleFormControlSelect1">Branch Name</label>
-              <select
-                class="form-control"
-                formControlName="branchName"
-                [(ngModel)]="userdata.branchName"
-                tabindex="8"
-                (change)="onBranchSelect()"
-                [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }"
-                placeholder="Select Branch Name"
-              >
-                <option value="">Choose Branch Name</option>
-                <option
-                  class="form-control"
-                  *ngFor="let item of branches"
-                  [value]="item.branchName"
-                >
-                  <table>
-                    <tr>
-                      <td>{{ item.branchName }}</td>
-                    </tr>
-                  </table>
-                </option>
-              </select>
-              <div
-                *ngIf="submitted && f.branchName.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.branchName.errors.required">
-                  Branch Name is required
-                </div>
-              </div>
-            </div>
-          </div>
+         
           <!--End of Branches Name-->
           <!--Branch Code-->
-          <div class="col-md-6" *ngIf="showBranchDetail">
+          <!-- <div class="col-md-6" *ngIf="showBranchDetail">
             <div class="form-group" *ngIf="showBranchDetail">
               <label for="exampleFormControlSelect1">Branch Code</label>
               <select
@@ -306,7 +328,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <!--End of Branch Code-->
 
 
@@ -335,7 +357,7 @@
             </select>
             </div>
             <div class="col-md-6" *ngIf="showVendorOrganization">
-              <label for="exampleFormControlSelect1">Vendor Branches</label>
+              <label for="exampleFormControlSelect1">Choose Pincode</label>
               <ng-multiselect-dropdown
                 [placeholder]="'Choose vendor'"
                 [settings]="dropdownSettings"
@@ -345,20 +367,16 @@
                 formControlName="vendorList"
                 (onSelect)="onItemSelect($event)"
                 (onSelectAll)="onSelectAll($event)"
-                [ngClass]="{ 'is-invalid': submitted && f.branches.errors }"
+                [ngClass]="{ 'is-invalid': submitted && f.vendorList.errors }"
               >
               </ng-multiselect-dropdown>
               <div
-                *ngIf="submitted && f.branches.errors"
+                *ngIf="submitted && f.vendorList.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="f.branches.errors.required">Branches required</div>
+                <div *ngIf="f.vendorList.errors.required">Pincode required</div>
               </div>
             </div>
-
-
-
-
           <!--Status-->
           <div class="col-md-6">
             <div class="form-group" *ngIf="userdata.id != undefined">
@@ -384,7 +402,11 @@
             
           </div>
           <!--End of Status-->
-          <div class="row text-right">
+         
+        </div>
+        <br />
+        <div class="row float-right">
+         
             <div class="col-12">
               <button
                 type="button"
@@ -410,7 +432,6 @@
               </button>
             </div>
           </div>
-        </div>
       </form>
     </app-card>
   </div>

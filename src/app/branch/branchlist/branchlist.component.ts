@@ -56,7 +56,7 @@ export class BranchlistComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   editBranchRow(item){
     localStorage.setItem('branchid', item.id);
-    this.router.navigateByUrl('branch/editBranch');
+    this.router.navigateByUrl('location/editLocation');
   }
   deleteBranch(item){
     this.alertService.confirmAlert(() => {
@@ -74,7 +74,7 @@ export class BranchlistComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   gotoAddBranchScreen(){
     localStorage.removeItem('branchid');
-    this.router.navigateByUrl('branch/addBranch');
+    this.router.navigateByUrl('location/addLocation');
   }
   rerender(): void {
     if (this.isDtInitialized) {

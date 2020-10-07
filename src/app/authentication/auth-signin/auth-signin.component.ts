@@ -70,7 +70,8 @@ export class AuthSigninComponent implements OnInit {
           localStorage.setItem('type', decodedJwtData.type);
 localStorage.setItem('loggedInUser',decodedJwtData.firstName + " " +decodedJwtData.lastName);
 decodedJwtData.type == "Branch" ||decodedJwtData.type == "IMD" ?localStorage.setItem('branch',decodedJwtData.branchCode):'';
-          // this.router.navigateByUrl('users');
+decodedJwtData.type == "IMD" ?localStorage.setItem('imdCode',decodedJwtData.imdCode):'';         
+// this.router.navigateByUrl('users');
 
           if(localStorage.getItem('type')=="Admin")
           {

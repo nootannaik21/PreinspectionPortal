@@ -69,6 +69,9 @@ export class ApiService {
   singIn(relativeUrl: string, resource: any) {
     return this.http.post(this.baseApiUrl + relativeUrl, resource)
   }
+  singInForFileUpload(relativeUrl: string, resource: any) {
+    return this.http.post(relativeUrl, resource)
+  }
   post(relativeUrl: string, resource: any) {
     this.isLoading = true;
     let url = this.baseApiUrl + relativeUrl;

@@ -64,10 +64,10 @@ const NavigationItems = [
     accessrole:'Admin'
   },
   {
-    id: 'branch',
-    title: 'Branch',
+    id: 'location',
+    title: 'Location',
     type: 'item',
-    url: '/branch',
+    url: '/location',
     classes: 'nav-item',
     icon: 'feather icon-menu',
     accessrole:'Admin'
