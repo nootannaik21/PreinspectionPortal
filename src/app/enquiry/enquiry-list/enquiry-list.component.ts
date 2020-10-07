@@ -63,6 +63,8 @@ export class EnquiryListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   reset(){
     this.enquiryData = {};
+    this.enquiryList = [];
+    this.rerender();
   }
   rerender(): void {
     if (this.isDtInitialized) {
