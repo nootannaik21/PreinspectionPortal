@@ -672,7 +672,14 @@ export class AddInspectionComponent
               this.router.navigateByUrl('inspection');
               this.inspectionData = {};
             },
-            (err) => {}
+            (err) => {
+              if(err.error.message != null)
+          {
+        }
+        else{
+          this.router.navigateByUrl('inspection');
+        }
+            }
           );
       }
     }
@@ -744,11 +751,18 @@ export class AddInspectionComponent
           this.inspectionData = {};
         },
         (err) => {
-          this.notifyService.showError(
-            'Something is wrong',
-            'Inspection Not Added'
-          );
-          return;
+          
+          if(err.error.message != null)
+          {
+            this.notifyService.showError(
+              'Something is wrong',
+              'Inspection Not Added'
+            );
+            return;
+        }
+        else{
+          this.router.navigateByUrl('inspection');
+        }
         }
       );
     }

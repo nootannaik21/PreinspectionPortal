@@ -444,6 +444,9 @@ export class AddUserComponent implements OnInit {
           this.notifyService.showError(err.error.message, 'User Not Added');
           return;
         }
+        else{
+          this.router.navigateByUrl('users');
+        }
         }
       );
     }
