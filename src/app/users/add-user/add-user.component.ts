@@ -439,8 +439,11 @@ export class AddUserComponent implements OnInit {
         },
         (err) => {
           debugger;
+          if(err.error.message != null)
+          {
           this.notifyService.showError(err.error.message, 'User Not Added');
           return;
+        }
         }
       );
     }
