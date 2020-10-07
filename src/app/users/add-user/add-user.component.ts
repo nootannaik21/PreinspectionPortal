@@ -52,7 +52,9 @@ export class AddUserComponent implements OnInit {
     this.userdata.branchName = '';
     this.addUserForm = this.formBuilder.group({
       firstName: ['', [Validators.required]],
-      company: [''],
+      company: ['',[
+        Validators.pattern('^[A-Za-z0-9. ]+$'),
+      ]],
       lastName: ['', [Validators.required]],
       branchName: ['', [Validators.required]],
       type: ['', [Validators.required]],
@@ -205,6 +207,7 @@ export class AddUserComponent implements OnInit {
       this.title = 'Add User';
       this.showBranch = true;
       this.selectedItems = [];
+      this.userdata.vendorOrganization = "";
     }
   }
 
@@ -357,7 +360,7 @@ export class AddUserComponent implements OnInit {
     else if(this.userdata.type == 'IMD')
     {
       var y: number = +this.userdata.imdCode;
-      this.userdata.imdCode = y;
+      this.userdata.imdCode = y > 0?y:null;
       this.showBranch = false;
       this.showBranchDetail = true;
       this.userdata.branches = [];

@@ -97,7 +97,6 @@
                 class="form-control"
                 placeholder="Company Name"
                 formControlName="company"
-                oninput="this.value = this.value.replace(/[^A-Za-z0-9-!*@#$%^&,.;'&/.() ]|^ /g,'')"
                 [(ngModel)]="userdata.company"
                 tabindex="4"
                 [ngClass]="{ 'is-invalid': submitted && f.company.errors }"
@@ -106,8 +105,8 @@
                 *ngIf="submitted && f.company.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="f.company.errors.required">
-                  Company Name is required
+                <div *ngIf="f.company.errors.pattern">
+                  Company Name should be valid.
                 </div>
               </div>
             </div>
@@ -198,7 +197,7 @@
                 class="invalid-feedback"
               >
                 <div *ngIf="f.IMDCode.errors.pattern">
-                  IMD Code is required
+                  IMD Code should be numeric and 8 characters.
                 </div> 
               </div>
             </div>
@@ -359,7 +358,7 @@
             <div class="col-md-6" *ngIf="showVendorOrganization">
               <label for="exampleFormControlSelect1">Choose Pincode</label>
               <ng-multiselect-dropdown
-                [placeholder]="'Choose vendor'"
+                [placeholder]="'Choose Pincode'"
                 [settings]="dropdownSettings"
                 [data]="branchList"
                 tabindex="7"

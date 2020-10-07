@@ -210,7 +210,7 @@
                 class="invalid-feedback"
               >
                 <div *ngIf="f.phoneNoofsales.errors.required">
-                  Phone no of IMD/SM is required
+                  Phone no of IMD is required
                 </div>
                 <div *ngIf="f.phoneNoofsales.errors.pattern">
                   Please enter valid phone number.e.g:xxxxxxxxxx
@@ -721,7 +721,7 @@
                 tabindex="19"
                 (change)="onDuplicateInspection($event)"
               >
-                <option value="2" selected>No</option>
+                <option value="0">No</option>
                 <option value="1">Yes</option>
             </select>
               <div
@@ -924,20 +924,22 @@
           <!--Upload Documents-->
           <div class="col-md-6" *ngIf="showUpload">
             <div class="form-group">
-              <input
+              <!-- <input
                 type="file"
-                id="file"
+                id="files"
                 accept=".pdf,.png,.JPEG,.jpeg,.JPG,.jpg"
                 multiple
                 (change)="getFileDetails($event)"
-              />
+              /> -->
+              <input type="file" (change)="getFileDetails($event)" placeholder="Upload file" accept=".pdf,.jpeg,.png" multiple>
               <button (click)="uploadFiles($event)" type="button">
                 Upload Documents
               </button>
             </div>
-            <div *ngFor="let file of fileList">
+            
+            <!-- <div *ngFor="let file of fileList">
               <div>* {{ file.name }} - {{ file.type }} - {{ file.size }}</div>
-            </div>
+            </div> -->
           </div>
           <div class="imagePreview" *ngIf="inspectionData.documentPath">
             <div *ngFor="let item of documentsPath">
