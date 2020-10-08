@@ -201,7 +201,6 @@ export class AddInspectionComponent
         this.addInspectionForm.get('statusid').disable();
         this.addInspectionForm.get('duplicateinspection').disable();
       } else if (localStorage.getItem('type') == 'IMD') {
-        debugger;
         this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.inspectionData.branchcode = localStorage.getItem('branch');
@@ -286,7 +285,6 @@ export class AddInspectionComponent
         this.addInspectionForm.get('branchcode').disable();
         this.getVendorMailList(localStorage.getItem('branch'));
       } else if (localStorage.getItem('type') == 'IMD') {
-        debugger;
         this.showBranchDetail = true;
         this.addInspectionForm.get('branchName').disable();
         this.inspectionData.branchcode = localStorage.getItem('branch');
@@ -360,7 +358,6 @@ export class AddInspectionComponent
   getAllImdDetails(branchCode) {
     this.inspectionService.getAllImdDetails(branchCode).subscribe(
       (data) => {
-        debugger;
         var res: any = data;
         this.imdData = res;
       },
@@ -368,7 +365,6 @@ export class AddInspectionComponent
     );
   }
   getAllVehicleMake() {
-    debugger;
     this.inspectionService.getAllVehicleMake().subscribe(
       (data) => {
         var res: any = data;
@@ -380,7 +376,6 @@ export class AddInspectionComponent
   getAllVehicleModel() {
     this.inspectionService.getAllVehicleModel().subscribe(
       (data) => {
-        debugger;
         var res: any = data;
         this.modelData = res.data;
       },
@@ -396,10 +391,8 @@ export class AddInspectionComponent
   //   );
   // }
   getVendorMailList(branchCode) {
-    debugger;
     this.inspectionService.getVendorMailList(branchCode).subscribe(
       (data) => {
-        debugger;
         this.vendorEmailIdDetails = data;
       },
       (err) => {}
@@ -430,7 +423,6 @@ export class AddInspectionComponent
     this.addInspectionForm.get('riskType').disable();
   }
   getInspections() {
-    debugger;
     this.getAllBranches();
     this.getAllInspectionStatus();
     this.getPaymentMode();
@@ -490,8 +482,6 @@ export class AddInspectionComponent
           this.inspectionData.imdcode = res.imdcode;
           this.inspectionData.make = res.make;
           this.inspectionData.model = res.model;
-          debugger;
-          debugger;
           if (this.inspectionData.duplicateinspection == true) {
             this.inspectionData.duplicateinspection = '1';
             this.inspectionData.paymentmodeid = '2';
@@ -560,42 +550,66 @@ export class AddInspectionComponent
     }
   }
 
-  uploadFiles(event: any) {
-    let formData: FormData = new FormData();
-    debugger;
-    //frmData.append('uploadFile', this.file, this.file.name);
+  // uploadFiles(event: any) {
+  //   let formData: FormData = new FormData();
+  //   debugger;
+  //   //frmData.append('uploadFile', this.file, this.file.name);
     
-    // if (condition) {
-      
-    // } else {
-      
-    // }
     
-    if (this.fileList) {
-      for (let i = 1; i < this.fileList.length; i++)
-         formData.append('files[]',this.fileList[i], this.fileList[i].name);
-        //formData.append('files[]', this.fileList[i], this.fileList[i].name);
-      this.inspectionService
-        .uploadDocument(
-          this.inspectionData.id,
-          this.inspectionData.statusid,
-          formData
-        )
-        .subscribe(
-          (data) => {
-            this.alertService.successAlert(
-              'Success',
-              'File(s) uploaded successfully'
-            );
-          },
-          (err) => {
-            this.alertService.errorAlert('OOPS!', err.error.message);
-          }
-        );
-    } else {
-      this.alertService.infoAlert('OOPS!', 'Please select the document');
+    
+  //   if (this.fileList) {
+  //     debugger;
+  //     for (let i = 1; i < this.fileList.length; i++){
+  //        formData.append('files[]',this.fileList[i-1], this.fileList[i-1].name);
+  //       //formData.append('files[]', this.fileList[i], this.fileList[i].name);
+  //     this.inspectionService
+  //       .uploadDocument(
+  //         this.inspectionData.id,
+  //         this.inspectionData.statusid,
+  //         formData
+  //       )
+  //       .subscribe(
+  //         (data) => {
+  //           this.alertService.successAlert(
+  //             'Success',
+  //             'File(s) uploaded successfully'
+  //           );
+  //         },
+  //         (err) => {
+  //           this.alertService.errorAlert('OOPS!', err.error.message);
+  //         }
+  //       );
+  //   }
+  //   } else {
+  //     this.alertService.infoAlert('OOPS!', 'Please select the document');
+  //   }
+  // }
+
+  uploadFiles() {
+    let frmData: FormData = new FormData();
+    frmData.append('uploadFile', this.file, this.file.name);
+
+    if(this.fileList.length){
+      for(let i=1 ; i < this.fileList.length ; i++)
+        frmData.append('files[]', this.fileList[i],this.fileList[i].name);
     }
+    this.inspectionService
+      .uploadDocument(this.inspectionData.id,this.inspectionData.statusid, frmData)
+      .subscribe(
+        (data) => {
+          this.alertService.successAlert("Success","File(s) uploaded successfully");
+        },
+        (err) => {
+          console.log(err.error.message);
+    this.inspectionData = {};
+  })
   }
+
+
+
+
+
+
   uploadInspectionDetails(files: FileList) {}
   downloadInspectionDetails() {}
   get f() {
@@ -622,7 +636,6 @@ export class AddInspectionComponent
     if (this.addInspectionForm.invalid || this.showRequestRaisedErr) {
       return;
     } else {
-      debugger;
       // if (
       //   localStorage.getItem('type') == 'Branch' ||
       //   localStorage.getItem('type') == 'IMD'
@@ -650,7 +663,6 @@ export class AddInspectionComponent
           .getInspectionById(localStorage.getItem('inspectionId'))
           .subscribe((data) => {
             var res: any = data;
-            debugger;
             this.inspectionData = Object.assign({}, data);
             if (this.inspectionData.documentPath) {
               this.inspectionService
@@ -695,7 +707,6 @@ export class AddInspectionComponent
     }
   }
   onBranchSelect() {
-    debugger;
     // var temp = this.branches.filter(
     //   (x) => x.branchName == this.inspectionData.branchName
     // );
@@ -713,7 +724,6 @@ export class AddInspectionComponent
     }
   }
   onIMDSelect() {
-    debugger;
     var temp = this.imdData.filter(
       (x) => x.imdCode == this.inspectionData.imdcode
     );
@@ -721,7 +731,6 @@ export class AddInspectionComponent
     //this.inspectionData.phoneNoofsales = temp[0].imdPhone;
   }
   onConvayanceSelect() {
-    debugger;
     if (this.inspectionData.convayance == 'Yes') {
       this.inspectionData.conveyanceKm = '';
       this.addInspectionForm.get('conveyanceKm').enable();
@@ -731,15 +740,14 @@ export class AddInspectionComponent
     }
   }
   createInspection() {
-    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
     }
-    else if(this.IsDupInspection)
-    {
-      this.alertService.infoAlert('OOPS!', 'It is a duplicate inspection.');
-    }
+    // else if(this.IsDupInspection)
+    // {
+    //   this.alertService.infoAlert('OOPS!', 'It is a duplicate inspection.');
+    // }
     else {
       if (localStorage.getItem('type') == 'Branch') {
         this.inspectionData.branchCode = '';
