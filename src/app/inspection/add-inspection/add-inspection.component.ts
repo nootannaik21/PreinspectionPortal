@@ -735,7 +735,12 @@ export class AddInspectionComponent
     this.submitted = true;
     if (this.addInspectionForm.invalid) {
       return;
-    } else {
+    }
+    else if(this.IsDupInspection)
+    {
+      this.alertService.infoAlert('OOPS!', 'It is a duplicate inspection.');
+    }
+    else {
       if (localStorage.getItem('type') == 'Branch') {
         this.inspectionData.branchCode = '';
         this.inspectionData.branchName = '';
