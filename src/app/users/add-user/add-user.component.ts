@@ -160,14 +160,12 @@ export class AddUserComponent implements OnInit {
           })
           } 
           else {
-            debugger;
             this.showBranch = true;
             this.showBranchDetail = false;
             let tmp = [];
             if (user.branches.length > 0) {
               this.userapiService.getBranches().subscribe(
                 (branches) => {
-                  debugger;
                   var res: any = branches;
                   this.branches = res.data;
                   for (let i = 0; i < user.branches.length; i++) {
@@ -344,7 +342,6 @@ export class AddUserComponent implements OnInit {
     this.router.navigateByUrl('users');
   }
   onSubmit() {
-    debugger;
     this.submitted = true;
     const branchName = this.addUserForm.get('branchName');
     //const branchCode = this.addUserForm.get('branchCode');
@@ -412,7 +409,6 @@ export class AddUserComponent implements OnInit {
     this.addUserDetails(this.userdata);
   }
   addUserDetails(userdata) {
-    debugger;
     this.submitted = true;
     if (this.addUserForm.invalid) {
       return;
@@ -426,10 +422,8 @@ export class AddUserComponent implements OnInit {
       
       this.userapiService.addUser(userdata).subscribe(
         (data) => {
-          debugger;
           var res: any = data;
           if (res.result == 'success') {
-            debugger;
             this.notifyService.showSuccess(
               'User Added successfully !!',
               'Success'
@@ -441,7 +435,6 @@ export class AddUserComponent implements OnInit {
           }
         },
         (err) => {
-          debugger;
           if(err.error.message != null)
           {
           this.notifyService.showError(err.error.message, 'User Not Added');
@@ -455,7 +448,6 @@ export class AddUserComponent implements OnInit {
     }
   }
   updateUser(data) {
-    debugger;
     const branchName = this.addUserForm.get('branchName');
     const branchCode = this.addUserForm.get('branchCode');
     const branches = this.addUserForm.get('branches');

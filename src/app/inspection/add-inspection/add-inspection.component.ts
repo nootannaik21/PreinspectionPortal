@@ -31,6 +31,7 @@ export class AddInspectionComponent
   hideStatus: boolean;
   fileToUpload: File = null;
   showBranchDetail: boolean;
+  image: any;
 
   ngAfterViewInit(): void {
     this.inspectionHistory = [];
@@ -830,12 +831,18 @@ export class AddInspectionComponent
     let i = 0;
     document.forEach(
       (element) => {
-        this.inspectionService.downloadDocument(element).subscribe((data) => {
+        this.inspectionService.downloadDocument(document).subscribe((data) => {
+          // var res: any = data;
+          // var blob = new Blob([res]);
+          // var downloadURL = window.URL.createObjectURL(res);
+          // this.documentsPath[i] = downloadURL;
+          // i++;
           var res: any = data;
-          var blob = new Blob([res]);
-          var downloadURL = window.URL.createObjectURL(res);
-          this.documentsPath[i] = downloadURL;
-          i++;
+
+var blob = new Blob([res]);
+var blob = new Blob([data], { type: res.type });
+var downloadURL = URL.createObjectURL(blob);
+this.documentsPath[i] = downloadURL;
         });
 
         // var link = document.createElement('a');
@@ -846,14 +853,7 @@ export class AddInspectionComponent
       (err) => {}
     );
   }
-  DeleteDoc(file, inspectionId) {
-    this.inspectionService.deleteDocument(file, inspectionId).subscribe(
-      (data) => {
-        this.alertService.successAlert('Success', 'File deleted successfully');
-      },
-      (err) => {}
-    );
-  }
+  
   downloadDoc(url) {
     var link = document.createElement('a');
     link.href = url;
