@@ -11,7 +11,7 @@ import { InspectionSeriveService } from '../../service/inspection-serive.service
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { NotificationService } from '../../service/notification.service';
-import { resolveForwardRef } from '@angular/compiler/src/util';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-inspection-list',
@@ -21,6 +21,8 @@ import { resolveForwardRef } from '@angular/compiler/src/util';
 export class InspectionListComponent
   implements OnInit, OnDestroy, AfterViewInit {
   inspectionList: any = [];
+  image: string | ArrayBuffer;
+  base64textString: string;
   ngAfterViewInit(): void {
     this.inspectionList = [];
     this.rerender();
@@ -72,20 +74,17 @@ export class InspectionListComponent
 // var firstSpaceIndex = evt.indexOf("\\");
 // var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
 // var secondString = evt.substring(firstSpaceIndex + 1);
-debugger;
+
+//var FileSaver = require('file-saver');
 var fileStr = evt.split(',');
 fileStr.forEach(element => {
-  
-
-this.inspectionService.downloadDocument(element).subscribe(data=>{
-  debugger;
+  this.inspectionService.downloadDocument(element).subscribe(data=>{
 var res: any = data;
+
 var blob = new Blob([res]);
-var downloadURL = window.URL.createObjectURL(res);
-var link = document.createElement('a');
-link.href = downloadURL;
-link.download = element;
-link.click();
+var blob = new Blob([data], { type: res.type });
+var fileURL = URL.createObjectURL(blob);
+saveAs(blob);
 },err=>{
 
 });
