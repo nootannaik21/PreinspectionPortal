@@ -606,6 +606,7 @@ export class AddInspectionComponent
         }
       }
       if (this.canUpload) {
+        debugger;
         for (let i = 0; i < this.fileList.length; i++)
           frmData.append('files[]', this.fileList[i], this.fileList[i].name);
         this.inspectionService
@@ -844,7 +845,7 @@ export class AddInspectionComponent
           // i++;
           var res: any = data;
 
-          var blob = new Blob([res]);
+          //var blob = new Blob([res]);
           var blob = new Blob([data], { type: res.type });
           var downloadURL = URL.createObjectURL(blob);
           this.documentsPath[i] = downloadURL;
