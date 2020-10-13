@@ -45,6 +45,7 @@ export class ReportComponent implements OnInit {
   }
   getReport()
   {
+    debugger;
     let fromDate: any;
     let toDate :any;
    if (this.reportDate.fromDate) {
@@ -66,6 +67,10 @@ this.reportService.getReport(fromDate,toDate).subscribe(data => {
   tempdata = data;
   if (tempdata.length > 0) {
     this.reportData = data;
+  }
+  else
+  {
+    this.reportData = {};
   }
   this.rerender();
 },err=>{

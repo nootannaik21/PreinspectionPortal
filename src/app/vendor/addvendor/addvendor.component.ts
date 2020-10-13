@@ -186,7 +186,6 @@ export class AddvendorComponent implements OnInit {
     this.vendordata.branchCode = this.branchCodes;
   }
   UpdateVendorDetails() {
-    debugger;
     this.submitted = true;
     if (this.addVendorForm.invalid) {
       return;

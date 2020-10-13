@@ -555,11 +555,9 @@ export class AddInspectionComponent
 
   // uploadFiles(event: any) {
   //   let formData: FormData = new FormData();
-  //   debugger;
   //   //frmData.append('uploadFile', this.file, this.file.name);
 
   //   if (this.fileList) {
-  //     debugger;
   //     for (let i = 1; i < this.fileList.length; i++){
   //        formData.append('files[]',this.fileList[i-1], this.fileList[i-1].name);
   //       //formData.append('files[]', this.fileList[i], this.fileList[i].name);
@@ -587,7 +585,6 @@ export class AddInspectionComponent
   // }
 
   uploadFiles() {
-    debugger;
     let frmData: FormData = new FormData();
     frmData.append('uploadFile', this.file, this.file.name);
 
@@ -606,7 +603,6 @@ export class AddInspectionComponent
         }
       }
       if (this.canUpload) {
-        debugger;
         // for (let i = 0; i < this.fileList.length; i++)
         //   frmData.append('files[]', this.fileList[i], this.fileList[i].name);
         this.inspectionService
@@ -655,7 +651,6 @@ export class AddInspectionComponent
     this.inspectionData = {};
   }
   updateInspection() {
-    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid || this.showRequestRaisedErr) {
       return;
@@ -676,7 +671,6 @@ export class AddInspectionComponent
           .subscribe((data) => {
             var res: any = data;
             this.inspectionDataSaved = Object.assign({}, data);
-            debugger;
             if (
               this.inspectionDataSaved.documentPath
             ) {

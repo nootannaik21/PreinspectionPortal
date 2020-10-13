@@ -72,7 +72,6 @@ export class InspectionListComponent
     // var firstSpaceIndex = evt.indexOf("\\");
     // var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
     // var secondString = evt.substring(firstSpaceIndex + 1);
-    debugger;
     //var FileSaver = require('file-saver');
     var fileStr = evt != null ? evt.split(','):null;
     if (fileStr == null) {
@@ -83,7 +82,6 @@ export class InspectionListComponent
     fileStr.forEach((element) => {
       this.inspectionService.downloadDocument(element).subscribe(
         (data) => {
-          debugger;
           var res: any = data;
 
           //var blob = new Blob([res]);
