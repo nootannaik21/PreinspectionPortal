@@ -241,10 +241,12 @@ export class AddUserComponent implements OnInit {
     if (eve.target.value == 'IMD') {
       this.showBranch = false;
       this.showBranchDetail = true;
+      this.showVendorOrganization = false;
       this.userdata.branchName = '';
       this.userdata.branchCode = '';
       this.userdata.branches = [];
       this.imdUser = true;
+      this.getAllBranches();
     }
     else if(eve.target.value == 'Branch') {
       this.showBranch = false;
