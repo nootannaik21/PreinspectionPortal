@@ -356,13 +356,20 @@ export class AddUserComponent implements OnInit {
     } 
     else if(this.userdata.type == 'IMD')
     {
-      var y: number = +this.userdata.imdCode;
-      this.userdata.imdCode = y > 0?y:null;
-      this.showBranch = false;
-      this.showBranchDetail = true;
-      this.userdata.branches = [];
-      // branches.setValidators(null);
-      this.userdata.branches = [];
+      debugger;
+      if (this.userdata.imdCode == undefined) {
+        return this.notifyService.showError("", 'Please add IMD Code');
+      }
+      else{
+        var y: number = +this.userdata.imdCode;
+        this.userdata.imdCode = y > 0?y:null;
+        this.showBranch = false;
+        this.showBranchDetail = true;
+        this.userdata.branches = [];
+        // branches.setValidators(null);
+        this.userdata.branches = [];
+      }
+      
     }else if (
       this.userdata.type == 'Admin' ||
       this.userdata.type == 'Claims'
@@ -409,6 +416,7 @@ export class AddUserComponent implements OnInit {
     this.addUserDetails(this.userdata);
   }
   addUserDetails(userdata) {
+    debugger;
     this.submitted = true;
     if (this.addUserForm.invalid) {
       return;
