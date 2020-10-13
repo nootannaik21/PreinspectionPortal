@@ -48,10 +48,8 @@ export class InspectionListComponent
       ],
       pageLength: 10,
       processing: true,
-        dom: 'Bfrtip',
-          buttons: [
-              'excel'
-          ]
+      dom: 'Bfrtip',
+      buttons: ['excel'],
     };
     this.getInspectionList();
   }
@@ -70,25 +68,37 @@ export class InspectionListComponent
     localStorage.setItem('view', 'Edit');
     this.router.navigateByUrl('inspection/editInspection');
   }
-  downloadDoc(evt){
-// var firstSpaceIndex = evt.indexOf("\\");
-// var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
-// var secondString = evt.substring(firstSpaceIndex + 1);
-
-//var FileSaver = require('file-saver');
-var fileStr = evt.split(',');
-fileStr.forEach(element => {
-  this.inspectionService.downloadDocument(element).subscribe(data=>{
+  downloadDoc(evt) {
+    // var firstSpaceIndex = evt.indexOf("\\");
+    // var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
+    // var secondString = evt.substring(firstSpaceIndex + 1);
     debugger;
-var res: any = data;
-var blob = new Blob([res]);
-var blob = new Blob([data], { type: res.type });
-var fileURL = URL.createObjectURL(blob);
-saveAs(blob);
-},err=>{
+    //var FileSaver = require('file-saver');
+    var fileStr = evt.split(',');
+    fileStr.forEach((element) => {
+      this.inspectionService.downloadDocument(element).subscribe(
+        (data) => {
+          debugger;
+          var res: any = data;
 
-});
-});
+          //var blob = new Blob([res]);
+          var blob = new Blob([data], { type: res.type });
+
+          const element = document.createElement('a');
+          element.href = URL.createObjectURL(blob);
+          element.download = 'downloaded_file.pdf';
+          document.body.appendChild(element);
+
+          if (res.type == 'application/pdf')
+            window.open(element.href, '_blank');
+          else {
+            //element.click();
+            saveAs(blob);
+          }
+        },
+        (err) => {}
+      );
+    });
   }
   getInspectionList() {
     this.inspectionService.getInspectionList().subscribe(
