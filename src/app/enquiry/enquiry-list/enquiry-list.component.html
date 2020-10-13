@@ -11,11 +11,11 @@
               <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Ref No" name="refNo"
                 [(ngModel)]="enquiryData.refNo">
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label>Mobile No</label>
               <input type="text" class="form-control" placeholder="Mobile No" name="mobileNo"
                 [(ngModel)]="enquiryData.mobileNo">
-            </div>
+            </div> -->
           </form>
         </div>
         <div class="col-md-6">
@@ -25,10 +25,49 @@
               <input type="text" class="form-control" placeholder="Client Name" name="clientName"
                 [(ngModel)]="enquiryData.clientName">
             </div>
+            <!-- <div class="form-group">
+              <label>Reg No</label>
+              <input type="text" class="form-control" placeholder="Reg No" name="regNo" [(ngModel)]="enquiryData.regNo">
+            </div> -->
+          </form>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <form action="javascript:">
+            
+            <div class="form-group">
+              <label>Mobile No</label>
+              <input type="text" class="form-control" placeholder="Mobile No" name="mobileNo"
+                [(ngModel)]="enquiryData.mobileNo">
+            </div>
+          </form>
+        </div>
+        <div class="col-md-6">
+          <form action="javascript:">
+            
             <div class="form-group">
               <label>Reg No</label>
               <input type="text" class="form-control" placeholder="Reg No" name="regNo" [(ngModel)]="enquiryData.regNo">
             </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <form action="javascript:">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Pincode</label>
+              <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Pincode" name="location"
+                [(ngModel)]="enquiryData.location">
+            </div>
+            <!-- <div class="form-group">
+              <label>Mobile No</label>
+              <input type="text" class="form-control" placeholder="Mobile No" name="mobileNo"
+                [(ngModel)]="enquiryData.mobileNo">
+            </div> -->
           </form>
         </div>
       </div>

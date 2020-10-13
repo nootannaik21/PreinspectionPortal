@@ -18,7 +18,7 @@ export class ProductTypeActionComponent implements OnInit {
 
   ngOnInit(): void {
     this.addEditProductTypeForm = this.formBuilder.group({
-      type: ['', [Validators.required, Validators.pattern('^([a-zA-Z0-9]).*$')]]
+      type: ['', [Validators.required, Validators.pattern('^([a-zA-Z0-9 ])+$')]]
     });
     if (localStorage.getItem('producttypeid')) {
       this.title = "Update Product Type";
