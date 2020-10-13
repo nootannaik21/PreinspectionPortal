@@ -448,6 +448,7 @@ export class AddUserComponent implements OnInit {
     }
   }
   updateUser(data) {
+    debugger;
     const branchName = this.addUserForm.get('branchName');
     const branchCode = this.addUserForm.get('branchCode');
     const branches = this.addUserForm.get('branches');
@@ -492,6 +493,11 @@ export class AddUserComponent implements OnInit {
         });
       }
     }
+    else if(this.userdata.type == 'IMD')
+    {
+      var y: number = +this.userdata.imdCode;
+      this.userdata.imdCode = y > 0?y:null;
+    }
     else {
       //this.showBranch = true;
       // branchName.setValidators([Validators.required]);
@@ -511,6 +517,7 @@ export class AddUserComponent implements OnInit {
     this.updateUserDetails(data);
   }
   updateUserDetails(data) {
+    debugger;
     this.submitted = true;
     if (this.addUserForm.invalid) {
       return;
