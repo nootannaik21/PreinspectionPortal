@@ -607,8 +607,8 @@ export class AddInspectionComponent
       }
       if (this.canUpload) {
         debugger;
-        for (let i = 0; i < this.fileList.length; i++)
-          frmData.append('files[]', this.fileList[i], this.fileList[i].name);
+        // for (let i = 0; i < this.fileList.length; i++)
+        //   frmData.append('files[]', this.fileList[i], this.fileList[i].name);
         this.inspectionService
           .uploadDocument(
             this.inspectionData.id,
