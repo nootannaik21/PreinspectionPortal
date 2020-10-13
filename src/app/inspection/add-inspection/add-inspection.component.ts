@@ -32,6 +32,8 @@ export class AddInspectionComponent
   fileToUpload: File = null;
   showBranchDetail: boolean;
   image: any;
+  canUpload: boolean = true;
+  inspectionDataSaved: any = {};
 
   ngAfterViewInit(): void {
     this.inspectionHistory = [];
@@ -555,9 +557,7 @@ export class AddInspectionComponent
   //   let formData: FormData = new FormData();
   //   debugger;
   //   //frmData.append('uploadFile', this.file, this.file.name);
-    
-    
-    
+
   //   if (this.fileList) {
   //     debugger;
   //     for (let i = 1; i < this.fileList.length; i++){
@@ -587,29 +587,50 @@ export class AddInspectionComponent
   // }
 
   uploadFiles() {
+    debugger;
     let frmData: FormData = new FormData();
     frmData.append('uploadFile', this.file, this.file.name);
 
-    if(this.fileList.length){
-      for(let i=1 ; i < this.fileList.length ; i++)
-        frmData.append('files[]', this.fileList[i],this.fileList[i].name);
+    if (this.fileList.length) {
+      for (let i = 0; i < this.fileList.length; i++) {
+        const mimeType = this.fileList[i].type;
+        if (
+          mimeType.match(/image\/*/) == null &&
+          mimeType.match(/application\/pdf/) == null
+        ) {
+          this.alertService.infoAlert(
+            '',
+            'Only JPEG,PNG and PDF formats are allowed.'
+          );
+          return (this.canUpload = false);
+        }
+      }
+      if (this.canUpload) {
+        for (let i = 0; i < this.fileList.length; i++)
+          frmData.append('files[]', this.fileList[i], this.fileList[i].name);
+        this.inspectionService
+          .uploadDocument(
+            this.inspectionData.id,
+            this.inspectionData.statusid,
+            frmData
+          )
+          .subscribe(
+            (data) => {
+              this.alertService.successAlert(
+                'Success',
+                'File(s) uploaded successfully'
+              );
+            },
+            (err) => {
+              console.log(err.error.message);
+              this.inspectionData = {};
+            }
+          );
+      }
+    } else {
+      this.alertService.infoAlert('Oops !', 'Please choose document.');
     }
-    this.inspectionService
-      .uploadDocument(this.inspectionData.id,this.inspectionData.statusid, frmData)
-      .subscribe(
-        (data) => {
-          this.alertService.successAlert("Success","File(s) uploaded successfully");
-        },
-        (err) => {
-          console.log(err.error.message);
-    this.inspectionData = {};
-  })
   }
-
-
-
-
-
 
   uploadInspectionDetails(files: FileList) {}
   downloadInspectionDetails() {}
@@ -633,39 +654,31 @@ export class AddInspectionComponent
     this.inspectionData = {};
   }
   updateInspection() {
+    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid || this.showRequestRaisedErr) {
       return;
     } else {
-      // if (
-      //   localStorage.getItem('type') == 'Branch' ||
-      //   localStorage.getItem('type') == 'IMD'
-      // ) {
-      //   this.inspectionData.branchCode = '';
-      //   this.inspectionData.branchName = '';
-      // }
       var x: number = +this.inspectionData.paymentmodeid;
       var y: number = +this.inspectionData.statusid;
       this.inspectionData.paymentmodeid = x;
       this.inspectionData.statusid = y;
-
-      // this.inspectionData.altclientname = '';
       this.inspectionData.duplicateinspection == '1'
         ? (this.inspectionData.duplicateinspection = true)
         : (this.inspectionData.duplicateinspection = false);
       if (
         this.inspectionData.statusid == '1' ||
-        this.inspectionData.statusid == '2' ||
-        this.inspectionData.statusid == '4'
+        this.inspectionData.statusid == '2' 
       ) {
-        // this.getinspectionByID();
-
         this.inspectionService
           .getInspectionById(localStorage.getItem('inspectionId'))
           .subscribe((data) => {
             var res: any = data;
-            this.inspectionData = Object.assign({}, data);
-            if (this.inspectionData.documentPath) {
+            this.inspectionDataSaved = Object.assign({}, data);
+            debugger;
+            if (
+              this.inspectionDataSaved.documentPath
+            ) {
               this.inspectionService
                 .updateInspection(this.inspectionData.id, this.inspectionData)
                 .subscribe(
@@ -679,31 +692,26 @@ export class AddInspectionComponent
                   },
                   (err) => {}
                 );
-            } else {
+            } 
+            else {
               this.alertService.infoAlert('OOPS!', 'Please upload document.');
             }
           });
-      } else {
+      } 
+      else {
         this.inspectionService
-          .updateInspection(this.inspectionData.id, this.inspectionData)
-          .subscribe(
-            (data) => {
-              this.notifyService.showSuccess(
-                'Inspection Updated successfully !!',
-                'Success'
-              );
-              this.router.navigateByUrl('inspection');
-              this.inspectionData = {};
-            },
-            (err) => {
-              if(err.error.message != null)
-          {
-        }
-        else{
-          this.router.navigateByUrl('inspection');
-        }
-            }
-          );
+                .updateInspection(this.inspectionData.id, this.inspectionData)
+                .subscribe(
+                  (data) => {
+                    this.notifyService.showSuccess(
+                      'Inspection Updated successfully without file !!',
+                      'Success'
+                    );
+                    this.router.navigateByUrl('inspection');
+                    this.inspectionData = {};
+                  },
+                  (err) => {}
+                );
       }
     }
   }
@@ -776,18 +784,15 @@ export class AddInspectionComponent
           this.inspectionData = {};
         },
         (err) => {
-          
-          if(err.error.message != null)
-          {
+          if (err.error.message != null) {
             this.notifyService.showError(
               'Something is wrong',
               'Inspection Not Added'
             );
             return;
-        }
-        else{
-          this.router.navigateByUrl('inspection');
-        }
+          } else {
+            this.router.navigateByUrl('inspection');
+          }
         }
       );
     }
@@ -839,10 +844,10 @@ export class AddInspectionComponent
           // i++;
           var res: any = data;
 
-var blob = new Blob([res]);
-var blob = new Blob([data], { type: res.type });
-var downloadURL = URL.createObjectURL(blob);
-this.documentsPath[i] = downloadURL;
+          var blob = new Blob([res]);
+          var blob = new Blob([data], { type: res.type });
+          var downloadURL = URL.createObjectURL(blob);
+          this.documentsPath[i] = downloadURL;
         });
 
         // var link = document.createElement('a');
@@ -853,7 +858,7 @@ this.documentsPath[i] = downloadURL;
       (err) => {}
     );
   }
-  
+
   downloadDoc(url) {
     var link = document.createElement('a');
     link.href = url;

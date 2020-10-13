@@ -79,8 +79,8 @@ export class InspectionListComponent
 var fileStr = evt.split(',');
 fileStr.forEach(element => {
   this.inspectionService.downloadDocument(element).subscribe(data=>{
+    debugger;
 var res: any = data;
-
 var blob = new Blob([res]);
 var blob = new Blob([data], { type: res.type });
 var fileURL = URL.createObjectURL(blob);

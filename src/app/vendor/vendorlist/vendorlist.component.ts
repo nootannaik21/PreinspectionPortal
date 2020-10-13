@@ -61,7 +61,7 @@ export class VendorlistComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   getAllVendors() {
-    this.vendorService.getVendors().subscribe(
+    this.vendorService.getAllVendors().subscribe(
       (data) => {
         this.vendorList = data;
         this.rerender();
