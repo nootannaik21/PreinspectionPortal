@@ -74,7 +74,12 @@ export class InspectionListComponent
     // var secondString = evt.substring(firstSpaceIndex + 1);
     debugger;
     //var FileSaver = require('file-saver');
-    var fileStr = evt.split(',');
+    var fileStr = evt != null ? evt.split(','):null;
+    if (fileStr == null) {
+      
+    }
+    else
+    {
     fileStr.forEach((element) => {
       this.inspectionService.downloadDocument(element).subscribe(
         (data) => {
@@ -100,6 +105,8 @@ export class InspectionListComponent
       );
     });
   }
+  }
+  
   getInspectionList() {
     this.inspectionService.getInspectionList().subscribe(
       (data) => {
