@@ -25,6 +25,9 @@ export class VendorServiceService {
     return this.apiService.delete("vendor/deleteVendor?id="+id);
   }
   getVendors() {
+    return this.apiService.get("vendor/getAllActiveVendors");
+  }
+  getAllVendors() {
     return this.apiService.get("vendor/getAllVendors");
   }
 
