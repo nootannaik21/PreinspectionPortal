@@ -168,8 +168,8 @@ export class AddInspectionComponent
       this.hideStatus = true;
       this.imduserDetail = false;
       this.getInspectionsHistory();
-      this.getAllVehicleMake();
-      this.getAllVehicleModel();
+      //this.getAllVehicleMake();
+      //this.getAllVehicleModel();
       if (localStorage.getItem('type') == 'Vendor') {
         this.disableFields();
         this.showHistoryTable = true;
