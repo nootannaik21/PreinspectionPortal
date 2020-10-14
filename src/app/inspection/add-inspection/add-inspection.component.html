@@ -943,12 +943,25 @@
               <div>* {{ file.name }} - {{ file.type }} - {{ file.size }}KB</div>
             </div>
           </div>
-          <!-- <div class="imagePreview" *ngIf="inspectionData.documentPath">
+          <div class="imagePreview" *ngIf="inspectionData.documentPath">
             <div *ngFor="let item of documentsPath">
-            <img [src]="sanitizeImageUrl(item)" height="100em" width="100em"/>
+            <!-- <img [src]="sanitizeImageUrl(item.url)" height="100em" width="100em" *ngIf="item.type=='image'"/>
             <a (click)="downloadDoc(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
+          <pdf-viewer [src]="item.url" *ngIf="item.type=='pdf'"></pdf-viewer> -->
+          <label *ngIf="item.type=='image'">
+            <img [src]="sanitizeImageUrl(item.url)" height="100em" width="100em" *ngIf="item.type=='image'"/>
+            <a (click)="downloadDoc(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
+          </label>
+          <label *ngIf="item.type=='pdf'">
+pdf
+            <a (click)="getPdfView(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
+          </label>
+         
           </div>
-          </div> -->
+          </div>
+          
+          <!-- documentsPdfPath -->
+         
           <!-- <ngx-doc-viewer [url]="" viewer="google" style="width:100%;height:50vh;"></ngx-doc-viewer> -->
           <!--End of Upload Documents-->
         </div>
@@ -1040,3 +1053,20 @@
     </div>
   </div>
 </div>
+
+<app-ui-modal #pdfPopup dialogClass="modal-dialog-centered modal-lg">
+  <div class="app-modal-header">
+    <h5 class="modal-title"><i class="feather icon-user mr-1"></i>View PDF</h5>
+    <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close" (click)="pdfPopup.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="app-modal-body">
+    <perfect-scrollbar [style.max-height]="'100vh'">
+    <pdf-viewer [src]="fileUrl"></pdf-viewer>
+  </perfect-scrollbar> 
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="pdfPopup.hide()">Close</button>
+  </div>
+</app-ui-modal>
