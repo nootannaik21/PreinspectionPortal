@@ -11,7 +11,7 @@ import { InspectionSeriveService } from '../../service/inspection-serive.service
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { NotificationService } from '../../service/notification.service';
-import { resolveForwardRef } from '@angular/compiler/src/util';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-inspection-list',
@@ -21,6 +21,8 @@ import { resolveForwardRef } from '@angular/compiler/src/util';
 export class InspectionListComponent
   implements OnInit, OnDestroy, AfterViewInit {
   inspectionList: any = [];
+  image: string | ArrayBuffer;
+  base64textString: string;
   ngAfterViewInit(): void {
     this.inspectionList = [];
     this.rerender();
@@ -46,10 +48,8 @@ export class InspectionListComponent
       ],
       pageLength: 10,
       processing: true,
-        dom: 'Bfrtip',
-          buttons: [
-              'excel'
-          ]
+      dom: 'Bfrtip',
+      buttons: ['excel'],
     };
     this.getInspectionList();
   }
@@ -68,29 +68,43 @@ export class InspectionListComponent
     localStorage.setItem('view', 'Edit');
     this.router.navigateByUrl('inspection/editInspection');
   }
-  downloadDoc(evt){
-// var firstSpaceIndex = evt.indexOf("\\");
-// var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
-// var secondString = evt.substring(firstSpaceIndex + 1);
-debugger;
-var fileStr = evt.split(',');
-fileStr.forEach(element => {
-  
+  downloadDoc(evt) {
+    // var firstSpaceIndex = evt.indexOf("\\");
+    // var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
+    // var secondString = evt.substring(firstSpaceIndex + 1);
+    //var FileSaver = require('file-saver');
+    var fileStr = evt != null ? evt.split(','):null;
+    if (fileStr == null) {
+      
+    }
+    else
+    {
+    fileStr.forEach((element) => {
+      this.inspectionService.downloadDocument(element).subscribe(
+        (data) => {
+          var res: any = data;
 
-this.inspectionService.downloadDocument(element).subscribe(data=>{
-  debugger;
-var res: any = data;
-var blob = new Blob([res]);
-var downloadURL = window.URL.createObjectURL(res);
-var link = document.createElement('a');
-link.href = downloadURL;
-link.download = element;
-link.click();
-},err=>{
+          //var blob = new Blob([res]);
+          var blob = new Blob([data], { type: res.type });
 
-});
-});
+          const element = document.createElement('a');
+          element.href = URL.createObjectURL(blob);
+          element.download = 'downloaded_file.pdf';
+          document.body.appendChild(element);
+
+          if (res.type == 'application/pdf')
+            window.open(element.href, '_blank');
+          else {
+            //element.click();
+            saveAs(blob);
+          }
+        },
+        (err) => {}
+      );
+    });
   }
+  }
+  
   getInspectionList() {
     this.inspectionService.getInspectionList().subscribe(
       (data) => {

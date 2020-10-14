@@ -29,6 +29,9 @@
                   <div *ngIf="f.type.errors.required">
                     Risk type is required
                   </div>
+                  <div *ngIf="f.type.errors.pattern">
+                    Risk type should not contain special characters.
+                  </div>
                 </div>
               </div>
             </div>

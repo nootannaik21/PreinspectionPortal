@@ -33,7 +33,7 @@ export class InspectionSeriveService {
     return this.apiService.delete("inspection/deleteDocument?file="+file+"&inspectionId="+inspectionId);   
   }
   downloadDocument(file) {
-    return this.apiService.getFile("inspection/download?filename="+file);   
+    return this.apiService.getFile("inspection/download?id="+file);   
   }
   getInspectionHistoryById(inspectionId) {
     return this.apiService.get("inspection/getInspectionHistoryByInspectionId?inspectionId="+inspectionId);   

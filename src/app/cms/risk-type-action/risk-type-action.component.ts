@@ -18,7 +18,7 @@ export class RiskTypeActionComponent implements OnInit {
 
   ngOnInit(): void {
     this.addEditRiskTypeForm = this.formBuilder.group({
-      type: ['', [Validators.required, Validators.pattern('^([a-zA-Z0-9]).*$')]]
+      type: ['', [Validators.required, Validators.pattern('^([a-zA-Z0-9 ])+$')]]
     });
     if (localStorage.getItem('risktypeid')) {
       this.title = "Update Risk Type";
