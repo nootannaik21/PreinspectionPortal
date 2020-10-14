@@ -40,6 +40,7 @@ export class AddInspectionComponent
   @ViewChild('pdfPopup', {static: false})
   pdfPopup: UiModalComponent;
   fileUrl: string;
+  hideUpdateButton: boolean = false;
 
   ngAfterViewInit(): void {
     this.inspectionHistory = [];
@@ -461,15 +462,17 @@ export class AddInspectionComponent
     } else {
       this.showRequestRaisedErr = false;
       if (
-        event.target.value == 1 ||
+        (event.target.value == 1 ||
         event.target.value == 2 ||
-        (event.target.value == 4 &&
+        event.target.value == 4) &&
           (localStorage.getItem('type') == 'Vendor' ||
-            localStorage.getItem('type') == 'Admin'))
+            localStorage.getItem('type') == 'Admin')
       ) {
         this.showUpload = true;
+        this.hideUpdateButton = true;
       } else {
         this.showUpload = false;
+        this.hideUpdateButton = false;
       }
     }
   }
@@ -594,8 +597,7 @@ export class AddInspectionComponent
   uploadFiles() {
     let frmData: FormData = new FormData();
     //frmData.append('uploadFile', this.file, this.file.name);
-
-    if (this.fileList.length) {
+    if (this.fileList != undefined) {
       for (let i = 0; i < this.fileList.length; i++) {
         const mimeType = this.fileList[i].type;
         if (
@@ -624,6 +626,7 @@ export class AddInspectionComponent
                 'Success',
                 'File(s) uploaded successfully'
               );
+              this.hideUpdateButton = false;
             },
             (err) => {
               console.log(err.error.message);
@@ -669,57 +672,58 @@ export class AddInspectionComponent
       this.inspectionData.duplicateinspection == '1'
         ? (this.inspectionData.duplicateinspection = true)
         : (this.inspectionData.duplicateinspection = false);
-      if (
-        this.inspectionData.statusid == '1' ||
-        this.inspectionData.statusid == '2'
-      ) {
-        this.inspectionService
-          .getInspectionById(localStorage.getItem('inspectionId'))
-          .subscribe((data) => {
-            var res: any = data;
-            this.inspectionDataSaved = Object.assign({}, data);
-            if (this.inspectionDataSaved.documentPath) {
-              this.inspectionService
-                .updateInspection(this.inspectionData.id, this.inspectionData)
-                .subscribe(
-                  (data) => {
-                    this.notifyService.showSuccess(
-                      'Inspection Updated successfully !!',
-                      'Success'
-                    );
-                    this.router.navigateByUrl('inspection');
-                    this.inspectionData = {};
-                  },
-                  (err) => {}
-                );
-            } else {
-              this.alertService.infoAlert('OOPS!', 'Please upload document.');
-            }
-          });
-      } else {
+        // if (
+        //   this.inspectionData.statusid == '1' ||
+        //   this.inspectionData.statusid == '2'
+        // ) {
+        //         this.inspectionService
+        //           .updateInspection(this.inspectionData.id, this.inspectionData)
+        //           .subscribe(
+        //             (data) => {
+        //               this.notifyService.showSuccess(
+        //                 'Inspection Updated successfully !!',
+        //                 'Success'
+        //               );
+        //               this.router.navigateByUrl('inspection');
+        //               this.inspectionData = {};
+        //             },
+        //             (err) => {
+        //               this.notifyService.showError(
+        //                 'Inspection Update failed !!',""
+        //               );
+        //             }
+        //           );
+        // }
+       
         this.inspectionService
           .updateInspection(this.inspectionData.id, this.inspectionData)
           .subscribe(
             (data) => {
               this.notifyService.showSuccess(
-                'Inspection Updated successfully without file !!',
+                'Inspection Updated successfully !!',
                 'Success'
               );
               this.router.navigateByUrl('inspection');
               this.inspectionData = {};
             },
-            (err) => {}
+            (err) => {
+              this.notifyService.showError(
+                'Inspection Update failed !!',
+                err.error.message
+              );
+            }
           );
-      }
     }
   }
   onBranchSelect() {
     // var temp = this.branches.filter(
     //   (x) => x.branchName == this.inspectionData.branchName
     // );
-    // this.inspectionData.branchcode = temp[0].branchCode;
+    
     this.getVendorMailList(this.inspectionData.branchcode);
     this.getAllImdDetails(this.inspectionData.branchcode);
+    this.inspectionData.imdcode = '';
+    this.inspectionData.vendorOrganization='';
   }
   onBranchCodeSelect() {
     var temp = this.branches.filter(

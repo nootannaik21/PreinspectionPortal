@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col-md-5">
                         <div class="form-group">
-                            <label for="fromDate">From Date</label>
+                            <label for="fromDate">Start Date</label>
                             <div class="input-group">
                                 <input class="form-control" autocomplete="off" placeholder="yyyy-mm-dd" name="fromDate"
                                     [(ngModel)]="reportDate.fromDate" ngbDatepicker #d="ngbDatepicker">
@@ -21,7 +21,7 @@
                     </div>
                     <div class="col-md-5">
                         <div class="form-group">
-                            <label for="fromDate">To Date</label>
+                            <label for="fromDate">End Date</label>
                             <div class="input-group">
                                 <input class="form-control" autocomplete="off" placeholder="yyyy-mm-dd" name="toDate"
                                     [(ngModel)]="reportDate.toDate" ngbDatepicker #d2="ngbDatepicker">
@@ -51,6 +51,7 @@
                             <tr>
                                 <th class="text-left">Reference #</th>
                                 <th class="text-left">Pincode</th>
+                                <th class="text-left">Location of Inspection</th>
                                 <!-- <th class="text-left">Location</th> -->
                                 <th class="text-left">IMD Code</th>
                                 <th class="text-left">Phone no of IMD</th>
@@ -60,7 +61,7 @@
                                 <th class="text-left">Reason For Inspection</th>
                                 <th class="text-left">Product Type</th>
                                 <th class="text-left">Risk Type</th>
-                                <th class="text-left">Location of Inspection</th>
+                                
                                 <th class="text-left">Vehicle Reg. No.</th>
                                 <th class="text-left">Duplicate Inspection</th>
                                 <th class="text-left">Make of Vehicle</th>
@@ -81,6 +82,9 @@
                                 </td>
                                 <td class="text-left">
                                     {{item.branchcode}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.inspectionlocation}}
                                 </td>
                                 <!-- <td class="text-left">
                                     {{item.branchName}}
@@ -113,15 +117,13 @@
                                 <td class="text-left">
                                     {{item.riskType}}
                                 </td>
-                                <td class="text-left">
-                                    {{item.inspectionlocation}}
-                                </td>
+                                
                                 <td class="text-left">
                                     {{item.registrationno}}
                                 </td>
 
                                 <td class="text-left">
-                                    {{item.duplicateinspection}}
+                                    {{(item.duplicateinspection == true?"Yes":"No")}}
                                 </td>
                                 <td class="text-left">
                                     {{item.make}}

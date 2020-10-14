@@ -492,13 +492,13 @@ export class AddUserComponent implements OnInit {
       this.userdata.company = '';
       branchName.setValidators(null);
       branchCode.setValidators(null);
-      this.getAllBranches();
-      this.userdata.branches = [];
-      if (this.selectedItems.length > 0) {
-        this.selectedItems.forEach((element) => {
-          this.userdata.branches.push(element.id);
-        });
-      }
+      // this.getAllBranches();
+      // this.userdata.branches = [];
+      // if (this.selectedItems.length > 0) {
+      //   this.selectedItems.forEach((element) => {
+      //     this.userdata.branches.push(element.id);
+      //   });
+      // }
     }
     else if(this.userdata.type == 'IMD')
     {
@@ -579,6 +579,7 @@ this.vendorapiService.getVendorByEmail(evt.target.value).subscribe(
   }
   getBranchForVendor(branches){
    var branchOfVendor='';
+   this.selectedItems = [];
     branches.forEach(element => {
       branchOfVendor == ''? branchOfVendor = "id="+element:branchOfVendor += "&id="+element;
     });
