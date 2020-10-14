@@ -83,17 +83,17 @@ export class InspectionListComponent
       this.inspectionService.downloadDocument(element).subscribe(
         (data) => {
           var res: any = data;
-
-          //var blob = new Blob([res]);
           var blob = new Blob([data], { type: res.type });
 
           const element = document.createElement('a');
           element.href = URL.createObjectURL(blob);
-          element.download = 'downloaded_file.pdf';
+          element.download = 'downloaded_file';
           document.body.appendChild(element);
 
-          if (res.type == 'application/pdf')
+          if (res.type == 'application/pdf'){
+          element.download = 'downloaded_file.pdf';
             window.open(element.href, '_blank');
+        }
           else {
             //element.click();
             saveAs(blob);

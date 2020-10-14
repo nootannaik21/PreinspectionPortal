@@ -65,6 +65,7 @@
     "ng-select": "^1.0.2",
     "ng2-dragula": "^2.1.1",
     "ng2-nouislider": "^1.8.2",
+    "ng2-pdf-viewer": "^6.3.2",
     "ng2-toasty": "^4.0.3",
     "ngx-bar-rating": "^1.1.0",
     "ngx-chips": "^2.1.0",

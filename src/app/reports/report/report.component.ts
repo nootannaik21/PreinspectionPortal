@@ -45,7 +45,6 @@ export class ReportComponent implements OnInit {
   }
   getReport()
   {
-    debugger;
     let fromDate: any;
     let toDate :any;
    if (this.reportDate.fromDate) {
