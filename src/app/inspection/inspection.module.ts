@@ -8,6 +8,7 @@ import { SharedModule } from '../theme/shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
 import {NgxImageCompressService} from 'ngx-image-compress';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 
 @NgModule({
@@ -18,7 +19,7 @@ import {NgxImageCompressService} from 'ngx-image-compress';
     DataTablesModule,
     CommonModule,
     InspectionRoutingModule,
-    
+    PdfViewerModule
   ],
   providers:[
     NgxImageCompressService

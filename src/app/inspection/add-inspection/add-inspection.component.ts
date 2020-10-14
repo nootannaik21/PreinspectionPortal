@@ -17,6 +17,9 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { AuthService } from 'src/app/service/auth.service';
 import { UserapiserviceService } from 'src/app/service/userapiservice.service';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { UiModalComponent } from 'src/app/theme/shared/components/modal/ui-modal/ui-modal.component';
+
 
 @Component({
   selector: 'app-add-inspection',
@@ -34,6 +37,9 @@ export class AddInspectionComponent
   image: any;
   canUpload: boolean = true;
   inspectionDataSaved: any = {};
+  @ViewChild('pdfPopup', {static: false})
+  pdfPopup: UiModalComponent;
+  fileUrl: string;
 
   ngAfterViewInit(): void {
     this.inspectionHistory = [];
@@ -66,6 +72,7 @@ export class AddInspectionComponent
   IsDupInspection: boolean = false;
   documents: any = [];
   documentsPath: any = [];
+  documentsPdfPath: any = [];
   showRequestRaisedErr: boolean = false;
   imdData: any = [];
   makeData: any = [];
@@ -586,7 +593,7 @@ export class AddInspectionComponent
 
   uploadFiles() {
     let frmData: FormData = new FormData();
-    frmData.append('uploadFile', this.file, this.file.name);
+    //frmData.append('uploadFile', this.file, this.file.name);
 
     if (this.fileList.length) {
       for (let i = 0; i < this.fileList.length; i++) {
@@ -603,8 +610,8 @@ export class AddInspectionComponent
         }
       }
       if (this.canUpload) {
-        // for (let i = 0; i < this.fileList.length; i++)
-        //   frmData.append('files[]', this.fileList[i], this.fileList[i].name);
+        for (let i = 0; i < this.fileList.length; i++)
+          frmData.append('files[]', this.fileList[i], this.fileList[i].name);
         this.inspectionService
           .uploadDocument(
             this.inspectionData.id,
@@ -664,16 +671,14 @@ export class AddInspectionComponent
         : (this.inspectionData.duplicateinspection = false);
       if (
         this.inspectionData.statusid == '1' ||
-        this.inspectionData.statusid == '2' 
+        this.inspectionData.statusid == '2'
       ) {
         this.inspectionService
           .getInspectionById(localStorage.getItem('inspectionId'))
           .subscribe((data) => {
             var res: any = data;
             this.inspectionDataSaved = Object.assign({}, data);
-            if (
-              this.inspectionDataSaved.documentPath
-            ) {
+            if (this.inspectionDataSaved.documentPath) {
               this.inspectionService
                 .updateInspection(this.inspectionData.id, this.inspectionData)
                 .subscribe(
@@ -687,26 +692,24 @@ export class AddInspectionComponent
                   },
                   (err) => {}
                 );
-            } 
-            else {
+            } else {
               this.alertService.infoAlert('OOPS!', 'Please upload document.');
             }
           });
-      } 
-      else {
+      } else {
         this.inspectionService
-                .updateInspection(this.inspectionData.id, this.inspectionData)
-                .subscribe(
-                  (data) => {
-                    this.notifyService.showSuccess(
-                      'Inspection Updated successfully without file !!',
-                      'Success'
-                    );
-                    this.router.navigateByUrl('inspection');
-                    this.inspectionData = {};
-                  },
-                  (err) => {}
-                );
+          .updateInspection(this.inspectionData.id, this.inspectionData)
+          .subscribe(
+            (data) => {
+              this.notifyService.showSuccess(
+                'Inspection Updated successfully without file !!',
+                'Success'
+              );
+              this.router.navigateByUrl('inspection');
+              this.inspectionData = {};
+            },
+            (err) => {}
+          );
       }
     }
   }
@@ -830,34 +833,25 @@ export class AddInspectionComponent
     // var secondString = evt.substring(firstSpaceIndex + 1);
     let i = 0;
     document.forEach(
-      (element) => {
-        this.inspectionService.downloadDocument(document).subscribe((data) => {
-          // var res: any = data;
-          // var blob = new Blob([res]);
-          // var downloadURL = window.URL.createObjectURL(res);
-          // this.documentsPath[i] = downloadURL;
-          // i++;
+      (element,index) => {
+        this.inspectionService.downloadDocument(element).subscribe((data) => {
           var res: any = data;
-
-          //var blob = new Blob([res]);
-          var blob = new Blob([data], { type: res.type });
-          var downloadURL = URL.createObjectURL(blob);
-          this.documentsPath[i] = downloadURL;
+            var blob = new Blob([data], { type: res.type });
+            var fileURL = URL.createObjectURL(blob);
+            var type = res.type == "application/pdf"?'pdf':'image';
+            this.documentsPath[index] = {type:type,url:fileURL,fileName:element};
+        },(err) => {
+          this.documentsPath[index] = {type:null,url:null};
         });
-
-        // var link = document.createElement('a');
-        // link.href = downloadURL;
-        // link.download = evt;
-        // link.click();
-      },
-      (err) => {}
+      }
+      
     );
   }
 
   downloadDoc(url) {
     var link = document.createElement('a');
     link.href = url;
-    link.download = url;
+    link.download = 'download';
     link.click();
   }
   compressFile(file, fileName) {
@@ -884,5 +878,10 @@ export class AddInspectionComponent
         this.sizeOFCompressedImage =
           this.imageCompress.byteCount(result) / (1024 * 1024);
       });
+  }
+  getPdfView(item)
+  {
+this.fileUrl = item.url;
+this.pdfPopup.show();
   }
 }
