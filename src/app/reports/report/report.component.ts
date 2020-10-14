@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
+import { AlertService } from 'src/app/service/alert.service';
 import { ReportService } from 'src/app/service/report.service';
 //import { DatePipe } from '@angular/common';
 
@@ -18,7 +19,9 @@ export class ReportComponent implements OnInit {
   isDtInitialized: boolean = false;
   reportDate: any={};
   reportData: any={};
-  constructor(private reportService:ReportService,private datePipe: DatePipe) { }
+   fromDate: any;
+   toDate :any;
+  constructor(private reportService:ReportService,private datePipe: DatePipe,private alertService:AlertService) { }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -41,40 +44,56 @@ export class ReportComponent implements OnInit {
               'excel'
           ]
       };
-    this.getReport();
+    this.getData(this.fromDate,this.toDate);
   }
   getReport()
   {
     let fromDate: any;
     let toDate :any;
-   if (this.reportDate.fromDate) {
+   if (this.reportDate.fromDate && this.reportDate.toDate) {
      let day = this.reportDate.fromDate.day < 10 ? "0" + this.reportDate.fromDate.day:this.reportDate.fromDate.day;
      let month = this.reportDate.fromDate.month < 10 ? "0" + this.reportDate.fromDate.month:this.reportDate.fromDate.month;
     fromDate = day +"/"+ month +"/" +this.reportDate.fromDate.year;
-   } else {
-    fromDate = this.datePipe.transform(new Date(), "dd/MM/yyyy");
-   }
-   if (this.reportDate.toDate) {
-    let day = this.reportDate.toDate.day < 10 ? "0" + this.reportDate.toDate.day:this.reportDate.toDate.day;
-     let month = this.reportDate.toDate.month < 10 ? "0" + this.reportDate.toDate.month:this.reportDate.toDate.month;
-    toDate = day +"/" + month +"/" +this.reportDate.toDate.year;
-   } else {
-   toDate = this.datePipe.transform(new Date(),"dd/MM/yyyy");
-   }
-this.reportService.getReport(fromDate,toDate).subscribe(data => {
-  let tempdata:any = [];
-  tempdata = data;
-  if (tempdata.length > 0) {
-    this.reportData = data;
-  }
-  else
-  {
-    this.reportData = {};
-  }
-  this.rerender();
-},err=>{
 
-})
+    let toDay = this.reportDate.toDate.day < 10 ? "0" + this.reportDate.toDate.day:this.reportDate.toDate.day;
+     let toMSonth = this.reportDate.toDate.month < 10 ? "0" + this.reportDate.toDate.month:this.reportDate.toDate.month;
+    toDate = toDay +"/" + toMSonth +"/" +this.reportDate.toDate.year;
+  this.getData(fromDate,toDate);
+   }
+   else
+   {
+    return this.alertService.infoAlert("Oops !","Please provide Start Date and End date");
+   }
+  //    let month = this.reportDate.toDate.month < 10 ? "0" + this.reportDate.toDate.month:this.reportDate.toDate.month;
+  //   toDate = day +"/" + month +"/" +this.reportDate.toDate.year;
+  //  } else {
+  //   fromDate = this.datePipe.transform(new Date(), "dd/MM/yyyy");
+  //  }
+  //  if (this.reportDate.toDate) {
+  //   let day = this.reportDate.toDate.day < 10 ? "0" + this.reportDate.toDate.day:this.reportDate.toDate.day;
+  //    let month = this.reportDate.toDate.month < 10 ? "0" + this.reportDate.toDate.month:this.reportDate.toDate.month;
+  //   toDate = day +"/" + month +"/" +this.reportDate.toDate.year;
+  //  } else {
+  //  toDate = this.datePipe.transform(new Date(),"dd/MM/yyyy");
+  //  }
+  }
+  getData(fromDate,toDate)
+  {
+    this.reportService.getReport(fromDate,toDate).subscribe(data => {
+      let tempdata:any = [];
+      tempdata = data;
+      if (tempdata.length > 0) {
+        this.reportData = data;
+      }
+      else
+      {
+        this.reportData = {};
+      }
+      this.rerender();
+    },err=>{
+      this.reportData = {};
+      this.rerender();
+    });
   }
   rerender(): void {
     if (this.isDtInitialized) {

@@ -39,10 +39,10 @@
                 </option>
               </select>
               <div
-                *ngIf="submitted && f.branchName.errors"
+                *ngIf="submitted && f.branchcode.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="f.branchName.errors.required">
+                <div *ngIf="f.branchcode.errors.required">
                   Location is required
                 </div>
               </div>
@@ -407,7 +407,7 @@
                 </option>
               </select>
               <div
-                *ngIf="submitted && f.branchcode.errors"
+                *ngIf="submitted && f.productType.errors"
                 class="invalid-feedback"
               >
                 <div *ngIf="f.productType.errors.required">
@@ -978,6 +978,7 @@ pdf
             <button
               type="button"
               *ngIf="disableInspection"
+              [disabled]="hideUpdateButton"
               class="btn btn-primary"
               (click)="updateInspection()"
             >
