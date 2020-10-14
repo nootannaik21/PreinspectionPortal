@@ -51,7 +51,7 @@
                             <tr>
                                 <th class="text-left">Reference #</th>
                                 <th class="text-left">Pincode</th>
-                                <th class="text-left">Location</th>
+                                <!-- <th class="text-left">Location</th> -->
                                 <th class="text-left">IMD Code</th>
                                 <th class="text-left">Phone no of IMD</th>
                                 <th class="text-left">Email of IMD</th>
@@ -82,9 +82,9 @@
                                 <td class="text-left">
                                     {{item.branchcode}}
                                 </td>
-                                <td class="text-left">
+                                <!-- <td class="text-left">
                                     {{item.branchName}}
-                                </td>
+                                </td> -->
                                 <td class="text-left">
                                     {{item.imdcode}}
                                 </td>
@@ -133,7 +133,8 @@
                                     {{(item.paymentmodeid==1?"Company":"Customer")}}
                                 </td>
                                 <td class="text-left">
-                                    {{(item.statusid==1) ?"Active":"InActive"}}
+                                    <!-- {{(item.statusid==1) ?"Active":"InActive"}} -->
+                                    {{(item.statusid==1) ? "Recommended" : (item.statusid==2) ? "Not Recommended" : (item.statusid)==3 ? "Rescheduled" : (item.statusid)==4 ? "Cancelled":(item.statusid)==5 ? "Appointmant Fix" : "Request Raised"}}
                                 </td>
                                 <td class="text-left">
                                     {{item.createdBy}}
