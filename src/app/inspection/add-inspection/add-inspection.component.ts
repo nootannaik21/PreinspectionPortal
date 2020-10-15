@@ -19,6 +19,7 @@ import { AuthService } from 'src/app/service/auth.service';
 import { UserapiserviceService } from 'src/app/service/userapiservice.service';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { UiModalComponent } from 'src/app/theme/shared/components/modal/ui-modal/ui-modal.component';
+import { variable } from '@angular/compiler/src/output/output_ast';
 
 
 @Component({
@@ -117,7 +118,7 @@ export class AddInspectionComponent
       phoneNoofsales: ['', [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       clientname: [
         '',
-        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]{1,20}$')],
       ],
       altclientname: [
         '',
@@ -189,7 +190,7 @@ export class AddInspectionComponent
         this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.inspectionData.branchcode = localStorage.getItem('branch');
-        this.getAllImdDetails(localStorage.getItem('branch'));
+        //this.getAllImdDetails(localStorage.getItem('branch'));
         this.addInspectionForm.get('branchcode').disable();
         this.addInspectionForm.get('statusid').disable();
         this.disableInspection = true;
@@ -215,7 +216,7 @@ export class AddInspectionComponent
         this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
         this.inspectionData.branchcode = localStorage.getItem('branch');
-        this.getAllImdDetails(localStorage.getItem('branch'));
+        //this.getAllImdDetails(localStorage.getItem('branch'));
         this.addInspectionForm.get('branchcode').disable();
         this.addInspectionForm.get('statusid').disable();
         this.disableInspection = true;
@@ -362,6 +363,7 @@ export class AddInspectionComponent
     this.inspectionService.getAllInspectionStatus().subscribe(
       (data) => {
         this.status = data;
+        //this.getInspectionStatus(localStorage.getItem('type'));
       },
       (err) => {}
     );
@@ -443,6 +445,7 @@ export class AddInspectionComponent
     this.getAllconvayances();
     this.getAllVehicleMake();
     this.getAllVehicleModel();
+    this.getAllImdDetails(localStorage.getItem('branch'));
     this.getinspectionByID();
     if (localStorage.getItem('view') == 'View') {
       this.title = 'View Inspection';
@@ -463,8 +466,7 @@ export class AddInspectionComponent
       this.showRequestRaisedErr = false;
       if (
         (event.target.value == 1 ||
-        event.target.value == 2 ||
-        event.target.value == 4) &&
+        event.target.value == 2) &&
           (localStorage.getItem('type') == 'Vendor' ||
             localStorage.getItem('type') == 'Admin')
       ) {
@@ -484,7 +486,7 @@ export class AddInspectionComponent
           var res: any = data;
           if (res) {
             this.getVendorMailList(res.branchcode);
-            this.getAllImdDetails(res.branchcode);
+           localStorage.getItem('type') =="Admin"? this.getAllImdDetails(res.branchcode):null;
           }
           this.inspectionData = Object.assign({}, data);
           this.inspectionData.vendorEmailId = res.vendorEmailId;
@@ -506,6 +508,11 @@ export class AddInspectionComponent
           //   this.addInspectionForm.get('paymentmodeid').enable();
           //   this.inspectionData.paymentmodeid = '';
           // }
+          if ((localStorage.getItem('type') == "Admin" || localStorage.getItem('type') == "Claims")) 
+          {
+            debugger;
+            this.getInspectionStatus(localStorage.getItem('type'));
+          }
           let i = 0;
           if (res.documentPath) {
             //this.documents =res.documentPath.split(',');
@@ -887,5 +894,85 @@ export class AddInspectionComponent
   {
 this.fileUrl = item.url;
 this.pdfPopup.show();
+  }
+  getInspectionStatus(role)
+  {
+    let allStatus = this.status;
+    if(role == "Claims"  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
+    {
+    this.status = [];
+      var claimsStatus = [6,7,8];
+      for (let index = 0; index < allStatus.length; index++) {
+        //const element = array[index];
+        var tempStatus = allStatus.filter(
+          (x) => x.id == claimsStatus[index]
+        );
+        var i= 0;
+        if(tempStatus.length > 0)
+        {
+          this.status.push(tempStatus[i]);
+          i++;
+        }
+      }
+      
+    }
+    if(role == "Claims"  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
+    {
+    this.status = [];
+    var inspectionCurrentStatus : number = +this.inspectionData.statusid;
+      var claimsStatus = [8,7,inspectionCurrentStatus];
+      for (let index = 0; index < allStatus.length; index++) {
+        //const element = array[index];
+        var tempStatus = allStatus.filter(
+          (x) => x.id == claimsStatus[index]
+        );
+        var i= 0;
+        if(tempStatus.length > 0)
+        {
+          this.status.push(tempStatus[i]);
+          i++;
+        }
+      }
+      
+    }
+    if(role == "Claims"  && this.inspectionData.statusid != 1 && this.inspectionData.statusid != 2)
+    {
+    this.status = [];
+    var inspectionCurrentStatus : number = +this.inspectionData.statusid;
+      var claimsStatus = [inspectionCurrentStatus];
+      for (let index = 0; index < allStatus.length; index++) {
+        //const element = array[index];
+        var tempStatus = allStatus.filter(
+          (x) => x.id == claimsStatus[index]
+        );
+        var i= 0;
+        if(tempStatus.length > 0)
+        {
+          this.status.push(tempStatus[i]);
+          i++;
+        }
+      }
+      
+    }
+    
+    if(role == "Admin"  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
+    {
+    this.status = [];
+    var inspectionCurrentStatus : number = +this.inspectionData.statusid;
+      var claimsStatus = [8,7,inspectionCurrentStatus];
+      for (let index = 0; index < allStatus.length; index++) {
+        //const element = array[index];
+        var tempStatus = allStatus.filter(
+          (x) => x.id == claimsStatus[index]
+        );
+        var i= 0;
+        if(tempStatus.length > 0)
+        {
+          this.status.push(tempStatus[i]);
+          i++;
+        }
+      }
+      
+    }
   }
 }

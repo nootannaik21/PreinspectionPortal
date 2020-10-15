@@ -141,10 +141,14 @@
                   {{item.registrationno}}
               </td>
               <td class="text-left">
-                <span *ngIf="(item.statusid==1)||(item.statusid==2)||(item.statusid==4)">
+                <!-- <span *ngIf="(item.statusid==1)||(item.statusid==2)||(item.statusid==4)">
                     <i class="feather icon-download pr-2" className="tooltipstext" title="Download"
                         style="cursor: pointer;" Permission [permission]="'Admin|Claims'"></i> 
-                </span>
+                </span> -->
+                <span *ngIf="(item.statusid==1)||(item.statusid==2)">
+                  <i class="feather icon-download" className="tooltipstext" title="Download Inspection Documents"
+                      style="cursor: pointer;" Permission (click)="downloadDoc(item.documentPath)" [permission]="'Admin|Claims'"></i>
+              </span>
                 <span>
                     <i class="feather icon-eye pr-2" className="tooltipstext" title="View"
                     style="cursor: pointer;" (click)="viewInspection(item)" Permission [permission]="'Admin|Branch|IMD|OPS|Claims'"></i>

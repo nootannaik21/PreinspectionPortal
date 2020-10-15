@@ -113,7 +113,7 @@ export class AddUserComponent implements OnInit {
             this.showBranch = false;
             this.showBranchDetail = true;
             this.getAllBranches();
-          } 
+          }
           else if (this.userdata.type == 'Vendor') {
             this.showBranch = false;
             this.showBranchDetail = false;
@@ -156,9 +156,9 @@ export class AddUserComponent implements OnInit {
                 allowSearchFilter: true,
               };
           },err=>{
-      
+
           })
-          } 
+          }
           else {
             this.showBranch = true;
             this.showBranchDetail = false;
@@ -246,6 +246,7 @@ export class AddUserComponent implements OnInit {
       this.userdata.branchCode = '';
       this.userdata.branches = [];
       this.imdUser = true;
+    this.userdata.imdCode = null;
       this.getAllBranches();
     }
     else if(eve.target.value == 'Branch') {
@@ -253,6 +254,7 @@ export class AddUserComponent implements OnInit {
       this.showBranchDetail = true;
       this.userdata.branchName = '';
       this.userdata.branchCode = '';
+      this.showVendorOrganization = false;
       this.userdata.branches = [];
     } else if (eve.target.value == 'Admin' || eve.target.value == 'Claims') {
       this.showBranch = false;
@@ -275,6 +277,7 @@ export class AddUserComponent implements OnInit {
       this.showVendorOrganization = false;
       this.userdata.branchCode = '';
       this.userdata.branches = [];
+      this.selectedItems=[];
       this.userdata.branchName = '';
       this.getAllBranches();
     }
@@ -355,7 +358,7 @@ export class AddUserComponent implements OnInit {
       this.userdata.branches = [];
       // branches.setValidators(null);
       this.userdata.branches = [];
-    } 
+    }
     else if(this.userdata.type == 'IMD')
     {
       if (this.userdata.imdCode == undefined) {
@@ -370,7 +373,7 @@ export class AddUserComponent implements OnInit {
         // branches.setValidators(null);
         this.userdata.branches = [];
       }
-      
+
     }else if (
       this.userdata.type == 'Admin' ||
       this.userdata.type == 'Claims'
@@ -427,7 +430,7 @@ export class AddUserComponent implements OnInit {
       );
       return;
     } else {
-      
+
       this.userapiService.addUser(userdata).subscribe(
         (data) => {
           var res: any = data;
@@ -456,6 +459,7 @@ export class AddUserComponent implements OnInit {
     }
   }
   updateUser(data) {
+    debugger;
     const branchName = this.addUserForm.get('branchName');
     const branchCode = this.addUserForm.get('branchCode');
     const branches = this.addUserForm.get('branches');
@@ -468,7 +472,7 @@ export class AddUserComponent implements OnInit {
       branchName.setValidators(null);
       branchCode.setValidators(null);
       branches.setValidators(null);
-    } 
+    }
     else if(this.userdata.type == 'OPS'){
       this.showBranchDetail = false;
       this.userdata.branchName = '';
@@ -502,6 +506,7 @@ export class AddUserComponent implements OnInit {
     }
     else if(this.userdata.type == 'IMD')
     {
+      debugger;
       var y: number = +this.userdata.imdCode;
       this.userdata.imdCode = y > 0?y:null;
     }
@@ -541,18 +546,21 @@ export class AddUserComponent implements OnInit {
             this.router.navigateByUrl('users');
             this.userdata = {};
             this.getAllBranches();
-          } else {
-            this.notifyService.showError(
-              'Something is wrong',
-              'User Not Updated'
-            );
           }
+          // else {
+          //   this.notifyService.showError(
+          //     err.error.message,
+          //     'User Not Updated'
+          //   );
+          // }
         },
         (err) => {
+          debugger;
           this.notifyService.showError(
-            'Something is wrong',
-            'User Not Updated'
+            err.error.message,
+            ''
           );
+          // this.notifyService.showError(err.error.message, 'User Not Added');
           return;
         }
       );
@@ -594,7 +602,7 @@ this.vendorapiService.getVendorByEmail(evt.target.value).subscribe(
                 allowSearchFilter: true,
               };
           },err=>{
-      
+
           })
   }
 }
