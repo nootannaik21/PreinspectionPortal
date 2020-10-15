@@ -253,6 +253,7 @@ export class AddUserComponent implements OnInit {
       this.showBranchDetail = true;
       this.userdata.branchName = '';
       this.userdata.branchCode = '';
+      this.showVendorOrganization = false;
       this.userdata.branches = [];
     } else if (eve.target.value == 'Admin' || eve.target.value == 'Claims') {
       this.showBranch = false;
@@ -275,6 +276,7 @@ export class AddUserComponent implements OnInit {
       this.showVendorOrganization = false;
       this.userdata.branchCode = '';
       this.userdata.branches = [];
+      this.selectedItems=[];
       this.userdata.branchName = '';
       this.getAllBranches();
     }
