@@ -4,6 +4,8 @@ import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/service/alert.service';
+import { saveAs } from 'file-saver';
+import { InspectionSeriveService } from 'src/app/service/inspection-serive.service';
 
 @Component({
   selector: 'app-enquiry-list',
@@ -22,7 +24,7 @@ export class EnquiryListComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   isDtInitialized: boolean = false;
-  constructor(private router: Router, private enquiryService:EnquiryserviceService,private alertService: AlertService,) { }
+  constructor(private router: Router, private enquiryService:EnquiryserviceService,private alertService: AlertService,private inspectionService: InspectionSeriveService) { }
 
   ngOnInit() {
     this.dtOptions = {
@@ -65,6 +67,42 @@ export class EnquiryListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.enquiryData = {};
     this.enquiryList = [];
     this.rerender();
+  }
+  downloadDoc(evt) {
+    // var firstSpaceIndex = evt.indexOf("\\");
+    // var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
+    // var secondString = evt.substring(firstSpaceIndex + 1);
+    //var FileSaver = require('file-saver');
+    var fileStr = evt != null ? evt.split(','):null;
+    if (fileStr == null) {
+      
+    }
+    else
+    {
+    fileStr.forEach((element) => {
+      this.inspectionService.downloadDocument(element).subscribe(
+        (data) => {
+          var res: any = data;
+          var blob = new Blob([data], { type: res.type });
+
+          const element = document.createElement('a');
+          element.href = URL.createObjectURL(blob);
+          element.download = 'downloaded_file';
+          document.body.appendChild(element);
+
+          if (res.type == 'application/pdf'){
+          element.download = 'downloaded_file.pdf';
+            window.open(element.href, '_blank');
+        }
+          else {
+            //element.click();
+            saveAs(blob);
+          }
+        },
+        (err) => {}
+      );
+    });
+  }
   }
   rerender(): void {
     if (this.isDtInitialized) {
