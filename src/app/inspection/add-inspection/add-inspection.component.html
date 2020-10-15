@@ -236,8 +236,6 @@
                 formControlName="clientname"
                 tabindex="6"
                 [(ngModel)]="inspectionData.clientname"
-                appOnlyalphabets
-                [onlyAlpha]="true"
                 [ngClass]="{ 'is-invalid': submitted && f.clientname.errors }"
               />
               <div
@@ -248,7 +246,7 @@
                   Customer Name is required
                 </div>
                 <div *ngIf="f.clientname.errors.pattern">
-                  Customer Name should be valid
+                  Customer Name should be valid and within 20 characters.
                 </div>
               </div>
             </div>
@@ -953,8 +951,9 @@
             <a (click)="downloadDoc(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
           </label>
           <label *ngIf="item.type=='pdf'">
-pdf
-            <a (click)="getPdfView(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
+            <a (click)="getPdfView(item)" style="cursor: pointer;">pdf</a>
+            <a (click)="downloadDoc(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
+            <!-- <a (click)="getPdfView(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a> -->
           </label>
          
           </div>
