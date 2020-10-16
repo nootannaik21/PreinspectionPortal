@@ -154,7 +154,7 @@ export class AddInspectionComponent
       riskType: ['', [Validators.required]],
       registrationno: [
         '',
-        [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,14}$')],
+        [Validators.required, Validators.pattern('^[a-zA-Z]+[a-zA-Z0-9 ]{1,13}$')],
       ],
       duplicateinspection: ['', [Validators.required]],
       paymentmodeid: ['', [Validators.required]],
@@ -486,7 +486,7 @@ export class AddInspectionComponent
           var res: any = data;
           if (res) {
             this.getVendorMailList(res.branchcode);
-           localStorage.getItem('type') =="Admin"? this.getAllImdDetails(res.branchcode):null;
+           localStorage.getItem('type') =="Admin" || localStorage.getItem('type') =="OPS" ? this.getAllImdDetails(res.branchcode):null;
           }
           this.inspectionData = Object.assign({}, data);
           this.inspectionData.vendorEmailId = res.vendorEmailId;
@@ -714,10 +714,11 @@ export class AddInspectionComponent
               this.inspectionData = {};
             },
             (err) => {
-              this.notifyService.showError(
-                'Inspection Update failed !!',
-                err.error.message
-              );
+              this.router.navigateByUrl('inspection');
+              // this.notifyService.showError(
+              //   'Inspection Update failed !!',
+              //   err.error.message
+              // );
             }
           );
     }
