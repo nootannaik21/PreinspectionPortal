@@ -486,7 +486,7 @@ export class AddInspectionComponent
           var res: any = data;
           if (res) {
             this.getVendorMailList(res.branchcode);
-           localStorage.getItem('type') =="Admin" || localStorage.getItem('type') =="OPS" ? this.getAllImdDetails(res.branchcode):null;
+           localStorage.getItem('type') =="Admin" || localStorage.getItem('type') =="OPS" || localStorage.getItem('type') =="Claims" ? this.getAllImdDetails(res.branchcode):null;
           }
           this.inspectionData = Object.assign({}, data);
           this.inspectionData.vendorEmailId = res.vendorEmailId;
