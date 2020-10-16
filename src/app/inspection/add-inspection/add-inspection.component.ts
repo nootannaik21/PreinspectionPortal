@@ -80,6 +80,7 @@ export class AddInspectionComponent
   makeData: any = [];
   modelData: any = [];
   imduserDetail: boolean = false;
+  documentsName: any = [];
   constructor(
     private notifyService: NotificationService,
     private fileUploadService: FileuploadService,
@@ -517,10 +518,10 @@ export class AddInspectionComponent
           {
           this.addInspectionForm.get('statusid').disable();
         }
-        else
-        {
-          this.addInspectionForm.get('statusid').enable();
-        }
+        // else
+        // {
+        //   this.addInspectionForm.get('statusid').enable();
+        // }
           let i = 0;
           if (res.documentPath) {
             //this.documents =res.documentPath.split(',');
@@ -528,7 +529,17 @@ export class AddInspectionComponent
               this.documents[i] = element;
               i++;
             });
-            this.PreviewDoc(this.documents);
+            // debugger;
+            // if (res.documentName != "") 
+            // {
+            //   res.documentName.split(',').forEach((element) => {
+            //     this.documentsName[i] = element;
+            //     i++;
+            //   });
+            // }
+            
+            debugger;
+            this.PreviewDoc(this.documents,this.documentsName);
           }
           if (res.statusid == 1 || res.statusid == 2 || res.statusid == 4) {
             if (localStorage.getItem('type') == 'Vendor') {
@@ -864,14 +875,13 @@ export class AddInspectionComponent
     return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
     // this.PreviewDoc(imageUrl)
   }
-  PreviewDoc(document) {
-    // var firstSpaceIndex = evt.indexOf("\\");
-    // var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
-    // var secondString = evt.substring(firstSpaceIndex + 1);
+  PreviewDoc(document,fileName) {
+    debugger;
     let i = 0;
     document.forEach(
       (element,index) => {
         this.inspectionService.downloadDocument(element).subscribe((data) => {
+          debugger;
           var res: any = data;
             var blob = new Blob([data], { type: res.type });
             var fileURL = URL.createObjectURL(blob);
