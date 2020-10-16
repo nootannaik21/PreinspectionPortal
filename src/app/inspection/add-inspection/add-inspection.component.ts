@@ -725,7 +725,7 @@ export class AddInspectionComponent
               //}
             },
             (err) => {
-              if (err.errorr.message != null) {
+              if (err.error.message != null) {
                 this.notifyService.showError(err.error.message, "");
           return;
               } else {
