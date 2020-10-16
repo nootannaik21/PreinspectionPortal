@@ -54,14 +54,15 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     
   }
   changeStatus(id,state) {
+    debugger;
     this.userapiService.getUserById(id).subscribe(
       data => {
         var res: any = data;
         if (res.isDeleted == true) {
-          res.status = false;
+          res.status = true;
         }
         else {
-          res.status = true;
+          res.status = false;
         }
         this.userapiService.updateUser(res.id, res).subscribe(
           data => {
@@ -94,8 +95,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   getUSerList() {
     this.userapiService.getUserList().subscribe(
       data => {
-        this.rerender();
         this.userList = data;
+        this.rerender();
         // this.userList.forEach(element => {
         //   if (element.isDeleted == true) {
         //     return this.userList[0].isDeleted = "Active";
