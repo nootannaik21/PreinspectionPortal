@@ -62,7 +62,7 @@ export class BranchlistComponent implements OnInit, OnDestroy, AfterViewInit {
     this.alertService.confirmAlert(() => {
     this.branchService.deleteBranch(item.id).subscribe(
       data =>{
-        this.alertService.successAlert("Success","Branch Deleted Successfully");
+        this.alertService.successAlert("Success", "Location Successfully");
         this.getAllBranches();
 
       },

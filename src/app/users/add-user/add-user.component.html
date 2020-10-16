@@ -388,8 +388,8 @@
                 (change)="onStatusSelect($event)"
                 [ngClass]="{ 'is-invalid': submitted && f.status.errors }"
               >
-                <option value="false">Active</option>
-                <option value="true">In Active</option>
+                <option value="true">Active</option>
+                <option value="false">In Active</option>
               </select>
               <div
                 *ngIf="submitted && f.status.errors"

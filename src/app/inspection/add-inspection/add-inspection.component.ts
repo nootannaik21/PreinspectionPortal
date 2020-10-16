@@ -42,6 +42,7 @@ export class AddInspectionComponent
   pdfPopup: UiModalComponent;
   fileUrl: string;
   hideUpdateButton: boolean = false;
+  showSpinner: boolean = false;
 
   ngAfterViewInit(): void {
     this.inspectionHistory = [];
@@ -155,7 +156,7 @@ export class AddInspectionComponent
       riskType: ['', [Validators.required]],
       registrationno: [
         '',
-        [Validators.required, Validators.pattern('^[a-zA-Z]+[a-zA-Z0-9 ]{1,13}$')],
+        [Validators.required, Validators.pattern('^[a-zA-Z ]+[0-9 ]+[a-zA-Z0-9 ]{1,6}$')],
       ],
       duplicateinspection: ['', [Validators.required]],
       paymentmodeid: ['', [Validators.required]],
@@ -621,6 +622,8 @@ export class AddInspectionComponent
   // }
 
   uploadFiles() {
+    this.showSpinner = true;
+    document.getElementById('inspection').style.opacity='0.5';
     let frmData: FormData = new FormData();
     //frmData.append('uploadFile', this.file, this.file.name);
     if (this.fileList != undefined) {
@@ -648,6 +651,8 @@ export class AddInspectionComponent
           )
           .subscribe(
             (data) => {
+              this.showSpinner = false;
+              document.getElementById('inspection').style.opacity="1";
               this.alertService.successAlert(
                 'Success',
                 'File(s) uploaded successfully'
@@ -655,6 +660,8 @@ export class AddInspectionComponent
               this.hideUpdateButton = false;
             },
             (err) => {
+              this.showSpinner = false;
+              document.getElementById('inspection').style.opacity="1";
               console.log(err.error.message);
               this.inspectionData = {};
             }
@@ -877,6 +884,8 @@ export class AddInspectionComponent
   }
   PreviewDoc(document,fileName) {
     debugger;
+    // this.showSpinner = true;
+    // document.getElementById('inspection').style.opacity='0.1';
     let i = 0;
     document.forEach(
       (element,index) => {
@@ -893,6 +902,8 @@ export class AddInspectionComponent
       }
       
     );
+    this.showSpinner = false;
+    document.getElementById('inspection').style.opacity='1';
   }
 
   downloadDoc(url) {

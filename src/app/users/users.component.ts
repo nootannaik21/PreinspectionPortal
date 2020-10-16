@@ -95,8 +95,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   getUSerList() {
     this.userapiService.getUserList().subscribe(
       data => {
-        this.userList = data;
         this.rerender();
+        this.userList = data;
         // this.userList.forEach(element => {
         //   if (element.isDeleted == true) {
         //     return this.userList[0].isDeleted = "Active";
