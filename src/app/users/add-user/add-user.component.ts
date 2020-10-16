@@ -452,6 +452,10 @@ export class AddUserComponent implements OnInit {
           return;
         }
         else{
+          this.notifyService.showSuccess(
+            'User Added successfully !!',
+            'Success'
+          );
           this.router.navigateByUrl('users');
         }
         }

@@ -486,7 +486,7 @@ export class AddInspectionComponent
           var res: any = data;
           if (res) {
             this.getVendorMailList(res.branchcode);
-           localStorage.getItem('type') =="Admin" || localStorage.getItem('type') =="OPS" || localStorage.getItem('type') =="Claims" ? this.getAllImdDetails(res.branchcode):null;
+           localStorage.getItem('type') =="Admin" || localStorage.getItem('type') =="OPS" || localStorage.getItem('type') =="Claims" || localStorage.getItem('type') =="Vendor"? this.getAllImdDetails(res.branchcode):null;
           }
           this.inspectionData = Object.assign({}, data);
           this.inspectionData.vendorEmailId = res.vendorEmailId;
@@ -508,11 +508,19 @@ export class AddInspectionComponent
           //   this.addInspectionForm.get('paymentmodeid').enable();
           //   this.inspectionData.paymentmodeid = '';
           // }
-          if ((localStorage.getItem('type') == "Admin" || localStorage.getItem('type') == "Claims")) 
+          if ((localStorage.getItem('type') == "Admin" || localStorage.getItem('type') == "Claims" || localStorage.getItem('type') == "Vendor")) 
           {
-            debugger;
             this.getInspectionStatus(localStorage.getItem('type'));
           }
+          debugger;
+          if(localStorage.getItem('type') == "Claims" && (this.inspectionData.statusid != 1 && this.inspectionData.statusid != 2))
+          {
+          this.addInspectionForm.get('statusid').disable();
+        }
+        else
+        {
+          this.addInspectionForm.get('statusid').enable();
+        }
           let i = 0;
           if (res.documentPath) {
             //this.documents =res.documentPath.split(',');
@@ -706,15 +714,28 @@ export class AddInspectionComponent
           .updateInspection(this.inspectionData.id, this.inspectionData)
           .subscribe(
             (data) => {
+              var res: any = data;
+              ///if (res.result == 'success') {
               this.notifyService.showSuccess(
                 'Inspection Updated successfully !!',
                 'Success'
               );
               this.router.navigateByUrl('inspection');
               this.inspectionData = {};
+              //}
             },
             (err) => {
-              this.router.navigateByUrl('inspection');
+              if (err.errorr.message != null) {
+                this.notifyService.showError(err.error.message, "");
+          return;
+              } else {
+                this.notifyService.showSuccess(
+                  'Inspection Updated successfully !!',
+                  'Success'
+                );
+                this.router.navigateByUrl('inspection');
+              }
+             
               // this.notifyService.showError(
               //   'Inspection Update failed !!',
               //   err.error.message
@@ -796,11 +817,15 @@ export class AddInspectionComponent
         (err) => {
           if (err.error.message != null) {
             this.notifyService.showError(
-              'Something is wrong',
+              err.error.message,
               'Inspection Not Added'
             );
             return;
           } else {
+            this.notifyService.showSuccess(
+              'Inspection added successfully !!',
+              'Success'
+            );
             this.router.navigateByUrl('inspection');
           }
         }
@@ -898,6 +923,7 @@ this.pdfPopup.show();
   }
   getInspectionStatus(role)
   {
+    debugger;
     let allStatus = this.status;
     if(role == "Claims"  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
     {
@@ -961,6 +987,24 @@ this.pdfPopup.show();
     this.status = [];
     var inspectionCurrentStatus : number = +this.inspectionData.statusid;
       var claimsStatus = [8,7,inspectionCurrentStatus];
+      for (let index = 0; index < allStatus.length; index++) {
+        //const element = array[index];
+        var tempStatus = allStatus.filter(
+          (x) => x.id == claimsStatus[index]
+        );
+        var i= 0;
+        if(tempStatus.length > 0)
+        {
+          this.status.push(tempStatus[i]);
+          i++;
+        }
+      }
+      
+    }
+    if(role == "Vendor")
+    {
+    this.status = [];
+      var claimsStatus = [1,2,3,4,5,6];
       for (let index = 0; index < allStatus.length; index++) {
         //const element = array[index];
         var tempStatus = allStatus.filter(

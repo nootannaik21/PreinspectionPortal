@@ -47,7 +47,12 @@ changePassword() {
         this.submitted=false;
       },
       err => {
-        this.notifyService.showError("Something is wrong", "Password Not Changed");
+        debugger;
+        if (err.error.message != null) {
+        this.notifyService.showError(err.error.message, "");
+        } else {
+          
+        }
       }
     )
   }
