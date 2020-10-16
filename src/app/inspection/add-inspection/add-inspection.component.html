@@ -941,28 +941,38 @@
               <div>* {{ file.name }} - {{ file.type }} - {{ file.size }}KB</div>
             </div>
           </div>
-          <div class="imagePreview" *ngIf="inspectionData.documentPath">
-            <div *ngFor="let item of documentsPath">
-            <!-- <img [src]="sanitizeImageUrl(item.url)" height="100em" width="100em" *ngIf="item.type=='image'"/>
-            <a (click)="downloadDoc(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
-          <pdf-viewer [src]="item.url" *ngIf="item.type=='pdf'"></pdf-viewer> -->
-          <label *ngIf="item.type=='image'">
-            <img [src]="sanitizeImageUrl(item.url)" height="100em" width="100em" *ngIf="item.type=='image'"/>
-            <a (click)="downloadDoc(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
-          </label>
-          <label *ngIf="item.type=='pdf'">
-            <a (click)="getPdfView(item)" style="cursor: pointer;">pdf</a>
-            <a (click)="downloadDoc(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
-            <!-- <a (click)="getPdfView(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a> -->
-          </label>
-         
-          </div>
-          </div>
+          
           
           <!-- documentsPdfPath -->
          
           <!-- <ngx-doc-viewer [url]="" viewer="google" style="width:100%;height:50vh;"></ngx-doc-viewer> -->
           <!--End of Upload Documents-->
+        </div>
+        <div class="row">
+          <div class="imagePreview" *ngIf="inspectionData.documentPath">
+            <div class="row">
+            <div *ngFor="let item of documentsPath">
+            <!-- <img [src]="sanitizeImageUrl(item.url)" height="100em" width="100em" *ngIf="item.type=='image'"/>
+            <a (click)="downloadDoc(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
+          <pdf-viewer [src]="item.url" *ngIf="item.type=='pdf'"></pdf-viewer> -->
+          
+          <div class="col-md-6">
+              <label *ngIf="item.type=='image'">
+                <p><img [src]="sanitizeImageUrl(item.url)" height="100em" width="100em" *ngIf="item.type=='image'"/>
+                <a (click)="downloadDoc(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
+                </p>
+              </label>
+
+              <label *ngIf="item.type=='pdf'">
+                <a (click)="getPdfView(item)" style="cursor: pointer;">pdf</a>
+                <a (click)="downloadDoc(item.url)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
+                <!-- <a (click)="getPdfView(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a> -->
+              </label>
+            </div>
+          
+          </div>
+        </div>
+          </div>
         </div>
         <!--Form Buttons-->
         <div class="row text-right">
