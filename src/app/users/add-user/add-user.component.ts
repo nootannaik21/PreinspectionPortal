@@ -94,10 +94,11 @@ export class AddUserComponent implements OnInit {
       this.addUserForm.get('confPassword');
       this.userapiService.getUserById(localStorage.getItem('userid')).subscribe(
         (data) => {
+          debugger;
           var user: any = data;
           this.userdata = Object.assign(data);
           this.userdata.confPassword = this.userdata.password;
-          this.userdata.status = this.userdata.isDeleted;
+          this.userdata.status = !this.userdata.isDeleted;
           if (this.userdata.type == 'Admin' || this.userdata.type == 'Claims') {
             this.showBranchDetail = false;
             this.showBranch = false;
@@ -283,6 +284,7 @@ export class AddUserComponent implements OnInit {
     }
   }
   onStatusSelect(eve) {
+    debugger;
     if (eve.target.value == 'true') this.userdata.status = true;
     else {
       this.userdata.status = false;
@@ -533,6 +535,7 @@ export class AddUserComponent implements OnInit {
     this.updateUserDetails(data);
   }
   updateUserDetails(data) {
+    debugger;
     this.submitted = true;
     if (this.addUserForm.invalid) {
       return;
