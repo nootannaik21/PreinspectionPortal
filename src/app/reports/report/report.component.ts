@@ -4,12 +4,11 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { AlertService } from 'src/app/service/alert.service';
 import { ReportService } from 'src/app/service/report.service';
-//import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
-  styleUrls: ['./report.component.scss']
+  styleUrls: ['./report.component.scss'],
 })
 export class ReportComponent implements OnInit {
   dtOptions: any = {};
@@ -17,87 +16,88 @@ export class ReportComponent implements OnInit {
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   isDtInitialized: boolean = false;
-  reportDate: any={};
-  reportData: any={};
-   fromDate: any;
-   toDate :any;
-  constructor(private reportService:ReportService,private datePipe: DatePipe,private alertService:AlertService) { }
+  reportDate: any = {};
+  reportData: any = {};
+  fromDate: any;
+  toDate: any;
+  constructor(
+    private reportService: ReportService,
+    private datePipe: DatePipe,
+    private alertService: AlertService
+  ) {}
 
   ngOnInit(): void {
     this.dtOptions = {
-      // pagingType: 'full_numbers',
-      // lengthMenu: [
-      //   [10, 25, 50, -1],
-      //   [10, 25, 50, 'All'],
-      // ],
-      // pageLength: 10,
-      // processing: true,
-      // dom: 'Bfrtip',
-      //   buttons: [
-      //       'copy', 'csv', 'excel', 'print'
-      //   ]
-        pagingType: 'full_numbers',
-        pageLength: 10,
-        processing: true,
-        dom: 'Bfrtip',
-          buttons: [
-              'excel'
-          ]
-      };
-    this.getData(this.fromDate,this.toDate);
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      processing: true,
+      dom: 'Bfrtip',
+      buttons: ['excel'],
+    };
+    this.getData(this.fromDate, this.toDate);
   }
-  getReport()
-  {
-    debugger;
+  getReport() {
+    let fromDate2: any;
+    let toDate2: any;
     let fromDate: any;
-    let toDate :any;
-   if (this.reportDate.fromDate && this.reportDate.toDate) {
-     let day = this.reportDate.fromDate.day < 10 ? "0" + this.reportDate.fromDate.day:this.reportDate.fromDate.day;
-     let month = this.reportDate.fromDate.month < 10 ? "0" + this.reportDate.fromDate.month:this.reportDate.fromDate.month;
-    fromDate = day +"/"+ month +"/" +this.reportDate.fromDate.year;
+    let toDate: any;
+    if (this.reportDate.fromDate && this.reportDate.toDate) {
+      let day =
+        this.reportDate.fromDate.day < 10
+          ? '0' + this.reportDate.fromDate.day
+          : this.reportDate.fromDate.day;
+      let month =
+        this.reportDate.fromDate.month < 10
+          ? '0' + this.reportDate.fromDate.month
+          : this.reportDate.fromDate.month;
+      fromDate = day + '/' + month + '/' + this.reportDate.fromDate.year;
+      fromDate2 = this.reportDate.fromDate.year + '/' + month + '/' + day;
 
-    let toDay = this.reportDate.toDate.day < 10 ? "0" + this.reportDate.toDate.day:this.reportDate.toDate.day;
-     let toMSonth = this.reportDate.toDate.month < 10 ? "0" + this.reportDate.toDate.month:this.reportDate.toDate.month;
-    toDate = toDay +"/" + toMSonth +"/" +this.reportDate.toDate.year;
-  this.getData(fromDate,toDate);
-   }
-   else
-   {
-    return this.alertService.infoAlert("Oops !","Please provide Start Date and End date");
-   }
-  //    let month = this.reportDate.toDate.month < 10 ? "0" + this.reportDate.toDate.month:this.reportDate.toDate.month;
-  //   toDate = day +"/" + month +"/" +this.reportDate.toDate.year;
-  //  } else {
-  //   fromDate = this.datePipe.transform(new Date(), "dd/MM/yyyy");
-  //  }
-  //  if (this.reportDate.toDate) {
-  //   let day = this.reportDate.toDate.day < 10 ? "0" + this.reportDate.toDate.day:this.reportDate.toDate.day;
-  //    let month = this.reportDate.toDate.month < 10 ? "0" + this.reportDate.toDate.month:this.reportDate.toDate.month;
-  //   toDate = day +"/" + month +"/" +this.reportDate.toDate.year;
-  //  } else {
-  //  toDate = this.datePipe.transform(new Date(),"dd/MM/yyyy");
-  //  }
+      let toDay =
+        this.reportDate.toDate.day < 10
+          ? '0' + this.reportDate.toDate.day
+          : this.reportDate.toDate.day;
+      let toMSonth =
+        this.reportDate.toDate.month < 10
+          ? '0' + this.reportDate.toDate.month
+          : this.reportDate.toDate.month;
+      toDate = toDay + '/' + toMSonth + '/' + this.reportDate.toDate.year;
+      toDate2 = this.reportDate.toDate.year + '/' + toMSonth + '/' + toDay;
+
+      var Todate: Date = new Date(toDate2);
+      var FromDate: Date = new Date(fromDate2);
+      const daysDiff = (<any>Todate - <any>FromDate) / (1000 * 60 * 60 * 24);
+      if (daysDiff >= 0) {
+        this.getData(fromDate, toDate);
+      } else {
+        this.reportData = [];
+        this.rerender();
+        return this.alertService.infoAlert(
+          'Oops !',
+          'End date should be greater than start date'
+        );
+      }
+    } else {
+      this.reportData = [];
+      return this.alertService.infoAlert(
+        'Oops !',
+        'Please provide Start Date and End date'
+      );
+    }
   }
-  getData(fromDate,toDate)
-  {
-    // this.reportData = null;
-    this.reportService.getReport(fromDate,toDate).subscribe(data => {
-      let tempdata:any = [];
-      debugger;
-      tempdata = data;
-      //if (tempdata.length > 0) {
+  getData(fromDate, toDate) {
+    this.reportService.getReport(fromDate, toDate).subscribe(
+      (data) => {
+        let tempdata: any = [];
+        tempdata = data;
         this.reportData = data;
-      this.rerender();
-      //}
-      // else
-      // {
-      //   this.reportData = {};
-      //   this.rerender();
-      // }
-    },err=>{
-      this.reportData = {};
-      this.rerender();
-    });
+        this.rerender();
+      },
+      (err) => {
+        this.reportData = [];
+        this.rerender();
+      }
+    );
   }
   rerender(): void {
     if (this.isDtInitialized) {

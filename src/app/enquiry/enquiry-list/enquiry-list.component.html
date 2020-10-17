@@ -11,11 +11,6 @@
               <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Ref No" name="refNo"
                 [(ngModel)]="enquiryData.refNo">
             </div>
-            <!-- <div class="form-group">
-              <label>Mobile No</label>
-              <input type="text" class="form-control" placeholder="Mobile No" name="mobileNo"
-                [(ngModel)]="enquiryData.mobileNo">
-            </div> -->
           </form>
         </div>
         <div class="col-md-6">
@@ -25,18 +20,13 @@
               <input type="text" class="form-control" placeholder="Client Name" name="clientName"
                 [(ngModel)]="enquiryData.clientName">
             </div>
-            <!-- <div class="form-group">
-              <label>Reg No</label>
-              <input type="text" class="form-control" placeholder="Reg No" name="regNo" [(ngModel)]="enquiryData.regNo">
-            </div> -->
           </form>
         </div>
       </div>
-
       <div class="row">
         <div class="col-md-6">
           <form action="javascript:">
-            
+
             <div class="form-group">
               <label>Mobile No</label>
               <input type="text" class="form-control" placeholder="Mobile No" name="mobileNo"
@@ -46,7 +36,7 @@
         </div>
         <div class="col-md-6">
           <form action="javascript:">
-            
+
             <div class="form-group">
               <label>Reg No</label>
               <input type="text" class="form-control" placeholder="Reg No" name="regNo" [(ngModel)]="enquiryData.regNo">
@@ -60,36 +50,15 @@
           <form action="javascript:">
             <div class="form-group">
               <label for="exampleInputEmail1">Pincode</label>
-              <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Pincode" name="location"
-                [(ngModel)]="enquiryData.location">
+              <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Pincode"
+                name="location" [(ngModel)]="enquiryData.location">
             </div>
-            <!-- <div class="form-group">
-              <label>Mobile No</label>
-              <input type="text" class="form-control" placeholder="Mobile No" name="mobileNo"
-                [(ngModel)]="enquiryData.mobileNo">
-            </div> -->
           </form>
         </div>
       </div>
-      <!-- <div class="row text-right">
-        <div class="col-12">
-          <button type="submit" class="btn btn-primary" (click)="getEnquiryList()">Submit</button>
-          <button
-                  type="button"
-                  class="btn btn-secondary mr-1"
-                  (click)="reset()"
-                >
-                  Cancel
-                </button>
-        </div>
-      </div> -->
       <div class="row text-right">
         <div class="col-12">
-          <button
-            type="button"
-            class="btn btn-secondary mr-1"
-            (click)="reset()"
-          >
+          <button type="button" class="btn btn-secondary mr-1" (click)="reset()">
             Cancel
           </button>
           <button type="submit" class="btn btn-primary" (click)="getEnquiryList()">Submit</button>
@@ -109,12 +78,6 @@
                 <th class="text-left">Location</th>
                 <th class="text-left">Vehicle <br>Reg.#</th>
                 <th class="text-left">Action</th>
-                <!-- <th class="text-left">Branch Code</th>
-                <th class="text-left">Imd Code</th>
-                <th class="text-left">Phone No</th>
-                <th class="text-left">Email</th>
-                <th class="text-left">Inspection Location</th>
-                <th class="text-left">Download</th> -->
               </tr>
             </thead>
             <tbody>
@@ -127,59 +90,39 @@
                 </td>
                 <td class="text-left">
                   {{item.clientname}}
-              </td>
-              <td class="text-left">
+                </td>
+                <td class="text-left">
                   {{item.vendorEmailId}}
-              </td>
-              <td class="text-left">
+                </td>
+                <td class="text-left">
                   {{(item.statusid==1) ? "Recommended" : (item.statusid==2) ? "Not Recommended" : (item.statusid)==3 ? "Rescheduled" : (item.statusid)==4 ? "Cancelled":(item.statusid)==5 ? "Appointmant Fix" : "Request Raised"}}
-              </td>
-              <td class="text-left">
+                </td>
+                <td class="text-left">
                   {{item.inspectionlocation}}
-              </td>
-              <td class="text-left">
+                </td>
+                <td class="text-left">
                   {{item.registrationno}}
-              </td>
-              <td class="text-left">
-                <!-- <span *ngIf="(item.statusid==1)||(item.statusid==2)||(item.statusid==4)">
-                    <i class="feather icon-download pr-2" className="tooltipstext" title="Download"
-                        style="cursor: pointer;" Permission [permission]="'Admin|Claims'"></i> 
-                </span> -->
-                <span *ngIf="(item.statusid==1)||(item.statusid==2)">
-                  <i class="feather icon-download" className="tooltipstext" title="Download Inspection Documents"
-                      style="cursor: pointer;" Permission (click)="downloadDoc(item.documentPath)" [permission]="'Admin|Claims'"></i>
-              </span>
-                <span>
-                    <i class="feather icon-eye pr-2" className="tooltipstext" title="View"
-                    style="cursor: pointer;" (click)="viewInspection(item)" Permission [permission]="'Admin|Branch|IMD|OPS|Claims'"></i>
-                </span> 
-                <span>
-                    <i class="feather icon-edit pr-2" className="tooltipstext" title="Edit"
-                    style="cursor: pointer;" (click)="editInspectionRow(item)" Permission [permission]="'Admin|Vendor'"></i>
-                </span>
-            </td>
-                <!-- <td class="text-left">
-                  {{item.branchcode}}
-                </td>
-               
-                <td class="text-left">
-                  {{item.phoneNoofsales}}
                 </td>
                 <td class="text-left">
-                  {{item.emailidofsales}}
+                  <span *ngIf="(item.statusid==1)||(item.statusid==2)">
+                    <i class="feather icon-download" className="tooltipstext" title="Download Inspection Documents"
+                      style="cursor: pointer;" Permission (click)="downloadDoc(item.documentPath)"
+                      [permission]="'Admin|Claims'"></i>
+                  </span>
+                  <span>
+                    <i class="feather icon-eye pr-2" className="tooltipstext" title="View" style="cursor: pointer;"
+                      (click)="viewInspection(item)" Permission [permission]="'Admin|Branch|IMD|OPS|Claims'"></i>
+                  </span>
+                  <span>
+                    <i class="feather icon-edit pr-2" className="tooltipstext" title="Edit" style="cursor: pointer;"
+                      (click)="editInspectionRow(item)" Permission [permission]="'Admin|Vendor'"></i>
+                  </span>
                 </td>
-                <td class="text-left">
-                  {{item.inspectionlocation}}
-                </td>
-                <td class="text-left">
-                  <button type="button"  class="btn btn-primary" [disabled]="item.documentPath==null">Document</button>
-                </td> -->
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-
     </app-card>
   </div>
 </div>
