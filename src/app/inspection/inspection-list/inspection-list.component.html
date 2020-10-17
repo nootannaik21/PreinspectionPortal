@@ -24,12 +24,10 @@
                             <th class="text-left" style="min-width: 10%;">Created Date</th>
                             <th class="text-left" style="min-width: 10%;">IMD Code</th>
                             <th class="text-left" style="min-width: 15%;">Customer</th>
-                             <th class="text-left" style="min-width: 10%;">Customer Phone</th>
+                            <th class="text-left" style="min-width: 10%;">Customer Phone</th>
                             <th class="text-left" style="min-width: 15%;">Vendor Organization</th>
                             <th class="text-left" style="min-width: 15%;">Vendor</th>
                             <th class="text-left" style="min-width: 10%;">Status</th>
-                            <!-- <th class="text-left" style="min-width: 10%;">Location</th>
-                            <th class="text-left" style="width: 10%;">Vehicle Reg.#</th> -->
                             <th class="text-center" style="width: 5%;">Action</th>
                         </tr>
                     </thead>
@@ -64,24 +62,21 @@
                                 ? "Rescheduled" 
                                 : (item.statusid)==4 ? "Cancelled":(item.statusid)==5 ? "Appointmant Fix" :(item.statusid==7)?"Accepted":(item.statusid==8)?"Rejected": "Request Raised"}}
                             </td>
-                            <!-- <td class="text-left">
-                                {{item.inspectionlocation}}
-                            </td>
-                            <td class="text-left">
-                                {{item.registrationno}}
-                            </td> -->
                             <td class="text-left">
                                 <span>
                                     <i class="feather icon-eye pr-3" className="tooltipstext" title="View Inspection"
-                                    style="cursor: pointer;" (click)="viewInspection(item)" Permission [permission]="'Admin|Branch|IMD|OPS|Claims'"></i>
+                                        style="cursor: pointer;" (click)="viewInspection(item)" Permission
+                                        [permission]="'Admin|Branch|IMD|OPS|Claims'"></i>
                                 </span>
                                 <span>
                                     <i class="feather icon-edit pr-3" className="tooltipstext" title="Edit Inspection"
-                                    style="cursor: pointer;" (click)="editInspectionRow(item)" Permission [permission]="'Admin|Vendor|OPS|Branch|IMD|Claims'"></i>
+                                        style="cursor: pointer;" (click)="editInspectionRow(item)" Permission
+                                        [permission]="'Admin|Vendor|OPS|Branch|IMD|Claims'"></i>
                                 </span>
                                 <span *ngIf="(item.statusid==1)||(item.statusid==2)">
-                                    <i class="feather icon-download" className="tooltipstext" title="Download Inspection Documents"
-                                        style="cursor: pointer;" Permission (click)="downloadDoc(item.documentPath)" [permission]="'Admin|Claims'"></i>
+                                    <i class="feather icon-download" className="tooltipstext"
+                                        title="Download Inspection Documents" style="cursor: pointer;" Permission
+                                        (click)="downloadDoc(item.documentPath)" [permission]="'Admin|Claims'"></i>
                                 </span>
                             </td>
                         </tr>

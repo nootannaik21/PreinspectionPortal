@@ -290,47 +290,6 @@
               </div>
           </div>
           <!--End of Branches-->
-          <!--Branches Name-->
-         
-          <!--End of Branches Name-->
-          <!--Branch Code-->
-          <!-- <div class="col-md-6" *ngIf="showBranchDetail">
-            <div class="form-group" *ngIf="showBranchDetail">
-              <label for="exampleFormControlSelect1">Branch Code</label>
-              <select
-                class="form-control"
-                formControlName="branchCode"
-                [(ngModel)]="userdata.branchCode"
-                tabindex="9"
-                (change)="onBranchCodeSelect()"
-                [ngClass]="{ 'is-invalid': submitted && f.branchCode.errors }"
-              >
-                <option value="">Choose Branch Code</option>
-                <option
-                  class="form-control"
-                  *ngFor="let item of branches"
-                  [value]="item.branchCode"
-                >
-                  <table>
-                    <tr>
-                      <td>{{ item.branchCode }}</td>
-                    </tr>
-                  </table>
-                </option>
-              </select>
-              <div
-                *ngIf="submitted && f.branchCode.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.branchCode.errors.required">
-                  Branch Code is required
-                </div>
-              </div>
-            </div>
-          </div> -->
-          <!--End of Branch Code-->
-
-
           <div class="col-md-6" *ngIf="showVendorOrganization">
             <label for="vendorOrganization">Vendor</label>
             <select

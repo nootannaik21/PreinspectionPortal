@@ -10,41 +10,25 @@
               <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Pincode"
                 formControlName="branchCode" [(ngModel)]="branchdata.branchCode" tabindex="1"
                 [ngClass]="{ 'is-invalid': submitted && f.branchCode.errors }" />
-              <!-- <div *ngIf="submitted && f.branchCode.errors" class="invalid-feedback">
-                <div *ngIf="f.branchCode.errors.required">Branch Code is required</div>
-                <div *ngIf="f.branchCode.errors.pattern">Branch must be a valid </div>
-              </div> -->
-              <div
-                *ngIf="submitted && f.branchCode.errors"
-                class="invalid-feedback"
-              >
+              <div *ngIf="submitted && f.branchCode.errors" class="invalid-feedback">
                 <div *ngIf="f.branchCode.errors.required">
                   Pincode is required
                 </div>
                 <div *ngIf="f.branchCode.errors.pattern">
-                  Pincode should be 6 digit numeric value. 
+                  Pincode should be 6 digit numeric value.
                 </div>
               </div>
-              <!-- <div *ngIf="message" style="color:red">Branch code already exist</div> -->
             </div>
-            <!-- <div class="form-group">
-              <label>Zone</label>
-              <input type="email" class="form-control" placeholder="Zone" formControlName="zone"
-                [(ngModel)]="branchdata.zone" tabindex="3" [ngClass]="{ 'is-invalid': submitted && f.zone.errors }" />
-                <div *ngIf="submitted && f.zone.errors" class="invalid-feedback">
-                  <div *ngIf="f.zone.errors.required">Zone required</div>
-                </div>
-            </div> -->
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label>Pin Location</label>
               <input type="text" class="form-control" placeholder="Pin Location" formControlName="branchName"
-                [(ngModel)]="branchdata.branchName" tabindex="2" [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }" appOnlyalphabets [onlyAlpha]="true"/>
-                <div *ngIf="submitted && f.branchName.errors" class="invalid-feedback">
-                  <div *ngIf="f.branchName.errors.required">Pin Location is required</div>
-                </div>
-                <!-- <div *ngIf="branchNamemessage" style="color:red">Branch code already exist</div> -->
+                [(ngModel)]="branchdata.branchName" tabindex="2"
+                [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }" appOnlyalphabets [onlyAlpha]="true" />
+              <div *ngIf="submitted && f.branchName.errors" class="invalid-feedback">
+                <div *ngIf="f.branchName.errors.required">Pin Location is required</div>
+              </div>
             </div>
           </div>
         </div>

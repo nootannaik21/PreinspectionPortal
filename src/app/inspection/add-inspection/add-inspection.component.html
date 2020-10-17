@@ -1,1043 +1,605 @@
 <div id="inspection">
-<div class="row">
-  <div class="col text-left">
-    <h3>{{ title }}</h3>
+  <div class="row">
+    <div class="col text-left">
+      <h3>{{ title }}</h3>
+    </div>
   </div>
-</div>
-<div class="row">&nbsp;</div>
-<div class="row">
-  <div class="col-sm-12">
-    <app-card [hidHeader]="true" [options]="false">
-      <form [formGroup]="addInspectionForm" (ngSubmit)="createInspection()">
-        <h5 *ngIf="showBranchDetail">Location Details</h5>
-        <span *ngIf="showBranchDetail"><hr /></span>
-        <div class="row">
-          <!--Branch Name-->
-          <div class="col-md-6">
-            <div class="form-group" *ngIf="showBranchDetail">
-              <label for="exampleInputEmail1">Location</label>
-              <select
-                class="form-control"
-                formControlName="branchcode"
-                placeholder="Choose Location"
-                [(ngModel)]="inspectionData.branchcode"
-                tabindex="1"
-                (change)="onBranchSelect()"
-                [ngClass]="{ 'is-invalid': submitted && f.branchcode.errors }"
-                required
-              >
-                <option value="">Choose Location</option>
-                <option
-                  class="form-control"
-                  *ngFor="let item of branches"
-                  [value]="item.branchCode"
-                >
-                  <table>
-                    <tr>
-                      <td>{{ item.branchCode }}-{{item.branchName}}</td>
-                    </tr>
-                  </table>
-                </option>
-              </select>
-              <div
-                *ngIf="submitted && f.branchcode.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.branchcode.errors.required">
-                  Location is required
+  <div class="row">&nbsp;</div>
+  <div class="row">
+    <div class="col-sm-12">
+      <app-card [hidHeader]="true" [options]="false">
+        <form [formGroup]="addInspectionForm" (ngSubmit)="createInspection()">
+          <h5 *ngIf="showBranchDetail">Location Details</h5>
+          <span *ngIf="showBranchDetail">
+            <hr /></span>
+          <div class="row">
+            <!--Branch Name-->
+            <div class="col-md-6">
+              <div class="form-group" *ngIf="showBranchDetail">
+                <label for="exampleInputEmail1">Location</label>
+                <select class="form-control" formControlName="branchcode" placeholder="Choose Location"
+                  [(ngModel)]="inspectionData.branchcode" tabindex="1" (change)="onBranchSelect()"
+                  [ngClass]="{ 'is-invalid': submitted && f.branchcode.errors }" required>
+                  <option value="">Choose Location</option>
+                  <option class="form-control" *ngFor="let item of branches" [value]="item.branchCode">
+                    <table>
+                      <tr>
+                        <td>{{ item.branchCode }}-{{item.branchName}}</td>
+                      </tr>
+                    </table>
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.branchcode.errors" class="invalid-feedback">
+                  <div *ngIf="f.branchcode.errors.required">
+                    Location is required
+                  </div>
                 </div>
               </div>
             </div>
+            <!--End of Branch Name-->
           </div>
-          <!--End of Branch Name-->
-          <!--Branch Code-->
-          <!-- <div class="col-md-6">
-            <div class="form-group" *ngIf="showBranchDetail">
-              <label for="exampleInputEmail1">Branch Code</label>
-              <select
-                class="form-control"
-                formControlName="branchcode"
-                placeholder="Choose Branch Code"
-                [(ngModel)]="inspectionData.branchcode"
-                tabindex="2"
-                (change)="onBranchCodeSelect()"
-                [ngClass]="{ 'is-invalid': submitted && f.branchcode.errors }"
-                required
-              >
-                <option value="">Choose Branch Code</option>
-                <option
-                  class="form-control"
-                  *ngFor="let item of branches"
-                  [value]="item.branchCode"
-                >
-                  <table>
-                    <tr>
-                      <td>{{ item.branchCode }}</td>
-                    </tr>
-                  </table>
-                </option>
-              </select>
-              <div
-                *ngIf="submitted && f.branchcode.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.branchcode.errors.required">
-                  Branch Code is required
+          <br />
+          <h5>IMD Details</h5>
+          <hr />
+          <div class="row">
+            <!--IMD Code-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="lImd">IMD Code</label>
+                <select class="form-control" formControlName="imdcode" placeholder="IMD Code"
+                  [(ngModel)]="inspectionData.imdcode" tabindex="3" (change)="onIMDSelect()"
+                  [ngClass]="{ 'is-invalid': submitted && f.imdcode.errors }" required>
+                  <option value="">Choose IMD</option>
+                  <option class="form-control" *ngFor="let item of imdData" [value]="item.imdCode">
+                    <table>
+                      <tr>
+                        <td>{{ item.imdCode }}</td>
+                      </tr>
+                    </table>
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.imdcode.errors" class="invalid-feedback">
+                  <div *ngIf="f.imdcode.errors.required">
+                    IMD Code is required
+                  </div>
                 </div>
               </div>
             </div>
-          </div> -->
-          <!--End of Branch Code-->
-        </div>
-        <br />
-        <h5>IMD Details</h5>
-        <hr />
-        <div class="row">
-          <!--IMD Code-->
-          <div class="col-md-6">
-            <!-- <div class="form-group">
-              <label for="exampleInputPassword1">IMD Code</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="IMD Code"
-                tabindex="3"
-                formControlName="imdcode"
-                [(ngModel)]="inspectionData.imdcode"
-                required
-                [ngClass]="{ 'is-invalid': submitted && f.imdcode.errors }"
-              />
-              <div
-                *ngIf="submitted && f.imdcode.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.imdcode.errors.required">
-                  IMD Code is required
-                </div>
-                <div *ngIf="f.imdcode.errors.pattern">
-                  IMD Code should be 8 characters
-                </div>
-              </div>
-            </div> -->
-
-            <div class="form-group">
-              <label for="lImd">IMD Code</label>
-              <select
-                class="form-control"
-                formControlName="imdcode"
-                placeholder="IMD Code"
-                [(ngModel)]="inspectionData.imdcode"
-                tabindex="3"
-                (change)="onIMDSelect()"
-                [ngClass]="{ 'is-invalid': submitted && f.imdcode.errors }"
-                required
-              >
-                <option value="">Choose IMD</option>
-                <option
-                  class="form-control"
-                  *ngFor="let item of imdData"
-                  [value]="item.imdCode"
-                >
-                  <table>
-                    <tr>
-                      <td>{{ item.imdCode }}</td>
-                    </tr>
-                  </table>
-                </option>
-              </select>
-              <div
-                *ngIf="submitted && f.imdcode.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.imdcode.errors.required">
-                  IMD Code is required
-                </div>
-              </div>
-            </div>
-
-
-
-
-          </div>
-          <!--End of IMD Code-->
-          <!--IMD Email-->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>Email of IMD</label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="emailidofsales"
-                placeholder="Email Id of IMD"
-                [(ngModel)]="inspectionData.emailidofsales"
-                tabindex="4"
-                required
-                [ngClass]="{
+            <!--End of IMD Code-->
+            <!--IMD Email-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Email of IMD</label>
+                <input type="text" class="form-control" formControlName="emailidofsales" placeholder="Email Id of IMD"
+                  [(ngModel)]="inspectionData.emailidofsales" tabindex="4" required [ngClass]="{
                   'is-invalid': submitted && f.emailidofsales.errors
-                }"
-              />
-              <div
-                *ngIf="submitted && f.emailidofsales.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.emailidofsales.errors.required">
-                  Email of IMD is required
-                </div>
-                <div *ngIf="f.emailidofsales.errors.pattern">
-                  Email must be a valid email address
+                }" />
+                <div *ngIf="submitted && f.emailidofsales.errors" class="invalid-feedback">
+                  <div *ngIf="f.emailidofsales.errors.required">
+                    Email of IMD is required
+                  </div>
+                  <div *ngIf="f.emailidofsales.errors.pattern">
+                    Email must be a valid email address
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--End of IMD Email-->
-          <!--IMD Phone #-->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>Phone no of IMD</label>
-              <input
-                type="email"
-                class="form-control"
-                placeholder="Phone no of IMD"
-                required
-                formControlName="phoneNoofsales"
-                [(ngModel)]="inspectionData.phoneNoofsales"
-                tabindex="5"
-                [ngClass]="{
+            <!--End of IMD Email-->
+            <!--IMD Phone #-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Phone no of IMD</label>
+                <input type="email" class="form-control" placeholder="Phone no of IMD" required
+                  formControlName="phoneNoofsales" [(ngModel)]="inspectionData.phoneNoofsales" tabindex="5" [ngClass]="{
                   'is-invalid': submitted && f.phoneNoofsales.errors
-                }"
-              />
-              <div
-                *ngIf="submitted && f.phoneNoofsales.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.phoneNoofsales.errors.required">
-                  Phone no of IMD is required
-                </div>
-                <div *ngIf="f.phoneNoofsales.errors.pattern">
-                  Please enter valid phone number.e.g:xxxxxxxxxx
+                }" />
+                <div *ngIf="submitted && f.phoneNoofsales.errors" class="invalid-feedback">
+                  <div *ngIf="f.phoneNoofsales.errors.required">
+                    Phone no of IMD is required
+                  </div>
+                  <div *ngIf="f.phoneNoofsales.errors.pattern">
+                    Please enter valid phone number.e.g:xxxxxxxxxx
+                  </div>
                 </div>
               </div>
             </div>
+            <!--End of IMD Phone #-->
           </div>
-          <!--End of IMD Phone #-->
-        </div>
-        <br />
-        <h5>Customer Details</h5>
-        <hr />
-        <div class="row">
-          <!--Customer Name-->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>Customer Name</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Customer Name"
-                required
-                formControlName="clientname"
-                tabindex="6"
-                [(ngModel)]="inspectionData.clientname"
-                [ngClass]="{ 'is-invalid': submitted && f.clientname.errors }"
-              />
-              <div
-                *ngIf="submitted && f.clientname.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.clientname.errors.required">
-                  Customer Name is required
-                </div>
-                <div *ngIf="f.clientname.errors.pattern">
-                  Customer Name should be valid and within 20 characters.
+          <br />
+          <h5>Customer Details</h5>
+          <hr />
+          <div class="row">
+            <!--Customer Name-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Customer Name</label>
+                <input type="text" class="form-control" placeholder="Customer Name" required
+                  formControlName="clientname" tabindex="6" [(ngModel)]="inspectionData.clientname"
+                  [ngClass]="{ 'is-invalid': submitted && f.clientname.errors }" />
+                <div *ngIf="submitted && f.clientname.errors" class="invalid-feedback">
+                  <div *ngIf="f.clientname.errors.required">
+                    Customer Name is required
+                  </div>
+                  <div *ngIf="f.clientname.errors.pattern">
+                    Customer Name should be valid and within 20 characters.
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--End of Customer Name-->
-          <!--Customer Name-->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>Alternate Customer Name</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Customer Name"
-                required
-                formControlName="altclientname"
-                tabindex="7"
-                [(ngModel)]="inspectionData.altclientname"
-                appOnlyalphabets
-                [onlyAlpha]="true"
-                [ngClass]="{ 'is-invalid': submitted && f.altclientname.errors }"
-              />
-              <div
-                *ngIf="submitted && f.altclientname.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.altclientname.errors.required">
-                  Customer Name is required
-                </div>
-                <div *ngIf="f.altclientname.errors.pattern">
-                  Customer Name should be 10 or more characters
+            <!--End of Customer Name-->
+            <!--Customer Name-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Alternate Customer Name</label>
+                <input type="text" class="form-control" placeholder="Customer Name" required
+                  formControlName="altclientname" tabindex="7" [(ngModel)]="inspectionData.altclientname"
+                  appOnlyalphabets [onlyAlpha]="true"
+                  [ngClass]="{ 'is-invalid': submitted && f.altclientname.errors }" />
+                <div *ngIf="submitted && f.altclientname.errors" class="invalid-feedback">
+                  <div *ngIf="f.altclientname.errors.required">
+                    Customer Name is required
+                  </div>
+                  <div *ngIf="f.altclientname.errors.pattern">
+                    Customer Name should be 10 or more characters
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--End of Customer Name-->
-          <!--Customer Email ID-->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>Customer Email Id</label>
-              <input
-                type="email"
-                class="form-control"
-                placeholder="Customer Email Id"
-                formControlName="clientemail"
-                tabindex="8"
-                [(ngModel)]="inspectionData.clientemail"
-                required
-                [ngClass]="{ 'is-invalid': submitted && f.clientemail.errors }"
-              />
-              <div
-                *ngIf="submitted && f.clientemail.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.clientemail.errors.required">
-                  Customer Email is required
-                </div>
-                <div *ngIf="f.clientemail.errors.pattern">
-                  Email must be a valid email address
+            <!--End of Customer Name-->
+            <!--Customer Email ID-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Customer Email Id</label>
+                <input type="email" class="form-control" placeholder="Customer Email Id" formControlName="clientemail"
+                  tabindex="8" [(ngModel)]="inspectionData.clientemail" required
+                  [ngClass]="{ 'is-invalid': submitted && f.clientemail.errors }" />
+                <div *ngIf="submitted && f.clientemail.errors" class="invalid-feedback">
+                  <div *ngIf="f.clientemail.errors.required">
+                    Customer Email is required
+                  </div>
+                  <div *ngIf="f.clientemail.errors.pattern">
+                    Email must be a valid email address
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--End of Customer Email ID-->
-          <!--Customer Mobile #-->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>Customer Mobile Number</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Client Mobile Number"
-                formControlName="clientphoneno"
-                tabindex="9"
-                [(ngModel)]="inspectionData.clientphoneno"
-                OnlyNumber
-                [onlyNumber]="true"
-                required
-                [ngClass]="{
+            <!--End of Customer Email ID-->
+            <!--Customer Mobile #-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Customer Mobile Number</label>
+                <input type="text" class="form-control" placeholder="Client Mobile Number"
+                  formControlName="clientphoneno" tabindex="9" [(ngModel)]="inspectionData.clientphoneno" OnlyNumber
+                  [onlyNumber]="true" required [ngClass]="{
                   'is-invalid': submitted && f.clientphoneno.errors
-                }"
-              />
-              <div
-                *ngIf="submitted && f.clientphoneno.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.clientphoneno.errors.required">
-                  Customer Mobile Number is required
-                </div>
-                <div *ngIf="f.clientphoneno.errors.pattern">
-                  Please enter valid Mobile number.e.g:xxxxxxxxxx
+                }" />
+                <div *ngIf="submitted && f.clientphoneno.errors" class="invalid-feedback">
+                  <div *ngIf="f.clientphoneno.errors.required">
+                    Customer Mobile Number is required
+                  </div>
+                  <div *ngIf="f.clientphoneno.errors.pattern">
+                    Please enter valid Mobile number.e.g:xxxxxxxxxx
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--End of Customer Mobile #-->
-          <!--Customer Alternate Phone #-->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>Alternate Phone Number</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Alternate Phone Number"
-                OnlyNumber
-                [onlyNumber]="true"
-                formControlName="clientalternatephoneno"
-                tabindex="10"
-                [(ngModel)]="inspectionData.clientalternatephoneno"
-                [ngClass]="{
+            <!--End of Customer Mobile #-->
+            <!--Customer Alternate Phone #-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Alternate Phone Number</label>
+                <input type="text" class="form-control" placeholder="Alternate Phone Number" OnlyNumber
+                  [onlyNumber]="true" formControlName="clientalternatephoneno" tabindex="10"
+                  [(ngModel)]="inspectionData.clientalternatephoneno" [ngClass]="{
                   'is-invalid': submitted && f.clientalternatephoneno.errors
-                }"
-              />
-              <div
-                *ngIf="submitted && f.clientalternatephoneno.errors"
-                class="invalid-feedback"
-              >
-                <!-- <div *ngIf="f.clientalternatephoneno.errors.required">
+                }" />
+                <div *ngIf="submitted && f.clientalternatephoneno.errors" class="invalid-feedback">
+                  <!-- <div *ngIf="f.clientalternatephoneno.errors.required">
                   Alternate Phone No is required
                 </div> -->
-                <div *ngIf="f.clientalternatephoneno.errors.pattern">
-                  Please enter valid phone number.e.g:xxxxxxxxxx
+                  <div *ngIf="f.clientalternatephoneno.errors.pattern">
+                    Please enter valid phone number.e.g:xxxxxxxxxx
+                  </div>
                 </div>
               </div>
             </div>
+            <!--Customer Alternate Phone #-->
           </div>
-          <!--Customer Alternate Phone #-->
-        </div>
-        <br />
-        <h5>Product Details</h5>
-        <hr />
-        <div class="row">
-          <!--Product Type-->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Product Type</label>
-              <select
-                class="form-control"
-                formControlName="productType"
-                placeholder="Product Type"
-                [(ngModel)]="inspectionData.productType"
-                tabindex="11"
-                [ngClass]="{ 'is-invalid': submitted && f.productType.errors }"
-                required
-              >
-                <option value="">Choose Product Type</option>
-                <option
-                  class="form-control"
-                  *ngFor="let item of productTypes"
-                  [value]="item.type"
-                >
-                  <table>
-                    <tr>
-                      <td>{{ item.type }}</td>
-                    </tr>
-                  </table>
-                </option>
-              </select>
-              <div
-                *ngIf="submitted && f.productType.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.productType.errors.required">
-                  Product Type is required
+          <br />
+          <h5>Product Details</h5>
+          <hr />
+          <div class="row">
+            <!--Product Type-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Product Type</label>
+                <select class="form-control" formControlName="productType" placeholder="Product Type"
+                  [(ngModel)]="inspectionData.productType" tabindex="11"
+                  [ngClass]="{ 'is-invalid': submitted && f.productType.errors }" required>
+                  <option value="">Choose Product Type</option>
+                  <option class="form-control" *ngFor="let item of productTypes" [value]="item.type">
+                    <table>
+                      <tr>
+                        <td>{{ item.type }}</td>
+                      </tr>
+                    </table>
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.productType.errors" class="invalid-feedback">
+                  <div *ngIf="f.productType.errors.required">
+                    Product Type is required
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--End of Product Type-->
-          <!--Vechile Reg #-->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="exampleFormControlSelect1"
-                >Vehicle Registration Number</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Registration Number"
-                formControlName="registrationno"
-                tabindex="12"
-                (change)="IsDuplicateInspection($event)"
-                [(ngModel)]="inspectionData.registrationno"
-                required
-                [ngClass]="{
+            <!--End of Product Type-->
+            <!--Vechile Reg #-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Vehicle Registration Number</label>
+                <input type="text" class="form-control" placeholder="Registration Number"
+                  formControlName="registrationno" tabindex="12" (change)="IsDuplicateInspection($event)"
+                  [(ngModel)]="inspectionData.registrationno" required [ngClass]="{
                   'is-invalid': submitted && f.registrationno.errors
-                }"
-                
-              />
-              <div
-                *ngIf="submitted && f.registrationno.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.registrationno.errors.required">
-                  Vehicle Reg. No. is required
-                </div>
-                <div *ngIf="f.registrationno.errors.pattern">
-                Please enter correct Vehicle Reg. No. 
+                }" />
+                <div *ngIf="submitted && f.registrationno.errors" class="invalid-feedback">
+                  <div *ngIf="f.registrationno.errors.required">
+                    Vehicle Reg. No. is required
+                  </div>
+                  <div *ngIf="f.registrationno.errors.pattern">
+                    Please enter correct Vehicle Reg. No.
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--End of Vechile Reg #-->
-          <!--Make of Vechile-->
-          <div class="col-md-6">
-            <!-- <div class="form-group">
-              <label>Make of Vehicle</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Make of Vehicle"
-                formControlName="make"
-                tabindex="13"
-                [(ngModel)]="inspectionData.make"
-                required
-                appOnlyalphabets
-                [onlyAlpha]="true"
-                [ngClass]="{ 'is-invalid': submitted && f.make.errors }"
-              />
-              <div *ngIf="submitted && f.make.errors" class="invalid-feedback">
-                <div *ngIf="f.make.errors.required">Make is required</div>
-              </div>
-            </div> -->
-            <div class="form-group">
-              <label for="exampleInputEmail1">Vehicle Make</label>
-              <select
-                class="form-control"
-                formControlName="make"
-                placeholder="Choose make of Vehicle"
-                [(ngModel)]="inspectionData.make"
-                tabindex="1"
-                [ngClass]="{ 'is-invalid': submitted && f.make.errors }"
-                required
-              >
-                <option value="">Choose Make</option>
-                <option
-                  class="form-control"
-                  *ngFor="let item of makeData"
-                  [value]="item.make"
-                >
-                  <table>
-                    <tr>
-                      <td>{{ item.make }}</td>
-                    </tr>
-                  </table>
-                </option>
-              </select>
-              <div
-                *ngIf="submitted && f.make.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.make.errors.required">
-                  Location is required
+            <!--End of Vechile Reg #-->
+            <!--Make of Vechile-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Vehicle Make</label>
+                <select class="form-control" formControlName="make" placeholder="Choose make of Vehicle"
+                  [(ngModel)]="inspectionData.make" tabindex="1"
+                  [ngClass]="{ 'is-invalid': submitted && f.make.errors }" required>
+                  <option value="">Choose Make</option>
+                  <option class="form-control" *ngFor="let item of makeData" [value]="item.make">
+                    <table>
+                      <tr>
+                        <td>{{ item.make }}</td>
+                      </tr>
+                    </table>
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.make.errors" class="invalid-feedback">
+                  <div *ngIf="f.make.errors.required">
+                    Location is required
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--End of Make of Vechile-->
-          <!--Model-->
-          <div class="col-md-6">
-            <!-- <div class="form-group">
-              <label for="exampleFormControlSelect1">Model</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Model"
-                formControlName="model"
-                tabindex="14"
-                [(ngModel)]="inspectionData.model"
-                required
-                [ngClass]="{ 'is-invalid': submitted && f.model.errors }"
-              />
-              <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
-                <div *ngIf="f.model.errors.required">Model is required</div>
-                <div *ngIf="f.model.errors.pattern">
-                  Please enter valid format. Model format e.g:xxxx 2010
-                  <fieldset></fieldset>
-                </div>
-              </div>
-            </div> -->
-            <div class="form-group">
-              <label for="exampleInputEmail1">Vehicle Model</label>
-              <select
-                class="form-control"
-                formControlName="model"
-                placeholder="Choose model of Vehicle"
-                [(ngModel)]="inspectionData.model"
-                tabindex="1"
-                [ngClass]="{ 'is-invalid': submitted && f.model.errors }"
-                required
-              >
-                <option value="">Choose Model</option>
-                <option
-                  class="form-control"
-                  *ngFor="let item of modelData"
-                  [value]="item.model"
-                >
-                  <table>
-                    <tr>
-                      <td>{{ item.model }}</td>
-                    </tr>
-                  </table>
-                </option>
-              </select>
-              <div
-                *ngIf="submitted && f.model.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.model.errors.required">
-                  Model is required
+            <!--End of Make of Vechile-->
+            <!--Model-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Vehicle Model</label>
+                <select class="form-control" formControlName="model" placeholder="Choose model of Vehicle"
+                  [(ngModel)]="inspectionData.model" tabindex="1"
+                  [ngClass]="{ 'is-invalid': submitted && f.model.errors }" required>
+                  <option value="">Choose Model</option>
+                  <option class="form-control" *ngFor="let item of modelData" [value]="item.model">
+                    <table>
+                      <tr>
+                        <td>{{ item.model }}</td>
+                      </tr>
+                    </table>
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
+                  <div *ngIf="f.model.errors.required">
+                    Model is required
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--End of Model-->
-          <!--Conveyance-->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>Conveyance</label>
-              <select
-                class="form-control"
-                formControlName="convayance"
-                placeholder="Convayance"
-                [(ngModel)]="inspectionData.convayance"
-                tabindex="15"
-                (change)="onConvayanceSelect()"
-                [ngClass]="{ 'is-invalid': submitted && f.convayance.errors }"
-                required
-              >
-                <option value="">Choose Conveyance</option>
-                <option
-                  class="form-control"
-                  *ngFor="let item of convayances"
-                  [value]="item.convayance"
-                >
-                  <table>
-                    <tr>
-                      <td>{{ item.convayance }}</td>
-                    </tr>
-                  </table>
-                </option>
-              </select>
-              <div
-                *ngIf="submitted && f.branchcode.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.convayance.errors.required">
-                  Conveyance is required
+            <!--End of Model-->
+            <!--Conveyance-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Conveyance</label>
+                <select class="form-control" formControlName="convayance" placeholder="Convayance"
+                  [(ngModel)]="inspectionData.convayance" tabindex="15" (change)="onConvayanceSelect()"
+                  [ngClass]="{ 'is-invalid': submitted && f.convayance.errors }" required>
+                  <option value="">Choose Conveyance</option>
+                  <option class="form-control" *ngFor="let item of convayances" [value]="item.convayance">
+                    <table>
+                      <tr>
+                        <td>{{ item.convayance }}</td>
+                      </tr>
+                    </table>
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.branchcode.errors" class="invalid-feedback">
+                  <div *ngIf="f.convayance.errors.required">
+                    Conveyance is required
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--End of Conveyance-->
-          <!--Conveyance in KM-->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Conveyance in KM</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Conveyance in KM"
-                OnlyNumber
-                [onlyNumber]="true"
-                formControlName="conveyanceKm"
-                tabindex="16"
-                [(ngModel)]="inspectionData.conveyanceKm"
-                [ngClass]="{ 'is-invalid': submitted && f.conveyanceKm.errors }"
-                required
-              />
-              <div
-                *ngIf="submitted && f.conveyanceKm.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.conveyanceKm.errors.required">
-                  Conveyance is required
+            <!--End of Conveyance-->
+            <!--Conveyance in KM-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Conveyance in KM</label>
+                <input type="text" class="form-control" placeholder="Conveyance in KM" OnlyNumber [onlyNumber]="true"
+                  formControlName="conveyanceKm" tabindex="16" [(ngModel)]="inspectionData.conveyanceKm"
+                  [ngClass]="{ 'is-invalid': submitted && f.conveyanceKm.errors }" required />
+                <div *ngIf="submitted && f.conveyanceKm.errors" class="invalid-feedback">
+                  <div *ngIf="f.conveyanceKm.errors.required">
+                    Conveyance is required
+                  </div>
                 </div>
               </div>
             </div>
+            <!--End of Conveyance in KM-->
           </div>
-          <!--End of Conveyance in KM-->
-        </div>
-        <br />
-        <h5>Inspection Criteria</h5>
-        <hr />
-        <div class="row">
-          <!--Reason for Inspection-->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Reason for Inspection</label>
-              <select
-                class="form-control"
-                formControlName="inspectionreason"
-                placeholder="Inspection Reasons"
-                [(ngModel)]="inspectionData.inspectionreason"
-                tabindex="17"
-                [ngClass]="{
+          <br />
+          <h5>Inspection Criteria</h5>
+          <hr />
+          <div class="row">
+            <!--Reason for Inspection-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Reason for Inspection</label>
+                <select class="form-control" formControlName="inspectionreason" placeholder="Inspection Reasons"
+                  [(ngModel)]="inspectionData.inspectionreason" tabindex="17" [ngClass]="{
                   'is-invalid': submitted && f.inspectionreason.errors
-                }"
-                required
-              >
-                <option value="">Choose Reason for Inspection</option>
-                <option
-                  class="form-control"
-                  *ngFor="let item of inspectionreasons"
-                  [value]="item.reason"
-                >
-                  <table>
-                    <tr>
-                      <td>{{ item.reason }}</td>
-                    </tr>
-                  </table>
-                </option>
-              </select>
-              <div
-                *ngIf="submitted && f.branchcode.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.inspectionreason.errors.required">
-                  Inspection Reason is required
+                }" required>
+                  <option value="">Choose Reason for Inspection</option>
+                  <option class="form-control" *ngFor="let item of inspectionreasons" [value]="item.reason">
+                    <table>
+                      <tr>
+                        <td>{{ item.reason }}</td>
+                      </tr>
+                    </table>
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.branchcode.errors" class="invalid-feedback">
+                  <div *ngIf="f.inspectionreason.errors.required">
+                    Inspection Reason is required
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--End of Reason for Inspection-->
-          <!--Risk Type-->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Risk Type</label>
-              <select
-                class="form-control"
-                formControlName="riskType"
-                placeholder="Risk Type"
-                [(ngModel)]="inspectionData.riskType"
-                tabindex="18"
-                [ngClass]="{ 'is-invalid': submitted && f.riskType.errors }"
-                required
-              >
-                <option value="">Choose Risk Type</option>
-                <option
-                  class="form-control"
-                  *ngFor="let item of riskTypes"
-                  [value]="item.type"
-                >
-                  <table>
-                    <tr>
-                      <td>{{ item.type }}</td>
-                    </tr>
-                  </table>
-                </option>
-              </select>
-              <div
-                *ngIf="submitted && f.branchcode.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.riskType.errors.required">
-                  Risk Type is required
+            <!--End of Reason for Inspection-->
+            <!--Risk Type-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Risk Type</label>
+                <select class="form-control" formControlName="riskType" placeholder="Risk Type"
+                  [(ngModel)]="inspectionData.riskType" tabindex="18"
+                  [ngClass]="{ 'is-invalid': submitted && f.riskType.errors }" required>
+                  <option value="">Choose Risk Type</option>
+                  <option class="form-control" *ngFor="let item of riskTypes" [value]="item.type">
+                    <table>
+                      <tr>
+                        <td>{{ item.type }}</td>
+                      </tr>
+                    </table>
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.branchcode.errors" class="invalid-feedback">
+                  <div *ngIf="f.riskType.errors.required">
+                    Risk Type is required
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--End of Risk Type-->
-          <!--Duplicate Inspection-->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="">Duplicate Inspection</label>
-              <select
-                class="form-control"
-                id="id"
-                formControlName="duplicateinspection"
-                [(ngModel)]="inspectionData.duplicateinspection"
-                tabindex="19"
-                (change)="onDuplicateInspection($event)"
-              >
-                <option value="0">No</option>
-                <option value="1">Yes</option>
-            </select>
-              <div
-                *ngIf="submitted && f.duplicateinspection.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.duplicateinspection.errors.required">
-                  Duplicate Inspection is required
+            <!--End of Risk Type-->
+            <!--Duplicate Inspection-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="">Duplicate Inspection</label>
+                <select class="form-control" id="id" formControlName="duplicateinspection"
+                  [(ngModel)]="inspectionData.duplicateinspection" tabindex="19"
+                  (change)="onDuplicateInspection($event)">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+                <div *ngIf="submitted && f.duplicateinspection.errors" class="invalid-feedback">
+                  <div *ngIf="f.duplicateinspection.errors.required">
+                    Duplicate Inspection is required
+                  </div>
+                </div>
+                <div *ngIf="IsDupInspection" style="color:red;">
+                  This is a Duplicate Inspection
                 </div>
               </div>
-              <div *ngIf="IsDupInspection" style="color:red;">
-                This is a Duplicate Inspection
-              </div>
             </div>
-          </div>
-          <!--End of Duplicate Inspection-->
-          <!--Payment Mode-->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Payment Type</label>
-              <select
-                class="form-control"
-                id="paymentid"
-                formControlName="paymentmodeid"
-                [(ngModel)]="inspectionData.paymentmodeid"
-                tabindex="20"
-                [ngClass]="{
+            <!--End of Duplicate Inspection-->
+            <!--Payment Mode-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Payment Type</label>
+                <select class="form-control" id="paymentid" formControlName="paymentmodeid"
+                  [(ngModel)]="inspectionData.paymentmodeid" tabindex="20" [ngClass]="{
                   'is-invalid': submitted && f.paymentmodeid.errors
-                }"
-                required
-              >
-                <option value="">Choose Payment Type</option>
-                <option
-                  class="form-control"
-                  *ngFor="let item of paymentMode"
-                  [value]="item.id"
-                >
-                  <table>
-                    <tr>
-                      <td>{{ item.name }}</td>
-                    </tr>
-                  </table>
-                </option>
-              </select>
-              <div
-                *ngIf="submitted && f.paymentmodeid.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.paymentmodeid.errors.required">
-                  Payment Mode is required
+                }" required>
+                  <option value="">Choose Payment Type</option>
+                  <option class="form-control" *ngFor="let item of paymentMode" [value]="item.id">
+                    <table>
+                      <tr>
+                        <td>{{ item.name }}</td>
+                      </tr>
+                    </table>
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.paymentmodeid.errors" class="invalid-feedback">
+                  <div *ngIf="f.paymentmodeid.errors.required">
+                    Payment Mode is required
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--End of Payment Mode-->
-          <!--Location of Inspection-->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>Location of Inspection</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Location of Inspection"
-                formControlName="inspectionlocation"
-                tabindex="21"
-                [(ngModel)]="inspectionData.inspectionlocation"
-                required
-                [ngClass]="{
+            <!--End of Payment Mode-->
+            <!--Location of Inspection-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Location of Inspection</label>
+                <input type="text" class="form-control" placeholder="Location of Inspection"
+                  formControlName="inspectionlocation" tabindex="21" [(ngModel)]="inspectionData.inspectionlocation"
+                  required [ngClass]="{
                   'is-invalid': submitted && f.inspectionlocation.errors
-                }"
-              />
-              <div
-                *ngIf="submitted && f.inspectionlocation.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.inspectionlocation.errors.required">
-                  Location of Inspection is required
+                }" />
+                <div *ngIf="submitted && f.inspectionlocation.errors" class="invalid-feedback">
+                  <div *ngIf="f.inspectionlocation.errors.required">
+                    Location of Inspection is required
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--End of Location of Inspection-->
-          <!--Vendor Email ID-->
-          <!-- <div class="col-md-6">
-            <div class="form-group">
-              <label>Vendor</label>
-              <select
-                class="form-control"
-                formControlName="vendorEmailId"
-                placeholder="Choose Vendor EmailId"
-                [(ngModel)]="inspectionData.vendorOrganization"
-                tabindex="22"
-              >
-                <option value="">Choose Vendor</option>
-                <option
-                  class="form-control"
-                  *ngFor="let item of vendorEmailIdDetails"
-                  [value]="item.inspectionemail"
-                >
-                  <table>
-                    <tr>
-                      <td>{{ item.vendorname }}({{item.inspectionemail}})</td>
-                    </tr>
-                  </table>
-                </option>
-              </select>
-            </div>
-          </div> -->
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Vendor</label>
-              <select
-                class="form-control"
-                formControlName="vendororganization"
-                placeholder="Choose Vendor EmailId"
-                [(ngModel)]="inspectionData.vendorOrganization"
-                tabindex="22"
-                [ngClass]="{
+            <!--End of Location of Inspection-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Vendor</label>
+                <select class="form-control" formControlName="vendororganization" placeholder="Choose Vendor EmailId"
+                  [(ngModel)]="inspectionData.vendorOrganization" tabindex="22" [ngClass]="{
                   'is-invalid': submitted && f.vendororganization.errors
-                }"
-              >
-                <option value="">Choose Vendor</option>
-                <option
-                  class="form-control"
-                  *ngFor="let item of vendorEmailIdDetails"
-                  [value]="item.inspectionemail"
-                >
-                  <table>
-                    <tr>
-                      <td>{{ item.vendorname }}({{item.inspectionemail}})</td>
-                    </tr>
-                  </table>
-                </option>
-              </select>
-              <div
-                *ngIf="submitted && f.vendororganization.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.vendororganization.errors.required">
-                  vendor is required
+                }">
+                  <option value="">Choose Vendor</option>
+                  <option class="form-control" *ngFor="let item of vendorEmailIdDetails" [value]="item.inspectionemail">
+                    <table>
+                      <tr>
+                        <td>{{ item.vendorname }}({{item.inspectionemail}})</td>
+                      </tr>
+                    </table>
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.vendororganization.errors" class="invalid-feedback">
+                  <div *ngIf="f.vendororganization.errors.required">
+                    vendor is required
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--End of Vendor Email ID-->
-          <!--Remarks-->
-          <div class="col-md-12">
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Remarks</label>
-              <textarea
-                type="text-center"
-                class="form-control form-control-sm"
-                rows="2"
-                formControlName="remarks"
-                [(ngModel)]="inspectionData.remarks"
-                placeholder="Remarks"
-                tabindex="23"
-                [ngClass]="{ 'is-invalid': submitted && f.remarks.errors }"
-              ></textarea>
-              <div
-                *ngIf="submitted && f.remarks.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f.remarks.errors.required">Remarks is required</div>
+            <!--End of Vendor Email ID-->
+            <!--Remarks-->
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Remarks</label>
+                <textarea type="text-center" class="form-control form-control-sm" rows="2" formControlName="remarks"
+                  [(ngModel)]="inspectionData.remarks" placeholder="Remarks" tabindex="23"
+                  [ngClass]="{ 'is-invalid': submitted && f.remarks.errors }"></textarea>
+                <div *ngIf="submitted && f.remarks.errors" class="invalid-feedback">
+                  <div *ngIf="f.remarks.errors.required">Remarks is required</div>
+                </div>
               </div>
             </div>
-          </div>
-          <!--End of Remarks-->
-          <!--Status-->
-          <div class="col-md-6">
-            <div class="form-group" *ngIf="hideStatus">
-              <label>Status</label>
-              <select
-                class="form-control"
-                id="id"
-                formControlName="statusid"
-                [(ngModel)]="inspectionData.statusid"
-                tabindex="24"
-                (change)="statusChanged($event)"
-              >
-                <option value="">Choose Status</option>
-                <option
-                  class="form-control"
-                  *ngFor="let item of status"
-                  [value]="item.id"
-                >
-                  <table>
-                    <tr>
-                      <td>{{ item.name }}</td>
-                    </tr>
-                  </table>
-                </option>
-              </select>
+            <!--End of Remarks-->
+            <!--Status-->
+            <div class="col-md-6">
+              <div class="form-group" *ngIf="hideStatus">
+                <label>Status</label>
+                <select class="form-control" id="id" formControlName="statusid" [(ngModel)]="inspectionData.statusid"
+                  tabindex="24" (change)="statusChanged($event)">
+                  <option value="">Choose Status</option>
+                  <option class="form-control" *ngFor="let item of status" [value]="item.id">
+                    <table>
+                      <tr>
+                        <td>{{ item.name }}</td>
+                      </tr>
+                    </table>
+                  </option>
+                </select>
                 <div *ngIf="showRequestRaisedErr" style="color:red;">
                   Please choose other status.
                 </div>
+              </div>
+            </div>
+            <!--End of Status-->
+            <!--Upload Documents-->
+
+            <div class="col-md-6" *ngIf="showUpload">
+              <label></label>
+              <label></label>
+              <div class="form-group">
+                <input type="file" (change)="getFileDetails($event)" placeholder="Upload file" accept=".pdf,.jpeg,.png"
+                  multiple>
+                <button (click)="uploadFiles($event)" type="button">
+                  Upload Documents
+                </button>
+              </div>
+
+              <div *ngFor="let file of fileList">
+                <div>* {{ file.name }} - {{ file.type }} - {{ file.size }}KB</div>
+              </div>
             </div>
           </div>
-          <!--End of Status-->
-          <!--Upload Documents-->
-          
-          <div class="col-md-6" *ngIf="showUpload">
-            <label></label>
-            <label></label>
-            <div class="form-group">
-              <!-- <input
-                type="file"
-                id="files"
-                accept=".pdf,.png,.JPEG,.jpeg,.JPG,.jpg"
-                multiple
-                (change)="getFileDetails($event)"
-              /> -->
-              <input type="file" (change)="getFileDetails($event)" placeholder="Upload file" accept=".pdf,.jpeg,.png" multiple>
-              <button (click)="uploadFiles($event)" type="button">
-                Upload Documents
+          <div class="row">
+            <div class="imagePreview" *ngIf="inspectionData.documentPath">
+              <div class="row">
+                <div *ngFor="let item of documentsPath">
+                  <div class="col-md-6">
+                    <label *ngIf="item.type=='image'">
+                      <p><img [src]="sanitizeImageUrl(item.url)" height="100em" width="100em"
+                          *ngIf="item.type=='image'" />
+                        <a (click)="downloadDoc(item)" style="cursor: pointer;"><i class="feather icon-download"
+                            aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
+                      </p>
+                    </label>
+
+                    <label *ngIf="item.type=='pdf'">
+                      <a (click)="getPdfView(item)" style="cursor: pointer;">pdf</a>
+                      <a (click)="downloadDoc(item.url)" style="cursor: pointer;"><i class="feather icon-download"
+                          aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
+                      <!-- <a (click)="getPdfView(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a> -->
+                    </label>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Form Buttons-->
+          <div class="row text-right">
+            <div class="col-12">
+              <button type="button" class="btn btn-secondary mr-1" (click)="cancel()">
+                Cancel
+              </button>
+              <button type="button" *ngIf="disableInspection" [disabled]="hideUpdateButton" class="btn btn-primary"
+                (click)="updateInspection()">
+                Update Inspection
+              </button>
+              <button type="submit" *ngIf="inspectionData.id == undefined && !disableInspection"
+                class="btn btn-primary">
+                Create Inspection
               </button>
             </div>
-            
-            <div *ngFor="let file of fileList">
-              <div>* {{ file.name }} - {{ file.type }} - {{ file.size }}KB</div>
-            </div>
           </div>
-          <!-- <div *ngIf="showSpinner" class="d-flex justify-content-center">
-            <div class="spinner-border" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
-          </div> -->
-          
-          <!-- documentsPdfPath -->
-         
-          <!-- <ngx-doc-viewer [url]="" viewer="google" style="width:100%;height:50vh;"></ngx-doc-viewer> -->
-          <!--End of Upload Documents-->
+          <!--End of Form Buttons-->
+        </form>
+      </app-card>
+      <br />
+      <!--Inspection History-->
+      <div class="row" *ngIf="showHistoryTable">
+        <div class="col text-left">
+          <h3>Inspection History</h3>
         </div>
-        <div class="row">
-          <div class="imagePreview" *ngIf="inspectionData.documentPath">
-            <div class="row">
-            <div *ngFor="let item of documentsPath">
-            <!-- <img [src]="sanitizeImageUrl(item.url)" height="100em" width="100em" *ngIf="item.type=='image'"/>
-            <a (click)="downloadDoc(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
-          <pdf-viewer [src]="item.url" *ngIf="item.type=='pdf'"></pdf-viewer> -->
-          
-          <div class="col-md-6">
-              <label *ngIf="item.type=='image'">
-                <p><img [src]="sanitizeImageUrl(item.url)" height="100em" width="100em" *ngIf="item.type=='image'"/>
-                <a (click)="downloadDoc(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
-                </p>
-              </label>
-
-              <label *ngIf="item.type=='pdf'">
-                <a (click)="getPdfView(item)" style="cursor: pointer;">pdf</a>
-                <a (click)="downloadDoc(item.url)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
-                <!-- <a (click)="getPdfView(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a> -->
-              </label>
-            </div>
-          
-          </div>
-        </div>
-          </div>
-        </div>
-        <!--Form Buttons-->
-        <div class="row text-right">
-          <div class="col-12">
-            <button
-              type="button"
-              class="btn btn-secondary mr-1"
-              (click)="cancel()"
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              *ngIf="disableInspection"
-              [disabled]="hideUpdateButton"
-              class="btn btn-primary"
-              (click)="updateInspection()"
-            >
-              Update Inspection
-            </button>
-            <button
-              type="submit"
-              *ngIf="inspectionData.id == undefined && !disableInspection"
-              class="btn btn-primary"
-            >
-              Create Inspection
-            </button>
-          </div>
-        </div>
-        <!--End of Form Buttons-->
-      </form>
-    </app-card>
-    <br />
-    <!--Inspection History-->
-    <div class="row" *ngIf="showHistoryTable">
-      <div class="col text-left">
-        <h3>Inspection History</h3>
-      </div>
-      <div class="col-sm-12">
-        <app-card [hidHeader]="true" [options]="false">
-          <div class="table">
-            <table
-              datatable
-              [dtOptions]="dtOptions"
-              [dtTrigger]="dtTrigger"
-              class="table table-striped table-bordered table-hover shrink-table-cell"
-            >
-              <thead>
-                <tr>
-                  <th class="text-left" style="width: 10%">Status</th>
-                  <th class="text-left" style="width: 10%">Updated By</th>
-                  <th class="text-left" style="width: 10%">Date</th>
-                  <th class="text-left" style="width: 70%">Remarks</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of inspectionHistory">
-                  <td class="text-left">
-                    {{
+        <div class="col-sm-12">
+          <app-card [hidHeader]="true" [options]="false">
+            <div class="table">
+              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                class="table table-striped table-bordered table-hover shrink-table-cell">
+                <thead>
+                  <tr>
+                    <th class="text-left" style="width: 10%">Status</th>
+                    <th class="text-left" style="width: 10%">Updated By</th>
+                    <th class="text-left" style="width: 10%">Date</th>
+                    <th class="text-left" style="width: 70%">Remarks</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of inspectionHistory">
+                    <td class="text-left">
+                      {{
                       item.statusid == 1
                         ? "Recommended"
                         : item.statusid == 2
@@ -1050,25 +612,25 @@
                         ? "Appointmant Fix"
                         : "Request Raised"
                     }}
-                  </td>
-                  <td class="text-left">
-                    {{ item.modifiedBy }}
-                  </td>
-                  <td class="text-left">
-                    {{ item.modifiedDate | date: "dd/MM/yyyy hh:mm:ss a" }}
-                  </td>
-                  <td class="text-left">
-                    {{ item.remarks }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </app-card>
+                    </td>
+                    <td class="text-left">
+                      {{ item.modifiedBy }}
+                    </td>
+                    <td class="text-left">
+                      {{ item.modifiedDate | date: "dd/MM/yyyy hh:mm:ss a" }}
+                    </td>
+                    <td class="text-left">
+                      {{ item.remarks }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </app-card>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 <div *ngIf="showSpinner" class="d-flex justify-content-center spinner">
   <div class="spinner-border" role="status">
@@ -1084,11 +646,10 @@
   </div>
   <div class="app-modal-body">
     <perfect-scrollbar [style.max-height]="'100vh'">
-    <pdf-viewer [src]="fileUrl"></pdf-viewer>
-  </perfect-scrollbar> 
+      <pdf-viewer [src]="fileUrl"></pdf-viewer>
+    </perfect-scrollbar>
   </div>
   <div class="app-modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="pdfPopup.hide()">Close</button>
   </div>
 </app-ui-modal>
-

@@ -156,7 +156,7 @@ export class AddInspectionComponent
       riskType: ['', [Validators.required]],
       registrationno: [
         '',
-        [Validators.required, Validators.pattern('^[a-zA-Z ]+[0-9 ]+[a-zA-Z0-9 ]{1,6}$')],
+        [Validators.required, Validators.pattern('^[a-zA-Z ]+[0-9 ]+[a-zA-Z0-9 ]{1,8}$')],
       ],
       duplicateinspection: ['', [Validators.required]],
       paymentmodeid: ['', [Validators.required]],
@@ -506,40 +506,20 @@ export class AddInspectionComponent
           } else {
             this.inspectionData.duplicateinspection = '0';
           }
-          // else{
-          //   this.addInspectionForm.get('paymentmodeid').enable();
-          //   this.inspectionData.paymentmodeid = '';
-          // }
           if ((localStorage.getItem('type') == "Admin" || localStorage.getItem('type') == "Claims" || localStorage.getItem('type') == "Vendor")) 
           {
             this.getInspectionStatus(localStorage.getItem('type'));
           }
-          debugger;
           if(localStorage.getItem('type') == "Claims" && (this.inspectionData.statusid != 1 && this.inspectionData.statusid != 2))
           {
           this.addInspectionForm.get('statusid').disable();
         }
-        // else
-        // {
-        //   this.addInspectionForm.get('statusid').enable();
-        // }
           let i = 0;
           if (res.documentPath) {
-            //this.documents =res.documentPath.split(',');
             res.documentPath.split(',').forEach((element) => {
               this.documents[i] = element;
               i++;
             });
-            // debugger;
-            // if (res.documentName != "") 
-            // {
-            //   res.documentName.split(',').forEach((element) => {
-            //     this.documentsName[i] = element;
-            //     i++;
-            //   });
-            // }
-            
-            debugger;
             this.PreviewDoc(this.documents,this.documentsName);
           }
           if (res.statusid == 1 || res.statusid == 2 || res.statusid == 4) {
@@ -880,17 +860,12 @@ export class AddInspectionComponent
   }
   sanitizeImageUrl(imageUrl: string): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
-    // this.PreviewDoc(imageUrl)
   }
   PreviewDoc(document,fileName) {
-    debugger;
-    // this.showSpinner = true;
-    // document.getElementById('inspection').style.opacity='0.1';
     let i = 0;
     document.forEach(
       (element,index) => {
         this.inspectionService.downloadDocument(element).subscribe((data) => {
-          debugger;
           var res: any = data;
             var blob = new Blob([data], { type: res.type });
             var fileURL = URL.createObjectURL(blob);
@@ -944,14 +919,12 @@ this.pdfPopup.show();
   }
   getInspectionStatus(role)
   {
-    debugger;
     let allStatus = this.status;
     if(role == "Claims"  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
     {
     this.status = [];
       var claimsStatus = [6,7,8];
       for (let index = 0; index < allStatus.length; index++) {
-        //const element = array[index];
         var tempStatus = allStatus.filter(
           (x) => x.id == claimsStatus[index]
         );
@@ -964,11 +937,11 @@ this.pdfPopup.show();
       }
       
     }
-    if(role == "Claims"  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
+    if((role == "Claims" || role == "Admin")  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
     {
     this.status = [];
     var inspectionCurrentStatus : number = +this.inspectionData.statusid;
-      var claimsStatus = [8,7,inspectionCurrentStatus];
+      var claimsStatus = [7,8,inspectionCurrentStatus];
       for (let index = 0; index < allStatus.length; index++) {
         //const element = array[index];
         var tempStatus = allStatus.filter(
@@ -1003,11 +976,11 @@ this.pdfPopup.show();
       
     }
     
-    if(role == "Admin"  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
+    if((role == "Admin" || role == "OPS")  && (this.inspectionData.statusid != 1 || this.inspectionData.statusid != 2))
     {
     this.status = [];
     var inspectionCurrentStatus : number = +this.inspectionData.statusid;
-      var claimsStatus = [8,7,inspectionCurrentStatus];
+      var claimsStatus = [1,2,3,4,5,6];
       for (let index = 0; index < allStatus.length; index++) {
         //const element = array[index];
         var tempStatus = allStatus.filter(
@@ -1020,8 +993,9 @@ this.pdfPopup.show();
           i++;
         }
       }
-      
     }
+      
+    // }
     if(role == "Vendor")
     {
     this.status = [];
