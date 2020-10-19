@@ -122,6 +122,7 @@ export class AddUserComponent implements OnInit {
               },
               (err) => {}
             );
+            this.onVendorLoadBranch(this.userdata.vendorOrganization);
             this.vendorapiService
               .getVendorByEmail(this.userdata.vendorOrganization)
               .subscribe(
@@ -549,6 +550,15 @@ export class AddUserComponent implements OnInit {
   }
   onVendorSelect(evt) {
     this.vendorapiService.getVendorByEmail(evt.target.value).subscribe(
+      (data) => {
+        var res: any = data;
+        this.getBranchForVendor(res.branchcode);
+      },
+      (err) => {}
+    );
+  }
+  onVendorLoadBranch(vendorOrganzation) {
+    this.vendorapiService.getVendorByEmail(vendorOrganzation).subscribe(
       (data) => {
         var res: any = data;
         this.getBranchForVendor(res.branchcode);
