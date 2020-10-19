@@ -126,7 +126,7 @@
                                     {{(item.paymentmodeid==1?"Company":"Customer")}}
                                 </td>
                                 <td class="text-left">
-                                    {{(item.statusid==1) ? "Recommended" : (item.statusid==2) ? "Not Recommended" : (item.statusid)==3 ? "Rescheduled" : (item.statusid)==4 ? "Cancelled":(item.statusid)==5 ? "Appointmant Fix" : "Request Raised"}}
+                                    {{(item.statusid==1) ? "Recommended" : (item.statusid==2) ? "Not Recommended" : (item.statusid)==3 ? "Rescheduled" : (item.statusid)==4 ? "Cancelled":(item.statusid)==5 ? "Appointmant Fix" : (item.statusid)==7 ? "Accepted":(item.statusid)==8 ? "Rejected" : "Request Raised"}}
                                 </td>
                                 <td class="text-left">
                                     {{item.createdBy}}
