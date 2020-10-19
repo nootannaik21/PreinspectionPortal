@@ -57,7 +57,7 @@ export class AddvendorComponent implements OnInit {
           Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
         ],
       ],
-      status:['']
+      status: [''],
     });
     if (localStorage.getItem('vendorid')) {
       this.addVendorForm.get('inspectionemail').disable();
@@ -106,7 +106,6 @@ export class AddvendorComponent implements OnInit {
           },
           (err) => {}
         );
-        
     } else {
       this.title = 'Add Vendor';
       this.getBranches();
@@ -135,7 +134,7 @@ export class AddvendorComponent implements OnInit {
     );
   }
   addVendorDetails() {
-        this.submitted = true;
+    this.submitted = true;
     if (this.addVendorForm.invalid) {
       return;
     } else {
@@ -164,6 +163,7 @@ export class AddvendorComponent implements OnInit {
     this.router.navigateByUrl('vendor');
   }
   onItemSelect(item: any) {
+    debugger;
     // this.branchCodes.push(item.id);
     this.vendordata.branchCode = [];
     if (this.selectedItems.length > 0) {
@@ -173,11 +173,6 @@ export class AddvendorComponent implements OnInit {
     }
   }
   onSelectAll(items: any) {
-    // items.forEach((element) => {
-    //   var temp: any = {};
-    //   temp.branchlist = element.id;
-    //   this.branchCodes.push(temp);
-    // });
     this.branchCodes = [];
     this.vendordata.branches = [];
     items.forEach((element) => {
@@ -186,6 +181,7 @@ export class AddvendorComponent implements OnInit {
     this.vendordata.branchCode = this.branchCodes;
   }
   UpdateVendorDetails() {
+    debugger;
     this.submitted = true;
     if (this.addVendorForm.invalid) {
       return;
@@ -221,5 +217,4 @@ export class AddvendorComponent implements OnInit {
         );
     }
   }
-  
 }
