@@ -604,6 +604,7 @@ export class AddInspectionComponent
   // }
 
   uploadFiles() {
+    debugger;
     this.showSpinner = true;
     document.getElementById('inspection').style.opacity='0.5';
     let frmData: FormData = new FormData();
@@ -635,6 +636,7 @@ export class AddInspectionComponent
           )
           .subscribe(
             (data) => {
+              debugger;
               this.showSpinner = false;
               document.getElementById('inspection').style.opacity="1";
               this.alertService.successAlert(
@@ -644,6 +646,7 @@ export class AddInspectionComponent
               this.hideUpdateButton = false;
             },
             (err) => {
+              debugger;
               this.showSpinner = false;
               document.getElementById('inspection').style.opacity="1";
               console.log(err.error.message);
@@ -677,8 +680,11 @@ export class AddInspectionComponent
   cancel() {
     debugger;
     if (this.showUpload == true) {
+      this.tempInspectionData.documentPath = null;
+      this.tempInspectionData.documentName = null;
       this.inspectionService.updateInspection(this.inspectionData.id,this.tempInspectionData).subscribe(data => 
         {
+          debugger;
           this.router.navigateByUrl('inspection');
           localStorage.removeItem('inspectionId');
           this.inspectionData = {};
