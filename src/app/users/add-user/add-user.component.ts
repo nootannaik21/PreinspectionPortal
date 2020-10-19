@@ -36,6 +36,7 @@ export class AddUserComponent implements OnInit {
   vendorOganization: any = [];
   vendorList: any = [];
   branchList: any = [];
+  vendorOrganiZationBranches: any = [];
   imdUser: boolean = false;
   constructor(
     private notifyService: NotificationService,
@@ -110,6 +111,7 @@ export class AddUserComponent implements OnInit {
             this.showBranchDetail = true;
             this.getAllBranches();
           } else if (this.userdata.type == 'Vendor') {
+            debugger;
             this.showBranch = false;
             this.showBranchDetail = false;
             this.showVendorOrganization = true;
@@ -120,6 +122,16 @@ export class AddUserComponent implements OnInit {
               },
               (err) => {}
             );
+            this.vendorapiService
+              .getVendorByEmail(this.userdata.vendorOrganization)
+              .subscribe(
+                (data) => {
+                  debugger;
+                  var res: any = data;
+                  this.vendorOrganiZationBranches = data;
+                  this.branchList = res;
+                  debugger;
+                
             let tmp = [];
             var branchOfVendor = '';
             this.userdata.branches.forEach((element) => {
@@ -129,10 +141,15 @@ export class AddUserComponent implements OnInit {
             });
             this.branchApiService.getBranchByListofId(branchOfVendor).subscribe(
               (result) => {
-                this.branchList = result;
-                for (let i = 0; i <= user.branches.length; i++) {
-                  var branch = this.branchList.filter(
-                    (x) => x.id == user.branches[i]
+                debugger;
+                var branchList: any = result;
+                for (
+                  let i = 0;
+                  i <= this.vendorOrganiZationBranches.branchcode.length;
+                  i++
+                ) {
+                  var branch = branchList.filter(
+                    (x) => x.id == this.vendorOrganiZationBranches.branchcode[i]
                   );
                   if (branch.length > 0) {
                     var branchid: number = +branch[0].id;
@@ -143,8 +160,8 @@ export class AddUserComponent implements OnInit {
                     this.selectedItems = tmp;
                   }
                 }
+                debugger;
                 this.dropdownSettings = {
-                  singleSelection: false,
                   idField: 'id',
                   textField: 'branchCode',
                   selectAllText: 'Select All',
@@ -154,6 +171,9 @@ export class AddUserComponent implements OnInit {
               },
               (err) => {}
             );
+            },
+                (err) => {}
+              );
           } else {
             this.showBranch = true;
             this.showBranchDetail = false;
@@ -176,6 +196,7 @@ export class AddUserComponent implements OnInit {
                       this.selectedItems = tmp;
                     }
                   }
+
                   this.dropdownSettings = {
                     singleSelection: false,
                     idField: 'id',
