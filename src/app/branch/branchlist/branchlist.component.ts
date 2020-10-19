@@ -1,18 +1,23 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  ViewChild,
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
-import { BranchServiceService } from '../../service/branch-service.service'
+import { BranchServiceService } from '../../service/branch-service.service';
 import { AlertService } from 'src/app/service/alert.service';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-branchlist',
   templateUrl: './branchlist.component.html',
-  styleUrls: ['./branchlist.component.scss']
+  styleUrls: ['./branchlist.component.scss'],
 })
 export class BranchlistComponent implements OnInit, OnDestroy, AfterViewInit {
-  branchList:any=[];
+  branchList: any = [];
   ngAfterViewInit(): void {
     this.branchList = [];
     this.rerender();
@@ -23,7 +28,11 @@ export class BranchlistComponent implements OnInit, OnDestroy, AfterViewInit {
   dtElement: DataTableDirective;
   isDtInitialized: boolean = false;
 
-  constructor(private router:Router, private branchService:BranchServiceService,private alertService:AlertService) { }
+  constructor(
+    private router: Router,
+    private branchService: BranchServiceService,
+    private alertService: AlertService
+  ) {}
 
   ngOnInit() {
     this.dtOptions = {
@@ -34,45 +43,37 @@ export class BranchlistComponent implements OnInit, OnDestroy, AfterViewInit {
       ],
       pageLength: 10,
       processing: true,
-        dom: 'Bfrtip',
-          buttons: [
-              'excel'
-          ]
+      dom: 'Bfrtip',
+      buttons: ['excel'],
     };
     this.getAllBranches();
   }
   getAllBranches() {
     this.branchService.getBranches().subscribe(
-      data =>{
-        var res:any=data;
-        this.branchList=res.data;
+      (data) => {
+        var res: any = data;
+        this.branchList = res.data;
         this.rerender();
       },
-      err =>{
-
-      }
-    )
-    
+      (err) => {}
+    );
   }
-  editBranchRow(item){
+  editBranchRow(item) {
     localStorage.setItem('branchid', item.id);
     this.router.navigateByUrl('location/editLocation');
   }
-  deleteBranch(item){
+  deleteBranch(item) {
     this.alertService.confirmAlert(() => {
-    this.branchService.deleteBranch(item.id).subscribe(
-      data =>{
-        this.alertService.successAlert("Success","Branch Deleted Successfully");
-        this.getAllBranches();
-
-      },
-      err =>{
-
-      }
-    )})
-
+      this.branchService.deleteBranch(item.id).subscribe(
+        (data) => {
+          this.alertService.successAlert('Success', 'Location deleted Successfully');
+          this.getAllBranches();
+        },
+        (err) => {}
+      );
+    });
   }
-  gotoAddBranchScreen(){
+  gotoAddBranchScreen() {
     localStorage.removeItem('branchid');
     this.router.navigateByUrl('location/addLocation');
   }

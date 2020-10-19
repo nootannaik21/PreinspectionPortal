@@ -36,7 +36,7 @@ export class AddUserComponent implements OnInit {
   vendorOganization: any = [];
   vendorList: any = [];
   branchList: any = [];
-  imdUser:boolean=false;
+  imdUser: boolean = false;
   constructor(
     private notifyService: NotificationService,
     private formBuilder: FormBuilder,
@@ -44,7 +44,7 @@ export class AddUserComponent implements OnInit {
     private alertService: AlertService,
     private userapiService: UserapiserviceService,
     private vendorapiService: VendorServiceService,
-    private branchApiService:BranchServiceService
+    private branchApiService: BranchServiceService
   ) {}
 
   ngOnInit() {
@@ -52,9 +52,7 @@ export class AddUserComponent implements OnInit {
     this.userdata.branchName = '';
     this.addUserForm = this.formBuilder.group({
       firstName: ['', [Validators.required]],
-      company: ['',[
-        Validators.pattern('^[A-Za-z0-9. ]+$'),
-      ]],
+      company: ['', [Validators.pattern('^[A-Za-z0-9. ]+$')]],
       lastName: ['', [Validators.required]],
       branchName: ['', [Validators.required]],
       type: ['', [Validators.required]],
@@ -62,7 +60,7 @@ export class AddUserComponent implements OnInit {
       status: ['', [Validators.required]],
       branches: [''],
       vendor: [''],
-      vendorList:[''],
+      vendorList: [''],
       email: [
         '',
         [
@@ -81,7 +79,7 @@ export class AddUserComponent implements OnInit {
         ],
       ],
       confPassword: ['', [Validators.required]],
-      IMDCode: ['', [ Validators.pattern('^[0-9]{8}$')]],
+      IMDCode: ['', [Validators.pattern('^[0-9]{8}$')]],
       // imdcode: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]]
     });
 
@@ -97,24 +95,21 @@ export class AddUserComponent implements OnInit {
           var user: any = data;
           this.userdata = Object.assign(data);
           this.userdata.confPassword = this.userdata.password;
-          this.userdata.status = this.userdata.isDeleted;
+          this.userdata.status = !this.userdata.isDeleted;
           if (this.userdata.type == 'Admin' || this.userdata.type == 'Claims') {
             this.showBranchDetail = false;
             this.showBranch = false;
             this.getAllBranches();
-          }
-         else if (this.userdata.type == 'IMD') {
+          } else if (this.userdata.type == 'IMD') {
             this.showBranch = false;
             this.showBranchDetail = true;
             this.getAllBranches();
             this.imdUser = true;
-          }
-          else if(this.userdata.type == 'Branch') {
+          } else if (this.userdata.type == 'Branch') {
             this.showBranch = false;
             this.showBranchDetail = true;
             this.getAllBranches();
-          }
-          else if (this.userdata.type == 'Vendor') {
+          } else if (this.userdata.type == 'Vendor') {
             this.showBranch = false;
             this.showBranchDetail = false;
             this.showVendorOrganization = true;
@@ -125,41 +120,41 @@ export class AddUserComponent implements OnInit {
               },
               (err) => {}
             );
-            //this.getAllBranches();
-            //this.getBranchForVendor(this.userdata.branches);
             let tmp = [];
-            var branchOfVendor='';
-            this.userdata.branches.forEach(element => {
-      branchOfVendor == ''? branchOfVendor = "id="+element:branchOfVendor += "&id="+element;
-    });
-    this.branchApiService.getBranchByListofId(branchOfVendor).subscribe(result=>{
-     this.branchList = result;
-      for (let i = 0; i <= user.branches.length; i++) {
-        var branch = this.branchList.filter(
-          (x) => x.id == user.branches[i]
-        );
-        if (branch.length > 0) {
-          var branchid: number = +branch[0].id;
-          tmp.push({
-            id: branchid,
-            branchCode: branch[0].branchCode,
-          });
-          this.selectedItems = tmp;
-        }
-      }
-              this.dropdownSettings = {
-                singleSelection: false,
-                idField: 'id',
-                textField: 'branchCode',
-                selectAllText: 'Select All',
-                unSelectAllText: 'UnSelect All',
-                allowSearchFilter: true,
-              };
-          },err=>{
-
-          })
-          }
-          else {
+            var branchOfVendor = '';
+            this.userdata.branches.forEach((element) => {
+              branchOfVendor == ''
+                ? (branchOfVendor = 'id=' + element)
+                : (branchOfVendor += '&id=' + element);
+            });
+            this.branchApiService.getBranchByListofId(branchOfVendor).subscribe(
+              (result) => {
+                this.branchList = result;
+                for (let i = 0; i <= user.branches.length; i++) {
+                  var branch = this.branchList.filter(
+                    (x) => x.id == user.branches[i]
+                  );
+                  if (branch.length > 0) {
+                    var branchid: number = +branch[0].id;
+                    tmp.push({
+                      id: branchid,
+                      branchCode: branch[0].branchCode,
+                    });
+                    this.selectedItems = tmp;
+                  }
+                }
+                this.dropdownSettings = {
+                  singleSelection: false,
+                  idField: 'id',
+                  textField: 'branchCode',
+                  selectAllText: 'Select All',
+                  unSelectAllText: 'UnSelect All',
+                  allowSearchFilter: true,
+                };
+              },
+              (err) => {}
+            );
+          } else {
             this.showBranch = true;
             this.showBranchDetail = false;
             let tmp = [];
@@ -187,7 +182,6 @@ export class AddUserComponent implements OnInit {
                     textField: 'branchCode',
                     selectAllText: 'Select All',
                     unSelectAllText: 'UnSelect All',
-                    // itemsShowLimit: 10,
                     allowSearchFilter: true,
                   };
                 },
@@ -205,7 +199,7 @@ export class AddUserComponent implements OnInit {
       this.title = 'Add User';
       this.showBranch = true;
       this.selectedItems = [];
-      this.userdata.vendorOrganization = "";
+      this.userdata.vendorOrganization = '';
     }
   }
 
@@ -215,7 +209,7 @@ export class AddUserComponent implements OnInit {
 
   avoidSpecialchar(event) {
     var k;
-    k = event.charCode; // k = event.keyCode;  (Both can be used)
+    k = event.charCode;
     return (
       (k > 64 && k < 91) ||
       (k > 96 && k < 123) ||
@@ -246,10 +240,9 @@ export class AddUserComponent implements OnInit {
       this.userdata.branchCode = '';
       this.userdata.branches = [];
       this.imdUser = true;
-    this.userdata.imdCode = null;
+      this.userdata.imdCode = null;
       this.getAllBranches();
-    }
-    else if(eve.target.value == 'Branch') {
+    } else if (eve.target.value == 'Branch') {
       this.showBranch = false;
       this.showBranchDetail = true;
       this.userdata.branchName = '';
@@ -277,7 +270,7 @@ export class AddUserComponent implements OnInit {
       this.showVendorOrganization = false;
       this.userdata.branchCode = '';
       this.userdata.branches = [];
-      this.selectedItems=[];
+      this.selectedItems = [];
       this.userdata.branchName = '';
       this.getAllBranches();
     }
@@ -340,7 +333,6 @@ export class AddUserComponent implements OnInit {
     this.userdata.branches = this.branchCodes;
   }
 
-
   reset() {
     this.userdata = {};
     this.selectedItems = [];
@@ -349,32 +341,24 @@ export class AddUserComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     const branchName = this.addUserForm.get('branchName');
-    //const branchCode = this.addUserForm.get('branchCode');
-    // const branches = this.addUserForm.get('branches');
     const status = this.addUserForm.get('status');
     if (this.userdata.type == 'Branch') {
       this.showBranch = false;
       this.showBranchDetail = true;
       this.userdata.branches = [];
-      // branches.setValidators(null);
       this.userdata.branches = [];
-    }
-    else if(this.userdata.type == 'IMD')
-    {
+    } else if (this.userdata.type == 'IMD') {
       if (this.userdata.imdCode == undefined) {
-        return this.notifyService.showError("", 'Please add IMD Code');
-      }
-      else{
+        return this.notifyService.showError('', 'Please add IMD Code');
+      } else {
         var y: number = +this.userdata.imdCode;
-        this.userdata.imdCode = y > 0?y:null;
+        this.userdata.imdCode = y > 0 ? y : null;
         this.showBranch = false;
         this.showBranchDetail = true;
         this.userdata.branches = [];
-        // branches.setValidators(null);
         this.userdata.branches = [];
       }
-
-    }else if (
+    } else if (
       this.userdata.type == 'Admin' ||
       this.userdata.type == 'Claims'
     ) {
@@ -386,25 +370,19 @@ export class AddUserComponent implements OnInit {
       this.userdata.vendorOrganization = '';
 
       branchName.setValidators(null);
-      //branchCode.setValidators(null);
-      // branches.setValidators(null);
     } else if (this.userdata.type == 'Vendor') {
       this.showBranch = false;
       this.showBranchDetail = false;
       this.userdata.branchName = '';
       this.userdata.branchCode = '';
       this.userdata.company = '';
-      // this.userdata.branches = [];
       branchName.setValidators(null);
-      //branchCode.setValidators(null);
-      // branches.setValidators(null);
     } else {
       this.showBranch = true;
       this.showBranchDetail = false;
       this.userdata.branchName = '';
       this.userdata.branchCode = '';
       branchName.setValidators(null);
-      //branchCode.setValidators(null);
       this.userdata.branches = [];
       if (this.selectedItems.length > 0) {
         this.selectedItems.forEach((element) => {
@@ -414,8 +392,6 @@ export class AddUserComponent implements OnInit {
     }
     status.setValidators(null);
     branchName.updateValueAndValidity();
-    //branchCode.updateValueAndValidity();
-    // branches.updateValueAndValidity();
     status.updateValueAndValidity();
     this.addUserDetails(this.userdata);
   }
@@ -430,7 +406,6 @@ export class AddUserComponent implements OnInit {
       );
       return;
     } else {
-
       this.userapiService.addUser(userdata).subscribe(
         (data) => {
           var res: any = data;
@@ -446,20 +421,21 @@ export class AddUserComponent implements OnInit {
           }
         },
         (err) => {
-          if(err.error.message != null)
-          {
-          this.notifyService.showError(err.error.message, 'User Not Added');
-          return;
-        }
-        else{
-          this.router.navigateByUrl('users');
-        }
+          if (err.error.message != null) {
+            this.notifyService.showError(err.error.message, 'User Not Added');
+            return;
+          } else {
+            this.notifyService.showSuccess(
+              'User Added successfully !!',
+              'Success'
+            );
+            this.router.navigateByUrl('users');
+          }
         }
       );
     }
   }
   updateUser(data) {
-    debugger;
     const branchName = this.addUserForm.get('branchName');
     const branchCode = this.addUserForm.get('branchCode');
     const branches = this.addUserForm.get('branches');
@@ -472,8 +448,7 @@ export class AddUserComponent implements OnInit {
       branchName.setValidators(null);
       branchCode.setValidators(null);
       branches.setValidators(null);
-    }
-    else if(this.userdata.type == 'OPS'){
+    } else if (this.userdata.type == 'OPS') {
       this.showBranchDetail = false;
       this.userdata.branchName = '';
       this.userdata.branchCode = '';
@@ -486,8 +461,13 @@ export class AddUserComponent implements OnInit {
           this.userdata.branches.push(element.id);
         });
       }
-       }
-    else if(this.userdata.type == 'Vendor'){
+      this.userdata.branches = [];
+      if (this.selectedItems.length > 0) {
+        this.selectedItems.forEach((element) => {
+          this.userdata.branches.push(element.id);
+        });
+      }
+    } else if (this.userdata.type == 'Vendor') {
       this.showBranchDetail = false;
       this.showBranch = false;
       this.showVendorOrganization = true;
@@ -496,25 +476,16 @@ export class AddUserComponent implements OnInit {
       this.userdata.company = '';
       branchName.setValidators(null);
       branchCode.setValidators(null);
-      // this.getAllBranches();
-      // this.userdata.branches = [];
-      // if (this.selectedItems.length > 0) {
-      //   this.selectedItems.forEach((element) => {
-      //     this.userdata.branches.push(element.id);
-      //   });
-      // }
-    }
-    else if(this.userdata.type == 'IMD')
-    {
-      debugger;
+      this.userdata.branches = [];
+      if (this.selectedItems.length > 0) {
+        this.selectedItems.forEach((element) => {
+          this.userdata.branches.push(element.id);
+        });
+      }
+    } else if (this.userdata.type == 'IMD') {
       var y: number = +this.userdata.imdCode;
-      this.userdata.imdCode = y > 0?y:null;
-    }
-    else {
-      //this.showBranch = true;
-      // branchName.setValidators([Validators.required]);
-      // branchCode.setValidators([Validators.required]);
-      // branches.setValidators([Validators.required]);
+      this.userdata.imdCode = y > 0 ? y : null;
+    } else {
       this.getAllBranches();
       this.userdata.branches = [];
       if (this.selectedItems.length > 0) {
@@ -547,62 +518,44 @@ export class AddUserComponent implements OnInit {
             this.userdata = {};
             this.getAllBranches();
           }
-          // else {
-          //   this.notifyService.showError(
-          //     err.error.message,
-          //     'User Not Updated'
-          //   );
-          // }
         },
         (err) => {
-          debugger;
-          this.notifyService.showError(
-            err.error.message,
-            ''
-          );
-          // this.notifyService.showError(err.error.message, 'User Not Added');
+          this.notifyService.showError(err.error.message, '');
           return;
         }
       );
     }
   }
-  onVendorSelect(evt){
-// this.userdata.vendorOrganization = this.vendorOganization.vendorname;
-this.vendorapiService.getVendorByEmail(evt.target.value).subscribe(
-  (data) => {
-    var res: any = data;
-    this.getBranchForVendor(res.branchcode);
-    // this.vendorList = res.data;
-    //     this.dropdownSettings = {
-    //       singleSelection: false,
-    //       idField: 'id',
-    //       textField: 'branchCode',
-    //       selectAllText: 'Select All',
-    //       unSelectAllText: 'UnSelect All',
-    //       allowSearchFilter: true,
-    //     };
-  },
-  (err) => {}
-);
+  onVendorSelect(evt) {
+    this.vendorapiService.getVendorByEmail(evt.target.value).subscribe(
+      (data) => {
+        var res: any = data;
+        this.getBranchForVendor(res.branchcode);
+      },
+      (err) => {}
+    );
   }
-  getBranchForVendor(branches){
-   var branchOfVendor='';
-   this.selectedItems = [];
-    branches.forEach(element => {
-      branchOfVendor == ''? branchOfVendor = "id="+element:branchOfVendor += "&id="+element;
+  getBranchForVendor(branches) {
+    var branchOfVendor = '';
+    this.selectedItems = [];
+    branches.forEach((element) => {
+      branchOfVendor == ''
+        ? (branchOfVendor = 'id=' + element)
+        : (branchOfVendor += '&id=' + element);
     });
-    this.branchApiService.getBranchByListofId(branchOfVendor).subscribe(result=>{
-     this.branchList = result;
-              this.dropdownSettings = {
-                singleSelection: false,
-                idField: 'id',
-                textField: 'branchCode',
-                selectAllText: 'Select All',
-                unSelectAllText: 'UnSelect All',
-                allowSearchFilter: true,
-              };
-          },err=>{
-
-          })
+    this.branchApiService.getBranchByListofId(branchOfVendor).subscribe(
+      (result) => {
+        this.branchList = result;
+        this.dropdownSettings = {
+          singleSelection: false,
+          idField: 'id',
+          textField: 'branchCode',
+          selectAllText: 'Select All',
+          unSelectAllText: 'UnSelect All',
+          allowSearchFilter: true,
+        };
+      },
+      (err) => {}
+    );
   }
 }

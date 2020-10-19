@@ -49,7 +49,16 @@ export class InspectionListComponent
       pageLength: 10,
       processing: true,
       dom: 'Bfrtip',
-      buttons: ['excel'],
+      buttons: [
+        {
+          extend: 'excelHtml5',
+          exportOptions: {
+            columns: ':visible',
+          },
+        },
+        ,
+        'colvis',
+      ],
     };
     this.getInspectionList();
   }
@@ -69,42 +78,33 @@ export class InspectionListComponent
     this.router.navigateByUrl('inspection/editInspection');
   }
   downloadDoc(evt) {
-    // var firstSpaceIndex = evt.indexOf("\\");
-    // var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
-    // var secondString = evt.substring(firstSpaceIndex + 1);
-    //var FileSaver = require('file-saver');
-    var fileStr = evt != null ? evt.split(','):null;
+    var fileStr = evt != null ? evt.split(',') : null;
     if (fileStr == null) {
-      
+    } else {
+      fileStr.forEach((element) => {
+        this.inspectionService.downloadDocument(element).subscribe(
+          (data) => {
+            var res: any = data;
+            var blob = new Blob([data], { type: res.type });
+
+            const element = document.createElement('a');
+            element.href = URL.createObjectURL(blob);
+            element.download = 'downloaded_file';
+            document.body.appendChild(element);
+
+            if (res.type == 'application/pdf') {
+              element.download = 'downloaded_file.pdf';
+              window.open(element.href, '_blank');
+            } else {
+              saveAs(blob);
+            }
+          },
+          (err) => {}
+        );
+      });
     }
-    else
-    {
-    fileStr.forEach((element) => {
-      this.inspectionService.downloadDocument(element).subscribe(
-        (data) => {
-          var res: any = data;
-          var blob = new Blob([data], { type: res.type });
-
-          const element = document.createElement('a');
-          element.href = URL.createObjectURL(blob);
-          element.download = 'downloaded_file';
-          document.body.appendChild(element);
-
-          if (res.type == 'application/pdf'){
-          element.download = 'downloaded_file.pdf';
-            window.open(element.href, '_blank');
-        }
-          else {
-            //element.click();
-            saveAs(blob);
-          }
-        },
-        (err) => {}
-      );
-    });
   }
-  }
-  
+
   getInspectionList() {
     this.inspectionService.getInspectionList().subscribe(
       (data) => {

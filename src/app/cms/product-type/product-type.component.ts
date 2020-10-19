@@ -8,11 +8,14 @@ import { InspectionSeriveService } from 'src/app/service/inspection-serive.servi
 @Component({
   selector: 'app-product-type',
   templateUrl: './product-type.component.html',
-  styleUrls: ['./product-type.component.scss']
+  styleUrls: ['./product-type.component.scss'],
 })
 export class ProductTypeComponent implements OnInit {
-
-  constructor(private inspectionService:InspectionSeriveService,private router:Router,private alertService:AlertService) { }
+  constructor(
+    private inspectionService: InspectionSeriveService,
+    private router: Router,
+    private alertService: AlertService
+  ) {}
   dtOptions: any = {};
   dtTrigger: any = new Subject();
   @ViewChild(DataTableDirective, { static: false })
@@ -28,10 +31,8 @@ export class ProductTypeComponent implements OnInit {
       ],
       pageLength: 10,
       processing: true,
-        dom: 'Blfrtip',
-          buttons: [
-              'excel'
-          ]
+      dom: 'Blfrtip',
+      buttons: ['excel'],
     };
     this.getallProductType();
   }
@@ -44,26 +45,27 @@ export class ProductTypeComponent implements OnInit {
       (err) => {}
     );
   }
-  gotoAddProductTypeScreen(){
+  gotoAddProductTypeScreen() {
     localStorage.removeItem('producttypeid');
     this.router.navigateByUrl('cms/addproducttype');
   }
-  editProductType(item){
+  editProductType(item) {
     localStorage.setItem('producttypeid', item.id);
     this.router.navigateByUrl('cms/editproducttype');
   }
-  deleteProductType(item)
-  {
+  deleteProductType(item) {
     this.alertService.confirmAlert(() => {
       this.inspectionService.deleteProductType(item.id).subscribe(
-        data =>{
-          this.alertService.successAlert("Success","Product Type Deleted Successfully");
+        (data) => {
+          this.alertService.successAlert(
+            'Success',
+            'Product Type Deleted Successfully'
+          );
           this.getallProductType();
         },
-        err =>{
-  
-        }
-      )})
+        (err) => {}
+      );
+    });
   }
   rerender(): void {
     if (this.isDtInitialized) {

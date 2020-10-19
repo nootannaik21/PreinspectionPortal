@@ -42,6 +42,7 @@ export class AddInspectionComponent
   pdfPopup: UiModalComponent;
   fileUrl: string;
   hideUpdateButton: boolean = false;
+  showSpinner: boolean = false;
 
   ngAfterViewInit(): void {
     this.inspectionHistory = [];
@@ -80,6 +81,8 @@ export class AddInspectionComponent
   makeData: any = [];
   modelData: any = [];
   imduserDetail: boolean = false;
+  documentsName: any = [];
+  tempInspectionData: any ={};
   constructor(
     private notifyService: NotificationService,
     private fileUploadService: FileuploadService,
@@ -154,7 +157,7 @@ export class AddInspectionComponent
       riskType: ['', [Validators.required]],
       registrationno: [
         '',
-        [Validators.required, Validators.pattern('^[a-zA-Z0-9]{1,14}$')],
+        [Validators.required, Validators.pattern('^[a-zA-Z ]+[0-9 ]+[a-zA-Z0-9 ]{1,8}$')],
       ],
       duplicateinspection: ['', [Validators.required]],
       paymentmodeid: ['', [Validators.required]],
@@ -484,9 +487,10 @@ export class AddInspectionComponent
       .subscribe(
         (data) => {
           var res: any = data;
+          this.tempInspectionData = data;
           if (res) {
             this.getVendorMailList(res.branchcode);
-           localStorage.getItem('type') =="Admin"? this.getAllImdDetails(res.branchcode):null;
+           localStorage.getItem('type') =="Admin" || localStorage.getItem('type') =="OPS" || localStorage.getItem('type') =="Claims" || localStorage.getItem('type') =="Vendor"? this.getAllImdDetails(res.branchcode):null;
           }
           this.inspectionData = Object.assign({}, data);
           this.inspectionData.vendorEmailId = res.vendorEmailId;
@@ -504,23 +508,21 @@ export class AddInspectionComponent
           } else {
             this.inspectionData.duplicateinspection = '0';
           }
-          // else{
-          //   this.addInspectionForm.get('paymentmodeid').enable();
-          //   this.inspectionData.paymentmodeid = '';
-          // }
-          if ((localStorage.getItem('type') == "Admin" || localStorage.getItem('type') == "Claims")) 
+          if ((localStorage.getItem('type') == "Admin" || localStorage.getItem('type') == "Claims" || localStorage.getItem('type') == "Vendor")) 
           {
-            debugger;
             this.getInspectionStatus(localStorage.getItem('type'));
           }
+          if(localStorage.getItem('type') == "Claims" && (this.inspectionData.statusid != 1 && this.inspectionData.statusid != 2))
+          {
+          this.addInspectionForm.get('statusid').disable();
+        }
           let i = 0;
           if (res.documentPath) {
-            //this.documents =res.documentPath.split(',');
             res.documentPath.split(',').forEach((element) => {
               this.documents[i] = element;
               i++;
             });
-            this.PreviewDoc(this.documents);
+            this.PreviewDoc(this.documents,this.documentsName);
           }
           if (res.statusid == 1 || res.statusid == 2 || res.statusid == 4) {
             if (localStorage.getItem('type') == 'Vendor') {
@@ -602,6 +604,8 @@ export class AddInspectionComponent
   // }
 
   uploadFiles() {
+    this.showSpinner = true;
+    document.getElementById('inspection').style.opacity='0.5';
     let frmData: FormData = new FormData();
     //frmData.append('uploadFile', this.file, this.file.name);
     if (this.fileList != undefined) {
@@ -611,6 +615,8 @@ export class AddInspectionComponent
           mimeType.match(/image\/*/) == null &&
           mimeType.match(/application\/pdf/) == null
         ) {
+          this.showSpinner = false;
+              document.getElementById('inspection').style.opacity="1";
           this.alertService.infoAlert(
             '',
             'Only JPEG,PNG and PDF formats are allowed.'
@@ -629,6 +635,8 @@ export class AddInspectionComponent
           )
           .subscribe(
             (data) => {
+              this.showSpinner = false;
+              document.getElementById('inspection').style.opacity="1";
               this.alertService.successAlert(
                 'Success',
                 'File(s) uploaded successfully'
@@ -636,12 +644,16 @@ export class AddInspectionComponent
               this.hideUpdateButton = false;
             },
             (err) => {
+              this.showSpinner = false;
+              document.getElementById('inspection').style.opacity="1";
               console.log(err.error.message);
               this.inspectionData = {};
             }
           );
       }
     } else {
+      this.showSpinner = false;
+              document.getElementById('inspection').style.opacity="1";
       this.alertService.infoAlert('Oops !', 'Please choose document.');
     }
   }
@@ -663,9 +675,25 @@ export class AddInspectionComponent
     );
   }
   cancel() {
-    this.router.navigateByUrl('inspection');
+    debugger;
+    if (this.showUpload == true) {
+      this.inspectionService.updateInspection(this.inspectionData.id,this.tempInspectionData).subscribe(data => 
+        {
+          this.router.navigateByUrl('inspection');
+          localStorage.removeItem('inspectionId');
+          this.inspectionData = {};
+        },
+        err =>
+        {
+
+        })
+    } else {
+      this.router.navigateByUrl('inspection');
     localStorage.removeItem('inspectionId');
     this.inspectionData = {};
+    }
+    
+
   }
   updateInspection() {
     this.submitted = true;
@@ -706,18 +734,32 @@ export class AddInspectionComponent
           .updateInspection(this.inspectionData.id, this.inspectionData)
           .subscribe(
             (data) => {
+              var res: any = data;
+              ///if (res.result == 'success') {
               this.notifyService.showSuccess(
                 'Inspection Updated successfully !!',
                 'Success'
               );
               this.router.navigateByUrl('inspection');
               this.inspectionData = {};
+              //}
             },
             (err) => {
-              this.notifyService.showError(
-                'Inspection Update failed !!',
-                err.error.message
-              );
+              if (err.error.message != null) {
+                this.notifyService.showError(err.error.message, "");
+          return;
+              } else {
+                this.notifyService.showSuccess(
+                  'Inspection Updated successfully !!',
+                  'Success'
+                );
+                this.router.navigateByUrl('inspection');
+              }
+             
+              // this.notifyService.showError(
+              //   'Inspection Update failed !!',
+              //   err.error.message
+              // );
             }
           );
     }
@@ -795,11 +837,15 @@ export class AddInspectionComponent
         (err) => {
           if (err.error.message != null) {
             this.notifyService.showError(
-              'Something is wrong',
+              err.error.message,
               'Inspection Not Added'
             );
             return;
           } else {
+            this.notifyService.showSuccess(
+              'Inspection added successfully !!',
+              'Success'
+            );
             this.router.navigateByUrl('inspection');
           }
         }
@@ -836,12 +882,8 @@ export class AddInspectionComponent
   }
   sanitizeImageUrl(imageUrl: string): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
-    // this.PreviewDoc(imageUrl)
   }
-  PreviewDoc(document) {
-    // var firstSpaceIndex = evt.indexOf("\\");
-    // var firstString = evt.substring(0, firstSpaceIndex); // INAGX4
-    // var secondString = evt.substring(firstSpaceIndex + 1);
+  PreviewDoc(document,fileName) {
     let i = 0;
     document.forEach(
       (element,index) => {
@@ -857,6 +899,8 @@ export class AddInspectionComponent
       }
       
     );
+    this.showSpinner = false;
+    document.getElementById('inspection').style.opacity='1';
   }
 
   downloadDoc(url) {
@@ -903,7 +947,6 @@ this.pdfPopup.show();
     this.status = [];
       var claimsStatus = [6,7,8];
       for (let index = 0; index < allStatus.length; index++) {
-        //const element = array[index];
         var tempStatus = allStatus.filter(
           (x) => x.id == claimsStatus[index]
         );
@@ -916,11 +959,11 @@ this.pdfPopup.show();
       }
       
     }
-    if(role == "Claims"  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
+    if((role == "Claims" || role == "Admin")  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
     {
     this.status = [];
     var inspectionCurrentStatus : number = +this.inspectionData.statusid;
-      var claimsStatus = [8,7,inspectionCurrentStatus];
+      var claimsStatus = [7,8,inspectionCurrentStatus];
       for (let index = 0; index < allStatus.length; index++) {
         //const element = array[index];
         var tempStatus = allStatus.filter(
@@ -955,11 +998,30 @@ this.pdfPopup.show();
       
     }
     
-    if(role == "Admin"  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
+    if((role == "Admin" || role == "OPS")  && (this.inspectionData.statusid != 1 || this.inspectionData.statusid != 2))
     {
     this.status = [];
     var inspectionCurrentStatus : number = +this.inspectionData.statusid;
-      var claimsStatus = [8,7,inspectionCurrentStatus];
+      var claimsStatus = [1,2,3,4,5,6,inspectionCurrentStatus];
+      for (let index = 0; index < allStatus.length; index++) {
+        //const element = array[index];
+        var tempStatus = allStatus.filter(
+          (x) => x.id == claimsStatus[index]
+        );
+        var i= 0;
+        if(tempStatus.length > 0)
+        {
+          this.status.push(tempStatus[i]);
+          i++;
+        }
+      }
+    }
+      
+    // }
+    if(role == "Vendor")
+    {
+    this.status = [];
+      var claimsStatus = [1,2,3,4,5,6];
       for (let index = 0; index < allStatus.length; index++) {
         //const element = array[index];
         var tempStatus = allStatus.filter(
