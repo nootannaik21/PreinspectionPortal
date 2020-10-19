@@ -461,6 +461,12 @@ export class AddUserComponent implements OnInit {
           this.userdata.branches.push(element.id);
         });
       }
+      this.userdata.branches = [];
+      if (this.selectedItems.length > 0) {
+        this.selectedItems.forEach((element) => {
+          this.userdata.branches.push(element.id);
+        });
+      }
     } else if (this.userdata.type == 'Vendor') {
       this.showBranchDetail = false;
       this.showBranch = false;
@@ -470,6 +476,12 @@ export class AddUserComponent implements OnInit {
       this.userdata.company = '';
       branchName.setValidators(null);
       branchCode.setValidators(null);
+      this.userdata.branches = [];
+      if (this.selectedItems.length > 0) {
+        this.selectedItems.forEach((element) => {
+          this.userdata.branches.push(element.id);
+        });
+      }
     } else if (this.userdata.type == 'IMD') {
       var y: number = +this.userdata.imdCode;
       this.userdata.imdCode = y > 0 ? y : null;

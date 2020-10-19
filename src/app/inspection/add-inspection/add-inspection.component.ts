@@ -602,6 +602,7 @@ export class AddInspectionComponent
   // }
 
   uploadFiles() {
+    debugger;
     this.showSpinner = true;
     document.getElementById('inspection').style.opacity='0.5';
     let frmData: FormData = new FormData();
@@ -613,6 +614,8 @@ export class AddInspectionComponent
           mimeType.match(/image\/*/) == null &&
           mimeType.match(/application\/pdf/) == null
         ) {
+          this.showSpinner = false;
+              document.getElementById('inspection').style.opacity="1";
           this.alertService.infoAlert(
             '',
             'Only JPEG,PNG and PDF formats are allowed.'
@@ -648,6 +651,8 @@ export class AddInspectionComponent
           );
       }
     } else {
+      this.showSpinner = false;
+              document.getElementById('inspection').style.opacity="1";
       this.alertService.infoAlert('Oops !', 'Please choose document.');
     }
   }
