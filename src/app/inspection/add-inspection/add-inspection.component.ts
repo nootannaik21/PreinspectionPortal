@@ -82,6 +82,7 @@ export class AddInspectionComponent
   modelData: any = [];
   imduserDetail: boolean = false;
   documentsName: any = [];
+  tempInspectionData: any ={};
   constructor(
     private notifyService: NotificationService,
     private fileUploadService: FileuploadService,
@@ -486,6 +487,7 @@ export class AddInspectionComponent
       .subscribe(
         (data) => {
           var res: any = data;
+          this.tempInspectionData = data;
           if (res) {
             this.getVendorMailList(res.branchcode);
            localStorage.getItem('type') =="Admin" || localStorage.getItem('type') =="OPS" || localStorage.getItem('type') =="Claims" || localStorage.getItem('type') =="Vendor"? this.getAllImdDetails(res.branchcode):null;
@@ -602,7 +604,6 @@ export class AddInspectionComponent
   // }
 
   uploadFiles() {
-    debugger;
     this.showSpinner = true;
     document.getElementById('inspection').style.opacity='0.5';
     let frmData: FormData = new FormData();
@@ -674,9 +675,25 @@ export class AddInspectionComponent
     );
   }
   cancel() {
-    this.router.navigateByUrl('inspection');
+    debugger;
+    if (this.showUpload == true) {
+      this.inspectionService.updateInspection(this.inspectionData.id,this.tempInspectionData).subscribe(data => 
+        {
+          this.router.navigateByUrl('inspection');
+          localStorage.removeItem('inspectionId');
+          this.inspectionData = {};
+        },
+        err =>
+        {
+
+        })
+    } else {
+      this.router.navigateByUrl('inspection');
     localStorage.removeItem('inspectionId');
     this.inspectionData = {};
+    }
+    
+
   }
   updateInspection() {
     this.submitted = true;
@@ -985,7 +1002,7 @@ this.pdfPopup.show();
     {
     this.status = [];
     var inspectionCurrentStatus : number = +this.inspectionData.statusid;
-      var claimsStatus = [1,2,3,4,5,6];
+      var claimsStatus = [1,2,3,4,5,6,inspectionCurrentStatus];
       for (let index = 0; index < allStatus.length; index++) {
         //const element = array[index];
         var tempStatus = allStatus.filter(
