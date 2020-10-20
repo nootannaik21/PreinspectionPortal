@@ -374,7 +374,6 @@ export class AddInspectionComponent
     );
   }
   getAllImdDetails(branchCode) {
-    debugger;
     this.inspectionService.getAllImdDetails(branchCode).subscribe(
       (data) => {
         var res: any = data;
@@ -442,7 +441,6 @@ export class AddInspectionComponent
     this.addInspectionForm.get('riskType').disable();
   }
   getInspections() {
-    debugger;
     this.getAllBranches();
     this.getAllInspectionStatus();
     this.getPaymentMode();
@@ -523,9 +521,7 @@ export class AddInspectionComponent
           this.addInspectionForm.get('statusid').disable();
         }
           let i = 0;
-          debugger;
           if (res.documentPath) {
-            debugger;
             res.documentPath.split(',').forEach((element) => {
               this.documents[i] = element;
               i++;
@@ -616,7 +612,6 @@ export class AddInspectionComponent
   // }
 
   uploadFiles() {
-    debugger;
     this.showSpinner = true;
     document.getElementById('inspection').style.opacity='0.5';
     let frmData: FormData = new FormData();
@@ -648,7 +643,6 @@ export class AddInspectionComponent
           )
           .subscribe(
             (data) => {
-              debugger;
               this.showSpinner = false;
               document.getElementById('inspection').style.opacity="1";
               this.alertService.successAlert(
@@ -658,10 +652,9 @@ export class AddInspectionComponent
               this.hideUpdateButton = false;
             },
             (err) => {
-              debugger;
               this.showSpinner = false;
               document.getElementById('inspection').style.opacity="1";
-              console.log(err.error.message);
+              //console.log(err.error.message);
               this.inspectionData = {};
             }
           );
@@ -690,13 +683,11 @@ export class AddInspectionComponent
     );
   }
   cancel() {
-    debugger;
     if (this.showUpload == true) {
       this.tempInspectionData.documentPath = null;
       this.tempInspectionData.documentName = null;
       this.inspectionService.updateInspection(this.inspectionData.id,this.tempInspectionData).subscribe(data => 
         {
-          debugger;
           this.router.navigateByUrl('inspection');
           localStorage.removeItem('inspectionId');
           this.inspectionData = {};
@@ -714,7 +705,6 @@ export class AddInspectionComponent
 
   }
   updateInspection() {
-    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid || this.showRequestRaisedErr) {
       return;
@@ -759,7 +749,6 @@ export class AddInspectionComponent
           .updateInspection(this.inspectionData.id, this.inspectionData)
           .subscribe(
             (data) => {
-              debugger;
               var res: any = data;
               ///if (res.result == 'success') {
               this.notifyService.showSuccess(
@@ -912,7 +901,6 @@ export class AddInspectionComponent
     return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
   }
   PreviewDoc(document) {
-    debugger;
     let i = 0;
     document.forEach(
       (element,index) => {
@@ -970,7 +958,6 @@ this.pdfPopup.show();
   }
   getInspectionStatus(role)
   {
-    debugger;
     let allStatus = this.status;
     if(role == "Claims"  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
     {
@@ -991,7 +978,6 @@ this.pdfPopup.show();
     }
     if((role == "Claims" || role == "Admin")  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
     {
-      debugger;
     // this.status = [];
     // let claimsStatus:any;
     // var inspectionCurrentStatus : number = +this.inspectionData.statusid;
@@ -1044,7 +1030,6 @@ this.pdfPopup.show();
     
     if((role == "Admin" || role == "OPS")  && (this.inspectionData.statusid != 1 && this.inspectionData.statusid != 2))
     {
-      debugger;
     this.status = [];
     let claimsStatus:any;
     var inspectionCurrentStatus : number = +this.inspectionData.statusid;
@@ -1070,7 +1055,6 @@ this.pdfPopup.show();
     // }
     if(role == "Vendor")
     {
-      debugger;
     this.status = [];
     let claimsStatusTemp:any;
       var claimsStatus = [1,2,3,4,5,6];

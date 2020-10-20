@@ -163,7 +163,6 @@ export class AddvendorComponent implements OnInit {
     this.router.navigateByUrl('vendor');
   }
   onItemSelect(item: any) {
-    debugger;
     // this.branchCodes.push(item.id);
     this.vendordata.branchCode = [];
     if (this.selectedItems.length > 0) {
@@ -181,7 +180,6 @@ export class AddvendorComponent implements OnInit {
     this.vendordata.branchCode = this.branchCodes;
   }
   UpdateVendorDetails() {
-    debugger;
     this.submitted = true;
     if (this.addVendorForm.invalid) {
       return;
