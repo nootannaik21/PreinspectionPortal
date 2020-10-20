@@ -43,6 +43,7 @@ export class AddInspectionComponent
   fileUrl: string;
   hideUpdateButton: boolean = false;
   showSpinner: boolean = false;
+  tempInspectionDetail: any ={};;
 
   ngAfterViewInit(): void {
     this.inspectionHistory = [];
@@ -517,12 +518,14 @@ export class AddInspectionComponent
           this.addInspectionForm.get('statusid').disable();
         }
           let i = 0;
+          debugger;
           if (res.documentPath) {
+            debugger;
             res.documentPath.split(',').forEach((element) => {
               this.documents[i] = element;
               i++;
             });
-            this.PreviewDoc(this.documents,this.documentsName);
+            this.PreviewDoc(this.documents);
           }
           if (res.statusid == 1 || res.statusid == 2 || res.statusid == 4) {
             if (localStorage.getItem('type') == 'Vendor') {
@@ -604,6 +607,7 @@ export class AddInspectionComponent
   // }
 
   uploadFiles() {
+    debugger;
     this.showSpinner = true;
     document.getElementById('inspection').style.opacity='0.5';
     let frmData: FormData = new FormData();
@@ -635,6 +639,7 @@ export class AddInspectionComponent
           )
           .subscribe(
             (data) => {
+              debugger;
               this.showSpinner = false;
               document.getElementById('inspection').style.opacity="1";
               this.alertService.successAlert(
@@ -644,6 +649,7 @@ export class AddInspectionComponent
               this.hideUpdateButton = false;
             },
             (err) => {
+              debugger;
               this.showSpinner = false;
               document.getElementById('inspection').style.opacity="1";
               console.log(err.error.message);
@@ -677,8 +683,11 @@ export class AddInspectionComponent
   cancel() {
     debugger;
     if (this.showUpload == true) {
-      this.inspectionService.updateInspection(this.inspectionData.id,this.tempInspectionData).subscribe(data => 
+      this.tempInspectionData.documentPath = null;
+      this.tempInspectionData.documentName = null;
+      this.inspectionService.cancelUpdateInspection(this.inspectionData.id,this.tempInspectionData).subscribe(data => 
         {
+          debugger;
           this.router.navigateByUrl('inspection');
           localStorage.removeItem('inspectionId');
           this.inspectionData = {};
@@ -696,6 +705,7 @@ export class AddInspectionComponent
 
   }
   updateInspection() {
+    debugger;
     this.submitted = true;
     if (this.addInspectionForm.invalid || this.showRequestRaisedErr) {
       return;
@@ -729,11 +739,20 @@ export class AddInspectionComponent
         //             }
         //           );
         // }
-       
+        this.inspectionService
+        .getInspectionById(localStorage.getItem('inspectionId'))
+        .subscribe(
+          (data) => {
+            var res: any = data;
+            this.tempInspectionDetail = data;
+            this.inspectionData.documentPath = this.tempInspectionDetail.documentPath;
+          
+          
         this.inspectionService
           .updateInspection(this.inspectionData.id, this.inspectionData)
           .subscribe(
             (data) => {
+              debugger;
               var res: any = data;
               ///if (res.result == 'success') {
               this.notifyService.showSuccess(
@@ -762,6 +781,8 @@ export class AddInspectionComponent
               // );
             }
           );
+        },err =>{
+        });
     }
   }
   onBranchSelect() {
@@ -883,7 +904,8 @@ export class AddInspectionComponent
   sanitizeImageUrl(imageUrl: string): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
   }
-  PreviewDoc(document,fileName) {
+  PreviewDoc(document) {
+    debugger;
     let i = 0;
     document.forEach(
       (element,index) => {
