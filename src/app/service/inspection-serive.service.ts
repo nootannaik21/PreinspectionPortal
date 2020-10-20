@@ -44,6 +44,9 @@ export class InspectionSeriveService {
   updateInspection(inspectionId,inspectionData) {
     return this.apiService.put("inspection/editInspection/"+inspectionId,inspectionData);   
   }
+  cancelUpdateInspection(inspectionId,inspectionData){
+    return this.apiService.put("inspection/cancelUpdateInspection/"+inspectionId,inspectionData);   
+  }
   getBranches() {
     return this.apiService.get("branch/getAllActiveBranches");   
   }
