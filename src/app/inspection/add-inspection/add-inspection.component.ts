@@ -1042,7 +1042,7 @@ this.pdfPopup.show();
       
     }
     
-    if((role == "Admin" || role == "OPS")  && (this.inspectionData.statusid != 1 || this.inspectionData.statusid != 2))
+    if((role == "Admin" || role == "OPS")  && (this.inspectionData.statusid != 1 && this.inspectionData.statusid != 2))
     {
       debugger;
     this.status = [];
