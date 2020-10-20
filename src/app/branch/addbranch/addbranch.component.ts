@@ -7,68 +7,67 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'app-addbranch',
   templateUrl: './addbranch.component.html',
-  styleUrls: ['./addbranch.component.scss']
+  styleUrls: ['./addbranch.component.scss'],
 })
 export class AddbranchComponent implements OnInit {
   branchdata: any = {};
   addBranchForm: FormGroup;
   submitted = false;
   title: string;
- message:string;
- branchNamemessage:string;
-  constructor(private formBuilder: FormBuilder, private router: Router, private alertService: AlertService, private branchService: BranchServiceService) { }
+  message: string;
+  branchNamemessage: string;
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private alertService: AlertService,
+    private branchService: BranchServiceService
+  ) {}
 
   ngOnInit() {
     this.addBranchForm = this.formBuilder.group({
-      branchCode: [
-        '',
-        [Validators.required, Validators.pattern('^[0-9]{6}$')],
-      ],
-      // zone: ['', [Validators.required]],
+      branchCode: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]],
       branchName: ['', [Validators.required]],
     });
     if (localStorage.getItem('branchid')) {
-      this.title = "Update Location";
-      this.branchService.getBranchById(localStorage.getItem('branchid')).subscribe(
-        data => {
-          this.branchdata = data[0];
-        },
-        err => { })
-        
-    }
-    else {
-      this.title = "Add Location";
+      this.title = 'Update Location';
+      this.branchService
+        .getBranchById(localStorage.getItem('branchid'))
+        .subscribe(
+          (data) => {
+            this.branchdata = data[0];
+          },
+          (err) => {}
+        );
+    } else {
+      this.title = 'Add Location';
       this.branchdata = {};
     }
   }
-  get f() { return this.addBranchForm.controls; }
+  get f() {
+    return this.addBranchForm.controls;
+  }
   addBranch() {
     this.submitted = true;
     if (this.addBranchForm.invalid) {
       return;
     } else {
       this.branchService.addBranch(this.branchdata).subscribe(
-        data => {
+        (data) => {
           var res: any = data;
-          if (res.result.result == "success") {
-            this.alertService.successAlert("Success", "Location Added Successfully");
+          if (res.result.result == 'success') {
+            this.alertService.successAlert(
+              'Success',
+              'Location Added Successfully'
+            );
             this.router.navigateByUrl('location');
-          }
-          else {
-            this.alertService.errorAlert("Oops!", "Location Add Failed");
+          } else {
+            this.alertService.errorAlert('Oops!', 'Location Add Failed');
           }
         },
-        err => { 
-//           if(err.error.message.includes("Branch code")){
-//             this.message = err.error.message;
-//           }
-//           else
-//           {
-// this.branchNamemessage = err.error.message;
-//           }
-this.alertService.errorAlert("Oops!", err.error.message);
+        (err) => {
+          this.alertService.errorAlert('Oops!', err.error.message);
         }
-      )
+      );
     }
   }
   updateBranch(branchdata) {
@@ -77,27 +76,31 @@ this.alertService.errorAlert("Oops!", err.error.message);
       return;
     } else {
       this.branchService.updateBranch(branchdata).subscribe(
-        data => {
+        (data) => {
           var res: any = data;
-          if (res.result.result == "success") {
-            this.alertService.successAlert("Success", "Location Updated Successfully");
+          if (res.result.result == 'success') {
+            this.alertService.successAlert(
+              'Success',
+              'Location Updated Successfully'
+            );
             this.router.navigateByUrl('location');
             this.branchdata = {};
-          }
-          else {
-            this.alertService.errorAlert("Oops!", "You have not updated Location");
+          } else {
+            this.alertService.errorAlert(
+              'Oops!',
+              'You have not updated Location'
+            );
             this.branchdata = {};
           }
         },
-        err => {
-          this.alertService.errorAlert("Oops!", err.error.message);
+        (err) => {
+          this.alertService.errorAlert('Oops!', err.error.message);
         }
-      )
+      );
     }
   }
   cancel() {
     localStorage.removeItem('branchid');
     this.router.navigateByUrl('location');
-
   }
 }

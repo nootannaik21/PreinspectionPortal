@@ -216,6 +216,7 @@ export class AddInspectionComponent
         this.addInspectionForm.get('riskType').disable();
         this.addInspectionForm.get('statusid').disable();
         this.addInspectionForm.get('duplicateinspection').disable();
+        this.addInspectionForm.get('inspectionlocation').disable();
       } else if (localStorage.getItem('type') == 'IMD') {
         this.showHistoryTable = true;
         this.addInspectionForm.get('branchName').disable();
@@ -373,6 +374,7 @@ export class AddInspectionComponent
     );
   }
   getAllImdDetails(branchCode) {
+    debugger;
     this.inspectionService.getAllImdDetails(branchCode).subscribe(
       (data) => {
         var res: any = data;
@@ -440,6 +442,7 @@ export class AddInspectionComponent
     this.addInspectionForm.get('riskType').disable();
   }
   getInspections() {
+    debugger;
     this.getAllBranches();
     this.getAllInspectionStatus();
     this.getPaymentMode();
@@ -483,6 +486,8 @@ export class AddInspectionComponent
     }
   }
   getinspectionByID() {
+    // this.showSpinner = true;
+    // document.getElementById('inspection').style.opacity='0.5';
     this.inspectionService
       .getInspectionById(localStorage.getItem('inspectionId'))
       .subscribe(
@@ -526,7 +531,10 @@ export class AddInspectionComponent
               i++;
             });
             this.PreviewDoc(this.documents);
+    //         this.showSpinner = false;
+    // document.getElementById('inspection').style.opacity='1';
           }
+          
           if (res.statusid == 1 || res.statusid == 2 || res.statusid == 4) {
             if (localStorage.getItem('type') == 'Vendor') {
               this.showUpload = true;
@@ -539,6 +547,7 @@ export class AddInspectionComponent
           } else {
             this.inspectionData.duplicateinspection = '0';
           }
+          
         },
         (err) => {}
       );
@@ -685,7 +694,7 @@ export class AddInspectionComponent
     if (this.showUpload == true) {
       this.tempInspectionData.documentPath = null;
       this.tempInspectionData.documentName = null;
-      this.inspectionService.cancelUpdateInspection(this.inspectionData.id,this.tempInspectionData).subscribe(data => 
+      this.inspectionService.updateInspection(this.inspectionData.id,this.tempInspectionData).subscribe(data => 
         {
           debugger;
           this.router.navigateByUrl('inspection');
@@ -739,15 +748,13 @@ export class AddInspectionComponent
         //             }
         //           );
         // }
-        this.inspectionService
-        .getInspectionById(localStorage.getItem('inspectionId'))
-        .subscribe(
-          (data) => {
-            var res: any = data;
-            this.tempInspectionDetail = data;
-            this.inspectionData.documentPath = this.tempInspectionDetail.documentPath;
-          
-          
+        // this.inspectionService
+        // .getInspectionById(localStorage.getItem('inspectionId'))
+        // .subscribe(
+        //   (data) => {
+        //     var res: any = data;
+        //     this.tempInspectionDetail = res;
+        //     this.inspectionData.documentPath = this.tempInspectionDetail.documentPath;
         this.inspectionService
           .updateInspection(this.inspectionData.id, this.inspectionData)
           .subscribe(
@@ -781,8 +788,8 @@ export class AddInspectionComponent
               // );
             }
           );
-        },err =>{
-        });
+        // },err =>{
+        // });
     }
   }
   onBranchSelect() {
@@ -963,6 +970,7 @@ this.pdfPopup.show();
   }
   getInspectionStatus(role)
   {
+    debugger;
     let allStatus = this.status;
     if(role == "Claims"  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
     {
@@ -983,9 +991,23 @@ this.pdfPopup.show();
     }
     if((role == "Claims" || role == "Admin")  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
     {
+      debugger;
+    // this.status = [];
+    // let claimsStatus:any;
+    // var inspectionCurrentStatus : number = +this.inspectionData.statusid;
+    //   var claimsStatusTemp = [7,8,inspectionCurrentStatus];
+    //   claimsStatusTemp.forEach(element => {
+    //     claimsStatus = tempClaimsStatus.filter((x) => x != inspectionCurrentStatus);
+    //     });
+    //     claimsStatus.push(inspectionCurrentStatus);
     this.status = [];
+    let claimsStatus:any;
     var inspectionCurrentStatus : number = +this.inspectionData.statusid;
-      var claimsStatus = [7,8,inspectionCurrentStatus];
+      var claimsStatusTemp = [7,8,inspectionCurrentStatus];
+      claimsStatusTemp.forEach(element => {
+        claimsStatus = claimsStatusTemp.filter((x) => x != inspectionCurrentStatus);
+        });
+        claimsStatus.push(inspectionCurrentStatus);
       for (let index = 0; index < allStatus.length; index++) {
         //const element = array[index];
         var tempStatus = allStatus.filter(
@@ -1022,9 +1044,15 @@ this.pdfPopup.show();
     
     if((role == "Admin" || role == "OPS")  && (this.inspectionData.statusid != 1 || this.inspectionData.statusid != 2))
     {
+      debugger;
     this.status = [];
+    let claimsStatus:any;
     var inspectionCurrentStatus : number = +this.inspectionData.statusid;
-      var claimsStatus = [1,2,3,4,5,6,inspectionCurrentStatus];
+      var tempClaimsStatus = [1,2,3,4,5,6,inspectionCurrentStatus];
+      tempClaimsStatus.forEach(element => {
+      claimsStatus = tempClaimsStatus.filter((x) => x != inspectionCurrentStatus);
+      });
+      claimsStatus.push(inspectionCurrentStatus);
       for (let index = 0; index < allStatus.length; index++) {
         //const element = array[index];
         var tempStatus = allStatus.filter(
@@ -1042,8 +1070,15 @@ this.pdfPopup.show();
     // }
     if(role == "Vendor")
     {
+      debugger;
     this.status = [];
+    let claimsStatusTemp:any;
       var claimsStatus = [1,2,3,4,5,6];
+      //var inspectionCurrentStatus : number = +this.inspectionData.statusid;
+      // claimsStatusTemp.forEach(element => {
+      //   claimsStatus = tempClaimsStatus.filter((x) => x != inspectionCurrentStatus);
+      //   });
+      //   claimsStatus.push(inspectionCurrentStatus);
       for (let index = 0; index < allStatus.length; index++) {
         //const element = array[index];
         var tempStatus = allStatus.filter(

@@ -529,6 +529,7 @@ export class AddUserComponent implements OnInit {
       data.VendorOrganization = this.vendorOganization.vendorname;
       this.userapiService.updateUser(data.id, data).subscribe(
         (data) => {
+          debugger;
           var res: any = data;
           if (res.result.result == 'success') {
             this.notifyService.showSuccess(

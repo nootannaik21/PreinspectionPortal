@@ -1,69 +1,46 @@
 <div class="row">
-    <div class="col text-left">
-      <h3>{{ title }}</h3>
-    </div>
+  <div class="col text-left">
+    <h3>{{ title }}</h3>
   </div>
-  <div class="row">&nbsp;</div>
-  <div class="row">
-    <div class="col-sm-12">
-      <app-card [hidHeader]="true" [options]="false">
-        <form [formGroup]="addEditProductTypeForm" (ngSubmit)="onSubmit()">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="type">Product Type</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  aria-describedby="emailHelp"
-                  tabindex="1"
-                  placeholder="Product type"
-                  formControlName="type"
-                  [(ngModel)]="productTypeData.type"
-                  [ngClass]="{ 'is-invalid': submitted && f.type.errors }"
-                />
-                <div
-                  *ngIf="submitted && f.type.errors"
-                  class="invalid-feedback"
-                >
-                  <div *ngIf="f.type.errors.required">
-                    Product type is required
-                  </div>
-                  <div *ngIf="f.type.errors.pattern">
-                    Product type should not contain special characters.
-                  </div>
+</div>
+<div class="row">&nbsp;</div>
+<div class="row">
+  <div class="col-sm-12">
+    <app-card [hidHeader]="true" [options]="false">
+      <form [formGroup]="addEditProductTypeForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="type">Product Type</label>
+              <input type="text" class="form-control" aria-describedby="emailHelp" tabindex="1"
+                placeholder="Product type" formControlName="type" [(ngModel)]="productTypeData.type"
+                [ngClass]="{ 'is-invalid': submitted && f.type.errors }" />
+              <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+                <div *ngIf="f.type.errors.required">
+                  Product type is required
+                </div>
+                <div *ngIf="f.type.errors.pattern">
+                  Product type should not contain special characters.
                 </div>
               </div>
             </div>
-            <div class="col-md-6"></div>
-            <div class="col-md-12">
-                <button
-                  type="button"
-                  class="btn btn-secondary mr-1"
-                  (click)="reset()"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  class="btn btn-primary"
-                  *ngIf="productTypeData.id == undefined"
-                >
-                  Add Product Type
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  *ngIf="productTypeData.id != undefined"
-                  (click)="updateProductType(productTypeData)"
-                >
-                  Update
-                </button>
-            </div>
           </div>
-         
-        </form>
-      </app-card>
-    </div>
+          <div class="col-md-6"></div>
+          <div class="col-md-12">
+            <button type="button" class="btn btn-secondary mr-1" (click)="reset()">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary" *ngIf="productTypeData.id == undefined">
+              Add Product Type
+            </button>
+            <button type="button" class="btn btn-primary" *ngIf="productTypeData.id != undefined"
+              (click)="updateProductType(productTypeData)">
+              Update
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </app-card>
   </div>
-  
+</div>
