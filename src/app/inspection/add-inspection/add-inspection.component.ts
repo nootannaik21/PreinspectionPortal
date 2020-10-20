@@ -654,7 +654,7 @@ export class AddInspectionComponent
             (err) => {
               this.showSpinner = false;
               document.getElementById('inspection').style.opacity="1";
-              console.log(err.error.message);
+              //console.log(err.error.message);
               this.inspectionData = {};
             }
           );

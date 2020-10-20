@@ -274,6 +274,7 @@ export class AddUserComponent implements OnInit {
       this.showBranch = false;
       this.showBranchDetail = false;
       this.showVendorOrganization = true;
+      this.userdata.vendorOrganization = "";
       this.vendorapiService.getVendors().subscribe(
         (data) => {
           var res: any = data;
