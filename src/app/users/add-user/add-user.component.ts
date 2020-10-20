@@ -111,7 +111,6 @@ export class AddUserComponent implements OnInit {
             this.showBranchDetail = true;
             this.getAllBranches();
           } else if (this.userdata.type == 'Vendor') {
-            debugger;
             this.showBranch = false;
             this.showBranchDetail = false;
             this.showVendorOrganization = true;
@@ -127,11 +126,9 @@ export class AddUserComponent implements OnInit {
               .getVendorByEmail(this.userdata.vendorOrganization)
               .subscribe(
                 (data) => {
-                  debugger;
                   var res: any = data;
                   this.vendorOrganiZationBranches = data;
                   this.branchList = res;
-                  debugger;
                 
             let tmp = [];
             var branchOfVendor = '';
@@ -142,7 +139,6 @@ export class AddUserComponent implements OnInit {
             });
             this.branchApiService.getBranchByListofId(branchOfVendor).subscribe(
               (result) => {
-                debugger;
                 var branchList: any = result;
                 for (
                   let i = 0;
@@ -161,7 +157,6 @@ export class AddUserComponent implements OnInit {
                     this.selectedItems = tmp;
                   }
                 }
-                debugger;
                 this.dropdownSettings = {
                   idField: 'id',
                   textField: 'branchCode',
@@ -529,7 +524,6 @@ export class AddUserComponent implements OnInit {
       data.VendorOrganization = this.vendorOganization.vendorname;
       this.userapiService.updateUser(data.id, data).subscribe(
         (data) => {
-          debugger;
           var res: any = data;
           if (res.result.result == 'success') {
             this.notifyService.showSuccess(
