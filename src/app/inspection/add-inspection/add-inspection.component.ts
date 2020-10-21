@@ -686,7 +686,8 @@ export class AddInspectionComponent
     if (this.showUpload == true) {
       this.tempInspectionData.documentPath = null;
       this.tempInspectionData.documentName = null;
-      this.inspectionService.updateInspection(this.inspectionData.id,this.tempInspectionData).subscribe(data => 
+     this.inspectionData.statusid = this.tempInspectionData.statusid;
+      this.inspectionService.cancelUpdateInspection(this.inspectionData.id,this.inspectionData).subscribe(data => 
         {
           this.router.navigateByUrl('inspection');
           localStorage.removeItem('inspectionId');
