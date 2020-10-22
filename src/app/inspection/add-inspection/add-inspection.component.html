@@ -552,18 +552,20 @@
                     </label>
 
                     <label *ngIf="item.type=='pdf'">
-                      <div class="row">
-                        <div class="col-md-4"><a (click)="getPdfView(item)" style="cursor: pointer;">pdf</a></div>
-                        <div class="col-md-4">
+                      <!-- <div class="row">
+                        <div class="col-md-4"> -->
+                          <label></label>
+                          <a (click)="getPdfView(item)" style="cursor: pointer;">pdf</a>
+                        <!-- </div>
+                        <div class="col-md-4"> -->
                           <a (click)="downloadDoc(item.url)" style="cursor: pointer;"><i class="feather icon-download"
                             aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
-                        </div>
-                        <div class="col-md-4"></div>
-                      </div>
+                        <!-- </div> -->
+                        <!-- <div class="col-md-4"></div> -->
+                      <!-- </div> -->
                       <!-- <a (click)="getPdfView(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a> -->
                     </label>
                   </div>
-
                 </div>
               </div>
             </div>
