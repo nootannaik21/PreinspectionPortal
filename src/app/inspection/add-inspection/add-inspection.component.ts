@@ -972,25 +972,26 @@ this.pdfPopup.show();
   }
   getInspectionStatus(role)
   {
+    debugger;
     let allStatus = this.status;
-    if(role == "Claims"  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
-    {
-    this.status = [];
-      var claimsStatus = [6,7,8];
-      for (let index = 0; index < allStatus.length; index++) {
-        var tempStatus = allStatus.filter(
-          (x) => x.id == claimsStatus[index]
-        );
-        var i= 0;
-        if(tempStatus.length > 0)
-        {
-          this.status.push(tempStatus[i]);
-          i++;
-        }
-      }
+    // if(role == "Claims"  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
+    // {
+    // this.status = [];
+    //   var claimsStatus = [6,7,8];
+    //   for (let index = 0; index < allStatus.length; index++) {
+    //     var tempStatus = allStatus.filter(
+    //       (x) => x.id == claimsStatus[index]
+    //     );
+    //     var i= 0;
+    //     if(tempStatus.length > 0)
+    //     {
+    //       this.status.push(tempStatus[i]);
+    //       i++;
+    //     }
+    //   }
       
-    }
-    if((role == "Claims" || role == "Admin")  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
+    // }
+    if((role == "Claims")  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
     {
     // this.status = [];
     // let claimsStatus:any;
@@ -1022,27 +1023,27 @@ this.pdfPopup.show();
       }
       
     }
-    if(role == "Claims"  && this.inspectionData.statusid != 1 && this.inspectionData.statusid != 2)
-    {
-    this.status = [];
-    var inspectionCurrentStatus : number = +this.inspectionData.statusid;
-      var claimsStatus = [inspectionCurrentStatus];
-      for (let index = 0; index < allStatus.length; index++) {
-        //const element = array[index];
-        var tempStatus = allStatus.filter(
-          (x) => x.id == claimsStatus[index]
-        );
-        var i= 0;
-        if(tempStatus.length > 0)
-        {
-          this.status.push(tempStatus[i]);
-          i++;
-        }
-      }
+    // if(role == "Claims"  && this.inspectionData.statusid != 1 && this.inspectionData.statusid != 2)
+    // {
+    // this.status = [];
+    // var inspectionCurrentStatus : number = +this.inspectionData.statusid;
+    //   var claimsStatus = [inspectionCurrentStatus];
+    //   for (let index = 0; index < allStatus.length; index++) {
+    //     //const element = array[index];
+    //     var tempStatus = allStatus.filter(
+    //       (x) => x.id == claimsStatus[index]
+    //     );
+    //     var i= 0;
+    //     if(tempStatus.length > 0)
+    //     {
+    //       this.status.push(tempStatus[i]);
+    //       i++;
+    //     }
+    //   }
       
-    }
+    // }
     
-    if((role == "Admin" || role == "OPS")  && (this.inspectionData.statusid != 1 && this.inspectionData.statusid != 2))
+    if((role == "OPS")  && (this.inspectionData.statusid != 1 && this.inspectionData.statusid != 2))
     {
     this.status = [];
     let claimsStatus:any;
