@@ -25,7 +25,7 @@ export class RiskTypeActionComponent implements OnInit {
     this.addEditRiskTypeForm = this.formBuilder.group({
       type: [
         '',
-        [Validators.required, Validators.pattern('^([a-zA-Z0-9 ])+$')],
+        [Validators.required, Validators.pattern('^([a-zA-Z]+[a-zA-Z0-9 ]+)$')],
       ],
     });
     if (localStorage.getItem('risktypeid')) {
