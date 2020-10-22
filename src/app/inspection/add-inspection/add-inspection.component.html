@@ -539,17 +539,27 @@
                 <div *ngFor="let item of documentsPath">
                   <div class="col-md-6">
                     <label *ngIf="item.type=='image'">
-                      <p><img [src]="sanitizeImageUrl(item.url)" height="100em" width="100em"
-                          *ngIf="item.type=='image'" />
-                        <a (click)="downloadDoc(item)" style="cursor: pointer;"><i class="feather icon-download"
+                      <div class="row">
+                      <div class="col-md-8">
+                      <img [src]="sanitizeImageUrl(item.url)" height="100em" width="100em"
+                          *ngIf="item.type=='image'" /></div>
+                          <div class="col-md-4">
+                            <label></label>
+                            <a (click)="downloadDoc(item.url)" style="cursor: pointer;"><i class="feather icon-download"
                             aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
-                      </p>
+                          </div>
+                        </div>
                     </label>
 
                     <label *ngIf="item.type=='pdf'">
-                      <a (click)="getPdfView(item)" style="cursor: pointer;">pdf</a>
-                      <a (click)="downloadDoc(item.url)" style="cursor: pointer;"><i class="feather icon-download"
-                          aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
+                      <div class="row">
+                        <div class="col-md-4"><a (click)="getPdfView(item)" style="cursor: pointer;">pdf</a></div>
+                        <div class="col-md-4">
+                          <a (click)="downloadDoc(item.url)" style="cursor: pointer;"><i class="feather icon-download"
+                            aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a>
+                        </div>
+                        <div class="col-md-4"></div>
+                      </div>
                       <!-- <a (click)="getPdfView(item)" style="cursor: pointer;"><i class="feather icon-download" aria-hidden="true" Permission [permission]="'Admin|Claims|Vendor'"></i></a> -->
                     </label>
                   </div>

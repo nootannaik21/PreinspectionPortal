@@ -484,8 +484,8 @@ export class AddInspectionComponent
     }
   }
   getinspectionByID() {
-    // this.showSpinner = true;
-    // document.getElementById('inspection').style.opacity='0.5';
+    this.showSpinner = true;
+    document.getElementById('inspection').style.opacity='0.5';
     this.inspectionService
       .getInspectionById(localStorage.getItem('inspectionId'))
       .subscribe(
@@ -543,10 +543,15 @@ export class AddInspectionComponent
           } else {
             this.inspectionData.duplicateinspection = '0';
           }
-          
+          this.showSpinner = false;
+    document.getElementById('inspection').style.opacity='1';
         },
-        (err) => {}
+        (err) => {
+          this.showSpinner = false;
+    document.getElementById('inspection').style.opacity='1';
+        }
       );
+      
   }
   getInspectionsHistory() {
     this.inspectionService
@@ -686,7 +691,14 @@ export class AddInspectionComponent
     if (this.showUpload == true) {
       this.tempInspectionData.documentPath = null;
       this.tempInspectionData.documentName = null;
-     this.inspectionData.statusid = this.tempInspectionData.statusid;
+     //this.inspectionData.statusid = this.tempInspectionData.statusid;
+
+      var y: number = +this.tempInspectionData.statusid;
+      this.inspectionData.statusid = y;
+      this.inspectionData.duplicateinspection == '1'
+        ? (this.inspectionData.duplicateinspection = true)
+        : (this.inspectionData.duplicateinspection = false);
+        
       this.inspectionService.cancelUpdateInspection(this.inspectionData.id,this.inspectionData).subscribe(data => 
         {
           this.router.navigateByUrl('inspection');
@@ -911,14 +923,15 @@ export class AddInspectionComponent
             var fileURL = URL.createObjectURL(blob);
             var type = res.type == "application/pdf"?'pdf':'image';
             this.documentsPath[index] = {type:type,url:fileURL,fileName:element};
+            this.showSpinner = false;
+    document.getElementById('inspection').style.opacity='1';
         },(err) => {
           this.documentsPath[index] = {type:null,url:null};
         });
       }
       
     );
-    this.showSpinner = false;
-    document.getElementById('inspection').style.opacity='1';
+    
   }
 
   downloadDoc(url) {
