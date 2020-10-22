@@ -993,14 +993,6 @@ this.pdfPopup.show();
     // }
     if((role == "Claims")  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
     {
-    // this.status = [];
-    // let claimsStatus:any;
-    // var inspectionCurrentStatus : number = +this.inspectionData.statusid;
-    //   var claimsStatusTemp = [7,8,inspectionCurrentStatus];
-    //   claimsStatusTemp.forEach(element => {
-    //     claimsStatus = tempClaimsStatus.filter((x) => x != inspectionCurrentStatus);
-    //     });
-    //     claimsStatus.push(inspectionCurrentStatus);
     this.status = [];
     let claimsStatus:any;
     var inspectionCurrentStatus : number = +this.inspectionData.statusid;
@@ -1023,25 +1015,30 @@ this.pdfPopup.show();
       }
       
     }
-    // if(role == "Claims"  && this.inspectionData.statusid != 1 && this.inspectionData.statusid != 2)
-    // {
-    // this.status = [];
-    // var inspectionCurrentStatus : number = +this.inspectionData.statusid;
-    //   var claimsStatus = [inspectionCurrentStatus];
-    //   for (let index = 0; index < allStatus.length; index++) {
-    //     //const element = array[index];
-    //     var tempStatus = allStatus.filter(
-    //       (x) => x.id == claimsStatus[index]
-    //     );
-    //     var i= 0;
-    //     if(tempStatus.length > 0)
-    //     {
-    //       this.status.push(tempStatus[i]);
-    //       i++;
-    //     }
-    //   }
+    if(role == "Admin"  && (this.inspectionData.statusid == 5 || this.inspectionData.statusid == 4 || this.inspectionData.statusid == 3 || this.inspectionData.statusid == 6))
+    {
+      this.status = [];
+      let claimsStatus:any;
+    var inspectionCurrentStatus : number = +this.inspectionData.statusid;
+      var claimsStatusTemp = [1,2,3,4,5,6,inspectionCurrentStatus];
+      claimsStatusTemp.forEach(element => {
+        claimsStatus = claimsStatusTemp.filter((x) => x != inspectionCurrentStatus);
+        });
+        claimsStatus.push(inspectionCurrentStatus);
+      for (let index = 0; index < allStatus.length; index++) {
+        //const element = array[index];
+        var tempStatus = allStatus.filter(
+          (x) => x.id == claimsStatus[index]
+        );
+        var i= 0;
+        if(tempStatus.length > 0)
+        {
+          this.status.push(tempStatus[i]);
+          i++;
+        }
+      }
       
-    // }
+    }
     
     if((role == "OPS")  && (this.inspectionData.statusid != 1 && this.inspectionData.statusid != 2))
     {
