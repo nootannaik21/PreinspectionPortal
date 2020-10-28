@@ -79,6 +79,7 @@
     "ngx-toastr": "^13.0.0",
     "nouislider": "^14.6.0",
     "peity": "^3.3.0",
+    "roboto-fontface": "^0.10.0",
     "rxjs": "~6.5.5",
     "rxjs-compat": "^6.6.2",
     "sweetalert2": "^9.17.1",

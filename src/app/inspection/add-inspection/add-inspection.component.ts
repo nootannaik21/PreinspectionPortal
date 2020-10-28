@@ -972,7 +972,6 @@ this.pdfPopup.show();
   }
   getInspectionStatus(role)
   {
-    debugger;
     let allStatus = this.status;
     // if(role == "Claims"  && (this.inspectionData.statusid == 1 || this.inspectionData.statusid == 2))
     // {

@@ -157,7 +157,8 @@
             ],
             "styles": [
               "node_modules/ngx-toastr/toastr.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "../node_modules/roboto-fontface/css/roboto/sass/roboto-fontface.scss"
             ],
             "scripts": []
           }
