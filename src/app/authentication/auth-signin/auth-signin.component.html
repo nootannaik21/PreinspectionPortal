@@ -24,7 +24,7 @@
           <div class="form-group">
             <div class="input-group mb-2">
               
-              <label class="pure-material-textfield-outlined">
+              <!-- <label class="pure-material-textfield-outlined">
                 <input class="form-control" placeholder="" formControlName="email"
                 [(ngModel)]="user.email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" (change)="onTextChange()"/>
                 <span>Email ID</span>
@@ -32,8 +32,15 @@
                   <div *ngIf="f.email.errors.required">Email is required</div>
                   <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
                 </div>
+              </label> -->
+              <label class="pure-material-textfield-outlined">
+                <input type="email" placeholder=" " formControlName="email" [(ngModel)]="user.email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" (change)="onTextChange()">
+                <span>Email ID</span>
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                  <div *ngIf="f.email.errors.required">Email is required</div>
+                  <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                </div>
               </label>
-
               <!-- <div class="input-group-prepend">
                 <span class="input-group-text"><i class="feather icon-mail"></i></span>
               </div>
@@ -49,8 +56,7 @@
             <div class="input-group mb-4">
 
               <label class="pure-material-textfield-outlined">
-                <input class="form-control" placeholder="" formControlName="password" required
-                [(ngModel)]="user.password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" (change)="onTextChange()"/>
+                <input type="password" placeholder=" " formControlName="password" [(ngModel)]="user.password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" (change)="onTextChange()">
                 <span>Password</span>
                 <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                   <div *ngIf="f.password.errors.required">Password is required</div>
