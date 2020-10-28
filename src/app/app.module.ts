@@ -24,7 +24,7 @@ import { ConfigurationComponent } from './theme/layout/admin/configuration/confi
 
 /* Menu Items */
 import { NavigationItem } from './theme/layout/admin/navigation/navigation';
-import { NgbButtonsModule, NgbDropdownModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbButtonsModule, NgbCollapseModule, NgbDropdownModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { AddbranchComponent } from './branch/addbranch/addbranch.component';
 import { FormsModule } from '@angular/forms';
@@ -68,7 +68,8 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
     NgbButtonsModule,
     NgbTabsetModule,
     HttpClientModule,
-    NgxDocViewerModule
+    NgxDocViewerModule,
+    NgbCollapseModule
   ],
   providers: [
     {

@@ -7,6 +7,20 @@
         <div class="main-body">
           <div class="page-wrapper">
             <router-outlet></router-outlet>
+            <div class="text-center"><label>Edelweiss General Insurance Company Limited | Regd. Office: Edelweiss House, Off CST Road, Kalina, Mumbai 400098
+              <br />CIN: U66000MH2016PLC273758 | IRDAI Reg. No. 159 |
+                <span class="task-right-header-users" (click)="isAssignUsers = !isAssignUsers" [attr.aria-expanded]="!isAssignUsers" aria-controls="assignUsers">
+                  <span class="f-w-400" data-toggle="collapse"></span>
+                  <span *ngIf="isAssignUsers"><i class="fas fa-plus" style="color:#FF1967;"></i></span>
+                  <span *ngIf="!isAssignUsers"><i class="fas fa-minus" style="color:#FF1967;"></i></span>
+                </span>
+                <div id="assignUsers" [ngbCollapse]="isAssignUsers" class="user-box assign-user taskboard-right-users">
+                  <div class="content"><label>Trademark and logo displayed belongs to Edelweiss Financial Services Limited and is used by Edelweiss General Insurance Company Limited under license
+                    All rights reserved | Terms and conditions apply</label></div>
+                </div>
+            </label>
+              
+            </div>
           </div>
         </div>
       </div>

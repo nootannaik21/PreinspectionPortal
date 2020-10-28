@@ -251,11 +251,34 @@
     font-size: 14px;
     color: #FF0000;
 }
+
 body {
     font-family: "roboto-regular" !important;    
+}
+
+@media screen and (max-width: 2560px) and (min-width: 2501px) {
+    .login-padding {
+        padding: 10px 440px;
+    }
+}
+@media screen and (max-width: 2500px) and (min-width: 1920px) {
+    .login-padding {
+        padding: 10px 278px;
+    }
 }
 @media screen and (max-width: 1365px) and (min-width: 1024px) {
     .login-padding {
         padding: 10px 25px;
+    }
+}
+@media screen and (max-width: 1023px) and (min-width: 768px) {
+    .auth-wrapper .auth-side-img {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 320px) and (min-width: 240px) {
+    .auth-wrapper .auth-side-form .auth-content:not(.container) {
+        max-width: 300px;
     }
 }
