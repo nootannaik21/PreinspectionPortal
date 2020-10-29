@@ -15,9 +15,10 @@ button:hover
 button:disabled,
 button[disabled]{
   border: 0px solid #999999;
-  background-color: #cccccc;
-  color: #666666;
+  background-color: #EC1968;
+  color: white;
   cursor: not-allowed;
+  opacity: 0.65;
 }
 .family
 {
@@ -77,8 +78,11 @@ opacity: 1;
 }
 .textunderline
 {
-    border-bottom-width: 2px;
-    border-bottom-style: solid;
+    // border-bottom-width: 1px;
+    // border-bottom-style: solid;
+    border-bottom: 1px solid #003E92;
+    left: 50%;
+  bottom: 0;
 }
 .title
 {
@@ -109,3 +113,10 @@ opacity: 1;
     display: inline-block;
     margin-top: 10px;
      }
+     .textbox
+     {
+         height:42px;
+     }
+     #fgPwd:hover {
+        color: #EC1968 !important;
+    }

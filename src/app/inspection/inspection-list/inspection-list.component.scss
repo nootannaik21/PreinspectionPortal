@@ -1,3 +1,12 @@
 .disabled{
     opacity: 0.4 !important;
 }
+  table.dataTable thead tr th
+  {
+     background-color:#174082; 
+     color:white
+  }
+  .table-bordered th {
+    border: 0.01em solid white;
+    background-color:#174082; 
+}

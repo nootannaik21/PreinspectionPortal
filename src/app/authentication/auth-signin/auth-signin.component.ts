@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/service/auth.service';
 import { PreinspectionService } from 'src/app/service/preinspection.service';
 import { ApiService } from 'src/app/service/api.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-auth-signin',
@@ -17,9 +18,16 @@ export class AuthSigninComponent implements OnInit {
   isError: boolean;
   disableSignIn: boolean = true;
   resetPanel:boolean=false;
+  remember: boolean=false;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private authservice: AuthService, private preInspection: PreinspectionService) {
-
+  constructor(private formBuilder: FormBuilder, private router: Router, private authservice: AuthService, private preInspection: PreinspectionService, private cookieService:CookieService) {
+debugger;
+    if(cookieService.get("remember") != undefined){
+  if (cookieService.get("remember") == "Yes") {
+    this.user.email = cookieService.get("email");
+    this.user.password = cookieService.get("password");
+  }
+}
   }
   ngOnInit() {
     if(localStorage.getItem("resetFlag")=="true"){
@@ -35,10 +43,15 @@ export class AuthSigninComponent implements OnInit {
       this.resetPanel=false;
       localStorage.removeItem("resetFlag");
     }
+    debugger;
+    if (this.user.email != "" && this.user.password != "") {
+      this.disableSignIn = false;
+      this.remember = true;
+    }
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      password: ['', [Validators.required]]
-
+      password: ['', [Validators.required]],
+      remember: ['']
     });
     
   }
@@ -57,9 +70,20 @@ export class AuthSigninComponent implements OnInit {
       return;
     }
     else{
+      debugger;
       this.authservice.login(this.user).subscribe((data) => {
         var res: any = data;
         if (res.result == "success") {
+if (this.remember) {
+  this.cookieService.set("remember","Yes");
+  this.cookieService.set("email",this.user.email);
+  this.cookieService.set("password",this.user.password);
+} else {
+  this.cookieService.set("remember","Yes");
+  this.cookieService.set("email","");
+  this.cookieService.set("password","");
+}
+
           localStorage.setItem("UserName",this.user.email);
           this.preInspection.setInspnectioUser(res);
           
