@@ -576,12 +576,12 @@
               <button type="button" class="btn btn-secondary mr-1" (click)="cancel()">
                 Cancel
               </button>
-              <button type="button" *ngIf="disableInspection" [disabled]="hideUpdateButton" class="btn btn-primary"
+              <button type="button" *ngIf="disableInspection" [disabled]="hideUpdateButton" class="btn btncss"
                 (click)="updateInspection()">
                 Update Inspection
               </button>
               <button type="submit" *ngIf="inspectionData.id == undefined && !disableInspection"
-                class="btn btn-primary">
+                class="btn btncss">
                 Create Inspection
               </button>
             </div>

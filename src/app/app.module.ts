@@ -34,6 +34,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,7 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
       deps: [Sentry.TraceService],
       multi: true,
     },
-    NavigationItem,DatePipe],
+    NavigationItem, DatePipe, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

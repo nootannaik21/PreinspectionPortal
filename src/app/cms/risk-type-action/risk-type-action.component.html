@@ -30,10 +30,10 @@
             <button type="button" class="btn btn-secondary mr-1" (click)="reset()">
               Cancel
             </button>
-            <button type="submit" class="btn btn-primary" *ngIf="riskTypeData.id == undefined">
+            <button type="submit" class="btn btncss" *ngIf="riskTypeData.id == undefined">
               Add Risk Type
             </button>
-            <button type="button" class="btn btn-primary" *ngIf="riskTypeData.id != undefined"
+            <button type="button" class="btn btncss" *ngIf="riskTypeData.id != undefined"
               (click)="updateRiskType(riskTypeData)">
               Update
             </button>
