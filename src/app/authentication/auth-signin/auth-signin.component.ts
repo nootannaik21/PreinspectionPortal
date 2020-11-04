@@ -21,7 +21,6 @@ export class AuthSigninComponent implements OnInit {
   remember: boolean=false;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private authservice: AuthService, private preInspection: PreinspectionService, private cookieService:CookieService) {
-debugger;
     if(cookieService.get("remember") != undefined){
   if (cookieService.get("remember") == "Yes") {
     this.user.email = cookieService.get("email");
@@ -43,7 +42,6 @@ debugger;
       this.resetPanel=false;
       localStorage.removeItem("resetFlag");
     }
-    debugger;
     if (this.user.email != "" && this.user.password != "") {
       this.disableSignIn = false;
       this.remember = true;
@@ -70,7 +68,6 @@ debugger;
       return;
     }
     else{
-      debugger;
       this.authservice.login(this.user).subscribe((data) => {
         var res: any = data;
         if (res.result == "success") {

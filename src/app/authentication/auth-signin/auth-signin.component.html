@@ -33,7 +33,7 @@
                 </div>
               </label> -->
               <label class="pure-material-textfield-outlined">
-                <input type="email" placeholder=" " formControlName="email" [(ngModel)]="user.email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" (change)="onTextChange()" class="textbox"/>
+                <input type="email" placeholder=" " formControlName="email" [(ngModel)]="user.email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" class="textbox"/>
                 <span>Email ID</span>
                 <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                   <div *ngIf="f.email.errors.required">Email is required</div>
@@ -55,7 +55,7 @@
             <div class="input-group mb-4">
 
               <label class="pure-material-textfield-outlined">
-                <input type="password" placeholder=" " formControlName="password" [(ngModel)]="user.password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" (change)="onTextChange()" class="textbox"/>
+                <input type="password" placeholder=" " formControlName="password" [(ngModel)]="user.password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" class="textbox"/>
                 <span>Password</span>
                 <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                   <div *ngIf="f.password.errors.required">Password is required</div>
@@ -95,7 +95,7 @@
 
           <div class="form-group">
             <!-- <button class="btn btn-block loginBtnColor mb-0">LOGIN</button> -->
-            <button class="btn btn-block loginBtnColor mb-0" [disabled]="disableSignIn">LOGIN</button>
+            <button class="btn btn-block loginBtnColor mb-0" [disabled]="(!user.email || !user.password)">LOGIN</button>
           </div>
           <div class="break-lines"></div>
           <div class="text-center supportdivCss">
