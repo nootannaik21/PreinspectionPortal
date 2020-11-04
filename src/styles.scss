@@ -360,9 +360,17 @@ hr.hrcss {
       color:white;
   }
   .btncss{
-    border: 0px solid #ff0468;
-    background-color: #ff0468;
-    color: white;
+//     border: 0px solid#FF1967;
+//     background: #FF1967 0% 0% no-repeat padding-box;
+//     color: white;
+    
+// opacity: 1;
+top: 617px;
+left: 1055px;
+background: #FF1967 0% 0% no-repeat padding-box;
+border-radius: 4px;
+opacity: 1;
+color:white;
   }
   .table-bordered th {
     border: 0.01em solid white;
@@ -370,7 +378,7 @@ hr.hrcss {
     color:white !important;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-    background-color:#ff0468!important;
+    background-color:#FF1967 !important;
     background: linear-gradient(to bottom, #FF1967 0%, #FF1967 100%) !important;
     color:white !important;
 }
