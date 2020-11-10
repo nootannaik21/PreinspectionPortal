@@ -58,7 +58,7 @@ export class AuthResetPasswordComponent implements OnInit {
           },
           err => {
             this.submitted = false;
-            this.alertService.infoAlert("", "Your email ID is not registered in our system.");
+            this.alertService.infoAlert("", "Please check your registered email ID for new password in Inbox or Junk/Spam folder.");
             this.getCaptcha(5);
             this.router.navigateByUrl("/auth/reset-password");
             localStorage.removeItem("resetFlag");
