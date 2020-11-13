@@ -25,7 +25,7 @@ import { ConfigurationComponent } from './theme/layout/admin/configuration/confi
 /* Menu Items */
 import { NavigationItem } from './theme/layout/admin/navigation/navigation';
 import { NgbButtonsModule, NgbCollapseModule, NgbDropdownModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AddbranchComponent } from './branch/addbranch/addbranch.component';
 import { FormsModule } from '@angular/forms';
 // import { PermissionDirective } from './helper/permission.directive';
@@ -35,6 +35,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import { CookieService } from 'ngx-cookie-service';
+import { ErrorInterceptor } from '../app/helper/error.interceptor';
+import { JwtInterceptor } from '../app/helper/jwt.interceptor';
+import { appInitializer } from '../app/helper/app.intializer';
+import { ApiService } from './service/api.service';
 
 @NgModule({
   declarations: [
@@ -83,12 +87,15 @@ import { CookieService } from 'ngx-cookie-service';
       provide: Sentry.TraceService,
       deps: [Router],
     },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: () => () => {},
-      deps: [Sentry.TraceService],
-      multi: true,
-    },
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: () => () => {},
+    //   deps: [Sentry.TraceService],
+    //   multi: true,
+    // },
+    { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [ApiService] },
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     NavigationItem, DatePipe, CookieService],
   bootstrap: [AppComponent]
 })
