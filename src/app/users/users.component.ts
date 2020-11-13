@@ -70,6 +70,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     )
   }
   getUSerList() {
+    debugger;
     this.userapiService.getUserList().subscribe(
       data => {
         this.rerender();

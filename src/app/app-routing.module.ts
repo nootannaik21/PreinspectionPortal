@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './theme/layout/admin/admin.component';
 import { AuthComponent } from './theme/layout/auth/auth.component';
 import { BranchlistComponent } from './branch/branchlist/branchlist.component';
+import { AuthGuard } from '../app/helper/auth.guard';
 
 const routes: Routes = [
   {
@@ -11,7 +12,8 @@ const routes: Routes = [
       {
         path: '',
         component: AuthComponent,
-        loadChildren: () => import('./authentication/authentication.module').then(module => module.AuthenticationModule)
+        loadChildren: () => import('./authentication/authentication.module').then(module => module.AuthenticationModule),
+        canActivate:[AuthGuard]
       }
     ]
   },
@@ -26,7 +28,8 @@ const routes: Routes = [
       },
       {
         path: 'users',
-        loadChildren: () => import('./users/users.module').then(module => module.UsersModule)
+        loadChildren: () => import('./users/users.module').then(module => module.UsersModule),
+        canActivate:[AuthGuard]
       },
       {
         path: 'users/add-user',
