@@ -39,7 +39,6 @@ export class AuthSigninComponent implements OnInit {
   }
   }
   ngOnInit() {
-    debugger;
     if (localStorage.getItem('resetFlag') == 'true') {
       this.resetPanel = true;
       setTimeout(() => {
@@ -83,10 +82,8 @@ export class AuthSigninComponent implements OnInit {
       this.user = {};
       return;
     } else {
-      debugger;
       this.authservice.login(this.user).subscribe(
         (data) => {
-          debugger;
           var res: any = data;
           if (res.result == 'success') {
             if (this.remember) {
