@@ -39,7 +39,7 @@ export class ApiService {
     let url = this.baseApiUrl + relativeUrl;
     return this.http.get<any>(url, { headers: this.getHeaderOptions(),withCredentials: true })
   //   .pipe(map(user => {
-  //     debugger;
+  
   //     this.userSubject.next(user);
   //     this.startRefreshTokenTimer();
   //     //return user;
@@ -164,7 +164,6 @@ export class ApiService {
     localStorage.removeItem("resetFlag");
     return this.http.post<any>(this.baseApiUrl + 'user/refreshToken',{},{withCredentials:true})
         .pipe(map((user) => {
-          debugger;
          if(user)
          {
             this.userSubject.next(user);
@@ -189,10 +188,7 @@ private refreshTokenTimeout;
         this.refreshTokenTimeout = setTimeout(
           () => 
         {
-          debugger;
         this.refreshToken().subscribe()}, timeout);
-
-        
     }
 
 logout()

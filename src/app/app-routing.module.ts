@@ -13,7 +13,6 @@ const routes: Routes = [
         path: '',
         component: AuthComponent,
         loadChildren: () => import('./authentication/authentication.module').then(module => module.AuthenticationModule),
-        canActivate:[AuthGuard]
       }
     ]
   },
@@ -29,7 +28,6 @@ const routes: Routes = [
       {
         path: 'users',
         loadChildren: () => import('./users/users.module').then(module => module.UsersModule),
-        canActivate:[AuthGuard]
       },
       {
         path: 'users/add-user',
