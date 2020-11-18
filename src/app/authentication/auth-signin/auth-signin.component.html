@@ -75,6 +75,15 @@
 
             </div>
           </div>
+          <div class="form-group">
+            <div class="input-group mb-4" >
+              <input type="text" class="form-control" readonly formControlName="captcha" [(ngModel)]="resetPwd.captcha">  
+              <input type="text" class="form-control" placeholder="Enter Given Text" formControlName="enteredCaptcha" [(ngModel)]="resetPwd.enteredCaptcha" [ngClass]="{ 'is-invalid': submitted && f.enteredCaptcha.errors }" />
+              <div *ngIf="submitted && f.enteredCaptcha.errors" class="invalid-feedback">
+                <div *ngIf="f.enteredCaptcha.errors.required">Please Enter Captcha</div>
+              </div> 
+            </div>
+          </div>
           <div class="row">
             <div class="col">
               <p class="text-left" style="margin-left: 20px;"><input type="checkbox" class="form-check-input" formControlName="remember" [(ngModel)]="remember"> Remember me</p>

@@ -5,7 +5,7 @@ import { PreinspectionService } from 'src/app/service/preinspection.service';
 import { ApiService } from 'src/app/service/api.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
-
+import { AlertService } from 'src/app/service/alert.service';
 @Component({
   selector: 'app-auth-signin',
   templateUrl: './auth-signin.component.html',
@@ -19,14 +19,15 @@ export class AuthSigninComponent implements OnInit {
   disableSignIn: boolean = true;
   resetPanel: boolean = false;
   remember: boolean = false;
-
+  resetPwd: any = {};
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private authservice: AuthService,
     private preInspection: PreinspectionService,
     private cookieService: CookieService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private alertService: AlertService
   ) {
     if (cookieService.get('remember') != undefined) {
       if (cookieService.get('remember') == 'Yes') {
@@ -39,6 +40,7 @@ export class AuthSigninComponent implements OnInit {
   }
   }
   ngOnInit() {
+    this.getCaptcha(5);
     if (localStorage.getItem('resetFlag') == 'true') {
       this.resetPanel = true;
       setTimeout(() => {
@@ -66,6 +68,8 @@ export class AuthSigninComponent implements OnInit {
       ],
       password: ['', [Validators.required]],
       remember: [''],
+      captcha: [''],
+      enteredCaptcha: ['', [Validators.required]]
     });
   }
   keyDownFunction(event) {
@@ -76,12 +80,33 @@ export class AuthSigninComponent implements OnInit {
   onSubmit() {
     this.getLogin();
   }
+  getCaptcha(length) {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      this.resetPwd.captcha = result;
+    }
+    return result;
+  }
   getLogin() {
     this.submitted = true;
     if (this.loginForm.invalid) {
       this.user = {};
       return;
-    } else {
+    } 
+    
+      
+    else {
+      if (this.resetPwd.captcha != this.resetPwd.enteredCaptcha) {
+        this.alertService.infoAlert("", "Entered Captcha is not matching");
+        this.resetPwd.enteredCaptcha = undefined;
+        this.getCaptcha(5);
+        return;
+      }
+else
+{
       this.authservice.login(this.user).subscribe(
         (data) => {
           var res: any = data;
@@ -151,6 +176,7 @@ export class AuthSigninComponent implements OnInit {
         }
       );
     }
+  }
   }
   onTextChange() {
     if (

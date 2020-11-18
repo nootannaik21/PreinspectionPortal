@@ -164,6 +164,7 @@ export class ApiService {
     localStorage.removeItem("resetFlag");
     return this.http.post<any>(this.baseApiUrl + 'user/refreshToken',{},{withCredentials:true})
         .pipe(map((user) => {
+          debugger;
          if(user)
          {
             this.userSubject.next(user);
@@ -185,7 +186,13 @@ private refreshTokenTimeout;
         // set a timeout to refresh the token a minute before it expires
         const expires = new Date(jwtToken.exp * 1000);
         const timeout = expires.getTime() - Date.now() - (60 * 1000);
-        this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeout);
+        this.refreshTokenTimeout = setTimeout(
+          () => 
+        {
+          debugger;
+        this.refreshToken().subscribe()}, timeout);
+
+        
     }
 
 logout()
