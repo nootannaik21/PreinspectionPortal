@@ -31,7 +31,6 @@ export class ApiService {
 
   }
   public get userValue(): User {
-    debugger;
     return this.userSubject.value;
 }
 
@@ -80,10 +79,8 @@ export class ApiService {
   }
 
   singIn(relativeUrl: string, resource: any) {
-    debugger;
     return this.http.post<any>(this.baseApiUrl + relativeUrl, resource, {withCredentials: true})
     .pipe(map(user => {
-      debugger;
       this.userSubject.next(user);
       this.startRefreshTokenTimer();
       return user;
@@ -164,9 +161,8 @@ export class ApiService {
     }
   }
   refreshToken() {
-    debugger;
     localStorage.removeItem("resetFlag");
-    return this.http.post<any>(this.baseApiUrl + 'user/refresh-token',{},{withCredentials:true})
+    return this.http.post<any>(this.baseApiUrl + 'user/refreshToken',{},{withCredentials:true})
         .pipe(map((user) => {
           debugger;
          if(user)
@@ -175,20 +171,15 @@ export class ApiService {
             this.startRefreshTokenTimer();
             return user;
           }
-          else
-          {
-            return alert("invalid token");
-          }
+         
         },err =>
         {
-          debugger;
         return ;
         }));
 }
 private refreshTokenTimeout;
 
     private startRefreshTokenTimer() {
-      debugger;
         // parse json object from base64 encoded jwt token
         const jwtToken = JSON.parse(atob(this.userValue.accessToken.split('.')[1]));
 
@@ -203,7 +194,7 @@ private refreshTokenTimeout;
 
         
     }
-    
+
 logout()
 {
   this.preInspectionService.removeCurrentUser();

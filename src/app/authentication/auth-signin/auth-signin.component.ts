@@ -109,7 +109,6 @@ else
 {
       this.authservice.login(this.user).subscribe(
         (data) => {
-          debugger;
           var res: any = data;
           if (res.result == 'success') {
             if (this.remember) {

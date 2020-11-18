@@ -16,7 +16,6 @@ export class ErrorInterceptor implements HttpInterceptor {
                 // auto logout if 401 or 403 response returned from api
                 this.preInspectionService.removeCurrentUser();
     this.router.navigateByUrl("/login");
-    alert("err interceptor");
     localStorage.clear();
             }
 

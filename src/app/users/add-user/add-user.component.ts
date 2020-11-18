@@ -37,6 +37,7 @@ export class AddUserComponent implements OnInit {
   vendorList: any = [];
   branchList: any = [];
   vendorOrganiZationBranches: any = [];
+  showSpinner: boolean = false;
   imdUser: boolean = false;
   constructor(
     private notifyService: NotificationService,
@@ -111,6 +112,7 @@ export class AddUserComponent implements OnInit {
             this.showBranchDetail = true;
             this.getAllBranches();
           } else if (this.userdata.type == 'Vendor') {
+            this.showSpinner = true;
             this.showBranch = false;
             this.showBranchDetail = false;
             this.showVendorOrganization = true;
@@ -121,7 +123,7 @@ export class AddUserComponent implements OnInit {
               },
               (err) => {}
             );
-            this.onVendorLoadBranch(this.userdata.vendorOrganization);
+            //this.onVendorLoadBranch(this.userdata.vendorOrganization);
             this.vendorapiService
               .getVendorByEmail(this.userdata.vendorOrganization)
               .subscribe(
@@ -170,6 +172,7 @@ export class AddUserComponent implements OnInit {
             },
                 (err) => {}
               );
+      this.showSpinner = false;
           } else {
             this.showBranch = true;
             this.showBranchDetail = false;
@@ -554,6 +557,7 @@ export class AddUserComponent implements OnInit {
     );
   }
   onVendorLoadBranch(vendorOrganzation) {
+    this.showSpinner = true;
     this.vendorapiService.getVendorByEmail(vendorOrganzation).subscribe(
       (data) => {
         var res: any = data;
@@ -561,8 +565,10 @@ export class AddUserComponent implements OnInit {
       },
       (err) => {}
     );
+    this.showSpinner = false;
   }
   getBranchForVendor(branches) {
+    this.showSpinner = true;
     var branchOfVendor = '';
     this.selectedItems = [];
     branches.forEach((element) => {
@@ -584,5 +590,6 @@ export class AddUserComponent implements OnInit {
       },
       (err) => {}
     );
+    this.showSpinner = false;
   }
 }
