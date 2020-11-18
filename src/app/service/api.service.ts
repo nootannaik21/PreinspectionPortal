@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment'
 import { userService } from './user.service';
 // import { JcmsuserService } from './jcmsuser.service';
+import { User } from '../model/user';
+import { map } from 'rxjs/operators';
+import { PreinspectionService } from './preinspection.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,16 +20,31 @@ export class ApiService {
   Userdetails: any;
   lastAction: any;
   env = environment;
-  constructor(private http: HttpClient, private router: Router, private UserService: userService) {
+  private userSubject: BehaviorSubject<User>;
+  public user: Observable<User>;
+
+  constructor(private http: HttpClient, private router: Router, private UserService: userService, private preInspectionService:PreinspectionService) {
     this.baseApiUrl = this.env.baseApiUrl
     this.SignInData = {};
+    this.userSubject = new BehaviorSubject<User>(null);
+    this.user = this.userSubject.asObservable();
 
   }
+  public get userValue(): User {
+    return this.userSubject.value;
+}
 
   get(relativeUrl: string) {
     this.isLoading = true;
     let url = this.baseApiUrl + relativeUrl;
-    return this.http.get(url, { headers: this.getHeaderOptions() });
+    return this.http.get<any>(url, { headers: this.getHeaderOptions(),withCredentials: true })
+  //   .pipe(map(user => {
+  //     debugger;
+  //     this.userSubject.next(user);
+  //     this.startRefreshTokenTimer();
+  //     //return user;
+  // }))
+  ;
 
   }
 
@@ -36,12 +54,6 @@ export class ApiService {
     return this.http.get(url, { headers: this.getHeaderOptions(),responseType: 'text' });
   }
 
-
-
-//   'Accept': 'text/html, application/xhtml+xml, */*',
-//   'Content-Type': 'application/x-www-form-urlencoded'
-// }),
-// responseType: 'text'
 
   getgrid(relativeUrl: string, param: HttpParams) {
     this.isLoading = true;
@@ -67,8 +79,14 @@ export class ApiService {
   }
 
   singIn(relativeUrl: string, resource: any) {
-    return this.http.post(this.baseApiUrl + relativeUrl, resource)
+    return this.http.post<any>(this.baseApiUrl + relativeUrl, resource, {withCredentials: true})
+    .pipe(map(user => {
+      this.userSubject.next(user);
+      this.startRefreshTokenTimer();
+      return user;
+  }));
   }
+  //logout
   singInForFileUpload(relativeUrl: string, resource: any) {
     return this.http.post(relativeUrl, resource)
   }
@@ -142,4 +160,50 @@ export class ApiService {
       return headers;
     }
   }
+  refreshToken() {
+    localStorage.removeItem("resetFlag");
+    return this.http.post<any>(this.baseApiUrl + 'user/refreshToken',{},{withCredentials:true})
+        .pipe(map((user) => {
+          debugger;
+         if(user)
+         {
+            this.userSubject.next(user);
+            this.startRefreshTokenTimer();
+            return user;
+          }
+         
+        },err =>
+        {
+        return ;
+        }));
+}
+private refreshTokenTimeout;
+
+    private startRefreshTokenTimer() {
+        // parse json object from base64 encoded jwt token
+        const jwtToken = JSON.parse(atob(this.userValue.accessToken.split('.')[1]));
+
+        // set a timeout to refresh the token a minute before it expires
+        const expires = new Date(jwtToken.exp * 1000);
+        const timeout = expires.getTime() - Date.now() - (60 * 1000);
+        this.refreshTokenTimeout = setTimeout(
+          () => 
+        {
+          debugger;
+        this.refreshToken().subscribe()}, timeout);
+
+        
+    }
+
+logout()
+{
+  this.preInspectionService.removeCurrentUser();
+    this.router.navigateByUrl("/login");
+    localStorage.clear();
+    this.stopRefreshTokenTimer();
+}
+
+    private stopRefreshTokenTimer() {
+        clearTimeout(this.refreshTokenTimeout);
+    }
 }

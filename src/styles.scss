@@ -2,6 +2,14 @@
 /* SCSS */
 @import "scss/style";
 
+@font-face {
+    font-family: 'roboto-thin';
+    src: url('../src/assets/fonts/roboto.thin.ttf');
+}
+@font-face {
+    font-family: 'roboto-regular';
+    src: url('../src/assets/fonts/Roboto-Regular.ttf');
+}
 .was-validated .form-control:invalid, .form-control.is-invalid {
     background-image: none;
 }
@@ -11,4 +19,371 @@
 }
 .pcoded-navbar .pcoded-submenu{
     background: none;
+}
+.login-padding {
+    padding: 10px 90px;
+}
+.line-gap {   
+    padding-bottom: 10px;
+}
+.titleThin {
+    font-family: 'roboto-thin';
+}
+.titleBold {
+    font-family: 'roboto-regular';
+}
+
+.text-line {
+    padding-bottom: 7px; 
+    height: auto !important;
+    top: 261px;
+left: 1054px;
+width: 60px;
+height: 29px;
+text-align: left;
+font: normal normal medium 24px/21px Roboto;
+letter-spacing: 0px;
+color: #003E92;
+opacity: 1;
+}
+
+.pure-material-textfield-outlined {
+    position: relative;
+    display: inline-block;
+    padding-top: 6px;
+    font-family: 'roboto-regular';
+    font-size: 16px;
+    line-height: 1.5;
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Input, Textarea */
+.pure-material-textfield-outlined > input,
+.pure-material-textfield-outlined > textarea {
+    box-sizing: border-box;
+    margin: 0;
+    border: 1px solid;
+    border-color: #E9E9F0;
+    border-top-color: transparent;
+    border-radius: 4px;
+    padding: 15px;
+    width: 100%;
+    height: inherit;
+    color: #43425D;    
+    background-color: transparent;
+    box-shadow: none; /* Firefox */
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    transition: border 0.2s,
+}
+
+/* Span */
+.pure-material-textfield-outlined > input + span,
+.pure-material-textfield-outlined > textarea + span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    border-color: #003E92;
+    width: 100%;
+    max-height: 100%;
+    color: #43425c66;;
+    font-size: 75%;
+    line-height: 15px;
+    cursor: text;
+    transition: color 0.2s, font-size 0.2s, line-height 0.2s;
+}
+
+/* Corners */
+.pure-material-textfield-outlined > input + span::before,
+.pure-material-textfield-outlined > input + span::after,
+.pure-material-textfield-outlined > textarea + span::before,
+.pure-material-textfield-outlined > textarea + span::after {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    margin-top: 6px;
+    border-top: solid 1px;
+    border-top-color: #003E92;
+    min-width: 10px;
+    height: 8px;
+    pointer-events: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.pure-material-textfield-outlined > input + span::before,
+.pure-material-textfield-outlined > textarea + span::before {
+    margin-right: 4px;
+    border-left: solid 1px transparent;
+    border-radius: 4px 0;
+}
+
+.pure-material-textfield-outlined > input + span::after,
+.pure-material-textfield-outlined > textarea + span::after {
+    flex-grow: 1;
+    margin-left: 4px;
+    border-right: solid 1px transparent;
+    border-radius: 0 4px;
+}
+
+/* Hover */
+.pure-material-textfield-outlined:hover > input,
+.pure-material-textfield-outlined:hover > textarea {
+    border-color: #003E92;
+    border-top-color: transparent;
+}
+
+.pure-material-textfield-outlined:hover > input + span::before,
+.pure-material-textfield-outlined:hover > textarea + span::before,
+.pure-material-textfield-outlined:hover > input + span::after,
+.pure-material-textfield-outlined:hover > textarea + span::after {
+    border-top-color: #003E92;
+}
+
+.pure-material-textfield-outlined:hover > input:not(:focus):placeholder-shown,
+.pure-material-textfield-outlined:hover > textarea:not(:focus):placeholder-shown {
+    border-top-color: #003E92;
+}
+
+/* Placeholder-shown */
+.pure-material-textfield-outlined > input:not(:focus):placeholder-shown,
+.pure-material-textfield-outlined > textarea:not(:focus):placeholder-shown {
+    border-top-color: #E9E9F0;
+}
+
+.pure-material-textfield-outlined > input:not(:placeholder-shown),
+.pure-material-textfield-outlined > textarea:not(:placeholder-shown) {
+    border-right-color: #003E92;
+    border-left-color: #003E92;
+    border-bottom-color: #003E92;
+}
+
+.pure-material-textfield-outlined > input:not(:focus):placeholder-shown + span,
+.pure-material-textfield-outlined > textarea:not(:focus):placeholder-shown + span {
+    font-size: inherit;
+    line-height: 55px;
+}
+
+.pure-material-textfield-outlined > input:not(:focus):placeholder-shown + span::before,
+.pure-material-textfield-outlined > textarea:not(:focus):placeholder-shown + span::before,
+.pure-material-textfield-outlined > input:not(:focus):placeholder-shown + span::after,
+.pure-material-textfield-outlined > textarea:not(:focus):placeholder-shown + span::after {
+    border-top-color: transparent;
+}
+
+/* Focus */
+.pure-material-textfield-outlined > input:focus,
+.pure-material-textfield-outlined > textarea:focus {
+    border-color: #003E92;
+    border-top-color: transparent;
+    outline: none;
+}
+
+.pure-material-textfield-outlined > input:focus + span,
+.pure-material-textfield-outlined > textarea:focus + span {
+    color: #003E92;
+}
+
+.pure-material-textfield-outlined > input:focus + span::before,
+.pure-material-textfield-outlined > input:focus + span::after,
+.pure-material-textfield-outlined > textarea:focus + span::before,
+.pure-material-textfield-outlined > textarea:focus + span::after {
+    border-top-color: #003E92;
+}
+
+/* Disabled */
+.pure-material-textfield-outlined > input:disabled,
+.pure-material-textfield-outlined > input:disabled + span,
+.pure-material-textfield-outlined > textarea:disabled,
+.pure-material-textfield-outlined > textarea:disabled + span {
+    border-color: #003E92;
+    border-top-color: transparent !important;
+    color: #003E92;
+    pointer-events: none;
+}
+
+.pure-material-textfield-outlined > input:disabled + span::before,
+.pure-material-textfield-outlined > input:disabled + span::after,
+.pure-material-textfield-outlined > textarea:disabled + span::before,
+.pure-material-textfield-outlined > textarea:disabled + span::after {
+    border-top-color: #003E92;
+}
+
+.pure-material-textfield-outlined > input:disabled:placeholder-shown,
+.pure-material-textfield-outlined > input:disabled:placeholder-shown + span,
+.pure-material-textfield-outlined > textarea:disabled:placeholder-shown,
+.pure-material-textfield-outlined > textarea:disabled:placeholder-shown + span {
+    border-top-color: #003E92;
+}
+
+.pure-material-textfield-outlined > input:disabled:placeholder-shown + span::before,
+.pure-material-textfield-outlined > input:disabled:placeholder-shown + span::after,
+.pure-material-textfield-outlined > textarea:disabled:placeholder-shown + span::before,
+.pure-material-textfield-outlined > textarea:disabled:placeholder-shown + span::after {
+    border-top-color: transparent !important;
+}
+
+/* Faster transition in Safari for less noticable fractional font-size issue */
+@media not all and (min-resolution:.001dpcm) {
+    @supports (-webkit-appearance:none) {
+        .pure-material-textfield-outlined > input,
+        .pure-material-textfield-outlined > input + span,
+        .pure-material-textfield-outlined > textarea,
+        .pure-material-textfield-outlined > textarea + span,
+        .pure-material-textfield-outlined > input + span::before,
+        .pure-material-textfield-outlined > input + span::after,
+        .pure-material-textfield-outlined > textarea + span::before,
+        .pure-material-textfield-outlined > textarea + span::after {
+            transition-duration: 0.1s;
+        }
+    }
+}
+
+.auth-wrapper a, .auth-wrapper p > a {
+    font-weight: 600;
+    letter-spacing: 0px;
+    color: #6D6E70 !important;
+    opacity: 1;
+}
+
+.loginBtnColor {    
+    font-size: 18px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    opacity: 1;
+    padding: 10px 10px 8px 10px;
+}
+.red-text {
+    font-size: 14px;
+    color: #FF0000;
+}
+
+body {
+    font-family: "roboto-regular" !important;    
+}
+
+.login-logo {
+    margin: 40px 0;
+    width: 63%;
+}
+hr.hrcss {
+    width: 83%;
+}
+.auth-wrapper {
+    background: #003E92 !important;
+}
+.mb-aboveLogo{
+    margin-bottom: 56px;
+}
+.break-lines {
+    margin-top: 40px;
+}
+
+@media screen and (max-width: 2560px) and (min-width: 2501px) {
+    .login-padding {
+        padding: 10px 440px;
+    }   
+    .logo {
+        position: unset;
+        margin: 0 0 170px 0;
+    }
+    hr.hrcss {
+        width: 40%;
+    }
+    .login-logo {
+        width: 44%;
+    }
+}
+@media screen and (max-width: 2500px) and (min-width: 1920px) {
+    .login-padding {
+        padding: 10px 278px;
+    }
+    .logo {
+        position: unset;
+        margin: 0 0 170px 0;
+    }
+    hr.hrcss {
+        width: 54%;
+    }
+}
+@media screen and (max-width: 1919px) and (min-width: 1600px) {
+    .login-padding {
+        padding: 10px 178px;
+    }
+    .login-logo {
+        margin: 125px 0;
+    }
+    .logo {
+        top: 110px !important; 
+        left: 1038px !important;       
+        position: fixed;
+    }
+    hr.hrcss {
+        width: 68%;
+    }
+    .mt-93 {
+        margin-top: 93px !important;
+    }
+    .break-lines {
+        margin-top: 70px;
+    }
+    .mb-aboveLogo {
+        margin-bottom: 0;
+    }
+}
+@media screen and (max-width: 1365px) and (min-width: 1024px) {
+    .login-padding {
+        padding: 10px 25px;
+    }
+    .login-logo {
+        margin: 50px 0;
+        width: 100%;
+    }
+}
+@media screen and (max-width: 1023px) and (min-width: 768px) {
+    .auth-wrapper .auth-side-img {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 320px) and (min-width: 240px) {
+    .auth-wrapper .auth-side-form .auth-content:not(.container) {
+        max-width: 300px;
+    }
+}
+.btncss:hover
+  {
+      background:#da3d7c;
+      color:white;
+  }
+  .btncss{
+//     border: 0px solid#FF1967;
+//     background: #FF1967 0% 0% no-repeat padding-box;
+//     color: white;
+    
+// opacity: 1;
+top: 617px;
+left: 1055px;
+background: #FF1967 0% 0% no-repeat padding-box;
+border-radius: 4px;
+opacity: 1;
+color:white;
+  }
+  .table-bordered th {
+    border: 0.01em solid white;
+    background-color:#174082 !important; 
+    color:white !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color:#FF1967 !important;
+    background: linear-gradient(to bottom, #FF1967 0%, #FF1967 100%) !important;
+    color:white !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    color: white !important;
+    border: 1px solid #ff0468 !important;
+    background:#ff0468 !important;
 }

@@ -12,6 +12,7 @@ export class AdminComponent implements OnInit {
   public navCollapsed: boolean;
   public navCollapsedMob: boolean;
   public windowWidth: number;
+  public isAssignUsers = true;
 
   constructor(private zone: NgZone, private location: Location) {
     this.nextConfig = NextConfig.config;
@@ -56,5 +57,6 @@ export class AdminComponent implements OnInit {
       }
     }
   }
-
+ 
+  
 }

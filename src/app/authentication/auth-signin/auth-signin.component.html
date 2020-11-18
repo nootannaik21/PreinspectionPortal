@@ -1,85 +1,120 @@
-<div class="auth-wrapper align-items-stretch">
+<div class="auth-wrapper align-items-stretch family">
   <div class="flex-grow-1">
     <div class="h-100 d-md-flex align-items-center auth-side-img">
-      <div class="col-sm-10 auth-content w-auto">
-        <img src="assets/images/logo.png" alt="" class="img-fluid">
-        <h3 class="text-white font-weight-normal my-4">Signin to your Preinspection Portal.</h3>
-        <h4 class="text-white font-weight-normal">The system is available only for the authorized personnel and in case
-          of an unauthorized access the session needs to be disconnected.</h4>
+      <div class="col-sm-10 auth-content w-auto pt-0">
+        <div class="titleFont text-white font-weight-normal mb-aboveLogo"><span class="title titleBold line-gap">Pre-Inspection</span> <span class="titleThin"> Portal</span></div>      
+        <img src="assets/images/Group 1280.svg" alt="" class="img-fluid login-logo" /> 
+        <h6 class="text-white font-weight-normal my-4">The system is available only for authorized personnel and in case of unauthorized access <br> the session needs to be disconnected.</h6>
+        <hr style="border: 1px solid #FFFFFF;
+        opacity: 0.49;
+        float: left;" class="hrcss"/>
       </div>
     </div>
-    <div class="auth-side-form">
-      <div class=" auth-content">
-        <img src="assets/images/auth/auth-logo-dark.png" alt="" class="img-fluid mb-4 d-block d-xl-none d-lg-none">
-        <h3 class="mb-4 f-w-400">Signin</h3>
-        <!-- <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text"><i class="feather icon-mail"></i></span>
-          </div>
-          <input type="email" class="form-control" placeholder="Email address" name="email" [(ngModel)]="user.email"
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required
-          [ngClass]="{'is-invalid': !emailref.valid && (emailref.dirty || emailref.touched )}" #emailref="ngModel">
-          <label *ngIf="!emailref.valid && (emailref.dirty || emailref.touched)" id="validation-emailref-error"
-            class="error jquery-validation-error small form-text invalid-feedback">Please enter a valid
-            Email.</label>
 
-        </div>
-        <div class="input-group mb-4">
-          <div class="input-group-prepend">
-            <span class="input-group-text"><i class="feather icon-lock"></i></span>
-          </div>
-          <input type="password" class="form-control" placeholder="Password" name="password" required
-            [(ngModel)]="user.password"   [(ngModel)]="user.password" [ngClass]="{'is-invalid': !password.valid && (password.dirty || password.touched )}" #password="ngModel">
-            <label *ngIf="!password.valid && (password.dirty || password.touched)" id="validation-password-error"
-              class="error jquery-validation-error small form-text invalid-feedback">Please enter a valid
-              password.</label>
-        </div>
-        <div id="hideDiv" class=" alert alert-danger" *ngIf="isError">
-          <strong>Invalid Credentials.!</strong>
-        </div>
-        <button class="btn btn-block btn-primary mb-0" [disabled]="disableSignIn" (click)="onSubmit()" #signin>Signin</button> -->
+    <div class="auth-side-form login-padding">
+      <div class="auth-content">
+        <!-- <img src="assets/images/auth/auth-logo-dark.png" alt="" class="img-fluid mb-4 d-block d-xl-none d-lg-none"> -->
+       <div class="logo"><img src="assets/images/Group 1129.svg" alt="" class="img-fluid"></div>
+        <h3 class="mb-4 heading textunderline my-4 text-line mt-93">Login</h3>
         <div id="hideresetPanel" class=" alert alert-success" *ngIf="resetPanel">
           <strong>Please check your registered email ID for new password in Inbox or Junk/Spam folder.</strong>
         </div>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (keydown)="keyDownFunction($event)">
-          <div class="form-group">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
+          <div class="form-group mt-5">
+            <div class="input-group mb-2">
+              
+              <!-- <label class="pure-material-textfield-outlined">
+                <input class="form-control" placeholder="" formControlName="email"
+                [(ngModel)]="user.email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" (change)="onTextChange()"/>
+                <span>Email ID</span>
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                  <div *ngIf="f.email.errors.required">Email is required</div>
+                  <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                </div>
+              </label> -->
+              <label class="pure-material-textfield-outlined">
+                <input type="email" placeholder=" " formControlName="email" [(ngModel)]="user.email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" class="textbox"/>
+                <span>Email ID</span>
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                  <div *ngIf="f.email.errors.required">Email is required</div>
+                  <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                </div>
+              </label>
+              <!-- <div class="input-group-prepend">
                 <span class="input-group-text"><i class="feather icon-mail"></i></span>
               </div>
               <input type="text" class="form-control" placeholder="Email address" formControlName="email"
-                [(ngModel)]="user.email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                [(ngModel)]="user.email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" (change)="onTextChange()"/>
               <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                 <div *ngIf="f.email.errors.required">Email is required</div>
                 <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="form-group">
             <div class="input-group mb-4">
-              <div class="input-group-prepend">
+
+              <label class="pure-material-textfield-outlined">
+                <input type="password" placeholder=" " formControlName="password" [(ngModel)]="user.password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" class="textbox"/>
+                <span>Password</span>
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                  <div *ngIf="f.password.errors.required">Password is required</div>
+                  <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                </div>
+              </label>
+
+              <!-- <div class="input-group-prepend">
                 <span class="input-group-text"><i class="feather icon-lock"></i></span>
               </div>
               <input type="password" class="form-control" placeholder="Password" formControlName="password" required
-                [(ngModel)]="user.password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                [(ngModel)]="user.password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" (change)="onTextChange()" />
               <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                 <div *ngIf="f.password.errors.required">Password is required</div>
                 <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
-              </div>
+              </div> -->
 
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group mb-4" >
+              <input type="text" class="form-control" readonly formControlName="captcha" [(ngModel)]="resetPwd.captcha">  
+              <input type="text" class="form-control" placeholder="Enter Given Text" formControlName="enteredCaptcha" [(ngModel)]="resetPwd.enteredCaptcha" [ngClass]="{ 'is-invalid': submitted && f.enteredCaptcha.errors }" />
+              <div *ngIf="submitted && f.enteredCaptcha.errors" class="invalid-feedback">
+                <div *ngIf="f.enteredCaptcha.errors.required">Please Enter Captcha</div>
+              </div> 
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p class="text-left" style="margin-left: 20px;"><input type="checkbox" class="form-check-input" formControlName="remember" [(ngModel)]="remember"> Remember me</p>
+            </div>
+            <div class="col">
+              <p class="text-right"><a [routerLink]="['/auth/reset-password']" id="fgPwd">Forgot password?</a></p>
             </div>
           </div>
           <div id="hideDiv" class=" alert alert-danger" *ngIf="isError">
             <strong>Invalid Credentials.!</strong>
           </div>
-          <div class="form-group">
-            <button class="btn btn-block btn-primary mb-0" [disabled]="disableSignIn">Signin</button>
+
+          <div class="row">
+            <div class="col">
+              <p class="text-center red-text"><!--Error message--></p>
+            </div>            
           </div>
+
+          <div class="form-group">
+            <!-- <button class="btn btn-block loginBtnColor mb-0">LOGIN</button> -->
+            <button class="btn btn-block loginBtnColor mb-0" [disabled]="(!user.email || !user.password)">LOGIN</button>
+          </div>
+          <div class="break-lines"></div>
+          <div class="text-center supportdivCss">
+            <h5 class="sub1 sub1font">For support call</h5>
+            <h3 class="sub1 sub2font textunderline mx-sm-3">1800 12000</h3>
+            <span class="disclaimer">Trademark and logo displayed belongs to Edelweiss Financial Services Limited and is used by Edelweiss General Insurance Company Limited under license All rights reserved | Terms and conditions apply</span>
+          </div>  
         </form>
-        <div class="text-center">
-          <p class="mb-2">Forgot password? <a [routerLink]="['/auth/reset-password']">Reset</a></p>
-        </div>
       </div>
     </div>
+    
   </div>
 </div>
