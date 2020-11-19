@@ -127,7 +127,7 @@ export class AddUserComponent implements OnInit {
             //this.showLoadSpinner = true;
             this.onVendorLoadBranch(this.userdata.vendorOrganization);
             this.getBranchSelected();
-
+            this.showLoadSpinner = false;
             // this.vendorapiService
             //   .getVendorByEmail(this.userdata.vendorOrganization)
             //   .subscribe(
@@ -176,7 +176,7 @@ export class AddUserComponent implements OnInit {
             // },
             //     (err) => {}
             //   );
-            this.showLoadSpinner = false;
+            //this.showLoadSpinner = false;
             document.getElementById('user').style.opacity='1';
           } else {
             this.showBranch = true;
@@ -574,7 +574,7 @@ export class AddUserComponent implements OnInit {
     );
   }
   getBranchForVendor(branches) {
-    this.showLoadSpinner = true;
+    //this.showLoadSpinner = true;
     var branchOfVendor = '';
     this.selectedItems = [];
     branches.forEach((element) => {
@@ -599,6 +599,7 @@ export class AddUserComponent implements OnInit {
         this.showLoadSpinner = false;
       }
     );
+    this.showLoadSpinner = false;
   }
   getBranchSelected() {
     this.vendorapiService
