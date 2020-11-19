@@ -37,7 +37,7 @@ export class AddUserComponent implements OnInit {
   vendorList: any = [];
   branchList: any = [];
   vendorOrganiZationBranches: any = [];
-  showSpinner: boolean = false;
+  showLoadSpinner: boolean = false;
   imdUser: boolean = false;
   constructor(
     private notifyService: NotificationService,
@@ -112,7 +112,8 @@ export class AddUserComponent implements OnInit {
             this.showBranchDetail = true;
             this.getAllBranches();
           } else if (this.userdata.type == 'Vendor') {
-            this.showSpinner = true;
+            this.showLoadSpinner = true;
+            document.getElementById('user').style.opacity='0.5';
             this.showBranch = false;
             this.showBranchDetail = false;
             this.showVendorOrganization = true;
@@ -123,56 +124,60 @@ export class AddUserComponent implements OnInit {
               },
               (err) => {}
             );
-            //this.onVendorLoadBranch(this.userdata.vendorOrganization);
-            this.vendorapiService
-              .getVendorByEmail(this.userdata.vendorOrganization)
-              .subscribe(
-                (data) => {
-                  var res: any = data;
-                  this.vendorOrganiZationBranches = data;
-                  this.branchList = res;
-                
-            let tmp = [];
-            var branchOfVendor = '';
-            this.userdata.branches.forEach((element) => {
-              branchOfVendor == ''
-                ? (branchOfVendor = 'id=' + element)
-                : (branchOfVendor += '&id=' + element);
-            });
-            this.branchApiService.getBranchByListofId(branchOfVendor).subscribe(
-              (result) => {
-                var branchList: any = result;
-                for (
-                  let i = 0;
-                  i <= this.vendorOrganiZationBranches.branchcode.length;
-                  i++
-                ) {
-                  var branch = branchList.filter(
-                    (x) => x.id == this.vendorOrganiZationBranches.branchcode[i]
-                  );
-                  if (branch.length > 0) {
-                    var branchid: number = +branch[0].id;
-                    tmp.push({
-                      id: branchid,
-                      branchCode: branch[0].branchCode,
-                    });
-                    this.selectedItems = tmp;
-                  }
-                }
-                this.dropdownSettings = {
-                  idField: 'id',
-                  textField: 'branchCode',
-                  selectAllText: 'Select All',
-                  unSelectAllText: 'UnSelect All',
-                  allowSearchFilter: true,
-                };
-              },
-              (err) => {}
-            );
-            },
-                (err) => {}
-              );
-      this.showSpinner = false;
+            //this.showLoadSpinner = true;
+            this.onVendorLoadBranch(this.userdata.vendorOrganization);
+            this.getBranchSelected();
+
+            // this.vendorapiService
+            //   .getVendorByEmail(this.userdata.vendorOrganization)
+            //   .subscribe(
+            //     (data) => {
+            //       var res: any = data;
+            //       this.vendorOrganiZationBranches = data;
+            //       this.branchList = res;
+
+            // let tmp = [];
+            // var branchOfVendor = '';
+            // this.userdata.branches.forEach((element) => {
+            //   branchOfVendor == ''
+            //     ? (branchOfVendor = 'id=' + element)
+            //     : (branchOfVendor += '&id=' + element);
+            // });
+            // this.branchApiService.getBranchByListofId(branchOfVendor).subscribe(
+            //   (result) => {
+            //     var branchList: any = result;
+            //     for (
+            //       let i = 0;
+            //       i <= this.vendorOrganiZationBranches.branchcode.length;
+            //       i++
+            //     ) {
+            //       var branch = branchList.filter(
+            //         (x) => x.id == this.vendorOrganiZationBranches.branchcode[i]
+            //       );
+            //       if (branch.length > 0) {
+            //         var branchid: number = +branch[0].id;
+            //         tmp.push({
+            //           id: branchid,
+            //           branchCode: branch[0].branchCode,
+            //         });
+            //         this.selectedItems = tmp;
+            //       }
+            //     }
+            //     this.dropdownSettings = {
+            //       idField: 'id',
+            //       textField: 'branchCode',
+            //       selectAllText: 'Select All',
+            //       unSelectAllText: 'UnSelect All',
+            //       allowSearchFilter: true,
+            //     };
+            //   },
+            //   (err) => {}
+            // );
+            // },
+            //     (err) => {}
+            //   );
+            this.showLoadSpinner = false;
+            document.getElementById('user').style.opacity='1';
           } else {
             this.showBranch = true;
             this.showBranchDetail = false;
@@ -277,7 +282,7 @@ export class AddUserComponent implements OnInit {
       this.showBranch = false;
       this.showBranchDetail = false;
       this.showVendorOrganization = true;
-      this.userdata.vendorOrganization = "";
+      this.userdata.vendorOrganization = '';
       this.vendorapiService.getVendors().subscribe(
         (data) => {
           var res: any = data;
@@ -557,18 +562,19 @@ export class AddUserComponent implements OnInit {
     );
   }
   onVendorLoadBranch(vendorOrganzation) {
-    this.showSpinner = true;
     this.vendorapiService.getVendorByEmail(vendorOrganzation).subscribe(
       (data) => {
         var res: any = data;
         this.getBranchForVendor(res.branchcode);
+        this.showLoadSpinner = false;
       },
-      (err) => {}
+      (err) => {
+        this.showLoadSpinner = false;
+      }
     );
-    this.showSpinner = false;
   }
   getBranchForVendor(branches) {
-    this.showSpinner = true;
+    this.showLoadSpinner = true;
     var branchOfVendor = '';
     this.selectedItems = [];
     branches.forEach((element) => {
@@ -587,9 +593,65 @@ export class AddUserComponent implements OnInit {
           unSelectAllText: 'UnSelect All',
           allowSearchFilter: true,
         };
+        //this.getBranchSelected();
       },
-      (err) => {}
+      (err) => {
+        this.showLoadSpinner = false;
+      }
     );
-    this.showSpinner = false;
+  }
+  getBranchSelected() {
+    this.vendorapiService
+      .getVendorByEmail(this.userdata.vendorOrganization)
+      .subscribe(
+        (data) => {
+          var res: any = data;
+          this.vendorOrganiZationBranches = data;
+          this.branchList = res;
+
+          let tmp = [];
+          var branchOfVendor = '';
+          this.userdata.branches.forEach((element) => {
+            branchOfVendor == ''
+              ? (branchOfVendor = 'id=' + element)
+              : (branchOfVendor += '&id=' + element);
+          });
+          this.branchApiService.getBranchByListofId(branchOfVendor).subscribe(
+            (result) => {
+              var branchList: any = result;
+              for (
+                let i = 0;
+                i <= this.vendorOrganiZationBranches.branchcode.length;
+                i++
+              ) {
+                var branch = branchList.filter(
+                  (x) => x.id == this.vendorOrganiZationBranches.branchcode[i]
+                );
+                if (branch.length > 0) {
+                  var branchid: number = +branch[0].id;
+                  tmp.push({
+                    id: branchid,
+                    branchCode: branch[0].branchCode,
+                  });
+                  this.selectedItems = tmp;
+                }
+              }
+              this.dropdownSettings = {
+                idField: 'id',
+                textField: 'branchCode',
+                selectAllText: 'Select All',
+                unSelectAllText: 'UnSelect All',
+                allowSearchFilter: true,
+              };
+            },
+            (err) => {
+              this.showLoadSpinner = false;
+            }
+          );
+        },
+        (err) => {
+          this.showLoadSpinner = false;
+        }
+      );
   }
 }
