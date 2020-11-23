@@ -134,6 +134,10 @@ else
               decodedJwtData.firstName + ' ' + decodedJwtData.lastName
             );
             localStorage.setItem(
+              'userLoginId',
+              decodedJwtData.email
+            );
+            localStorage.setItem(
               'expiry',
               decodedJwtData.expires
             );
@@ -164,6 +168,7 @@ else
         },
         (err) => {
           this.isError = true;
+          this.getCaptcha(5);
           setTimeout(() => {
             if (this.isError == true) {
               ('#hideDiv');

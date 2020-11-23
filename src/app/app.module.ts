@@ -56,7 +56,7 @@ import { ApiService } from './service/api.service';
     NavRightComponent,
     ConfigurationComponent,
     AddbranchComponent,
-    
+
     // PermissionDirective,
     // OnlystringDirective,
     // OnlystringDirective,
@@ -95,7 +95,7 @@ import { ApiService } from './service/api.service';
     // },
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [ApiService] },
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     NavigationItem, DatePipe, CookieService],
   bootstrap: [AppComponent]
 })
