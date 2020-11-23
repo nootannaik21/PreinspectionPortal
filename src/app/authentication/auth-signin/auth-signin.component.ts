@@ -168,6 +168,7 @@ else
         },
         (err) => {
           this.isError = true;
+          this.getCaptcha(5);
           setTimeout(() => {
             if (this.isError == true) {
               ('#hideDiv');

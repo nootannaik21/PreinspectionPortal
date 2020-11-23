@@ -16,7 +16,6 @@ export class userService {
   // jcmsUserPermissions: any;
   constructor() { }
   setCurrentLoggedUser(data) {
-    debugger;
     localStorage.setItem('currentUser', JSON.stringify(data));
   }
   removeCurrentUser() {
