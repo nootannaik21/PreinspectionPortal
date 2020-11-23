@@ -125,14 +125,12 @@ export class ApiService {
   }
 
   getHeaderOptions() {
-    debugger;
     this.Userdetails = this.UserService.getCurrentLoggedUser()
     if ((this.Userdetails == null)) {
       this.router.navigateByUrl("/login");
     }
     else {
       const authToken = this.Userdetails.accessToken;
-      debugger;
       const headers = new HttpHeaders().set('Authorization', "bearer "+authToken);
       return headers;
     }
@@ -163,7 +161,6 @@ export class ApiService {
     }
   }
   refreshToken(loginId) {
-    debugger;
     localStorage.removeItem("resetFlag");
     return this.http.post<any>(this.baseApiUrl + 'user/refreshToken?loginId='+loginId,{},{withCredentials:true})
         .pipe(map((user) => {
@@ -182,7 +179,6 @@ export class ApiService {
 private refreshTokenTimeout;
 
     private startRefreshTokenTimer() {
-      debugger;
         // parse json object from base64 encoded jwt token
         const jwtToken = JSON.parse(atob(this.userValue.accessToken.split('.')[1]));
 
