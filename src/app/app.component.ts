@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -8,8 +9,15 @@ import {NavigationEnd, Router} from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-
-  constructor(private router: Router) { }
+  userActivity;
+  userInactive: Subject<any> = new Subject();
+  constructor(private router: Router) { 
+    this.setTimeout();
+    this.userInactive.subscribe(() => 
+    {
+      this.router.navigateByUrl("/login");
+    });
+  }
 
   ngOnInit() {
 
@@ -19,5 +27,13 @@ export class AppComponent implements OnInit {
       }
       window.scrollTo(0, 0);
     });
+  }
+  setTimeout() {
+    this.userActivity = setTimeout(() => this.userInactive.next(undefined), 36000000);
+  }
+
+  @HostListener('window:mousemove') refreshUserState() {
+    clearTimeout(this.userActivity);
+    this.setTimeout();
   }
 }

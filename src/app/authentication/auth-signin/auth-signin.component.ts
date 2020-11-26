@@ -29,10 +29,10 @@ export class AuthSigninComponent implements OnInit {
     private apiService: ApiService,
     private alertService: AlertService
   ) {
-    if (cookieService.get('remember') != undefined) {
-      if (cookieService.get('remember') == 'Yes') {
-        this.user.email = cookieService.get('email');
-        this.user.password = cookieService.get('password');
+    if (sessionStorage.getItem('remember') != undefined) {
+      if (sessionStorage.getItem('remember') == 'Yes') {
+        this.user.email = sessionStorage.getItem('email');
+        this.user.password = sessionStorage.getItem('password');
       }
     }
     if (this.apiService.userValue) { 
@@ -112,13 +112,13 @@ else
           var res: any = data;
           if (res.result == 'success') {
             if (this.remember) {
-              this.cookieService.set('remember', 'Yes');
-              this.cookieService.set('email', this.user.email);
-              this.cookieService.set('password', this.user.password);
+              sessionStorage.setItem('remember', 'Yes');
+              sessionStorage.setItem('email', this.user.email);
+              sessionStorage.setItem('password', this.user.password);
             } else {
-              this.cookieService.set('remember', 'Yes');
-              this.cookieService.set('email', '');
-              this.cookieService.set('password', '');
+              sessionStorage.set('remember', 'Yes');
+              sessionStorage.setItem('email', '');
+              sessionStorage.setItem('password', '');
             }
 
             localStorage.setItem('UserName', this.user.email);
