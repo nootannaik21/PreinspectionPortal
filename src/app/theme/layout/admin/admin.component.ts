@@ -3,6 +3,7 @@ import { NextConfig } from '../../../app-config';
 import { Location } from '@angular/common';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-admin',
@@ -17,7 +18,7 @@ export class AdminComponent implements OnInit {
   public isAssignUsers = true;
   userActivity;
   userInactive: Subject<any> = new Subject();
-  constructor(private zone: NgZone, private location: Location,private router: Router) {
+  constructor(private zone: NgZone, private location: Location,private router: Router,private cookieService: CookieService) {
     this.nextConfig = NextConfig.config;
     let currentURL = this.location.path();
     const baseHerf = this.location['_baseHref'];
@@ -38,7 +39,9 @@ export class AdminComponent implements OnInit {
     this.setTimeout();
     this.userInactive.subscribe(() => 
     {
+      this.cookieService.set("PreInspecton_refreshToken", '', -1);
       this.router.navigateByUrl("/login");
+
     });
   }
 

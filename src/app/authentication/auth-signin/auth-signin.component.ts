@@ -168,6 +168,7 @@ else
         },
         (err) => {
           this.isError = true;
+          this.resetPwd.enteredCaptcha = undefined;
           this.getCaptcha(5);
           setTimeout(() => {
             if (this.isError == true) {
