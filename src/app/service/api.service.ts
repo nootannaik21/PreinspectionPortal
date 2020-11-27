@@ -160,9 +160,9 @@ export class ApiService {
       return headers;
     }
   }
-  refreshToken(loginId) {
+  refreshToken() {
     localStorage.removeItem("resetFlag");
-    return this.http.post<any>(this.baseApiUrl + 'user/refreshToken?loginId='+loginId,{},{withCredentials:true})
+    return this.http.post<any>(this.baseApiUrl + 'user/refreshToken',{},{withCredentials:true})
         .pipe(map((user) => {
          if(user)
          {
@@ -189,7 +189,7 @@ private refreshTokenTimeout;
           () => 
         {
           var LoginId = localStorage.getItem('userLoginId')
-        this.refreshToken(LoginId).subscribe(
+        this.refreshToken().subscribe(
           data =>
           {
             localStorage.setItem('currentUser',JSON.stringify(data));

@@ -9,14 +9,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  userActivity;
-  userInactive: Subject<any> = new Subject();
   constructor(private router: Router) { 
-    this.setTimeout();
-    this.userInactive.subscribe(() => 
-    {
-      this.router.navigateByUrl("/login");
-    });
   }
 
   ngOnInit() {
@@ -28,12 +21,5 @@ export class AppComponent implements OnInit {
       window.scrollTo(0, 0);
     });
   }
-  setTimeout() {
-    this.userActivity = setTimeout(() => this.userInactive.next(undefined), 36000000);
-  }
-
-  @HostListener('window:mousemove') refreshUserState() {
-    clearTimeout(this.userActivity);
-    this.setTimeout();
-  }
+  
 }
