@@ -1,6 +1,8 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, HostListener, NgZone, OnInit } from '@angular/core';
 import { NextConfig } from '../../../app-config';
 import { Location } from '@angular/common';
+import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -13,8 +15,9 @@ export class AdminComponent implements OnInit {
   public navCollapsedMob: boolean;
   public windowWidth: number;
   public isAssignUsers = true;
-
-  constructor(private zone: NgZone, private location: Location) {
+  userActivity;
+  userInactive: Subject<any> = new Subject();
+  constructor(private zone: NgZone, private location: Location,private router: Router) {
     this.nextConfig = NextConfig.config;
     let currentURL = this.location.path();
     const baseHerf = this.location['_baseHref'];
@@ -32,7 +35,11 @@ export class AdminComponent implements OnInit {
 
     this.navCollapsed = (this.windowWidth >= 992) ? this.nextConfig.collapseMenu : false;
     this.navCollapsedMob = false;
-
+    this.setTimeout();
+    this.userInactive.subscribe(() => 
+    {
+      this.router.navigateByUrl("/login");
+    });
   }
 
   ngOnInit() {
@@ -57,6 +64,15 @@ export class AdminComponent implements OnInit {
       }
     }
   }
- 
+  setTimeout() {
+    this.userActivity = setTimeout(() => 
+    {
+      this.userInactive.next(undefined)}, 36000000);
+  }
+
+  @HostListener('window:mousemove') refreshUserState() {
+    clearTimeout(this.userActivity);
+    this.setTimeout();
+  }
   
 }
