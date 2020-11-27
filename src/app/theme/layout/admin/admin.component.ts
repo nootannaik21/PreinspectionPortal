@@ -64,13 +64,14 @@ export class AdminComponent implements OnInit {
         }, 100);
       } else {
         this.navCollapsedMob = !this.navCollapsedMob;
+        //debugger
       }
     }
   }
   setTimeout() {
     this.userActivity = setTimeout(() => 
     {
-      this.userInactive.next(undefined)}, 36000000);
+      this.userInactive.next(undefined)}, 3600000);
   }
 
   @HostListener('window:mousemove') refreshUserState() {
