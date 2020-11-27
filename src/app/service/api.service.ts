@@ -8,6 +8,7 @@ import { userService } from './user.service';
 import { User } from '../model/user';
 import { map } from 'rxjs/operators';
 import { PreinspectionService } from './preinspection.service';
+import { CookieService } from 'ngx-cookie-service';
 @Injectable({
   providedIn: 'root'
 })
@@ -23,7 +24,7 @@ export class ApiService {
   private userSubject: BehaviorSubject<User>;
   public user: Observable<User>;
 
-  constructor(private http: HttpClient, private router: Router, private UserService: userService, private preInspectionService:PreinspectionService) {
+  constructor(private http: HttpClient, private router: Router, private UserService: userService, private preInspectionService:PreinspectionService,private cookieService: CookieService) {
     this.baseApiUrl = this.env.baseApiUrl
     this.SignInData = {};
     this.userSubject = new BehaviorSubject<User>(null);
@@ -202,6 +203,7 @@ logout()
   this.preInspectionService.removeCurrentUser();
     this.router.navigateByUrl("/login");
     localStorage.clear();
+    this.cookieService.set("PreInspecton_refreshToken", '', -1);
     this.stopRefreshTokenTimer();
 }
 
