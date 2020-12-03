@@ -20,7 +20,7 @@
           <strong>Please check your registered email ID for new password in Inbox or Junk/Spam folder.</strong>
         </div>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (keydown)="keyDownFunction($event)" autocomplete="off">
-          <div class="form-group mt-5">
+          <div class="form-group">
             <div class="input-group mb-2">
               
               <!-- <label class="pure-material-textfield-outlined">
@@ -52,7 +52,7 @@
             </div>
           </div>
           <div class="form-group">
-            <div class="input-group mb-4">
+            <div class="input-group mb-2">
 
               <label class="pure-material-textfield-outlined">
                 <input type="password" placeholder=" " formControlName="password" [(ngModel)]="user.password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" class="textbox"/>
@@ -86,10 +86,7 @@
           </div>
           <div class="row">
             <div class="col">
-              <p class="text-left" style="margin-left: 20px;"><input type="checkbox" class="form-check-input" formControlName="remember" [(ngModel)]="remember"> Remember me</p>
-            </div>
-            <div class="col">
-              <p class="text-right"><a [routerLink]="['/auth/reset-password']" id="fgPwd">Forgot password?</a></p>
+              <p class="text-center"><a [routerLink]="['/auth/reset-password']" id="fgPwd">Forgot password?</a></p>
             </div>
           </div>
           <div id="hideDiv" class=" alert alert-danger" *ngIf="isError">
