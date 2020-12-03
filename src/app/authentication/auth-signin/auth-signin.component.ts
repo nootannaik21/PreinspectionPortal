@@ -111,15 +111,15 @@ else
         (data) => {
           var res: any = data;
           if (res.result == 'success') {
-            if (this.remember) {
-              sessionStorage.setItem('remember', 'Yes');
-              sessionStorage.setItem('email', this.user.email);
-              sessionStorage.setItem('password', this.user.password);
-            } else {
-              sessionStorage.set('remember', 'Yes');
-              sessionStorage.setItem('email', '');
-              sessionStorage.setItem('password', '');
-            }
+            // if (this.remember) {
+            //   sessionStorage.setItem('remember', 'Yes');
+            //   sessionStorage.setItem('email', this.user.email);
+            //   sessionStorage.setItem('password', this.user.password);
+            // } else {
+            //   sessionStorage.set('remember', 'Yes');
+            //   sessionStorage.setItem('email', '');
+            //   sessionStorage.setItem('password', '');
+            // }
 
             localStorage.setItem('UserName', this.user.email);
             this.preInspection.setInspnectioUser(res);
