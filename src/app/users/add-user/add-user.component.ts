@@ -81,8 +81,13 @@ export class AddUserComponent implements OnInit {
         ],
       ],
       confPassword: ['', [Validators.required]],
-      IMDCode: ['', [Validators.pattern('^[0-9]{8}$')]],
+      IMDCode: ['', [Validators.pattern('^[0-9]{8}$')]]
       // imdcode: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]]
+      ,
+      vendorphone: [
+        '',
+        [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
+      ],
     });
 
     if (localStorage.getItem('userid')) {
@@ -94,6 +99,7 @@ export class AddUserComponent implements OnInit {
       this.addUserForm.get('confPassword');
       this.userapiService.getUserById(localStorage.getItem('userid')).subscribe(
         (data) => {
+          debugger;
           var user: any = data;
           this.userdata = Object.assign(data);
           this.userdata.confPassword = this.userdata.password;
@@ -128,55 +134,6 @@ export class AddUserComponent implements OnInit {
             this.onVendorLoadBranch(this.userdata.vendorOrganization);
             this.getBranchSelected();
             this.showLoadSpinner = false;
-            // this.vendorapiService
-            //   .getVendorByEmail(this.userdata.vendorOrganization)
-            //   .subscribe(
-            //     (data) => {
-            //       var res: any = data;
-            //       this.vendorOrganiZationBranches = data;
-            //       this.branchList = res;
-
-            // let tmp = [];
-            // var branchOfVendor = '';
-            // this.userdata.branches.forEach((element) => {
-            //   branchOfVendor == ''
-            //     ? (branchOfVendor = 'id=' + element)
-            //     : (branchOfVendor += '&id=' + element);
-            // });
-            // this.branchApiService.getBranchByListofId(branchOfVendor).subscribe(
-            //   (result) => {
-            //     var branchList: any = result;
-            //     for (
-            //       let i = 0;
-            //       i <= this.vendorOrganiZationBranches.branchcode.length;
-            //       i++
-            //     ) {
-            //       var branch = branchList.filter(
-            //         (x) => x.id == this.vendorOrganiZationBranches.branchcode[i]
-            //       );
-            //       if (branch.length > 0) {
-            //         var branchid: number = +branch[0].id;
-            //         tmp.push({
-            //           id: branchid,
-            //           branchCode: branch[0].branchCode,
-            //         });
-            //         this.selectedItems = tmp;
-            //       }
-            //     }
-            //     this.dropdownSettings = {
-            //       idField: 'id',
-            //       textField: 'branchCode',
-            //       selectAllText: 'Select All',
-            //       unSelectAllText: 'UnSelect All',
-            //       allowSearchFilter: true,
-            //     };
-            //   },
-            //   (err) => {}
-            // );
-            // },
-            //     (err) => {}
-            //   );
-            //this.showLoadSpinner = false;
             document.getElementById('user').style.opacity='1';
           } else {
             this.showBranch = true;
@@ -365,6 +322,7 @@ export class AddUserComponent implements OnInit {
     this.router.navigateByUrl('users');
   }
   onSubmit() {
+    debugger;
     this.submitted = true;
     const branchName = this.addUserForm.get('branchName');
     const status = this.addUserForm.get('status');
@@ -422,6 +380,7 @@ export class AddUserComponent implements OnInit {
     this.addUserDetails(this.userdata);
   }
   addUserDetails(userdata) {
+    debugger;
     this.submitted = true;
     if (this.addUserForm.invalid) {
       return;
