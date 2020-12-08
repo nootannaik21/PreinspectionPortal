@@ -99,7 +99,6 @@ export class AddUserComponent implements OnInit {
       this.addUserForm.get('confPassword');
       this.userapiService.getUserById(localStorage.getItem('userid')).subscribe(
         (data) => {
-          debugger;
           var user: any = data;
           this.userdata = Object.assign(data);
           this.userdata.confPassword = this.userdata.password;
@@ -322,7 +321,6 @@ export class AddUserComponent implements OnInit {
     this.router.navigateByUrl('users');
   }
   onSubmit() {
-    debugger;
     this.submitted = true;
     const branchName = this.addUserForm.get('branchName');
     const status = this.addUserForm.get('status');
@@ -380,7 +378,6 @@ export class AddUserComponent implements OnInit {
     this.addUserDetails(this.userdata);
   }
   addUserDetails(userdata) {
-    debugger;
     this.submitted = true;
     if (this.addUserForm.invalid) {
       return;
