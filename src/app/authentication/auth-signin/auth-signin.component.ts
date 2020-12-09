@@ -103,7 +103,7 @@ export class AuthSigninComponent implements OnInit {
       this.resetPwd.enteredCaptcha = undefined;
       this.getCaptcha(5);
       this.loginAttemptCounter = this.loginAttemptCounter + 1;
-      if (this.loginAttemptCounter >= 1) {
+      if (this.loginAttemptCounter >= 3) {
         this.pauseTimer();
         this.startTimer();
       }
@@ -174,13 +174,14 @@ export class AuthSigninComponent implements OnInit {
             }, 5000);
             this.disableSignIn = true;
             this.user = {};
+            if (this.loginAttemptCounter >= 3) {
+              this.startTimer();
+            }
           }
         );
       }
     }
-    if (this.loginAttemptCounter >= 3) {
-      this.startTimer();
-    }
+    
   }
   startTimer() {
     this.interval = setInterval(() => {
@@ -198,9 +199,8 @@ export class AuthSigninComponent implements OnInit {
         // var seconds = ((this.timeLeft % 60000) / 1000).toFixed(0);
         this.timer =
           Math.floor(this.timeLeft / 60) + ' : ' + (this.timeLeft % 60);
-      } else {
-        this.timeLeft = 60;
-      }
+      } 
+      
     }, 1000);
   }
 
