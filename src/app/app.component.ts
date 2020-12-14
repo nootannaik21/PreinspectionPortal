@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -8,8 +9,8 @@ import {NavigationEnd, Router} from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-
-  constructor(private router: Router) { }
+  constructor(private router: Router) { 
+  }
 
   ngOnInit() {
 
@@ -20,4 +21,5 @@ export class AppComponent implements OnInit {
       window.scrollTo(0, 0);
     });
   }
+  
 }

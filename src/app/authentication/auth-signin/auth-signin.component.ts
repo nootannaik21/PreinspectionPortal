@@ -20,6 +20,10 @@ export class AuthSigninComponent implements OnInit {
   resetPanel: boolean = false;
   remember: boolean = false;
   resetPwd: any = {};
+  loginAttemptCounter: any = 0;
+  timeLeft: number = 1800;
+  interval;
+  timer: any;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -29,15 +33,15 @@ export class AuthSigninComponent implements OnInit {
     private apiService: ApiService,
     private alertService: AlertService
   ) {
-    if (cookieService.get('remember') != undefined) {
-      if (cookieService.get('remember') == 'Yes') {
-        this.user.email = cookieService.get('email');
-        this.user.password = cookieService.get('password');
+    if (sessionStorage.getItem('remember') != undefined) {
+      if (sessionStorage.getItem('remember') == 'Yes') {
+        this.user.email = sessionStorage.getItem('email');
+        this.user.password = sessionStorage.getItem('password');
       }
     }
-    if (this.apiService.userValue) { 
-      this.router.navigateByUrl("/login") ;
-  }
+    if (this.apiService.userValue) {
+      this.router.navigateByUrl('/login');
+    }
   }
   ngOnInit() {
     this.getCaptcha(5);
@@ -69,7 +73,7 @@ export class AuthSigninComponent implements OnInit {
       password: ['', [Validators.required]],
       remember: [''],
       captcha: [''],
-      enteredCaptcha: ['', [Validators.required]]
+      enteredCaptcha: ['', [Validators.required]],
     });
   }
   keyDownFunction(event) {
@@ -82,7 +86,8 @@ export class AuthSigninComponent implements OnInit {
   }
   getCaptcha(length) {
     var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
     for (var i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -91,98 +96,118 @@ export class AuthSigninComponent implements OnInit {
     return result;
   }
   getLogin() {
+    this.pauseTimer();
     this.submitted = true;
     if (this.loginForm.invalid) {
       this.user = {};
-      return;
-    } 
-    
-      
-    else {
+      this.resetPwd.enteredCaptcha = undefined;
+      this.getCaptcha(5);
+      this.loginAttemptCounter = this.loginAttemptCounter + 1;
+      if (this.loginAttemptCounter >= 3) {
+        this.pauseTimer();
+        this.startTimer();
+      }
+    } else {
       if (this.resetPwd.captcha != this.resetPwd.enteredCaptcha) {
-        this.alertService.infoAlert("", "Entered Captcha is not matching");
+        this.alertService.infoAlert('', 'Entered Captcha is not matching');
         this.resetPwd.enteredCaptcha = undefined;
         this.getCaptcha(5);
         return;
-      }
-else
-{
-      this.authservice.login(this.user).subscribe(
-        (data) => {
-          var res: any = data;
-          if (res.result == 'success') {
-            if (this.remember) {
-              this.cookieService.set('remember', 'Yes');
-              this.cookieService.set('email', this.user.email);
-              this.cookieService.set('password', this.user.password);
+      } else if (this.loginAttemptCounter >= 3) {
+        this.pauseTimer();
+        this.startTimer();
+      } else {
+        this.authservice.login(this.user).subscribe(
+          (data) => {
+            var res: any = data;
+            if (res.result == 'success') {
+              localStorage.setItem('UserName', this.user.email);
+              this.preInspection.setInspnectioUser(res);
+
+              let jwt = res.accessToken;
+              let jwtData = jwt.split('.')[1];
+              let decodedJwtJsonData = window.atob(jwtData);
+              let decodedJwtData = JSON.parse(decodedJwtJsonData);
+              localStorage.setItem('type', decodedJwtData.type);
+              localStorage.setItem(
+                'loggedInUser',
+                decodedJwtData.firstName + ' ' + decodedJwtData.lastName
+              );
+              localStorage.setItem('userLoginId', decodedJwtData.email);
+              localStorage.setItem('expiry', decodedJwtData.expires);
+              decodedJwtData.type == 'Branch' || decodedJwtData.type == 'IMD'
+                ? localStorage.setItem('branch', decodedJwtData.branchCode)
+                : '';
+              decodedJwtData.type == 'IMD'
+                ? localStorage.setItem('imdCode', decodedJwtData.imdCode)
+                : '';
+              // this.router.navigateByUrl('users');
+
+              if (localStorage.getItem('type') == 'Admin') {
+                this.router.navigateByUrl('users');
+              } else if (localStorage.getItem('type') == 'OPS') {
+                this.router.navigateByUrl('inspection');
+              } else if (localStorage.getItem('type') == 'IMD') {
+                this.router.navigateByUrl('inspection');
+              } else if (localStorage.getItem('type') == 'Branch') {
+                this.router.navigateByUrl('inspection');
+              } else if (localStorage.getItem('type') == 'Vendor') {
+                this.router.navigateByUrl('inspection');
+              } else if (localStorage.getItem('type') == 'Claims') {
+                this.router.navigateByUrl('inspection');
+              }
+              this.disableSignIn = true;
             } else {
-              this.cookieService.set('remember', 'Yes');
-              this.cookieService.set('email', '');
-              this.cookieService.set('password', '');
             }
-
-            localStorage.setItem('UserName', this.user.email);
-            this.preInspection.setInspnectioUser(res);
-
-            let jwt = res.accessToken;
-            let jwtData = jwt.split('.')[1];
-            let decodedJwtJsonData = window.atob(jwtData);
-            let decodedJwtData = JSON.parse(decodedJwtJsonData);
-            localStorage.setItem('type', decodedJwtData.type);
-            localStorage.setItem(
-              'loggedInUser',
-              decodedJwtData.firstName + ' ' + decodedJwtData.lastName
-            );
-            localStorage.setItem(
-              'userLoginId',
-              decodedJwtData.email
-            );
-            localStorage.setItem(
-              'expiry',
-              decodedJwtData.expires
-            );
-            decodedJwtData.type == 'Branch' || decodedJwtData.type == 'IMD'
-              ? localStorage.setItem('branch', decodedJwtData.branchCode)
-              : '';
-            decodedJwtData.type == 'IMD'
-              ? localStorage.setItem('imdCode', decodedJwtData.imdCode)
-              : '';
-            // this.router.navigateByUrl('users');
-
-            if (localStorage.getItem('type') == 'Admin') {
-              this.router.navigateByUrl('users');
-            } else if (localStorage.getItem('type') == 'OPS') {
-              this.router.navigateByUrl('inspection');
-            } else if (localStorage.getItem('type') == 'IMD') {
-              this.router.navigateByUrl('inspection');
-            } else if (localStorage.getItem('type') == 'Branch') {
-              this.router.navigateByUrl('inspection');
-            } else if (localStorage.getItem('type') == 'Vendor') {
-              this.router.navigateByUrl('inspection');
-            } else if (localStorage.getItem('type') == 'Claims') {
-              this.router.navigateByUrl('inspection');
-            }
+          },
+          (err) => {
+            this.loginAttemptCounter = this.loginAttemptCounter + 1;
+            this.isError = true;
+            this.resetPwd.enteredCaptcha = undefined;
+            this.getCaptcha(5);
+            setTimeout(() => {
+              if (this.isError == true) {
+                ('#hideDiv');
+                this.isError = false;
+                this.submitted = false;
+              }
+            }, 5000);
             this.disableSignIn = true;
-          } else {
-          }
-        },
-        (err) => {
-          this.isError = true;
-          this.getCaptcha(5);
-          setTimeout(() => {
-            if (this.isError == true) {
-              ('#hideDiv');
-              this.isError = false;
-              this.submitted = false;
+            this.user = {};
+            if (this.loginAttemptCounter >= 3) {
+              this.startTimer();
             }
-          }, 5000);
-          this.disableSignIn = true;
-          this.user = {};
-        }
-      );
+          }
+        );
+      }
     }
+    
   }
+  startTimer() {
+    this.interval = setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft--;
+        // var minutes = Math.floor(this.timeLeft / 60000);
+        // var seconds = ((this.timeLeft % 60000) / 1000).toFixed(0);
+        // this.timer =
+        // //   parseInt(seconds) == 60
+        // //     ? minutes + 1 + ':00'
+        // //     : minutes + ':' + (parseInt(seconds) < 10 ? '0' : '') + seconds;
+        // // alert(this.timer);
+        // this.timeLeft--;
+        // var minutes = Math.floor(this.timeLeft / 60000);
+        // var seconds = ((this.timeLeft % 60000) / 1000).toFixed(0);
+        this.timer =
+          Math.floor(this.timeLeft / 60) + ' : ' + (this.timeLeft % 60);
+      } 
+      
+    }, 1000);
   }
+
+  pauseTimer() {
+    clearInterval(this.interval);
+  }
+
   onTextChange() {
     if (
       this.user.email != '' &&
