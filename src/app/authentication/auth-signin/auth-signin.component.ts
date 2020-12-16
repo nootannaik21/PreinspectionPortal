@@ -187,9 +187,7 @@ export class AuthSigninComponent implements OnInit {
     
   }
   startTimer() {
-    alert("hi");
     this.interval = setInterval(() => {
-      debugger;
       if (this.timeLeft > 0) {
         this.timeLeft--;
         // var minutes = Math.floor(this.timeLeft / 60000);
@@ -205,6 +203,10 @@ export class AuthSigninComponent implements OnInit {
         this.timer =
           Math.floor(this.timeLeft / 60) + ' : ' + (this.timeLeft % 60);
       } 
+      else
+      {
+        this.loginAttemptCounter = false;
+      }
       
     }, 1000);
   }
