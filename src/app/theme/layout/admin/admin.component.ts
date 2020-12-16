@@ -64,7 +64,6 @@ export class AdminComponent implements OnInit {
         }, 100);
       } else {
         this.navCollapsedMob = !this.navCollapsedMob;
-        //debugger
       }
     }
   }

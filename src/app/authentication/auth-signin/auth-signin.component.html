@@ -98,7 +98,7 @@
           <div id="hideDiv" class=" alert alert-danger" *ngIf="isError">
             <strong>Invalid Credentials.!</strong>
           </div>
-          <div class=" alert alert-danger" *ngIf="loginAttemptCounter>=3">
+          <div class=" alert alert-danger" *ngIf="loginAttemptCounter">
             <strong>Please login after {{timer}} minutes</strong>
           </div>
           <div class="row">

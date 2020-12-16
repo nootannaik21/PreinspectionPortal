@@ -20,7 +20,7 @@ export class AuthSigninComponent implements OnInit {
   resetPanel: boolean = false;
   remember: boolean = false;
   resetPwd: any = {};
-  loginAttemptCounter: any = 0;
+  loginAttemptCounter: boolean=false;
   timeLeft: number = 1800;
   interval;
   timer: any;
@@ -102,21 +102,23 @@ export class AuthSigninComponent implements OnInit {
       this.user = {};
       this.resetPwd.enteredCaptcha = undefined;
       this.getCaptcha(5);
-      this.loginAttemptCounter = this.loginAttemptCounter + 1;
-      if (this.loginAttemptCounter >= 3) {
-        this.pauseTimer();
-        this.startTimer();
-      }
+      // this.loginAttemptCounter = this.loginAttemptCounter + 1;
+      // if (this.loginAttemptCounter >= 3) {
+      //   this.pauseTimer();
+      //   this.startTimer();
+      // }
     } else {
       if (this.resetPwd.captcha != this.resetPwd.enteredCaptcha) {
         this.alertService.infoAlert('', 'Entered Captcha is not matching');
         this.resetPwd.enteredCaptcha = undefined;
         this.getCaptcha(5);
         return;
-      } else if (this.loginAttemptCounter >= 3) {
-        this.pauseTimer();
-        this.startTimer();
-      } else {
+      }
+      // } else if (this.loginAttemptCounter >= 3) {
+      //   this.pauseTimer();
+      //   this.startTimer();
+      // } 
+      else {
         this.authservice.login(this.user).subscribe(
           (data) => {
             var res: any = data;
@@ -161,7 +163,7 @@ export class AuthSigninComponent implements OnInit {
             }
           },
           (err) => {
-            this.loginAttemptCounter = this.loginAttemptCounter + 1;
+            //this.loginAttemptCounter = this.loginAttemptCounter + 1;
             this.isError = true;
             this.resetPwd.enteredCaptcha = undefined;
             this.getCaptcha(5);
@@ -174,7 +176,8 @@ export class AuthSigninComponent implements OnInit {
             }, 5000);
             this.disableSignIn = true;
             this.user = {};
-            if (this.loginAttemptCounter >= 3) {
+            if (err.error.message == "Block user") {
+              this.loginAttemptCounter = true;
               this.startTimer();
             }
           }
@@ -184,7 +187,9 @@ export class AuthSigninComponent implements OnInit {
     
   }
   startTimer() {
+    alert("hi");
     this.interval = setInterval(() => {
+      debugger;
       if (this.timeLeft > 0) {
         this.timeLeft--;
         // var minutes = Math.floor(this.timeLeft / 60000);
