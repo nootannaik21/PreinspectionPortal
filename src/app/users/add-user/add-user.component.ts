@@ -121,7 +121,6 @@ export class AddUserComponent implements OnInit {
             document.getElementById('user').style.opacity='0.5';
             this.showBranch = false;
             this.showBranchDetail = false;
-            this.showVendorOrganization = true;
             this.vendorapiService.getVendors().subscribe(
               (content) => {
                 var res: any = content;
@@ -518,17 +517,24 @@ export class AddUserComponent implements OnInit {
     );
   }
   onVendorLoadBranch(vendorOrganzation) {
-    this.vendorapiService.getVendorByEmail(vendorOrganzation).subscribe(
+    this.branchApiService.getBranchForVendorByOrganization(vendorOrganzation).subscribe(
       (data) => {
-        var res: any = data;
-        this.getBranchForVendor(res.branchcode);
-        this.showLoadSpinner = false;
-      },
+        this.branchList = data;
+        this.showVendorOrganization = true;
+        this.dropdownSettings = {
+          singleSelection: false,
+          idField: 'id',
+          textField: 'branchCode',
+          selectAllText: 'Select All',
+          unSelectAllText: 'UnSelect All',
+          allowSearchFilter: true,
+      }
+    },
       (err) => {
-        this.showLoadSpinner = false;
       }
     );
   }
+  
   getBranchForVendor(branches) {
     //this.showLoadSpinner = true;
     var branchOfVendor = '';
