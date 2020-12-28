@@ -6,6 +6,8 @@ import { ApiService } from 'src/app/service/api.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { AlertService } from 'src/app/service/alert.service';
+import { DatePipe } from '@angular/common';
+
 @Component({
   selector: 'app-auth-signin',
   templateUrl: './auth-signin.component.html',
@@ -20,7 +22,7 @@ export class AuthSigninComponent implements OnInit {
   resetPanel: boolean = false;
   remember: boolean = false;
   resetPwd: any = {};
-  loginAttemptCounter: any = 0;
+  loginAttemptCounter: boolean=false;
   timeLeft: number = 1800;
   interval;
   timer: any;
@@ -31,7 +33,8 @@ export class AuthSigninComponent implements OnInit {
     private preInspection: PreinspectionService,
     private cookieService: CookieService,
     private apiService: ApiService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private datePipe: DatePipe
   ) {
     if (sessionStorage.getItem('remember') != undefined) {
       if (sessionStorage.getItem('remember') == 'Yes') {
@@ -102,21 +105,23 @@ export class AuthSigninComponent implements OnInit {
       this.user = {};
       this.resetPwd.enteredCaptcha = undefined;
       this.getCaptcha(5);
-      this.loginAttemptCounter = this.loginAttemptCounter + 1;
-      if (this.loginAttemptCounter >= 3) {
-        this.pauseTimer();
-        this.startTimer();
-      }
+      // this.loginAttemptCounter = this.loginAttemptCounter + 1;
+      // if (this.loginAttemptCounter >= 3) {
+      //   this.pauseTimer();
+      //   this.startTimer();
+      // }
     } else {
       if (this.resetPwd.captcha != this.resetPwd.enteredCaptcha) {
         this.alertService.infoAlert('', 'Entered Captcha is not matching');
         this.resetPwd.enteredCaptcha = undefined;
         this.getCaptcha(5);
         return;
-      } else if (this.loginAttemptCounter >= 3) {
-        this.pauseTimer();
-        this.startTimer();
-      } else {
+      }
+      // } else if (this.loginAttemptCounter >= 3) {
+      //   this.pauseTimer();
+      //   this.startTimer();
+      // } 
+      else {
         this.authservice.login(this.user).subscribe(
           (data) => {
             var res: any = data;
@@ -161,7 +166,7 @@ export class AuthSigninComponent implements OnInit {
             }
           },
           (err) => {
-            this.loginAttemptCounter = this.loginAttemptCounter + 1;
+            //this.loginAttemptCounter = this.loginAttemptCounter + 1;
             this.isError = true;
             this.resetPwd.enteredCaptcha = undefined;
             this.getCaptcha(5);
@@ -174,8 +179,38 @@ export class AuthSigninComponent implements OnInit {
             }, 5000);
             this.disableSignIn = true;
             this.user = {};
-            if (this.loginAttemptCounter >= 3) {
+            if (err.error.message == "Block user") {
+              this.loginAttemptCounter = true;
               this.startTimer();
+            }
+          else if (err.error.message == "User blocked") {
+              this.loginAttemptCounter = true;
+             let tempTIme = this.datePipe.transform(err.error.blockTime, 'hh:mm:ss');
+             let units = tempTIme.split(":"); //will break the string up into an array
+             let hours = parseInt(units[0]); //first element
+             let minutes = parseInt(units[1]); //first element
+             let seconds = parseInt(units[2]); //second element
+             let duration = 3600 * hours+ 60 * minutes + seconds; //add up our values
+             let currentDate = new Date;
+             let tempTIme1 = this.datePipe.transform(currentDate, 'hh:mm:ss');
+             let units1 = tempTIme1.split(":"); //will break the string up into an array
+             let hours1 = parseInt(units1[0]); //first element
+             let minutes1 = parseInt(units1[1]); //first element
+             let seconds1 = parseInt(units1[2]); //second element
+             let duration1 = 3600 * hours1+ 60 * minutes1 + seconds1; //add up our values
+              this.timeLeft = duration-duration1;
+              this.startTimer();
+            }
+            else
+            {
+              this.loginAttemptCounter = false;
+              setTimeout(() => {
+                if (this.isError == true) {
+                  ('#hideDiv');
+                  this.isError = false;
+                  this.submitted = false;
+                }
+              }, 5000);
             }
           }
         );
@@ -200,6 +235,10 @@ export class AuthSigninComponent implements OnInit {
         this.timer =
           Math.floor(this.timeLeft / 60) + ' : ' + (this.timeLeft % 60);
       } 
+      else
+      {
+        this.loginAttemptCounter = false;
+      }
       
     }, 1000);
   }
