@@ -24,6 +24,9 @@ getBranchByListofId(branchId) {
     return this.apiService.get("branch/getAllActiveBranches");
 
   }
+  getBranchForVendorByOrganization(vendorOrganization) {
+    return this.apiService.get("branch/getBranchesForVendor?vendorOrganization="+vendorOrganization);
+  }
 
   constructor(private apiService:ApiService) { }
 }
