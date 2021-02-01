@@ -79,6 +79,7 @@
     "ngx-perfect-scrollbar": "^8.0.0",
     "ngx-toastr": "^13.0.0",
     "nouislider": "^14.6.0",
+    "pdfjs-dist": "^2.5.207",
     "peity": "^3.3.0",
     "roboto-fontface": "^0.10.0",
     "rxjs": "~6.5.5",

@@ -30,7 +30,8 @@
               "rxjs",
               "apexcharts",
               "ngx-lightbox",
-              "contra/emitter"
+              "contra/emitter",
+              "ng2-pdf-viewer"
             ],
             "outputPath": "dist/ng-next",
             "index": "src/index.html",
