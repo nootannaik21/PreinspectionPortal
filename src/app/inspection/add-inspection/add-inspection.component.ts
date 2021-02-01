@@ -17,10 +17,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { AuthService } from 'src/app/service/auth.service';
 import { UserapiserviceService } from 'src/app/service/userapiservice.service';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { UiModalComponent } from 'src/app/theme/shared/components/modal/ui-modal/ui-modal.component';
-import { variable } from '@angular/compiler/src/output/output_ast';
-
 
 @Component({
   selector: 'app-add-inspection',
